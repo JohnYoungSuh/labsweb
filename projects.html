@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SuhLabs | Project Matrix</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Fira+Code:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      .project-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-top: 2rem;
+      }
+      .project-card {
+        background: rgba(10, 10, 10, 0.8);
+        border: 1px solid var(--border-color);
+        padding: 1.5rem;
+        transition: transform 0.2s, border-color 0.2s;
+      }
+      .project-card:hover {
+        transform: translateY(-2px);
+        border-color: var(--accent-green);
+      }
+      .project-card h3 {
+        color: var(--text-primary);
+        font-family: "Fira Code", monospace;
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+      }
+      .project-card p {
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+        margin-bottom: 1rem;
+        line-height: 1.4;
+      }
+      .tag {
+        display: inline-block;
+        font-size: 0.75rem;
+        padding: 0.2rem 0.5rem;
+        border: 1px solid var(--accent-blue);
+        color: var(--accent-blue);
+        font-family: "Fira Code", monospace;
+        margin-top: auto;
+      }
+      .tag.commercial {
+        border-color: var(--accent-pink);
+        color: var(--accent-pink);
+      }
+      .section-header {
+        margin-top: 4rem;
+        margin-bottom: 2rem;
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 0.5rem;
+      }
+      .section-header h2 {
+        font-family: "Fira Code", monospace;
+        color: var(--accent-green);
+        font-size: 1.5rem;
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <div class="logo">SUH<span>LABS</span></div>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="projects.html" class="active">Projects</a>
+        <a href="signals.html">Signals</a>
+        <a href="experiments.html">Experiments</a>
+        <a href="community.html">Community</a>
+      </div>
+    </nav>
+
+    <div class="container" style="padding-top: 3rem">
+      <header class="hero" style="min-height: auto; padding: 2rem 0">
+        <h1>Project <span class="highlight-green">Matrix</span></h1>
+        <p>Active development streams and deployed commercial assets.</p>
+      </header>
+
+      <div class="section-header">
+        <h2>// COMMERCIAL_DEPLOYMENT</h2>
+      </div>
+      <div class="project-grid">
+        <div class="project-card">
+          <h3>popshoney-dohelp.com</h3>
+          <p>
+            Commercial web presence for handyman services. Focus on SEO
+            dominance and mobile-first conversions.
+          </p>
+          <span class="tag commercial">CLIENT_DEPLOYMENT</span>
+        </div>
+      </div>
+
+      <div class="section-header">
+        <h2>// INTERNAL_RESEARCH</h2>
+      </div>
+      <div class="project-grid">
+        <div class="project-card">
+          <h3>ai-agent-governance-framework</h3>
+          <p>
+            Core framework for ensuring sovereign execution of autonomous
+            agents.
+          </p>
+          <span class="tag">GOVERNANCE</span>
+        </div>
+        <div class="project-card">
+          <h3>aiops-substrate</h3>
+          <p>Foundational operational layer for AI workload management.</p>
+          <span class="tag">INFRASTRUCTURE</span>
+        </div>
+        <div class="project-card">
+          <h3>okta-recon-generator</h3>
+          <p>Security tooling for identity provider reconnaissance.</p>
+          <span class="tag">SECURITY</span>
+        </div>
+        <div class="project-card">
+          <h3>ml-antipatterns</h3>
+          <p>
+            Research documentation on common failures in machine learning
+            deployments.
+          </p>
+          <span class="tag">RESEARCH</span>
+        </div>
+        <div class="project-card">
+          <h3>purple-apt-cicd-recon</h3>
+          <p>Advanced persistent threat simulation for CI/CD pipelines.</p>
+          <span class="tag">SECURITY</span>
+        </div>
+        <div class="project-card">
+          <h3>splunk-devops-mcp</h3>
+          <p>Model Context Protocol integration for Splunk observability.</p>
+          <span class="tag">OBSERVABILITY</span>
+        </div>
+        <div class="project-card">
+          <h3>home-cluster-devsecops</h3>
+          <p>Private cloud architecture for secure home lab environments.</p>
+          <span class="tag">INFRASTRUCTURE</span>
+        </div>
+        <div class="project-card">
+          <h3>suhlabs-infr-ai-poc</h3>
+          <p>Proof of concept for infrastructure-aware AI models.</p>
+          <span class="tag">AI_OPS</span>
+        </div>
+      </div>
+
+      <div class="section-header">
+        <h2>// UTILITY_MODULES</h2>
+      </div>
+      <div class="project-grid">
+        <div class="project-card">
+          <h3>apidog-emass-yaml</h3>
+          <p>Configuration translation tools for compliance automation.</p>
+          <span class="tag">COMPLIANCE</span>
+        </div>
+        <div class="project-card">
+          <h3>TA-asset-identity-framework</h3>
+          <p>Splunk Technology Add-on for asset identification.</p>
+          <span class="tag">SPLUNK_TA</span>
+        </div>
+        <div class="project-card">
+          <h3>TA-suhlabs-eMASS</h3>
+          <p>Splunk Technology Add-on for eMASS compliance tracking.</p>
+          <span class="tag">SPLUNK_TA</span>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <div class="logo">SUH<span>LABS</span></div>
+      <p>| Sovereign Code |</p>
+    </footer>
+  </body>
+</html>

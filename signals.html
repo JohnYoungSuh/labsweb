@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SuhLabs | Signal Intercepts</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Fira+Code:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      .signal-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 3rem;
+        margin-top: 3rem;
+      }
+      .signal-card {
+        background: #000;
+        border: 1px solid #333;
+        position: relative;
+        overflow: hidden;
+      }
+      .signal-image-placeholder {
+        width: 100%;
+        height: 250px;
+        background: radial-gradient(circle at center, #222 0%, #000 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #555;
+        font-family: "Fira Code", monospace;
+        border-bottom: 1px solid #333;
+      }
+      .signal-data {
+        padding: 1.5rem;
+      }
+      .data-row {
+        display: flex;
+        justify-content: space-between;
+        font-family: "Fira Code", monospace;
+        font-size: 0.8rem;
+        color: var(--text-secondary);
+        margin-bottom: 0.5rem;
+        border-bottom: 1px solid #222;
+        padding-bottom: 0.2rem;
+      }
+      .data-row span:last-child {
+        color: var(--accent-green);
+      }
+      .buy-config-btn {
+        display: block;
+        width: 100%;
+        margin-top: 1.5rem;
+        padding: 0.8rem;
+        border: 1px solid var(--accent-pink);
+        background: transparent;
+        color: var(--accent-pink);
+        font-family: "Fira Code", monospace;
+        text-align: center;
+        text-transform: uppercase;
+        font-size: 0.85rem;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-decoration: none;
+      }
+      .buy-config-btn:hover {
+        background: var(--accent-pink);
+        color: #000;
+      }
+      .hero h1 {
+        font-family: "Fira Code", monospace;
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <div class="logo">SUH<span>LABS</span></div>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="projects.html">Projects</a>
+        <a href="signals.html" class="active">Signals</a>
+        <a href="experiments.html">Experiments</a>
+        <a href="community.html">Community</a>
+      </div>
+    </nav>
+
+    <div class="container" style="padding-top: 3rem">
+      <header class="hero">
+        <h1>// SENSOR_EXPERIMENTS</h1>
+        <p>
+          Optical signal intercepts and raw sensor data.
+          <span style="color: var(--text-secondary)">
+            We reverse-engineer the physical layer to reconstruct privacy.
+          </span>
+        </p>
+      </header>
+
+      <div class="signal-grid">
+        <!-- Signal 01 -->
+        <div class="signal-card">
+          <div class="signal-image-placeholder">[SIGNAL_CAPTURE_01.RAW]</div>
+          <div class="signal-data">
+            <h3
+              style="
+                color: #fff;
+                margin-bottom: 1rem;
+                font-family: 'Inter', sans-serif;
+              "
+            >
+              Neon Rain Reconstruction
+            </h3>
+            <div class="data-row">
+              <span>SENSOR</span>
+              <span>CMOS_APS_C</span>
+            </div>
+            <div class="data-row">
+              <span>ISO</span>
+              <span>3200</span>
+            </div>
+            <div class="data-row">
+              <span>EXPOSURE</span>
+              <span>1/60s</span>
+            </div>
+            <div class="data-row">
+              <span>MATRIX</span>
+              <span>CYBER_NOIR_BV3</span>
+            </div>
+            <a href="#" class="buy-config-btn">Acquire Sensor Profile [$]</a>
+          </div>
+        </div>
+
+        <!-- Signal 02 -->
+        <div class="signal-card">
+          <div class="signal-image-placeholder">[SIGNAL_CAPTURE_02.RAW]</div>
+          <div class="signal-data">
+            <h3
+              style="
+                color: #fff;
+                margin-bottom: 1rem;
+                font-family: 'Inter', sans-serif;
+              "
+            >
+              Liminal Space 04
+            </h3>
+            <div class="data-row">
+              <span>SENSOR</span>
+              <span>FULL_FRAME</span>
+            </div>
+            <div class="data-row">
+              <span>ISO</span>
+              <span>800</span>
+            </div>
+            <div class="data-row">
+              <span>APERTURE</span>
+              <span>f/1.4</span>
+            </div>
+            <div class="data-row">
+              <span>LUT</span>
+              <span>VOID_WALK_A</span>
+            </div>
+            <a href="#" class="buy-config-btn">Acquire Sensor Profile [$]</a>
+          </div>
+        </div>
+
+        <!-- Signal 03 -->
+        <div class="signal-card">
+          <div class="signal-image-placeholder">[SIGNAL_CAPTURE_03.RAW]</div>
+          <div class="signal-data">
+            <h3
+              style="
+                color: #fff;
+                margin-bottom: 1rem;
+                font-family: 'Inter', sans-serif;
+              "
+            >
+              Grid Artifacts
+            </h3>
+            <div class="data-row">
+              <span>SENSOR</span>
+              <span>MONOCHROME</span>
+            </div>
+            <div class="data-row">
+              <span>FILTER</span>
+              <span>RED_25A</span>
+            </div>
+            <div class="data-row">
+              <span>CONTRAST</span>
+              <span>+45</span>
+            </div>
+            <div class="data-row">
+              <span>GRAIN</span>
+              <span>FINE_STRUCTURE</span>
+            </div>
+            <a href="#" class="buy-config-btn">Acquire Sensor Profile [$]</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <div class="logo">SUH<span>LABS</span></div>
+      <p>| Optical Sovereignty |</p>
+    </footer>
+  </body>
+</html>
