@@ -1,0 +1,17 @@
+{
+  "project_name": "SuhLabs",
+  "version": "2.0.26",
+  "principal_investigator": "John Young Suh",
+  "domains": {
+    "security": "Atomic Governance (AGT Kernel)",
+    "operations": "Signal Synthesis & Kinetic Automation",
+    "optics": "1st-World AI Agent Perception Research"
+  },
+  "deployment": {
+    "provider": "GitHub Pages",
+    "domain": "suhlabs.com",
+    "enforce_https": true
+  },
+  "patent_status": "Provisional / Pending",
+  "inspired_by": ["Bell Labs", "Radio Shack"]
+}

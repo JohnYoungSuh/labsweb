@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>SuhLabs | Operational Experiments</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Fira+Code&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <nav>
+      <div class="logo">SUH<span>LABS</span></div>
+      <div class="nav-links"><a href="index.html">Back to Hub</a></div>
+    </nav>
+
+    <div class="container" style="padding-top: 5rem">
+      <span class="label" style="color: var(--accent-blue)"
+        >Domain: Operational Research</span
+      >
+      <h1 style="font-size: 3rem; margin-bottom: 2rem">
+        Data Ops & Signal Synthesis
+      </h1>
+
+      <div
+        class="wing-card"
+        style="border-left: 4px solid var(--accent-green); margin-bottom: 2rem"
+      >
+        <h3>Splunk Integration for AI Safety</h3>
+        <p>
+          Using automated TAs to ingest non-deterministic agent telemetry. We
+          track feature-vector drift in real-time to ensure LLM guardrail
+          compliance.
+        </p>
+        <div class="terminal">
+          <div>$ splunk-ingest --source=ai_agent_01</div>
+          <div>
+            > Analyzing Prompt_Inject_Risk...
+            <span style="color: var(--accent-pink)">[CLEAN]</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="wing-card" style="border-left: 4px solid var(--accent-blue)">
+        <h3>Optical Perception Analysis</h3>
+        <p>
+          Fundamental research into sensor physics. We study how light-capture
+          influences agent world-models, allowing us to build better privacy
+          masks.
+        </p>
+      </div>
+    </div>
+  </body>
+</html>
