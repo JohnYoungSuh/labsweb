@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SuhLabs | Sensor Architecture Whitepaper</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Fira+Code&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      .whitepaper-section {
+        margin-bottom: 4rem;
+      }
+      .whitepaper-section h2 {
+        color: var(--accent-blue);
+        border-bottom: 2px solid var(--border-color);
+        padding-bottom: 0.5rem;
+        margin-bottom: 1.5rem;
+      }
+      .whitepaper-section h3 {
+        color: var(--text-main);
+        margin-top: 2rem;
+      }
+      .figure-caption {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        text-align: center;
+        margin-top: 0.5rem;
+        font-family: "Fira Code", monospace;
+      }
+      .code-block {
+        background: #000;
+        padding: 1.5rem;
+        border-radius: 6px;
+        font-family: "Fira Code", monospace;
+        font-size: 0.8rem;
+        border: 1px solid var(--border-color);
+        overflow-x: auto;
+        color: #d4d4d4;
+      }
+      .highlight {
+        color: var(--accent-green);
+      }
+      .feature-list li {
+        margin-bottom: 0.5rem;
+        color: var(--text-muted);
+      }
+      .feature-list strong {
+        color: var(--text-main);
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <div class="logo">
+        <a href="index.html" style="text-decoration: none; color: inherit"
+          >SUH<span>LABS</span></a
+        >
+      </div>
+      <div class="nav-links">
+        <a href="index.html">Back to Hub</a>
+        <a href="projects.html">Projects</a>
+        <a href="signals.html">Signals</a>
+      </div>
+    </nav>
+
+    <div class="container" style="padding-top: 5rem">
+      <span class="label" style="color: var(--accent-blue)"
+        >Whitepaper: Optical Physics</span
+      >
+      <h1 style="font-size: 3rem; margin-bottom: 1rem">
+        Digital Sensor Characterization
+      </h1>
+      <p
+        style="
+          font-size: 1.2rem;
+          color: var(--text-muted);
+          margin-bottom: 4rem;
+          max-width: 800px;
+        "
+      >
+        A technical deep-dive into CMOS architecture and methods for
+        characterizing sensor performance in a home laboratory setting.
+        <br /><br />
+        <em style="font-size: 0.9rem"
+          >By "Antigravity" - Senior Sensor Architect (Sony Semiconductor
+          Division, Alumni)</em
+        >
+      </p>
+
+      <div class="whitepaper-section">
+        <h2>1. The Architecture of Modern Capture</h2>
+        <div
+          class="blueprint-box"
+          style="grid-template-columns: 1fr; margin-bottom: 2rem"
+        >
+          <div style="text-align: center">
+            <img
+              src="assets/stacked-sensor.png"
+              alt="Stacked CMOS Architecture Diagram"
+              style="
+                max-width: 100%;
+                border-radius: 4px;
+                border: 1px solid var(--border-color);
+              "
+            />
+            <div class="figure-caption">
+              Fig 1.1: Schematic cross-section of a 3-layer Stacked CMOS sensor
+              with Cu-Cu interconnects.
+            </div>
+          </div>
+        </div>
+        <p>
+          For the fast 20 years, I have architected sensors for the world's most
+          demanding optical systems—from Leica's rangefinders to Hasselblad's
+          medium format backs. The shift from CCD to CMOS was pivotal, but the
+          true revolution lies in the
+          <strong>Stacked Back-Illuminated (BSI) architecture</strong> shown
+          above.
+        </p>
+        <p>
+          In modern Sony sensors, we separate the photodiode layer from the
+          logic/processing layer. This allows us to maximize the fill factor of
+          the pixels (capturing more photons) while simultaneously using a
+          high-speed logic process node for the readout circuitry beneath. The
+          <strong>Cu-Cu (Copper-to-Copper) interconnects</strong> provide the
+          high-density vertical electrical pathways needed to parallelize
+          readout, essentially eliminating the "rolling shutter" effect in our
+          latest designs.
+        </p>
+      </div>
+
+      <div class="whitepaper-section">
+        <h2>2. The Photon Transfer Curve (PTC)</h2>
+        <div
+          class="wing-card"
+          style="
+            border-left: 4px solid var(--accent-green);
+            margin-bottom: 2rem;
+          "
+        >
+          <div
+            style="
+              display: flex;
+              gap: 2rem;
+              flex-wrap: wrap;
+              align-items: center;
+            "
+          >
+            <div style="flex: 1; min-width: 300px">
+              <h3>Decoding the Signal</h3>
+              <p>
+                The <strong>Photon Transfer Curve (PTC)</strong> is the
+                "heartbeat" of any image sensor. It plots the noise (standard
+                deviation) against the signal (mean) on a log-log scale. This
+                single plot reveals the three fundamental operating regimes of
+                the device:
+              </p>
+              <ul class="feature-list">
+                <li>
+                  <strong>Read Noise Regime:</strong> The flat floor on the
+                  left. This is the electronic noise inherent to the readout
+                  chain, independent of light.
+                </li>
+                <li>
+                  <strong>Shot Noise Regime:</strong> The slope of 0.5 (or 1/2).
+                  Here, photon statistics dominate. Noise scales with the square
+                  root of the signal ($\sigma = \sqrt{S}$).
+                </li>
+                <li>
+                  <strong>Full Well Saturation:</strong> The sharp drop-off on
+                  the right. The pixel is full, variance collapses because every
+                  pixel reads the maximum value.
+                </li>
+              </ul>
+            </div>
+            <div style="flex: 1; min-width: 300px">
+              <img
+                src="assets/ptc-graph.png"
+                alt="Photon Transfer Curve Graph"
+                style="
+                  max-width: 100%;
+                  border-radius: 4px;
+                  border: 1px solid var(--border-color);
+                "
+              />
+              <div class="figure-caption">
+                Fig 2.1: Idealized Photon Transfer Curve showing key regimes.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="whitepaper-section">
+        <h2>3. Experiment: Generating Your Own PTC</h2>
+        <p>
+          You do not need a million-dollar lab to characterize your camera. You
+          can generate a PTC using a standard digital camera capable of shooting
+          RAW.
+        </p>
+
+        <h3>Equipment Required</h3>
+        <ul class="feature-list">
+          <li>
+            <strong>Camera:</strong> Must support RAW (compressed or
+            uncompressed).
+          </li>
+          <li>
+            <strong>Light Source:</strong> A stable, flat light source (an iPad
+            screen displaying white, set to fixed brightness, works well).
+          </li>
+          <li>
+            <strong>Software:</strong> specialized analysis software is best,
+            but you can use
+            <a
+              href="https://www.rawdigger.com/"
+              style="color: var(--accent-blue)"
+              >RawDigger</a
+            >
+            or write a simple Python script using `rawpy`.
+          </li>
+        </ul>
+
+        <h3>Procedure</h3>
+        <div class="terminal">
+          <div>
+            <span style="color: var(--accent-pink)">STEP 1:</span> Set camera to
+            base ISO. Turn off all noise reduction and lens corrections.
+          </div>
+          <br />
+          <div>
+            <span style="color: var(--accent-pink)">STEP 2:</span> Defocus the
+            lens completely on the flat light source. We want a uniform field,
+            not an image of the pixels.
+          </div>
+          <br />
+          <div>
+            <span style="color: var(--accent-pink)">STEP 3:</span> Shoot a
+            series of pairs.
+          </div>
+          <div style="padding-left: 1rem; color: var(--text-muted)">
+            - Pair 1: 1/8000s (Black frame/Read noise)<br />
+            - Pair 2: 1/4000s<br />
+            - ...<br />
+            - Pair N: 1s (Saturation)
+          </div>
+          <br />
+          <div>
+            <span style="color: var(--accent-pink)">STEP 4:</span> Analyze.
+          </div>
+          <div>
+            For each pair, calculate the mean signal ($S$) and the variance
+            ($\sigma^2$). Plot $\log(\sigma)$ vs $\log(S)$.
+          </div>
+        </div>
+
+        <h3>Python Analysis Snippet</h3>
+        <p>Use the following snippet to process a pair of RAW files:</p>
+        <div class="code-block">
+          <span class="highlight">import</span> rawpy
+          <span class="highlight">import</span> numpy
+          <span class="highlight">as</span> np
+          <span class="highlight">import</span> matplotlib.pyplot
+          <span class="highlight">as</span> plt
+
+          <span class="highlight">def</span>
+          <span style="color: var(--accent-blue)">analyze_pair</span>(file1,
+          file2): raw1 = rawpy.imread(file1).raw_image_visible.astype(float)
+          raw2 = rawpy.imread(file2).raw_image_visible.astype(float)
+
+          <span style="color: #6a9955"
+            ># Difference image removes Fixed Pattern Noise</span
+          >
+          diff = raw1 - raw2
+
+          <span style="color: #6a9955"
+            ># Calculate noise (std dev of difference / sqrt(2))</span
+          >
+          noise = np.std(diff) / <span style="color: #b5cea8">1.414</span>
+          signal = np.mean(raw1)
+
+          <span class="highlight">return</span> signal, noise
+        </div>
+      </div>
+      <div class="whitepaper-section">
+        <h2>4. Interactive Simulations</h2>
+        <p>
+          Sensor architecture is best understood through experimentation. Use
+          these interactive modules to simulate fundamental physical properties
+          of image capture.
+        </p>
+
+        <!-- Simulation 1: Shot Noise -->
+        <h3>Sim 1: The Photon Rain (Shot Noise)</h3>
+        <p>
+          Photon arrival is a Poisson process. As light levels drop, the "rain"
+          of photons becomes sparse, creating visible noise.
+        </p>
+        <div
+          class="wing-card"
+          style="border-left: 4px solid var(--accent-pink)"
+        >
+          <div style="display: flex; flex-direction: column; gap: 1rem">
+            <div
+              style="
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+              "
+            >
+              <span
+                style="font-family: 'Fira Code', monospace; font-size: 0.9rem"
+                >Target Signal (Photons/Pixel):
+                <span id="photonVal" style="color: var(--accent-pink)"
+                  >1000</span
+                ></span
+              >
+              <input
+                type="range"
+                id="photonSlider"
+                min="10"
+                max="5000"
+                value="1000"
+                style="width: 50%"
+              />
+            </div>
+            <div
+              style="
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+              "
+            >
+              <span
+                style="font-family: 'Fira Code', monospace; font-size: 0.9rem"
+                >Calculated SNR (dB):
+                <span id="snrVal" style="color: var(--accent-green)"
+                  >30.0</span
+                ></span
+              >
+            </div>
+
+            <canvas
+              id="noiseCanvas"
+              width="600"
+              height="200"
+              style="
+                width: 100%;
+                height: 200px;
+                background: #000;
+                border: 1px solid var(--border-color);
+                border-radius: 4px;
+              "
+            ></canvas>
+            <div class="figure-caption">
+              Visual simulation of Poisson noise. Notice how noise dominates at
+              lower signal levels.
+            </div>
+          </div>
+        </div>
+
+        <!-- Simulation 2: Dynamic Range Calc -->
+        <h3>Sim 2: Dynamic Range Architect</h3>
+        <p>
+          Design your own sensor pixel. Adjust the Full Well Capacity (FWC) and
+          Read Noise to see the theoretical Dynamic Range.
+        </p>
+        <div
+          class="blueprint-box"
+          style="grid-template-columns: 1fr 1fr; gap: 2rem"
+        >
+          <div>
+            <div style="margin-bottom: 1.5rem">
+              <label
+                style="
+                  display: block;
+                  font-family: 'Fira Code';
+                  font-size: 0.8rem;
+                  margin-bottom: 0.5rem;
+                  color: var(--accent-blue);
+                "
+                >Full Well Capacity (e-)</label
+              >
+              <input
+                type="range"
+                id="fwcSlider"
+                min="1000"
+                max="100000"
+                step="1000"
+                value="30000"
+                style="width: 100%"
+              />
+              <div
+                style="
+                  text-align: right;
+                  font-family: 'Fira Code';
+                  font-size: 0.8rem;
+                  color: var(--text-main);
+                "
+              >
+                <span id="fwcDisplay">30000</span> e-
+              </div>
+            </div>
+
+            <div style="margin-bottom: 1.5rem">
+              <label
+                style="
+                  display: block;
+                  font-family: 'Fira Code';
+                  font-size: 0.8rem;
+                  margin-bottom: 0.5rem;
+                  color: var(--accent-pink);
+                "
+                >Read Noise (e-)</label
+              >
+              <input
+                type="range"
+                id="rnSlider"
+                min="0.5"
+                max="20"
+                step="0.1"
+                value="2.5"
+                style="width: 100%"
+              />
+              <div
+                style="
+                  text-align: right;
+                  font-family: 'Fira Code';
+                  font-size: 0.8rem;
+                  color: var(--text-main);
+                "
+              >
+                <span id="rnDisplay">2.5</span> e- RMS
+              </div>
+            </div>
+          </div>
+
+          <div
+            style="
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              align-items: center;
+              border-left: 1px dashed var(--border-color);
+              padding-left: 2rem;
+            "
+          >
+            <div
+              style="
+                font-family: 'Fira Code';
+                font-size: 0.9rem;
+                color: var(--text-muted);
+                margin-bottom: 1rem;
+              "
+            >
+              RESULTING DYNAMIC RANGE
+            </div>
+            <div
+              style="
+                font-size: 3rem;
+                font-weight: bold;
+                color: var(--accent-green);
+              "
+              id="drDisplay"
+            >
+              81.6
+            </div>
+            <div style="font-size: 1rem; color: var(--accent-green)">dB</div>
+            <div
+              style="
+                margin-top: 1rem;
+                font-size: 0.8rem;
+                font-family: 'Fira Code';
+                color: var(--text-muted);
+              "
+            >
+              Formula: 20 * log10(FWC / ReadNoise)
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Shot Noise Simulation
+      const noiseCanvas = document.getElementById("noiseCanvas");
+      const ctx = noiseCanvas.getContext("2d");
+      const photonSlider = document.getElementById("photonSlider");
+      const photonValDisplay = document.getElementById("photonVal");
+      const snrValDisplay = document.getElementById("snrVal");
+
+      function drawNoise() {
+        const width = noiseCanvas.width;
+        const height = noiseCanvas.height;
+        const ctxImage = ctx.createImageData(width, height);
+        const signal = parseInt(photonSlider.value);
+
+        photonValDisplay.textContent = signal;
+
+        // SNR = S / sqrt(S) = sqrt(S)
+        // dB = 20 * log10(SNR)
+        const snr = Math.sqrt(signal);
+        const db = 20 * Math.log10(snr);
+        snrValDisplay.textContent = db.toFixed(1);
+
+        // Normalize signal for display (0-255 range).
+        // We assume max slider (5000) corresponds to roughly 80% brightness (200) for visualization headroom
+        const maxSignalRef = 5000;
+        const displayGain = 200 / maxSignalRef;
+
+        for (let i = 0; i < ctxImage.data.length; i += 4) {
+          // Poisson approximation using Gaussian for speed at high N, or simple random variance
+          // For visualization, we'll model noise as random value with stdDev = sqrt(signal)
+          // Pixel Value = Gain * (Signal + Noise)
+
+          let noise = (Math.random() - 0.5) * 2 * Math.sqrt(signal);
+          // Scale significantly for visual effect because screens are 8-bit
+          // Real Poisson is subtle, we amplify visual noise to match "feeling" of low light
+          // Actually, let's just do: Value = (Signal + Noise) normalized to 0-255
+
+          // To make it look right:
+          // Low signal = Dark image + High relative Variance
+          // High signal = Bright image + Low relative Variance
+
+          // Let's map slider 10-5000 to brightness 10-240
+          let brightness = (signal / 5000) * 230 + 10;
+
+          // Relative noise visual multiplier
+          // At 10 signal, S=10, N=3.16. SNR=3. RelVar = 30%.
+          // At 5000 signal, S=5000, N=70. SNR=70. RelVar = 1.4%.
+
+          let visualNoise =
+            (Math.random() - 0.5) * 2 * (255 / Math.sqrt(signal)) * 2; // Amplify effect
+
+          let val = brightness + visualNoise;
+
+          ctxImage.data[i] = val; // R
+          ctxImage.data[i + 1] = val; // G
+          ctxImage.data[i + 2] = val; // B
+          ctxImage.data[i + 3] = 255; // Alpha
+        }
+        ctx.putImageData(ctxImage, 0, 0);
+      }
+
+      photonSlider.addEventListener("input", drawNoise);
+      drawNoise(); // Init
+
+      // DR Calculator
+      const fwcSlider = document.getElementById("fwcSlider");
+      const rnSlider = document.getElementById("rnSlider");
+      const fwcDisplay = document.getElementById("fwcDisplay");
+      const rnDisplay = document.getElementById("rnDisplay");
+      const drDisplay = document.getElementById("drDisplay");
+
+      function valDR() {
+        const fwc = parseInt(fwcSlider.value);
+        const rn = parseFloat(rnSlider.value);
+
+        fwcDisplay.textContent = fwc;
+        rnDisplay.textContent = rn;
+
+        // DR = 20 * log10(FWC / ReadNoise)
+        const dr = 20 * Math.log10(fwc / rn);
+        drDisplay.textContent = dr.toFixed(1);
+      }
+
+      fwcSlider.addEventListener("input", valDR);
+      rnSlider.addEventListener("input", valDR);
+      valDR(); // Init
+    </script>
+
+    <footer>
+      <div>&copy; 2026 SuhLabs. All rights reserved.</div>
+      <div class="disclaimer">
+        Sony is a trademark of Sony Corporation. Use of brand names is for
+        educational reference only.
+      </div>
+    </footer>
+  </body>
+</html>
