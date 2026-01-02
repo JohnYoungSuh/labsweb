@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SuhLabs | AI Safety & Observability</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Fira+Code:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      .whitepaper-section {
+        margin-bottom: 4rem;
+      }
+      .whitepaper-section h2 {
+        color: var(--accent-green);
+        border-bottom: 2px solid var(--border-color);
+        padding-bottom: 0.5rem;
+        margin-bottom: 1.5rem;
+      }
+      .whitepaper-section h3 {
+        color: var(--text-main);
+        margin-top: 2rem;
+      }
+      .figure-caption {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        text-align: center;
+        margin-top: 0.5rem;
+        font-family: "Fira Code", monospace;
+      }
+      .code-block {
+        background: #000;
+        padding: 1.5rem;
+        border-radius: 6px;
+        font-family: "Fira Code", monospace;
+        font-size: 0.8rem;
+        border: 1px solid var(--border-color);
+        overflow-x: auto;
+        color: #d4d4d4;
+      }
+      .highlight {
+        color: var(--accent-pink);
+      }
+      .alert-box {
+        background: rgba(235, 52, 162, 0.1);
+        border: 1px solid var(--accent-pink);
+        padding: 1rem;
+        border-radius: 4px;
+        margin-bottom: 1rem;
+        color: var(--accent-pink);
+        font-family: "Fira Code", monospace;
+        font-size: 0.85rem;
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <div class="logo">
+        <a href="index.html" style="text-decoration: none; color: inherit"
+          >SUH<span>LABS</span></a
+        >
+      </div>
+      <div class="nav-links">
+        <a href="index.html">Back to Hub</a>
+        <a href="projects.html">Projects</a>
+        <a href="signals.html">Signals</a>
+      </div>
+    </nav>
+
+    <div class="container" style="padding-top: 5rem">
+      <span class="label" style="color: var(--accent-green)"
+        >Whitepaper: AI Governance</span
+      >
+      <h1 style="font-size: 3rem; margin-bottom: 1rem">
+        Continuous Compliance for Autonomous Agents
+      </h1>
+      <p
+        style="
+          font-size: 1.2rem;
+          color: var(--text-muted);
+          margin-bottom: 4rem;
+          max-width: 800px;
+        "
+      >
+        A framework for real-time telemetry ingestion and drift detection in
+        non-deterministic AI systems using Splunk Observability.
+      </p>
+
+      <div class="whitepaper-section">
+        <h2>1. The Non-Deterministic Challenge</h2>
+        <p>
+          Traditional software is deterministic: Input A always yields Output B.
+          Autonomous AI agents, however, are probabilistic. They "drift." As we
+          deploy LLM-based agents into critical infrastructure (see
+          <code>aiops-substrate</code>), ensuring they remain within safety
+          guardrails is not just a nice-to-have—it's a requirement for sovereign
+          operation.
+        </p>
+        <div class="alert-box">
+          [CRITICAL_WARNING]: Feature-vector drift can lead to unauthorized API
+          execution. Static policies are insufficient.
+        </div>
+        <p>
+          We solve this by treating Agent "Thoughts" as loggable events. By
+          binding a <strong>Splunk Technology Add-on (TA)</strong> directly to
+          the agent's runtime environment
+          (<code>TA-asset-identity-framework</code>), we create a "Sidecar
+          Observability" pattern.
+        </p>
+      </div>
+
+      <div class="whitepaper-section">
+        <h2>2. Architecture: The Telemetry Pipeline</h2>
+        <div
+          class="blueprint-box"
+          style="grid-template-columns: 1fr; margin-bottom: 2rem"
+        >
+          <div style="text-align: center">
+            <img
+              src="assets/ai-safety-pipeline.png"
+              alt="AI Safety Telemetry Pipeline Diagram"
+              style="
+                max-width: 100%;
+                border-radius: 4px;
+                border: 1px solid var(--border-color);
+              "
+            />
+            <div class="figure-caption">
+              Fig 2.1: The Sidecar TA pattern for real-time agent telemetry
+              ingestion.
+            </div>
+          </div>
+        </div>
+        <p>The architecture consists of three core components:</p>
+        <ul style="color: var(--text-muted); line-height: 1.6">
+          <li>
+            <strong>Agent Nodes:</strong> The execution layer where the LLM
+            performs tasks.
+          </li>
+          <li>
+            <strong>Universal Forwarder (Sidecar):</strong> Captures
+            <code>stdin/stdout</code> and internal trace logs. It sanitizes
+            sensitive data before transmission.
+          </li>
+          <li>
+            <strong>Splunk Core:</strong> The aggregation layer where our
+            <code>TA-suhlabs-eMASS</code> app correlates agent actions against
+            defined compliance controls.
+          </li>
+        </ul>
+      </div>
+
+      <div class="whitepaper-section">
+        <h2>3. Methodology: Vector Space Drift Detection</h2>
+        <p>
+          How do we know if an agent is "thinking" dangerously? We extract
+          feature vectors from its prompt chain and compare them against a
+          "Safety Manifold"—a pre-computed cluster of approved operational
+          parameters.
+        </p>
+
+        <h3>Splunk SPL Implementation Strategy</h3>
+        <p>
+          We use Splunk's Machine Learning Toolkit (MLTK/DLTK) to monitor cosine
+          similarity in near real-time.
+        </p>
+        <div class="code-block">
+          <span class="highlight">index</span>=ai_logs
+          sourcetype="suhlabs:agent:thought" |
+          <span class="highlight">eval</span> embedding =
+          ml_generate_embedding(thought_content) |
+          <span class="highlight">fit</span> DBSCAN embedding into
+          agent_safety_model |
+          <span class="highlight">apply</span> agent_safety_model |
+          <span class="highlight">search</span> cluster_id = -1 |
+          <span class="highlight">alert</span> level=critical
+          action=kill_agent_process
+        </div>
+      </div>
+
+      <div class="whitepaper-section">
+        <h2>4. Interactive Safeguard Simulation</h2>
+        <p>
+          Simulate the Drift Detection engine. Enter a command below to see if
+          it triggers the safety kill-switch based on heuristic analysis.
+        </p>
+
+        <div
+          class="wing-card"
+          style="border-left: 4px solid var(--accent-green)"
+        >
+          <div style="display: flex; flex-direction: column; gap: 1rem">
+            <label
+              style="font-family: 'Fira Code', monospace; font-size: 0.9rem"
+              >Agent Command Buffer:</label
+            >
+            <div style="display: flex; gap: 1rem">
+              <input
+                type="text"
+                id="agentInput"
+                value="sudo rm -rf /"
+                style="
+                  flex: 1;
+                  background: #000;
+                  border: 1px solid var(--border-color);
+                  color: #fff;
+                  padding: 0.5rem;
+                  font-family: 'Fira Code', monospace;
+                "
+              />
+              <button
+                id="analyzeBtn"
+                class="btn-green"
+                style="
+                  border: 1px solid var(--accent-green);
+                  background: transparent;
+                  color: var(--accent-green);
+                  padding: 0.5rem 1rem;
+                  cursor: pointer;
+                  font-family: 'Fira Code';
+                "
+              >
+                ANALYZE
+              </button>
+            </div>
+
+            <div
+              id="resultPanel"
+              style="
+                background: #000;
+                border: 1px solid #333;
+                padding: 1rem;
+                font-family: 'Fira Code', monospace;
+                min-height: 100px;
+                margin-top: 1rem;
+              "
+            >
+              <div>> WAITING_FOR_TELEMETRY...</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const input = document.getElementById("agentInput");
+      const btn = document.getElementById("analyzeBtn");
+      const panel = document.getElementById("resultPanel");
+
+      const keywords = {
+        risk: [
+          "rm -rf",
+          "format",
+          "delete",
+          "drop table",
+          "shutdown",
+          "upload",
+          "curl",
+          "wget",
+        ],
+        safe: ["ls", "echo", "print", "read", "status", "check", "ping"],
+      };
+
+      btn.addEventListener("click", () => {
+        const command = input.value.toLowerCase();
+        let riskScore = 0;
+        let triggers = [];
+
+        // Simple heuristic
+        keywords.risk.forEach((word) => {
+          if (command.includes(word)) {
+            riskScore += 50;
+            triggers.push(word);
+          }
+        });
+
+        // Generate visual "Splunk" log
+        const timestamp = new Date().toISOString();
+        let html = `<div style="color: #666; font-size: 0.8rem;">${timestamp}</div>`;
+        html += `<div>> Ingested Command: "${input.value}"</div>`;
+        html += `<div>> Analyzing Vector Embeddings...</div>`;
+
+        setTimeout(() => {
+          if (riskScore >= 50) {
+            html += `<div style="color: var(--accent-pink); margin-top: 0.5rem;">[ALERT] CRITICAL DRIFT DETECTED</div>`;
+            html += `<div style="color: var(--accent-pink);">[REASON] High-risk token match: [${triggers.join(
+              ", "
+            )}]</div>`;
+            html += `<div style="color: var(--accent-pink); font-weight: bold;">[ACTION] KILL_SWITCH_ENGAGED</div>`;
+          } else {
+            html += `<div style="color: var(--accent-green); margin-top: 0.5rem;">[INFO] COMPLIANCE_VERIFIED</div>`;
+            html += `<div style="color: var(--accent-green);">[STATUS] Operations Normal</div>`;
+          }
+          panel.innerHTML = html;
+        }, 600);
+
+        panel.innerHTML = html;
+      });
+    </script>
+
+    <footer>
+      <div>&copy; 2026 SuhLabs. All rights reserved.</div>
+      <div class="disclaimer">
+        Splunk is a trademark of Splunk Inc. Framework references are
+        proprietary to SuhLabs.
+      </div>
+    </footer>
+  </body>
+</html>
