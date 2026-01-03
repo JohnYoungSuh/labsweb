@@ -17,6 +17,11 @@
           >SUH<span>LABS</span></a
         >
       </div>
+      <div class="hamburger" onclick="toggleMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
       <div class="nav-links">
         <a href="index.html">Home</a>
         <a href="projects.html">Projects</a>
@@ -95,5 +100,13 @@
         no affiliation with Nokia Bell Labs or Unicomer Group.
       </div>
     </footer>
+    <script>
+      function toggleMenu() {
+        const nav = document.querySelector(".nav-links");
+        const hamburger = document.querySelector(".hamburger");
+        nav.classList.toggle("active");
+        hamburger.classList.toggle("active");
+      }
+    </script>
   </body>
 </html>
