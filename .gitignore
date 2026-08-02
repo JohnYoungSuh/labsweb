@@ -1,0 +1,4 @@
+# Ignore Agent Customization Root and Local Scratch Files
+.agents/
+.agents
+*.log
