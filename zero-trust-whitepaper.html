@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SuhLabs | Zero Trust Architecture Whitepaper</title>
+    <meta
+      name="description"
+      content="Rethinking Zero Trust: From Product Purchases to Logical Control Evidence. Open-source research on Splunk App for Zero Trust Execution and AWS-DFD-Visualizer."
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Fira+Code:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      .whitepaper-header {
+        margin-bottom: 3rem;
+      }
+      .badge-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin: 1.5rem 0;
+      }
+      .badge-item {
+        background: rgba(96, 171, 49, 0.1);
+        border: 1px solid var(--accent-green);
+        color: var(--accent-green);
+        padding: 0.3rem 0.8rem;
+        border-radius: 4px;
+        font-family: "Fira Code", monospace;
+        font-size: 0.75rem;
+      }
+      .badge-item.pink {
+        background: rgba(235, 52, 162, 0.1);
+        border-color: var(--accent-pink);
+        color: var(--accent-pink);
+      }
+      .badge-item.blue {
+        background: rgba(0, 173, 255, 0.1);
+        border-color: var(--accent-blue);
+        color: var(--accent-blue);
+      }
+      .whitepaper-section {
+        margin-bottom: 3.5rem;
+      }
+      .whitepaper-section h2 {
+        color: var(--accent-green);
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 0.5rem;
+        margin-bottom: 1.25rem;
+        font-family: "Fira Code", monospace;
+        font-size: 1.4rem;
+      }
+      .whitepaper-section h3 {
+        color: var(--text-main);
+        margin-top: 1.8rem;
+        margin-bottom: 0.8rem;
+      }
+      .whitepaper-section p {
+        color: var(--text-muted);
+        line-height: 1.7;
+        margin-bottom: 1.2rem;
+      }
+      .component-card {
+        background: var(--bg-secondary);
+        border: 1px solid var(--border-color);
+        border-left: 4px solid var(--accent-pink);
+        padding: 1.75rem;
+        border-radius: 6px;
+        margin: 2rem 0;
+      }
+      .component-card h3 {
+        color: var(--accent-pink);
+        font-family: "Fira Code", monospace;
+        font-size: 0.95rem;
+        margin-top: 0;
+        margin-bottom: 1.2rem;
+        letter-spacing: 1px;
+      }
+      .component-card ul {
+        list-style-type: none;
+        padding-left: 0;
+        margin: 0;
+      }
+      .component-card li {
+        color: var(--text-muted);
+        line-height: 1.6;
+        margin-bottom: 1rem;
+        padding-left: 1.2rem;
+        position: relative;
+      }
+      .component-card li::before {
+        content: "■";
+        color: var(--accent-pink);
+        position: absolute;
+        left: 0;
+        font-size: 0.7rem;
+        top: 0.2rem;
+      }
+      .component-card strong {
+        color: var(--text-main);
+      }
+      .strategy-list {
+        list-style-type: none;
+        padding-left: 0;
+      }
+      .strategy-list li {
+        background: var(--bg-secondary);
+        border: 1px solid var(--border-color);
+        padding: 1.25rem;
+        margin-bottom: 1rem;
+        border-radius: 4px;
+        transition: border-color 0.2s;
+      }
+      .strategy-list li:hover {
+        border-color: var(--accent-green);
+      }
+      .strategy-list strong {
+        color: var(--accent-green);
+        font-family: "Fira Code", monospace;
+        display: block;
+        margin-bottom: 0.4rem;
+      }
+      .strategy-list p {
+        margin-bottom: 0;
+      }
+      .footer-note {
+        border-top: 1px dashed var(--border-color);
+        padding-top: 1.5rem;
+        margin-top: 4rem;
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        font-family: "Fira Code", monospace;
+        font-style: italic;
+      }
+      .back-nav {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: var(--accent-green);
+        text-decoration: none;
+        font-family: "Fira Code", monospace;
+        font-size: 0.85rem;
+        margin-bottom: 2rem;
+        transition: transform 0.2s;
+      }
+      .back-nav:hover {
+        transform: translateX(-4px);
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <div class="logo">
+        <a href="index.html" style="text-decoration: none; color: inherit"
+          >SUH<span>LABS</span></a
+        >
+      </div>
+      <div class="hamburger" onclick="toggleMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <div class="nav-links">
+        <a href="index.html">Back to Hub</a>
+        <a href="projects.html">Projects</a>
+        <a href="signals.html">Signals</a>
+        <a href="experiments.html">Experiments</a>
+      </div>
+    </nav>
+
+    <div class="container" style="padding-top: 3rem; padding-bottom: 5rem">
+      <a href="experiments.html" class="back-nav">&larr; BACK_TO_EXPERIMENTS</a>
+
+      <header class="whitepaper-header">
+        <span class="label">Open Source Project Proposal & Technical Blog</span>
+        <h1 style="font-size: 2.8rem; margin-top: 0.5rem; margin-bottom: 1rem">
+          Rethinking Zero Trust: From Product Purchases to Logical Control Evidence
+        </h1>
+        
+        <div class="badge-group">
+          <span class="badge-item">Splunkbase Release</span>
+          <span class="badge-item pink">DoD COA & NIST 800-207</span>
+          <span class="badge-item blue">AWS-DFD-Visualizer v2.8.3</span>
+        </div>
+      </header>
+
+      <div class="whitepaper-section">
+        <h2>1. Executive Summary & Misconception</h2>
+        <p>
+          Implementing Zero Trust (ZT) across complex environments often falters at the very beginning due to a fundamental misunderstanding: treating Zero Trust as a commodity you can buy. When subject matter experts (SMEs) view ZT strictly through the lens of their specific functional roles, the reflex is almost always to procure a commercial tool to check off a requirement. However, Zero Trust is not a single software suite. A true ZT solution is frequently a combination of technical, logical, or administrative controls designed to achieve specific operational outcomes rather than a vendor feature set.
+        </p>
+        <p>
+          To successfully execute Zero Trust, organizations must evaluate every task within the context of its execution phase, target maturity level, and operational boundary. Translating frameworks like the DoD Zero Trust Execution Roadmap Courses of Action (COAs) requires looking beyond generic tool capabilities. Teams must break down high-level objectives into granular outcomes by analyzing how user behaviors, device postures, and network boundaries interact over time. Without this phase-aware perspective, organizations risk deploying expensive security software that fails to meet actual compliance and verification mandates.
+        </p>
+      </div>
+
+      <div class="whitepaper-section">
+        <h2>2. Enterprise Compliance Hub: Splunk App for Zero Trust Execution</h2>
+        <p>
+          For Splunk customers seeking an enterprise-wide compliance hub, our open-source <strong>Splunk App for Zero Trust Execution</strong> directly bridges the gap between raw security data and audit readiness. By transforming DoD COA execution roadmaps into actionable lookup tables, ingested via the Splunk Lookup Editor from custom Excel files, the app structures its top navigation around the core ZT Pillars (User, Device, Application/Workload, Data, Network, Automation, Visibility). Individual tasks form the interactive tabs within each pillar. As SMEs populate updates and attach log-based evidence directly within the app, it automatically compiles an authoritative Proof of Delivery (PoD) ready for ISSO/CISO signature. If gaps are identified, the app dynamically generates ZT Milestones, converting Splunk into a centralized Integrated Master Schedule (IMS) tracker.
+        </p>
+        <p>
+          Organizations that do not currently operate a SIEM capable of hosting custom applications can achieve the exact same structured tracking through Microsoft Planner. By leveraging JSON-formatted outcome definitions for each ZT task, teams can manually track task predecessors, successors, and stage progressions, such as Discovery, Phase 1, and Phase 2, using native Planner labels. The fundamental trade-off comes down to operational integration: Splunk provides an automated, telemetry-driven platform combining IMS tracking, live evidence ingestion, and automated PoD generation in a single interface, whereas Microsoft Planner serves as a lightweight, non-integrated tracking alternative for manual oversight.
+        </p>
+      </div>
+
+      <div class="whitepaper-section">
+        <h2>3. Real-Time Architecture Visualization: AWS-DFD-Visualizer (v2.8.3)</h2>
+        <p>
+          To move from manual compliance tracking to real-time visual proof, our companion open-source project published on Splunkbase, <strong>AWS-DFD-Visualizer (v2.8.3)</strong>, renders complex multi-cloud architecture data into dynamic, audit-ready Zero Trust topology blueprints. Built for NIST 800-207 and DoD Impact Level 5 (IL5) environments, AWS-DFD-Visualizer automatically categorizes live inventory into discrete operational tiers, including web servers, mid-tier applications, data stores, and containers. It then projects these assets across NIST 800-207 Three-Plane Swimlanes (Identity, Policy & Control, and Infrastructure/Data) to visually expose the core "P*" components of your architecture.
+        </p>
+
+        <div class="component-card">
+          <h3>CORE "P*" ZERO TRUST ARCHITECTURAL COMPONENTS</h3>
+          <ul>
+            <li>
+              <strong>PEP (Policy Enforcement Point) & PIP (Policy Information Point):</strong> Real-time posture checks fed by tools like ForeScout C2C, Trellix, Microsoft Defender for Endpoint (MDE), and Tenable.
+            </li>
+            <li>
+              <strong>PDP (Policy Decision Point), PE (Policy Engine), PA (Policy Administrator) & PAP (Policy Administration Point):</strong> Orchestrated control logic anchored by SOAR playbooks and enterprise SIEM policies (Splunk/Sentinel).
+            </li>
+          </ul>
+        </div>
+
+        <p>
+          By auto-detecting CSP environments like AWS, Azure, or GCP and highlighting non-compliant paths, such as direct SSH/22 ingress, AWS-DFD-Visualizer provides immediate visual proof of policy enforcement across every workload tier.
+        </p>
+      </div>
+
+      <div class="whitepaper-section">
+        <h2>4. Community-Driven Build Strategy & Demand Validation</h2>
+        <p>
+          To ensure maximum alignment with community needs, full feature rollout of the Splunk App for Zero Trust Execution follows a demand-validated engineering model:
+        </p>
+        
+        <ul class="strategy-list">
+          <li>
+            <strong>Validating Market Demand</strong>
+            <p>Engagement with this community blog post alongside download metrics from our published AWS-DFD-Visualizer app act as direct demand indicators for expanding the Zero Trust Execution platform.</p>
+          </li>
+          <li>
+            <strong>Telemetry-Informed Roadmap</strong>
+            <p>Download velocity and active installation metrics directly shape our development priorities, ensuring we build features based on real-world adoption patterns.</p>
+          </li>
+          <li>
+            <strong>Continuous Feedback Loops</strong>
+            <p>Community feedback helps us continuously refine whether security teams prefer automated analytics in Splunk or lightweight manual workflows like Microsoft Planner.</p>
+          </li>
+        </ul>
+
+        <!-- Demand Validation CTA Box -->
+        <div style="background: rgba(12, 23, 36, 0.95); border: 2px dashed var(--accent-green); padding: 2rem; border-radius: 6px; margin-top: 2rem;">
+          <h3 style="color: var(--accent-green); font-family: 'Fira Code', monospace; margin-top: 0; margin-bottom: 0.8rem; font-size: 1.1rem;">// DEMAND_VALIDATION_HUB</h3>
+          <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">
+            Help shape the roadmap for the full <strong>Splunk App for Zero Trust Execution</strong>. Your downloads, stars, and feedback directly determine our engineering priorities for the upcoming mid-August release.
+          </p>
+          <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+            <a href="https://github.com/JohnYoungSuh/AWS-DFD-Visualizer" target="_blank" style="background: var(--accent-green); color: #000; font-family: 'Fira Code', monospace; font-weight: 600; text-decoration: none; padding: 0.7rem 1.2rem; font-size: 0.85rem; border-radius: 4px;">Star AWS-DFD-Visualizer on GitHub &rarr;</a>
+            <a href="https://github.com/JohnYoungSuh/splunk-mcp-server2" target="_blank" style="border: 1px solid var(--accent-blue); color: var(--accent-blue); font-family: 'Fira Code', monospace; text-decoration: none; padding: 0.7rem 1.2rem; font-size: 0.85rem; border-radius: 4px;">Explore Splunk MCP Server &rarr;</a>
+            <a href="https://splunkbase.splunk.com/" target="_blank" style="border: 1px solid var(--accent-pink); color: var(--accent-pink); font-family: 'Fira Code', monospace; text-decoration: none; padding: 0.7rem 1.2rem; font-size: 0.85rem; border-radius: 4px;">Splunkbase App #8628 &rarr;</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="whitepaper-section">
+        <h2>5. Conclusion & Operational Impact</h2>
+        <p>
+          Ultimately, Zero Trust is an operational evidence discipline, not a procurement exercise. Purchasing tools like SIEMs, EDRs, or C2C platforms is only the first step; the true measure of Zero Trust lies in your ability to continuously document, map, and prove that your administrative and technical controls satisfy each task's required outcome. Whether you choose the fully integrated, automated analytics model inside Splunk or a lightweight manual workflow in Microsoft Planner, establishing a central repository for proof of delivery ensures your security posture remains defensible, compliant, and resilient against evolving threats.
+        </p>
+      </div>
+
+      <div class="footer-note">
+        This document contains the complete blog submission for the Splunk Community platform, detailing both open-source releases: Splunk App for Zero Trust Execution and AWS-DFD-Visualizer (Splunkbase App ID: 8628).
+      </div>
+    </div>
+
+    <footer>
+      <div class="logo">SUH<span>LABS</span></div>
+      <p>| Sovereign Governance & Zero Trust Engineering |</p>
+    </footer>
+
+    <script>
+      function toggleMenu() {
+        const nav = document.querySelector(".nav-links");
+        const hamburger = document.querySelector(".hamburger");
+        nav.classList.toggle("active");
+        hamburger.classList.toggle("active");
+      }
+    </script>
+  </body>
+</html>

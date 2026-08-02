@@ -56,8 +56,31 @@
     </header>
 
     <div class="container">
+      <section id="zero-trust" style="margin-bottom: 3rem;">
+        <span class="label" style="color: var(--accent-green)">Flagship Release: Zero Trust Control Evidence</span>
+        <div class="blueprint-box" style="border-left: 4px solid var(--accent-green);">
+          <div class="blueprint-text">
+            <h2>Rethinking Zero Trust</h2>
+            <p>
+              Translating DoD COA execution roadmaps and NIST 800-207 into automated, telemetry-driven proof of delivery. Powered by <strong>AWS-DFD-Visualizer</strong> (Splunkbase #8628) and the upcoming <strong>Splunk App for Zero Trust Execution</strong>.
+            </p>
+            <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; margin-top: 1.5rem;">
+              <a href="zero-trust-whitepaper.html" class="btn-green" style="background: var(--accent-green); color: #000; padding: 0.7rem 1.2rem; text-decoration: none; font-family: 'Fira Code', monospace; font-size: 0.85rem; border-radius: 4px; font-weight: 600;">Read Whitepaper &rarr;</a>
+              <span style="font-family: 'Fira Code', monospace; font-size: 0.75rem; color: var(--accent-pink); border: 1px solid var(--accent-pink); padding: 0.4rem 0.8rem; border-radius: 4px;">SPLUNK COMMUNITY LAUNCH: MID-AUG 2026</span>
+            </div>
+          </div>
+          <div class="terminal">
+            <div style="color: var(--accent-pink)">// ZT_EVIDENCE_ENGINE_V2</div>
+            <div>$ splunk-app-zt-execution --status</div>
+            <div>> Splunkbase: <span>APP_ID_8628 (LIVE)</span></div>
+            <div>> DoD COA Mapping: <span>INGESTED</span></div>
+            <div>> Demand Signal: <span style="color: var(--accent-blue)">OPEN_FOR_COMMUNITY</span></div>
+          </div>
+        </div>
+      </section>
+
       <section id="kernel">
-        <span class="label">Core Research: AGT Kernel</span>
+        <span class="label">Core Substrate: AGT Kernel</span>
         <div class="blueprint-box">
           <div class="blueprint-text">
             <h2>Atomic Governance</h2>
@@ -66,7 +89,7 @@
               transaction that mechanically couples policy evaluation with
               immutable ledger commitment.
             </p>
-            <a href="experiments.html" class="btn-green">Read the Whitepaper</a>
+            <a href="experiments.html" class="btn-green" style="display: inline-block; margin-top: 1rem; padding: 0.6rem 1rem; text-decoration: none; border: 1px solid var(--accent-green); color: var(--accent-green); font-family: 'Fira Code', monospace; font-size: 0.8rem; border-radius: 4px;">Explore Experiments</a>
           </div>
           <div class="terminal">
             <div style="color: var(--accent-pink)">// AGT_KERNEL_V2</div>
