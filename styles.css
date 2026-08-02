@@ -150,6 +150,49 @@ footer {
   transition: all 0.3s ease;
 }
 
+/* Developer Experience & Visual Micro-Interactions */
+.pulse-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--accent-green);
+  box-shadow: 0 0 8px var(--accent-green);
+  animation: pulse 2s infinite;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(96, 171, 49, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 8px rgba(96, 171, 49, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(96, 171, 49, 0);
+  }
+}
+
+.project-card, .blueprint-box, .wing-card {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.project-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), 0 0 12px rgba(96, 171, 49, 0.15);
+}
+
+.nav-links a {
+  position: relative;
+  transition: color 0.2s ease;
+}
+
+.nav-links a:hover, .nav-links a.active {
+  color: var(--accent-green);
+}
+
 /* Mobile Responsive Styles */
 @media screen and (max-width: 768px) {
   .hamburger {
