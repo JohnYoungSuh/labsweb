@@ -114,8 +114,8 @@
         style="border-left: 4px solid var(--accent-pink); margin-bottom: 2rem"
       >
         <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
-          <h3 style="margin: 0; color: var(--accent-pink);">Zero Trust Control Evidence Framework</h3>
-          <a href="https://community.splunk.com/t5/Community-Blog/Rethinking-Zero-Trust-From-Product-Purchases-to-Logical-Control/ba-p/762651" target="_blank" style="text-decoration: none; font-family: 'Fira Code', monospace; font-size: 0.75rem; color: var(--accent-pink); background: rgba(235, 52, 162, 0.1); padding: 0.2rem 0.5rem; border-radius: 3px;"><span class="pulse-dot" style="background-color: var(--accent-pink); box-shadow: 0 0 8px var(--accent-pink);"></span>SPLUNK COMMUNITY BLOG &rarr;</a>
+          <h3 style="margin: 0; color: var(--accent-pink);">Zero Trust Compliance & Evidence</h3>
+          <a href="https://splunkbase.splunk.com/app/9582" target="_blank" style="text-decoration: none; font-family: 'Fira Code', monospace; font-size: 0.75rem; color: var(--accent-green); background: rgba(96, 171, 49, 0.1); padding: 0.2rem 0.5rem; border-radius: 3px;"><span class="pulse-dot" style="background-color: var(--accent-green); box-shadow: 0 0 8px var(--accent-green);"></span>SPLUNKBASE 9582 (LIVE)</a>
         </div>
         <p>
           Translating DoD COA execution roadmaps and NIST 800-207 into automated,
@@ -124,31 +124,49 @@
         <div class="terminal">
           <div>$ splunk-app-zt-execution --status</div>
           <div>
-            > COA Mapping: <span style="color: var(--accent-green)">Ingested</span>
+            > Zero Trust Compliance: <span style="color: var(--accent-green)">APP_ID_9582 (LIVE)</span>
           </div>
           <div>
             > Topology Blueprints: <span style="color: var(--accent-blue)">v2.8.3 (IL5)</span>
           </div>
           <div>
-            > Splunk Community: <span style="color: var(--accent-pink)">PUBLISHED</span>
+            > Splunk Community Blog: <span style="color: var(--accent-pink)">PUBLISHED</span>
           </div>
         </div>
         <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 1rem">
           <a
-            href="zero-trust-whitepaper.html"
+            href="https://splunkbase.splunk.com/app/9582"
+            target="_blank"
             style="
-              color: var(--accent-pink);
+              color: var(--accent-green);
               text-decoration: none;
               font-family: 'Fira Code', monospace;
               font-size: 0.8rem;
-              border: 1px solid var(--accent-pink);
+              border: 1px solid var(--accent-green);
               padding: 0.5rem 1rem;
               border-radius: 4px;
               display: inline-block;
               transition: all 0.2s;
             "
-            onmouseover="this.style.background='rgba(235, 52, 162, 0.1)'"
+            onmouseover="this.style.background='rgba(96, 171, 49, 0.1)'"
             onmouseout="this.style.background='transparent'"
+            >SPLUNKBASE #9582 &rarr;</a
+          >
+          <a
+            href="zero-trust-whitepaper.html"
+            style="
+              color: var(--text-main);
+              text-decoration: none;
+              font-family: 'Fira Code', monospace;
+              font-size: 0.8rem;
+              border: 1px solid var(--border-color);
+              padding: 0.5rem 1rem;
+              border-radius: 4px;
+              display: inline-block;
+              transition: all 0.2s;
+            "
+            onmouseover="this.style.borderColor='var(--accent-pink)'"
+            onmouseout="this.style.borderColor='var(--border-color)'"
             >READ WHITEPAPER_ &rarr;</a
           >
           <a
@@ -168,7 +186,7 @@
             "
             onmouseover="this.style.opacity='0.9'"
             onmouseout="this.style.opacity='1'"
-            >READ ON SPLUNK COMMUNITY &rarr;</a
+            >COMMUNITY BLOG &rarr;</a
           >
         </div>
       </div>
