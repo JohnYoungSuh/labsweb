@@ -107,8 +107,8 @@
       }
       .content-list li {
         color: var(--text-muted);
-        line-height: 1.65;
-        margin-bottom: 1rem;
+        line-height: 1.7;
+        margin-bottom: 1.1rem;
         padding-left: 1.5rem;
         position: relative;
       }
@@ -118,7 +118,7 @@
         position: absolute;
         left: 0;
         font-size: 0.7rem;
-        top: 0.2rem;
+        top: 0.25rem;
       }
       .content-list.pink li::before {
         color: var(--accent-pink);
@@ -127,16 +127,13 @@
         color: var(--text-main);
       }
 
-      /* In-text Citation Links */
+      /* In-text Concept Links */
       .cite {
         color: var(--accent-blue);
-        font-family: "Fira Code", monospace;
-        font-size: 0.8rem;
-        font-weight: 500;
         text-decoration: none;
         border-bottom: 1px dotted var(--accent-blue);
         transition: all 0.2s ease;
-        padding: 0 2px;
+        padding: 0 1px;
       }
       .cite:hover {
         color: #ffffff;
@@ -447,13 +444,13 @@
         </p>
         <ul class="content-list">
           <li>
-            <strong>Probabilistic Suggestions vs. Deterministic Gates:</strong> As context windows expand, model retrieval degrades across the middle of the context <a href="https://arxiv.org/abs/2307.03172" target="_blank" class="cite">[Liu et al., arXiv:2307.03172]</a>. Furthermore, system/user role separation does not provide a robust instruction hierarchy: models routinely deprioritize privileged directives under formatting conflicts or social framing <a href="https://arxiv.org/abs/2502.15851" target="_blank" class="cite">[Geng et al., arXiv:2502.15851]</a>. When an un-gated agent modifies an interface, it emits fluent rationalizations ("the mock required an extra parameter"). A compiler or schema validator does not negotiate—it yields a deterministic <code>exit 1</code>.
+            <strong>Probabilistic Suggestions vs. Deterministic Gates:</strong> As context windows expand, model retrieval degrades across the center of the window, a phenomenon documented in <a href="https://arxiv.org/abs/2307.03172" target="_blank" class="cite">Lost in the Middle (Liu et al.)</a>. Furthermore, system/user role separation fails to enforce a durable instruction hierarchy: models routinely deprioritize privileged directives under formatting conflicts or social framing, as proven in <a href="https://arxiv.org/abs/2502.15851" target="_blank" class="cite">Control Illusion (Geng et al.)</a>. When an un-gated agent modifies an interface, it emits fluent rationalizations ("the mock required an extra parameter"). A compiler or schema validator does not negotiate—it yields a deterministic <code>exit 1</code>.
           </li>
           <li>
-            <strong>Physical State Isolation Cannot Be Prompted:</strong> Prompts cannot serialize multiple writers on a single inode. Git worktrees or remote VMs provide physical workspace isolation, preventing agents from clobbering each other's active trees mid-run. However, isolation only defers conflict resolution: STORM shows that physical isolation does not eliminate semantic merge conflicts across decoupled modules <a href="https://arxiv.org/abs/2605.20563" target="_blank" class="cite">[Liu et al., arXiv:2605.20563]</a>. Runtime contamination (mutating shared test databases or hitting live third-party endpoints) requires microVM boundaries with host-side proxying, not prompt rules. Shared mutable state degrades system integrity regardless of prompt quality—e.g., Bhaumik's production case where a stale 500ms cache read caused ~20% erroneous risk decisions across well-prompted agents <a href="https://ai.engineer/talks/from-chaos-to-choreography-multi-agent-orchestration-patterns-that-actually-work-sandipan-bhaumi" target="_blank" class="cite">[Bhaumik, AI Engineer]</a>.
+            <strong>Physical State Isolation Cannot Be Prompted:</strong> Prompts cannot serialize multiple writers on a single inode. Git worktrees or remote VMs provide physical workspace isolation, preventing agents from clobbering each other's active trees mid-run. However, isolation only defers conflict resolution: the <a href="https://arxiv.org/abs/2605.20563" target="_blank" class="cite">STORM framework (Liu et al.)</a> demonstrates that physical isolation does not eliminate semantic merge conflicts across decoupled modules. Runtime contamination (mutating shared test databases or hitting live third-party endpoints) requires microVM boundaries with host-side proxying, not prompt rules. Shared mutable state degrades system integrity regardless of prompt quality—e.g., Sandipan Bhaumik's production case study where a <a href="https://ai.engineer/talks/from-chaos-to-choreography-multi-agent-orchestration-patterns-that-actually-work-sandipan-bhaumi" target="_blank" class="cite">stale 500ms cache read caused ~20% erroneous risk decisions</a> across well-prompted agents.
           </li>
           <li>
-            <strong>The Context Pollution Tax:</strong> Accumulating past post-mortems and negative rules inside an agent's prompt bloats token overhead, increases latency, and shifts critical constraints into the low-attention center of the context window. While unconstrained broadcast topologies can raise hallucination rates in some domains (such as travel planning: HR 0.658 vs 0.492) <a href="https://arxiv.org/abs/2606.21666" target="_blank" class="cite">[Zhang et al., arXiv:2606.21666]</a>, structured protocols cut coordination failures <a href="https://arxiv.org/abs/2510.12120" target="_blank" class="cite">[Mao et al., arXiv:2510.12120]</a>. Mechanical orchestration keeps prompts lean (spec in, code out), delegating enforcement to external gates.
+            <strong>The Context Pollution Tax:</strong> Accumulating past post-mortems and negative rules inside an agent's prompt bloats token overhead, increases latency, and shifts critical constraints into the low-attention center of the context window. While unconstrained broadcast topologies <a href="https://arxiv.org/abs/2606.21666" target="_blank" class="cite">significantly elevate hallucination rates (Zhang et al.)</a>, structured state protocols like <a href="https://arxiv.org/abs/2510.12120" target="_blank" class="cite">SEMAP (Mao et al.)</a> cut coordination failures. Mechanical orchestration keeps prompts lean (spec in, code out), delegating enforcement to external gates.
           </li>
         </ul>
 
@@ -487,13 +484,13 @@
         <h2>02. Documented Empirical Failure Modes</h2>
         <ul class="content-list pink">
           <li>
-            <strong>Semantic Intent Divergence (SID):</strong> Architect agents reason over abstract interfaces, while implementer agents reason across local token buffers, leading to diverging assumptions <a href="https://arxiv.org/abs/2604.16339" target="_blank" class="cite">[Acharya, arXiv:2604.16339]</a>; <a href="https://rybkr.com/papers/context-synchronization-for-multi-agent-workflows.pdf" target="_blank" class="cite">[Baker, CodeCtx]</a>. Worktrees prevent file overwrites, but semantic merge recovery remains complex <a href="https://arxiv.org/abs/2605.20563" target="_blank" class="cite">[Liu et al., arXiv:2605.20563]</a>.
+            <strong>Semantic Intent Divergence (SID):</strong> Architect agents reason over abstract interfaces, while implementer agents reason across local token buffers, leading to diverging assumptions as analyzed in <a href="https://arxiv.org/abs/2604.16339" target="_blank" class="cite">Semantic Consensus (Acharya)</a> and <a href="https://rybkr.com/papers/context-synchronization-for-multi-agent-workflows.pdf" target="_blank" class="cite">CodeCtx Context Synchronization (Baker)</a>. Worktrees prevent file overwrites, but <a href="https://arxiv.org/abs/2605.20563" target="_blank" class="cite">semantic merge recovery</a> remains non-trivial.
           </li>
           <li>
-            <strong>Reward Hacking & Test False Positives:</strong> In a 49-task sample audit of SWE-bench Verified, 28.5% (14/49) of evaluated tasks had test suites weak enough to accept Docker-verified patches that were demonstrably broken <a href="https://arxiv.org/abs/2606.16062" target="_blank" class="cite">[Rajan, arXiv:2606.16062]</a>. Conversely, OpenAI audited 138 hard-fail problems (27.6% of the benchmark) and found 59.4% had flawed tests or descriptions that rejected valid patches <a href="https://openai.com/index/why-we-no-longer-evaluate-swe-bench-verified/" target="_blank" class="cite">[OpenAI, 2026]</a>. Passing a test suite (<code>exit 0</code>) is a necessary mechanical signal, but not a complete oracle of correctness.
+            <strong>Reward Hacking & Test False Positives:</strong> In an audit of SWE-bench Verified, <a href="https://arxiv.org/abs/2606.16062" target="_blank" class="cite">28.5% of evaluated tasks had test suites weak enough</a> to accept Docker-verified patches that were demonstrably broken (Rajan). Conversely, <a href="https://openai.com/index/why-we-no-longer-evaluate-swe-bench-verified/" target="_blank" class="cite">OpenAI's benchmark audit</a> of 138 hard-fail problems revealed that 59.4% had flawed tests or ambiguous descriptions that rejected valid patches. Passing a test suite (<code>exit 0</code>) is a necessary mechanical signal, but not a complete oracle of correctness.
           </li>
           <li>
-            <strong>Same-Agent TDD Limitations:</strong> When an implementing agent writes its own test fixtures, it risks generating tautological assertions that mirror implementation bugs <a href="https://getautonoma.com/blog/ai-generated-tests-pass-but-dont-assert" target="_blank" class="cite">[Autonoma Report]</a>. In an exploratory evaluation on Fowler's site, Birgitta Böckeler observed that same-agent TDD loops yielded negligible mutation improvements because agents frequently skipped or faked the initial failing (red) step <a href="https://martinfowler.com/articles/exploring-gen-ai/tdd-in-the-agent-loop.html" target="_blank" class="cite">[Böckeler, martinfowler.com]</a>. Test fixtures must be independently authored in the planning plane and frozen prior to execution.
+            <strong>Same-Agent TDD Limitations:</strong> When an implementing agent writes its own test fixtures, it risks generating <a href="https://getautonoma.com/blog/ai-generated-tests-pass-but-dont-assert" target="_blank" class="cite">tautological assertions that pass without asserting (Autonoma)</a>. In an empirical evaluation on Martin Fowler's site, Birgitta Böckeler observed that <a href="https://martinfowler.com/articles/exploring-gen-ai/tdd-in-the-agent-loop.html" target="_blank" class="cite">same-agent TDD loops yielded negligible mutation improvements</a> because agents frequently skipped or simulated the initial failing (red) step. Test fixtures must be independently authored in the planning plane and frozen prior to execution.
           </li>
         </ul>
       </section>
@@ -601,7 +598,7 @@
       <section class="whitepaper-section">
         <h2>05. Sandboxed Egress Control & Mechanical Trust Rules</h2>
         <p>
-          Unrestricted outbound internet during agent execution allows data leakage and live API fallbacks that bypass mocks. <a href="https://docs.docker.com/ai/sandboxes/" target="_blank" class="cite">Docker Sandboxes (sbx)</a> run inside microVMs with host-side credential proxying—secrets are never injected into the agent environment. Evaluation environments must use locked-down egress policies (<a href="https://docs.docker.com/ai/sandboxes/security/defaults/" target="_blank" class="cite">Security Defaults &rarr;</a>).
+          Unrestricted outbound internet during agent execution allows data leakage and live API fallbacks that bypass mocks. <a href="https://docs.docker.com/ai/sandboxes/" target="_blank" class="cite">Docker Sandboxes (sbx)</a> run inside microVMs with host-side credential proxying—secrets are never injected into the agent environment. Evaluation environments must enforce <a href="https://docs.docker.com/ai/sandboxes/security/defaults/" target="_blank" class="cite">locked-down egress security defaults</a>.
         </p>
 
         <div class="code-container">
