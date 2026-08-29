@@ -65,9 +65,11 @@
         <span></span>
       </div>
       <div class="nav-links">
-        <a href="index.html">Back to Hub</a>
+        <a href="index.html">Home</a>
         <a href="projects.html">Projects</a>
         <a href="signals.html">Signals</a>
+        <a href="experiments.html">Experiments</a>
+        <a href="community.html">Community</a>
       </div>
     </nav>
 
@@ -82,34 +84,33 @@
         style="
           font-size: 1.2rem;
           color: var(--text-muted);
-          margin-bottom: 4rem;
           max-width: 800px;
+          margin-bottom: 4rem;
         "
       >
-        A technical deep-dive into CMOS architecture and methods for
+        A rigorous look at quantum efficiency, photon transfer curves, and
         characterizing sensor performance in a home laboratory setting.
       </p>
 
       <div class="whitepaper-section">
         <h2>1. The Architecture of Modern Capture</h2>
         <div
-          class="blueprint-box"
-          style="grid-template-columns: 1fr; margin-bottom: 2rem"
+          class="code-block"
+          style="margin-bottom: 2rem; background: #02060b;"
         >
-          <div style="text-align: center">
-            <img
-              src="assets/stacked-sensor.png"
-              alt="Stacked CMOS Architecture Diagram"
-              style="
-                max-width: 100%;
-                border-radius: 4px;
-                border: 1px solid var(--border-color);
-              "
-            />
-            <div class="figure-caption">
-              Fig 1.1: Schematic cross-section of a 3-layer Stacked CMOS sensor
-              with Cu-Cu interconnects.
-            </div>
+          <pre><code>+-------------------------------------------------------------------+
+|               BACK-ILLUMINATED (BSI) PIXEL ARRAY                 |
+|               - Micro-lenses & Color Filter Array (Bayer)         |
+|               - 100% Fill-Factor Silicon Photodiode Layer         |
++-------------------------------------------------------------------+
+                                  ||  (Cu-Cu Direct Bond Interconnects)
++-------------------------------------------------------------------+
+|               HIGH-SPEED DIGITAL LOGIC & ADC LAYER                |
+|               - Parallel Column-Parallel ADC Units                |
+|               - High-Speed MIPI CSI-2 Serialization Logic          |
++-------------------------------------------------------------------+</code></pre>
+          <div class="figure-caption">
+            Fig 1.1: Schematic cross-section of a 3-layer Stacked CMOS sensor with Cu-Cu interconnects.
           </div>
         </div>
         <p>
@@ -177,17 +178,19 @@
               </ul>
             </div>
             <div style="flex: 1; min-width: 300px">
-              <img
-                src="assets/ptc-graph.png"
-                alt="Photon Transfer Curve Graph"
-                style="
-                  max-width: 100%;
-                  border-radius: 4px;
-                  border: 1px solid var(--border-color);
-                "
-              />
-              <div class="figure-caption">
-                Fig 2.1: Idealized Photon Transfer Curve showing key regimes.
+              <div class="code-block" style="background: #02060b;">
+                <pre><code>Noise (Log σ)
+  ^
+  |        Shot Noise (Slope 1/2)
+  |              /--------\  Full Well
+  |             /          \ Saturation
+  |  ----------/
+  |  Read Noise Floor
+  +---------------------------------->
+  0                                Signal (Log S)</code></pre>
+                <div class="figure-caption">
+                  Fig 2.1: Idealized Photon Transfer Curve (PTC) log-log regimes.
+                </div>
               </div>
             </div>
           </div>
@@ -573,10 +576,10 @@
     </script>
 
     <footer>
-      <div>&copy; 2026 SuhLabs. All rights reserved.</div>
+      <div class="logo">SUH<span>LABS</span></div>
+      <p>| Sovereign Code | Defensive Security & Compliance Tooling |</p>
       <div class="disclaimer">
-        Sony is a trademark of Sony Corporation. Use of brand names is for
-        educational reference only.
+        Sony is a trademark of Sony Corporation. Reference to brand names is for educational/analytical reference only. SuhLabs publishes defensive research and compliance tooling. Recon and simulation work is for authorized environments only.
       </div>
     </footer>
     <script>

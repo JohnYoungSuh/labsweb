@@ -5,9 +5,15 @@
   --accent-pink: #eb34a2;
   --accent-blue: #00adff;
   --text-main: #ffffff;
+  --text-primary: #e2e8f0;
+  --text-secondary: #94a3b8;
   --text-muted: #a0aec0;
   --border-color: #1a365d;
 }
+
+.highlight-green { color: var(--accent-green); }
+.highlight-pink { color: var(--accent-pink); }
+.highlight-blue { color: var(--accent-blue); }
 
 body {
   background-color: var(--bg-primary);
@@ -195,6 +201,10 @@ footer {
 
 /* Mobile Responsive Styles */
 @media screen and (max-width: 768px) {
+  .blueprint-box {
+    grid-template-columns: 1fr;
+  }
+  
   .hamburger {
     display: flex;
   }

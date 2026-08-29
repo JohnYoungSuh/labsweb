@@ -12,26 +12,28 @@
     <style>
       .signal-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-        gap: 3rem;
-        margin-top: 3rem;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 2rem;
+        margin-top: 2.5rem;
       }
       .signal-card {
-        background: #000;
-        border: 1px solid #333;
+        background: var(--bg-secondary);
+        border: 1px solid var(--border-color);
+        border-radius: 4px;
         position: relative;
         overflow: hidden;
       }
       .signal-image-placeholder {
         width: 100%;
-        height: 250px;
-        background: radial-gradient(circle at center, #222 0%, #000 100%);
+        height: 200px;
+        background: radial-gradient(circle at center, #0c1724 0%, #040d16 100%);
         display: flex;
         align-items: center;
         justify-content: center;
-        color: #555;
+        color: var(--accent-blue);
         font-family: "Fira Code", monospace;
-        border-bottom: 1px solid #333;
+        font-size: 0.85rem;
+        border-bottom: 1px solid var(--border-color);
       }
       .signal-data {
         padding: 1.5rem;
@@ -43,8 +45,8 @@
         font-size: 0.8rem;
         color: var(--text-secondary);
         margin-bottom: 0.5rem;
-        border-bottom: 1px solid #222;
-        padding-bottom: 0.2rem;
+        border-bottom: 1px solid rgba(26, 54, 93, 0.4);
+        padding-bottom: 0.25rem;
       }
       .data-row span:last-child {
         color: var(--accent-green);
@@ -52,22 +54,24 @@
       .buy-config-btn {
         display: block;
         width: 100%;
+        box-sizing: border-box;
         margin-top: 1.5rem;
-        padding: 0.8rem;
-        border: 1px solid var(--accent-pink);
+        padding: 0.7rem;
+        border: 1px solid var(--accent-green);
         background: transparent;
-        color: var(--accent-pink);
+        color: var(--accent-green);
         font-family: "Fira Code", monospace;
         text-align: center;
-        text-transform: uppercase;
-        font-size: 0.85rem;
+        font-size: 0.8rem;
+        font-weight: 500;
         cursor: pointer;
         transition: all 0.2s;
         text-decoration: none;
+        border-radius: 4px;
       }
       .buy-config-btn:hover {
-        background: var(--accent-pink);
-        color: #000;
+        background: rgba(96, 171, 49, 0.15);
+        color: #ffffff;
       }
       .hero h1 {
         font-family: "Fira Code", monospace;
@@ -95,13 +99,13 @@
       </div>
     </nav>
 
-    <div class="container" style="padding-top: 3rem">
-      <header class="hero">
+    <div class="container" style="padding-top: 3rem; padding-bottom: 5rem;">
+      <header class="hero" style="min-height: auto; padding: 1.5rem 0 2.5rem 0;">
         <h1>// SENSOR_EXPERIMENTS</h1>
         <p>
-          Optical signal intercepts and raw sensor data.
-          <span style="color: var(--text-secondary)">
-            We reverse-engineer the physical layer to reconstruct privacy.
+          Optical signal intercepts and perception research.
+          <span style="color: var(--text-muted)">
+            Physical-layer hardware investigation into sensor metadata isolation. Research preview — not for commercial sale.
           </span>
         </p>
         <div style="margin-top: 1.5rem">
@@ -111,17 +115,17 @@
               display: inline-block;
               border: 1px solid var(--accent-green);
               color: var(--accent-green);
-              padding: 0.8rem 1.5rem;
+              padding: 0.7rem 1.2rem;
               text-decoration: none;
               font-family: 'Fira Code', monospace;
-              font-size: 0.9rem;
+              font-size: 0.85rem;
               border-radius: 4px;
               transition: all 0.2s;
             "
             onmouseover="this.style.background='rgba(96, 171, 49, 0.1)'"
             onmouseout="this.style.background='transparent'"
           >
-            > READ_SENSOR_ARCHITECTURE_WHITEPAPER
+            > READ_SENSOR_ARCHITECTURE_WHITEPAPER &rarr;
           </a>
         </div>
       </header>
@@ -133,8 +137,9 @@
           <div class="signal-data">
             <h3
               style="
-                color: #fff;
+                color: var(--text-main);
                 margin-bottom: 1rem;
+                font-size: 1.1rem;
                 font-family: 'Inter', sans-serif;
               "
             >
@@ -156,7 +161,7 @@
               <span>MATRIX</span>
               <span>CYBER_NOIR_BV3</span>
             </div>
-            <a href="#" class="buy-config-btn">Acquire Sensor Profile [$]</a>
+            <a href="sensor-whitepaper.html" class="buy-config-btn">Research Preview &mdash; View Specs &rarr;</a>
           </div>
         </div>
 
@@ -166,8 +171,9 @@
           <div class="signal-data">
             <h3
               style="
-                color: #fff;
+                color: var(--text-main);
                 margin-bottom: 1rem;
+                font-size: 1.1rem;
                 font-family: 'Inter', sans-serif;
               "
             >
@@ -189,7 +195,7 @@
               <span>LUT</span>
               <span>VOID_WALK_A</span>
             </div>
-            <a href="#" class="buy-config-btn">Acquire Sensor Profile [$]</a>
+            <a href="sensor-whitepaper.html" class="buy-config-btn">Research Preview &mdash; View Specs &rarr;</a>
           </div>
         </div>
 
@@ -199,8 +205,9 @@
           <div class="signal-data">
             <h3
               style="
-                color: #fff;
+                color: var(--text-main);
                 margin-bottom: 1rem;
+                font-size: 1.1rem;
                 font-family: 'Inter', sans-serif;
               "
             >
@@ -222,7 +229,7 @@
               <span>GRAIN</span>
               <span>FINE_STRUCTURE</span>
             </div>
-            <a href="#" class="buy-config-btn">Acquire Sensor Profile [$]</a>
+            <a href="sensor-whitepaper.html" class="buy-config-btn">Research Preview &mdash; View Specs &rarr;</a>
           </div>
         </div>
       </div>
@@ -230,7 +237,10 @@
 
     <footer>
       <div class="logo">SUH<span>LABS</span></div>
-      <p>| Optical Sovereignty |</p>
+      <p>| Sovereign Code | Defensive Security & Compliance Tooling |</p>
+      <div class="disclaimer">
+        SuhLabs publishes defensive research and compliance tooling. Recon and simulation work is for authorized environments only.
+      </div>
     </footer>
     <script>
       function toggleMenu() {

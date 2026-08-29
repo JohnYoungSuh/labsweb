@@ -13,54 +13,61 @@
       .project-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 2rem;
-        margin-top: 2rem;
+        gap: 1.5rem;
+        margin-top: 1.5rem;
       }
       .project-card {
-        background: rgba(10, 10, 10, 0.8);
+        background: var(--bg-secondary);
         border: 1px solid var(--border-color);
         padding: 1.5rem;
-        transition: transform 0.2s, border-color 0.2s;
-      }
-      .project-card:hover {
-        transform: translateY(-2px);
-        border-color: var(--accent-green);
+        border-radius: 4px;
+        position: relative;
       }
       .project-card h3 {
-        color: var(--text-primary);
+        margin-top: 0;
         font-family: "Fira Code", monospace;
         font-size: 1.1rem;
-        margin-bottom: 0.5rem;
+        color: var(--text-primary);
       }
       .project-card p {
+        color: var(--text-muted);
         font-size: 0.9rem;
-        color: var(--text-secondary);
-        margin-bottom: 1rem;
-        line-height: 1.4;
+        line-height: 1.5;
+        margin-bottom: 1.5rem;
       }
       .tag {
         display: inline-block;
-        font-size: 0.75rem;
-        padding: 0.2rem 0.5rem;
-        border: 1px solid var(--accent-blue);
-        color: var(--accent-blue);
+        border: 1px solid var(--accent-green);
+        color: var(--accent-green);
         font-family: "Fira Code", monospace;
-        margin-top: auto;
-      }
-      .tag.commercial {
-        border-color: var(--accent-pink);
-        color: var(--accent-pink);
+        font-size: 0.7rem;
+        padding: 0.2rem 0.5rem;
+        border-radius: 2px;
       }
       .section-header {
-        margin-top: 4rem;
-        margin-bottom: 2rem;
+        margin-top: 3.5rem;
+        margin-bottom: 1.5rem;
         border-bottom: 1px solid var(--border-color);
         padding-bottom: 0.5rem;
       }
       .section-header h2 {
         font-family: "Fira Code", monospace;
+        font-size: 1.2rem;
         color: var(--accent-green);
-        font-size: 1.5rem;
+        margin: 0;
+      }
+      .auth-notice-banner {
+        background: rgba(12, 23, 36, 0.95);
+        border: 1px solid var(--border-color);
+        border-left: 4px solid var(--accent-green);
+        padding: 1rem 1.5rem;
+        border-radius: 4px;
+        margin-top: 1.5rem;
+        margin-bottom: 2rem;
+        font-family: "Fira Code", monospace;
+        font-size: 0.85rem;
+        color: #d1d5db;
+        line-height: 1.6;
       }
     </style>
   </head>
@@ -88,12 +95,16 @@
     <div class="container" style="padding-top: 3rem">
       <header class="hero" style="min-height: auto; padding: 2rem 0">
         <h1>Project <span class="highlight-green">Matrix</span></h1>
-        <p>Active development streams and deployed commercial assets.</p>
+        <p>Active development streams, defensive compliance tooling, and deployed commercial assets.</p>
+        
+        <div class="auth-notice-banner">
+          <strong style="color: var(--accent-green)">// DEFENSIVE_RESEARCH_POLICY:</strong> SuhLabs publishes defensive research and compliance tooling. Recon and simulation work is for authorized environments only.
+        </div>
       </header>
 
       <div class="section-header" style="display: flex; justify-content: space-between; align-items: center;">
         <h2>// PUBLISHED_SPLUNKBASE_APPS</h2>
-        <a href="https://github.com/JohnYoungSuh" target="_blank" style="color: var(--accent-green); font-family: 'Fira Code', monospace; text-decoration: none; font-size: 0.85rem;">[VIEW_GITHUB_PROFILE &rarr;]</a>
+        <a href="https://github.com/JohnYoungSuh" target="_blank" rel="noopener noreferrer" style="color: var(--accent-green); font-family: 'Fira Code', monospace; text-decoration: none; font-size: 0.85rem;">[VIEW_GITHUB_PROFILE &rarr;]</a>
       </div>
       <div class="project-grid" style="grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); margin-bottom: 4rem;">
         <!-- Published App 1: Zero Trust Compliance -->
@@ -111,9 +122,9 @@
             <span class="tag" style="border-color: var(--accent-blue); color: var(--accent-blue);">DoD COA / NIST</span>
           </div>
           <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-            <a href="https://splunkbase.splunk.com/app/9582" target="_blank" style="display: inline-block; color: var(--accent-green); font-family: 'Fira Code', monospace; font-size: 0.8rem; border: 1px solid var(--accent-green); padding: 0.4rem 0.8rem; text-decoration: none; border-radius: 4px; transition: all 0.2s;" onmouseover="this.style.background='rgba(96, 171, 49, 0.1)'" onmouseout="this.style.background='transparent'">Splunkbase #9582 &rarr;</a>
-            <a href="zero-trust-whitepaper.html" style="display: inline-block; color: var(--text-main); font-family: 'Fira Code', monospace; font-size: 0.8rem; border: 1px solid var(--border-color); padding: 0.4rem 0.8rem; text-decoration: none; border-radius: 4px; transition: all 0.2s;" onmouseover="this.style.borderColor='var(--accent-green)'" onmouseout="this.style.borderColor='var(--border-color)'">Whitepaper &rarr;</a>
-            <a href="https://community.splunk.com/t5/Community-Blog/Rethinking-Zero-Trust-From-Product-Purchases-to-Logical-Control/ba-p/762651" target="_blank" style="display: inline-block; color: var(--accent-pink); font-family: 'Fira Code', monospace; font-size: 0.8rem; border: 1px solid var(--accent-pink); padding: 0.4rem 0.8rem; text-decoration: none; border-radius: 4px; transition: all 0.2s;" onmouseover="this.style.background='rgba(235, 52, 162, 0.1)'" onmouseout="this.style.background='transparent'">Community Blog &rarr;</a>
+            <a href="https://splunkbase.splunk.com/app/9582" target="_blank" rel="noopener noreferrer" style="display: inline-block; color: var(--accent-green); font-family: 'Fira Code', monospace; font-size: 0.8rem; border: 1px solid var(--accent-green); padding: 0.4rem 0.8rem; text-decoration: none; border-radius: 4px; transition: all 0.2s;">Splunkbase #9582 &rarr;</a>
+            <a href="zero-trust-whitepaper.html" style="display: inline-block; color: var(--text-main); font-family: 'Fira Code', monospace; font-size: 0.8rem; border: 1px solid var(--border-color); padding: 0.4rem 0.8rem; text-decoration: none; border-radius: 4px; transition: all 0.2s;">Whitepaper &rarr;</a>
+            <a href="https://community.splunk.com/t5/Community-Blog/Rethinking-Zero-Trust-From-Product-Purchases-to-Logical-Control/ba-p/762651" target="_blank" rel="noopener noreferrer" style="display: inline-block; color: var(--accent-pink); font-family: 'Fira Code', monospace; font-size: 0.8rem; border: 1px solid var(--accent-pink); padding: 0.4rem 0.8rem; text-decoration: none; border-radius: 4px; transition: all 0.2s;">Community Blog &rarr;</a>
           </div>
         </div>
 
@@ -132,8 +143,8 @@
             <span class="tag" style="border-color: var(--accent-pink); color: var(--accent-pink);">NIST 800-207</span>
           </div>
           <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-            <a href="https://github.com/JohnYoungSuh/AWS-DFD-Visualizer" target="_blank" style="display: inline-block; color: var(--text-main); font-family: 'Fira Code', monospace; font-size: 0.8rem; border: 1px solid var(--border-color); padding: 0.4rem 0.8rem; text-decoration: none; border-radius: 4px; transition: all 0.2s;" onmouseover="this.style.borderColor='var(--accent-blue)'" onmouseout="this.style.borderColor='var(--border-color)'">View on GitHub &rarr;</a>
-            <a href="https://splunkbase.splunk.com/app/8628" target="_blank" style="display: inline-block; color: var(--accent-blue); font-family: 'Fira Code', monospace; font-size: 0.8rem; border: 1px solid var(--accent-blue); padding: 0.4rem 0.8rem; text-decoration: none; border-radius: 4px; transition: all 0.2s;" onmouseover="this.style.background='rgba(0, 173, 255, 0.1)'" onmouseout="this.style.background='transparent'">Splunkbase #8628 &rarr;</a>
+            <a href="https://github.com/JohnYoungSuh/AWS-DFD-Visualizer" target="_blank" rel="noopener noreferrer" style="display: inline-block; color: var(--text-main); font-family: 'Fira Code', monospace; font-size: 0.8rem; border: 1px solid var(--border-color); padding: 0.4rem 0.8rem; text-decoration: none; border-radius: 4px; transition: all 0.2s;">View on GitHub &rarr;</a>
+            <a href="https://splunkbase.splunk.com/app/8628" target="_blank" rel="noopener noreferrer" style="display: inline-block; color: var(--accent-blue); font-family: 'Fira Code', monospace; font-size: 0.8rem; border: 1px solid var(--accent-blue); padding: 0.4rem 0.8rem; text-decoration: none; border-radius: 4px; transition: all 0.2s;">Splunkbase #8628 &rarr;</a>
           </div>
         </div>
 
@@ -152,8 +163,8 @@
             <span class="tag" style="border-color: var(--accent-blue); color: var(--accent-blue);">eMASS / RMF</span>
           </div>
           <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-            <a href="https://github.com/JohnYoungSuh/TA-suhlabs-eMASS" target="_blank" style="display: inline-block; color: var(--text-main); font-family: 'Fira Code', monospace; font-size: 0.8rem; border: 1px solid var(--border-color); padding: 0.4rem 0.8rem; text-decoration: none; border-radius: 4px; transition: all 0.2s;" onmouseover="this.style.borderColor='var(--accent-pink)'" onmouseout="this.style.borderColor='var(--border-color)'">View on GitHub &rarr;</a>
-            <a href="https://splunkbase.splunk.com/app/8253" target="_blank" style="display: inline-block; color: var(--accent-pink); font-family: 'Fira Code', monospace; font-size: 0.8rem; border: 1px solid var(--accent-pink); padding: 0.4rem 0.8rem; text-decoration: none; border-radius: 4px; transition: all 0.2s;" onmouseover="this.style.background='rgba(235, 52, 162, 0.1)'" onmouseout="this.style.background='transparent'">Splunkbase #8253 &rarr;</a>
+            <a href="https://github.com/JohnYoungSuh/TA-suhlabs-eMASS" target="_blank" rel="noopener noreferrer" style="display: inline-block; color: var(--text-main); font-family: 'Fira Code', monospace; font-size: 0.8rem; border: 1px solid var(--border-color); padding: 0.4rem 0.8rem; text-decoration: none; border-radius: 4px; transition: all 0.2s;">View on GitHub &rarr;</a>
+            <a href="https://splunkbase.splunk.com/app/8253" target="_blank" rel="noopener noreferrer" style="display: inline-block; color: var(--accent-pink); font-family: 'Fira Code', monospace; font-size: 0.8rem; border: 1px solid var(--accent-pink); padding: 0.4rem 0.8rem; text-decoration: none; border-radius: 4px; transition: all 0.2s;">Splunkbase #8253 &rarr;</a>
           </div>
         </div>
       </div>
@@ -163,14 +174,14 @@
       </div>
       <div class="project-grid">
         <div class="project-card" style="border-left: 4px solid var(--accent-pink);">
-          <h3><a href="https://www.popshoney-dohelp.com" target="_blank" style="color: var(--accent-pink); text-decoration: none;">popshoney-dohelp.com &rarr;</a></h3>
+          <h3><a href="https://www.popshoney-dohelp.com" target="_blank" rel="noopener noreferrer" style="color: var(--accent-pink); text-decoration: none;">popshoney-dohelp.com &rarr;</a></h3>
           <p style="font-size: 0.9rem; line-height: 1.6; color: var(--text-muted); margin-bottom: 1.2rem;">
             Commercial web presence for handyman services. Focus on SEO
             dominance and mobile-first conversions.
           </p>
           <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-            <a href="https://www.popshoney-dohelp.com" target="_blank" style="display: inline-block; color: var(--accent-pink); font-family: 'Fira Code', monospace; font-size: 0.8rem; border: 1px solid var(--accent-pink); padding: 0.4rem 0.8rem; text-decoration: none; border-radius: 4px; transition: all 0.2s;" onmouseover="this.style.background='rgba(235, 52, 162, 0.1)'" onmouseout="this.style.background='transparent'">Visit Live Site &rarr;</a>
-            <a href="https://github.com/JohnYoungSuh/popshoney-dohelp.com" target="_blank" style="display: inline-block; color: var(--text-main); font-family: 'Fira Code', monospace; font-size: 0.8rem; border: 1px solid var(--border-color); padding: 0.4rem 0.8rem; text-decoration: none; border-radius: 4px; transition: all 0.2s;" onmouseover="this.style.borderColor='var(--accent-pink)'" onmouseout="this.style.borderColor='var(--border-color)'">View on GitHub &rarr;</a>
+            <a href="https://www.popshoney-dohelp.com" target="_blank" rel="noopener noreferrer" style="display: inline-block; color: var(--accent-pink); font-family: 'Fira Code', monospace; font-size: 0.8rem; border: 1px solid var(--accent-pink); padding: 0.4rem 0.8rem; text-decoration: none; border-radius: 4px; transition: all 0.2s;">Visit Live Site &rarr;</a>
+            <a href="https://github.com/JohnYoungSuh/popshoney-dohelp.com" target="_blank" rel="noopener noreferrer" style="display: inline-block; color: var(--text-main); font-family: 'Fira Code', monospace; font-size: 0.8rem; border: 1px solid var(--border-color); padding: 0.4rem 0.8rem; text-decoration: none; border-radius: 4px; transition: all 0.2s;">View on GitHub &rarr;</a>
           </div>
         </div>
       </div>
@@ -180,7 +191,7 @@
       </div>
       <div class="project-grid">
         <div class="project-card">
-          <h3><a href="https://github.com/JohnYoungSuh/splunk-mcp-server2" target="_blank" style="color: inherit; text-decoration: none;">splunk-mcp-server2 &rarr;</a></h3>
+          <h3><a href="https://github.com/JohnYoungSuh/splunk-mcp-server2" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">splunk-mcp-server2 &rarr;</a></h3>
           <p>
             Model Context Protocol (MCP) server enabling agentic LLM workflows to search, query, and synthesize Splunk SIEM data with SPL guardrails.
           </p>
@@ -194,11 +205,11 @@
           </p>
           <div style="display: flex; gap: 0.4rem; flex-wrap: wrap;">
             <a href="multi-agent-pipelines-whitepaper.html" style="text-decoration: none;"><span class="tag" style="border-color: var(--accent-green); color: var(--accent-green);">PIPELINES_WHITEPAPER</span></a>
-            <a href="https://github.com/JohnYoungSuh/ai-agent-governance-framework" target="_blank" style="text-decoration: none;"><span class="tag">GOVERNANCE</span></a>
+            <a href="https://github.com/JohnYoungSuh/ai-agent-governance-framework" target="_blank" rel="noopener noreferrer" style="text-decoration: none;"><span class="tag">GOVERNANCE</span></a>
           </div>
         </div>
         <div class="project-card">
-          <h3><a href="https://github.com/JohnYoungSuh/suhlabs" target="_blank" style="color: inherit; text-decoration: none;">aiops-substrate &rarr;</a></h3>
+          <h3><a href="https://github.com/JohnYoungSuh/suhlabs" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">aiops-substrate &rarr;</a></h3>
           <p>Foundational operational layer for AI workload management.</p>
           <span class="tag">INFRASTRUCTURE</span>
         </div>
@@ -209,16 +220,16 @@
           </p>
           <div style="display: flex; gap: 0.4rem; flex-wrap: wrap;">
             <a href="zero-trust-whitepaper.html" style="text-decoration: none;"><span class="tag">ZERO_TRUST_WHITEPAPER</span></a>
-            <a href="https://community.splunk.com/t5/Community-Blog/Rethinking-Zero-Trust-From-Product-Purchases-to-Logical-Control/ba-p/762651" target="_blank" style="text-decoration: none;"><span class="tag" style="border-color: var(--accent-pink); color: var(--accent-pink);">SPLUNK_COMMUNITY_BLOG</span></a>
+            <a href="https://community.splunk.com/t5/Community-Blog/Rethinking-Zero-Trust-From-Product-Purchases-to-Logical-Control/ba-p/762651" target="_blank" rel="noopener noreferrer" style="text-decoration: none;"><span class="tag" style="border-color: var(--accent-pink); color: var(--accent-pink);">SPLUNK_COMMUNITY_BLOG</span></a>
           </div>
         </div>
         <div class="project-card">
-          <h3><a href="https://github.com/JohnYoungSuh/okta-recon-generator" target="_blank" style="color: inherit; text-decoration: none;">okta-recon-generator &rarr;</a></h3>
-          <p>Security tooling for identity provider reconnaissance.</p>
-          <span class="tag">SECURITY</span>
+          <h3><a href="https://github.com/JohnYoungSuh/okta-recon-generator" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">okta-recon-generator &rarr;</a></h3>
+          <p>Defensive identity-provider reconnaissance for authorized assessments (a tenant you own or have written permission to test). Not for unauthorized access.</p>
+          <span class="tag">DEFENSIVE_RECON</span>
         </div>
         <div class="project-card">
-          <h3><a href="https://github.com/JohnYoungSuh/Cloud-AIDevSecOps-Templates" target="_blank" style="color: inherit; text-decoration: none;">ml-antipatterns &rarr;</a></h3>
+          <h3><a href="https://github.com/JohnYoungSuh/Cloud-AIDevSecOps-Templates" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">ml-antipatterns &rarr;</a></h3>
           <p>
             Research documentation on common failures in machine learning
             deployments.
@@ -226,17 +237,17 @@
           <span class="tag">RESEARCH</span>
         </div>
         <div class="project-card">
-          <h3><a href="https://github.com/JohnYoungSuh/purple-apt-cicd-recon" target="_blank" style="color: inherit; text-decoration: none;">purple-apt-cicd-recon &rarr;</a></h3>
-          <p>Advanced persistent threat simulation for CI/CD pipelines.</p>
-          <span class="tag">SECURITY</span>
+          <h3><a href="https://github.com/JohnYoungSuh/purple-apt-cicd-recon" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">purple-apt-cicd-recon &rarr;</a></h3>
+          <p>Purple-team CI/CD attack-path simulation for labs and authorized programs. Detection engineering, not an exploit kit.</p>
+          <span class="tag">PURPLE_TEAM</span>
         </div>
         <div class="project-card">
-          <h3><a href="https://github.com/JohnYoungSuh/suhlabs" target="_blank" style="color: inherit; text-decoration: none;">home-cluster-devsecops &rarr;</a></h3>
+          <h3><a href="https://github.com/JohnYoungSuh/suhlabs" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">home-cluster-devsecops &rarr;</a></h3>
           <p>Private cloud architecture for secure home lab environments.</p>
           <span class="tag">INFRASTRUCTURE</span>
         </div>
         <div class="project-card">
-          <h3><a href="https://github.com/JohnYoungSuh/suhlabs" target="_blank" style="color: inherit; text-decoration: none;">suhlabs-infr-ai-poc &rarr;</a></h3>
+          <h3><a href="https://github.com/JohnYoungSuh/suhlabs" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">suhlabs-infr-ai-poc &rarr;</a></h3>
           <p>Proof of concept for infrastructure-aware AI models.</p>
           <span class="tag">AI_OPS</span>
         </div>
@@ -247,12 +258,12 @@
       </div>
       <div class="project-grid">
         <div class="project-card">
-          <h3><a href="https://github.com/JohnYoungSuh/TA-suhlabs-eMASS" target="_blank" style="color: inherit; text-decoration: none;">apidog-emass-yaml &rarr;</a></h3>
+          <h3><a href="https://github.com/JohnYoungSuh/TA-suhlabs-eMASS" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">apidog-emass-yaml &rarr;</a></h3>
           <p>Configuration translation tools for compliance automation.</p>
           <span class="tag">COMPLIANCE</span>
         </div>
         <div class="project-card">
-          <h3><a href="https://github.com/JohnYoungSuh/TA-asset-identity-framework" target="_blank" style="color: inherit; text-decoration: none;">TA-asset-identity-framework &rarr;</a></h3>
+          <h3><a href="https://github.com/JohnYoungSuh/TA-asset-identity-framework" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">TA-asset-identity-framework &rarr;</a></h3>
           <p>Splunk Technology Add-on for asset identification.</p>
           <span class="tag">SPLUNK_TA</span>
         </div>
@@ -261,7 +272,10 @@
 
     <footer>
       <div class="logo">SUH<span>LABS</span></div>
-      <p>| Sovereign Code |</p>
+      <p>| Sovereign Code | Defensive Security & Compliance Tooling |</p>
+      <div class="disclaimer">
+        SuhLabs publishes defensive research and compliance tooling. Recon and simulation work is for authorized environments only.
+      </div>
     </footer>
     <script>
       function toggleMenu() {

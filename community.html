@@ -2,8 +2,54 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SuhLabs | Community Exchange</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Fira+Code:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="styles.css" />
+    <style>
+      .channel-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 1.5rem;
+        margin-top: 2rem;
+      }
+      .channel-card {
+        background: var(--bg-secondary);
+        border: 1px solid var(--border-color);
+        padding: 1.75rem;
+        border-radius: 6px;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+      .channel-card h3 {
+        margin-top: 0;
+        font-family: "Fira Code", monospace;
+        font-size: 1.15rem;
+        color: var(--text-main);
+      }
+      .channel-card p {
+        color: var(--text-muted);
+        font-size: 0.9rem;
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+      }
+      .channel-btn {
+        display: inline-block;
+        font-family: "Fira Code", monospace;
+        font-size: 0.85rem;
+        font-weight: 600;
+        text-decoration: none;
+        padding: 0.6rem 1.1rem;
+        border-radius: 4px;
+        text-align: center;
+        transition: all 0.2s;
+      }
+    </style>
   </head>
   <body>
     <nav>
@@ -18,33 +64,105 @@
         <span></span>
       </div>
       <div class="nav-links">
-        <a href="index.html">Back to Hub</a>
+        <a href="index.html">Home</a>
         <a href="projects.html">Projects</a>
         <a href="signals.html">Signals</a>
+        <a href="experiments.html">Experiments</a>
+        <a href="community.html" class="active">Community</a>
       </div>
     </nav>
 
-    <div class="container" style="padding-top: 5rem">
-      <h2 style="margin-bottom: 2rem">Community Intelligence Feed</h2>
-      <div class="forum-container">
-        <div class="forum-item">
-          <h4>[DIY] Setting up the V1 Shield on Raspberry Pi</h4>
-          <p>Started by @Maker_John • 12 replies</p>
+    <div class="container" style="padding-top: 4rem; padding-bottom: 5rem;">
+      <header class="hero" style="min-height: auto; padding: 1.5rem 0 2.5rem 0">
+        <span class="label" style="color: var(--accent-green)">Community & Peer Review</span>
+        <h1 style="font-size: 2.5rem; margin-top: 0.5rem;">
+          Open Research & <span class="highlight-green">Co-Creation</span>
+        </h1>
+        <p style="max-width: 800px; color: var(--text-muted); line-height: 1.6;">
+          SuhLabs builds open-source compliance and defensive tools in the open. Engage with active research threads across public community blogs, GitHub repositories, and direct peer review.
+        </p>
+      </header>
+
+      <div class="channel-grid">
+        <!-- Splunk Community Discussions -->
+        <div class="channel-card" style="border-left: 4px solid var(--accent-pink);">
+          <div>
+            <div style="font-family: 'Fira Code', monospace; color: var(--accent-pink); font-size: 0.75rem; text-transform: uppercase; margin-bottom: 0.5rem;">
+              // ACTIVE_DISCUSSION
+            </div>
+            <h3>Splunk Community Blog</h3>
+            <p>
+              Join the live discussion on <em>"Rethinking Zero Trust: From Product Purchases to Logical Control Evidence"</em>. Share feedback on DoD COA execution roadmaps and automated evidence ingestion.
+            </p>
+          </div>
+          <a
+            href="https://community.splunk.com/t5/Community-Blog/Rethinking-Zero-Trust-From-Product-Purchases-to-Logical-Control/ba-p/762651"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="channel-btn"
+            style="background: var(--accent-pink); color: #000;"
+          >
+            Join Discussion on Splunk &rarr;
+          </a>
         </div>
-        <div class="forum-item">
-          <h4>[SEC] Reviewing the AGT Kernel Whitepaper</h4>
-          <p>Started by @Principal_Suh • 45 replies</p>
+
+        <!-- GitHub Discussions & Repos -->
+        <div class="channel-card" style="border-left: 4px solid var(--accent-green);">
+          <div>
+            <div style="font-family: 'Fira Code', monospace; color: var(--accent-green); font-size: 0.75rem; text-transform: uppercase; margin-bottom: 0.5rem;">
+              // OPEN_SOURCE_ISSUES
+            </div>
+            <h3>GitHub Open Source</h3>
+            <p>
+              Submit feedback, bug reports, and pull requests for our public tooling (Zero Trust Compliance, AWS-DFD-Visualizer, TA-suhlabs-eMASS, and MCP Servers).
+            </p>
+          </div>
+          <a
+            href="https://github.com/JohnYoungSuh"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="channel-btn"
+            style="border: 1px solid var(--accent-green); color: var(--accent-green);"
+          >
+            Browse Repositories &rarr;
+          </a>
         </div>
-        <div
-          class="forum-item"
-          style="border: 2px dashed var(--accent-blue); text-align: center"
-        >
-          <p style="color: var(--accent-blue); font-weight: bold">
-            + Submit Your Experiment for Peer Review
-          </p>
+
+        <!-- Direct Peer Review -->
+        <div class="channel-card" style="border-left: 4px solid var(--accent-blue);">
+          <div>
+            <div style="font-family: 'Fira Code', monospace; color: var(--accent-blue); font-size: 0.75rem; text-transform: uppercase; margin-bottom: 0.5rem;">
+              // COLLABORATION
+            </div>
+            <h3>Peer Review & Inquiries</h3>
+            <p>
+              Collaborate on Zero Trust architectures, AI agent mechanical control planes, or optical sensor research. Contact the lab directly for peer review.
+            </p>
+          </div>
+          <a
+            href="mailto:contact@suhlabs.com"
+            class="channel-btn"
+            style="border: 1px solid var(--accent-blue); color: var(--accent-blue);"
+          >
+            Email Lab &rarr;
+          </a>
+        </div>
+      </div>
+
+      <div style="margin-top: 3.5rem; background: rgba(12, 23, 36, 0.95); border: 1px dashed var(--border-color); padding: 1.75rem; border-radius: 6px; text-align: center;">
+        <div style="font-family: 'Fira Code', monospace; color: var(--text-muted); font-size: 0.85rem;">
+          // ON-PREM_FORUM_STATUS: Dedicated self-hosted community board is in development. In the interim, all open-source co-creation occurs via GitHub and Splunk Community channels.
         </div>
       </div>
     </div>
+
+    <footer>
+      <div class="logo">SUH<span>LABS</span></div>
+      <p>| Sovereign Code | Defensive Security & Compliance Tooling |</p>
+      <div class="disclaimer">
+        SuhLabs publishes defensive research and compliance tooling. Recon and simulation work is for authorized environments only.
+      </div>
+    </footer>
     <script>
       function toggleMenu() {
         const nav = document.querySelector(".nav-links");
