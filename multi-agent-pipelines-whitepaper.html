@@ -127,11 +127,22 @@
         color: var(--text-main);
       }
 
+      /* In-text Citation Links */
       .cite {
         color: var(--accent-blue);
         font-family: "Fira Code", monospace;
-        font-size: 0.78rem;
+        font-size: 0.8rem;
         font-weight: 500;
+        text-decoration: none;
+        border-bottom: 1px dotted var(--accent-blue);
+        transition: all 0.2s ease;
+        padding: 0 2px;
+      }
+      .cite:hover {
+        color: #ffffff;
+        background: rgba(0, 173, 255, 0.2);
+        border-bottom-style: solid;
+        border-radius: 2px;
       }
 
       /* Dark Mode Interactive Data Tables */
@@ -174,6 +185,16 @@
       }
       .wp-table strong {
         color: var(--text-main);
+      }
+      .wp-table a {
+        color: var(--accent-blue);
+        text-decoration: none;
+        font-family: "Fira Code", monospace;
+        font-size: 0.82rem;
+      }
+      .wp-table a:hover {
+        text-decoration: underline;
+        color: #ffffff;
       }
 
       .badge-pill {
@@ -244,21 +265,38 @@
 
       /* References styling */
       .sources-container {
-        background: rgba(12, 23, 36, 0.7);
+        background: rgba(12, 23, 36, 0.85);
         border: 1px solid var(--border-color);
-        padding: 1.5rem;
+        padding: 2rem;
         border-radius: 6px;
+        margin-top: 1rem;
+      }
+      .sources-category {
+        font-family: "Fira Code", monospace;
+        color: var(--accent-green);
+        font-size: 0.9rem;
+        font-weight: 600;
+        margin-top: 1.5rem;
+        margin-bottom: 0.8rem;
+        padding-bottom: 0.3rem;
+        border-bottom: 1px solid rgba(26, 54, 93, 0.6);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .sources-category:first-of-type {
+        margin-top: 0;
       }
       .sources-list {
         list-style: none;
         padding-left: 0;
-        margin: 0;
+        margin: 0 0 1.5rem 0;
       }
       .sources-list li {
         color: var(--text-muted);
-        font-size: 0.82rem;
-        line-height: 1.6;
-        margin-bottom: 0.75rem;
+        font-size: 0.85rem;
+        line-height: 1.65;
+        margin-bottom: 0.85rem;
         padding-left: 1.2rem;
         position: relative;
       }
@@ -274,7 +312,47 @@
       .sources-list strong {
         color: #93c5fd;
         font-family: "Fira Code", monospace;
-        font-size: 0.8rem;
+        font-size: 0.82rem;
+      }
+      .source-links {
+        display: inline-flex;
+        gap: 0.4rem;
+        margin-left: 0.5rem;
+        vertical-align: middle;
+      }
+      .source-badge {
+        display: inline-block;
+        font-family: "Fira Code", monospace;
+        font-size: 0.7rem;
+        padding: 0.15rem 0.45rem;
+        border-radius: 3px;
+        text-decoration: none;
+        border: 1px solid var(--accent-blue);
+        color: var(--accent-blue);
+        background: rgba(0, 173, 255, 0.1);
+        transition: all 0.2s ease;
+      }
+      .source-badge:hover {
+        background: var(--accent-blue);
+        color: #000000;
+      }
+      .source-badge.pdf {
+        border-color: var(--accent-pink);
+        color: var(--accent-pink);
+        background: rgba(235, 52, 162, 0.1);
+      }
+      .source-badge.pdf:hover {
+        background: var(--accent-pink);
+        color: #000000;
+      }
+      .source-badge.green {
+        border-color: var(--accent-green);
+        color: var(--accent-green);
+        background: rgba(96, 171, 49, 0.1);
+      }
+      .source-badge.green:hover {
+        background: var(--accent-green);
+        color: #000000;
       }
 
       /* Print Styles for PDF Export */
@@ -364,13 +442,13 @@
         </p>
         <ul class="content-list">
           <li>
-            <strong>Probabilistic Suggestions vs. Deterministic Gates:</strong> As context windows expand, model retrieval degrades across the middle of the context <span class="cite">[Liu et al., arXiv:2307.03172]</span>. Furthermore, system/user role separation does not provide a robust instruction hierarchy: models routinely deprioritize privileged directives under formatting conflicts or social framing <span class="cite">[Geng et al., arXiv:2502.15851]</span>. When an un-gated agent modifies an interface, it emits fluent rationalizations ("the mock required an extra parameter"). A compiler or schema validator does not negotiate—it yields a deterministic <code>exit 1</code>.
+            <strong>Probabilistic Suggestions vs. Deterministic Gates:</strong> As context windows expand, model retrieval degrades across the middle of the context <a href="https://arxiv.org/abs/2307.03172" target="_blank" class="cite">[Liu et al., arXiv:2307.03172]</a>. Furthermore, system/user role separation does not provide a robust instruction hierarchy: models routinely deprioritize privileged directives under formatting conflicts or social framing <a href="https://arxiv.org/abs/2502.15851" target="_blank" class="cite">[Geng et al., arXiv:2502.15851]</a>. When an un-gated agent modifies an interface, it emits fluent rationalizations ("the mock required an extra parameter"). A compiler or schema validator does not negotiate—it yields a deterministic <code>exit 1</code>.
           </li>
           <li>
-            <strong>Physical State Isolation Cannot Be Prompted:</strong> Prompts cannot serialize multiple writers on a single inode. Git worktrees or remote VMs provide physical workspace isolation, preventing agents from clobbering each other's active trees mid-run. However, isolation only defers conflict resolution: STORM shows that physical isolation does not eliminate semantic merge conflicts across decoupled modules <span class="cite">[Liu et al., arXiv:2605.20563]</span>. Runtime contamination (mutating shared test databases or hitting live third-party endpoints) requires microVM boundaries with host-side proxying, not prompt rules. Shared mutable state degrades system integrity regardless of prompt quality—e.g., Bhaumik's production case where a stale 500ms cache read caused ~20% erroneous risk decisions across well-prompted agents <span class="cite">[Bhaumik, AI Engineer]</span>.
+            <strong>Physical State Isolation Cannot Be Prompted:</strong> Prompts cannot serialize multiple writers on a single inode. Git worktrees or remote VMs provide physical workspace isolation, preventing agents from clobbering each other's active trees mid-run. However, isolation only defers conflict resolution: STORM shows that physical isolation does not eliminate semantic merge conflicts across decoupled modules <a href="https://arxiv.org/abs/2605.20563" target="_blank" class="cite">[Liu et al., arXiv:2605.20563]</a>. Runtime contamination (mutating shared test databases or hitting live third-party endpoints) requires microVM boundaries with host-side proxying, not prompt rules. Shared mutable state degrades system integrity regardless of prompt quality—e.g., Bhaumik's production case where a stale 500ms cache read caused ~20% erroneous risk decisions across well-prompted agents <a href="https://ai.engineer/talks/from-chaos-to-choreography-multi-agent-orchestration-patterns-that-actually-work-sandipan-bhaumi" target="_blank" class="cite">[Bhaumik, AI Engineer]</a>.
           </li>
           <li>
-            <strong>The Context Pollution Tax:</strong> Accumulating past post-mortems and negative rules inside an agent's prompt bloats token overhead, increases latency, and shifts critical constraints into the low-attention center of the context window. While unconstrained broadcast topologies can raise hallucination rates in some domains (such as travel planning: HR 0.658 vs 0.492) <span class="cite">[Zhang et al., arXiv:2606.21666]</span>, structured protocols cut coordination failures <span class="cite">[Mao et al., arXiv:2510.12120]</span>. Mechanical orchestration keeps prompts lean (spec in, code out), delegating enforcement to external gates.
+            <strong>The Context Pollution Tax:</strong> Accumulating past post-mortems and negative rules inside an agent's prompt bloats token overhead, increases latency, and shifts critical constraints into the low-attention center of the context window. While unconstrained broadcast topologies can raise hallucination rates in some domains (such as travel planning: HR 0.658 vs 0.492) <a href="https://arxiv.org/abs/2606.21666" target="_blank" class="cite">[Zhang et al., arXiv:2606.21666]</a>, structured protocols cut coordination failures <a href="https://arxiv.org/abs/2510.12120" target="_blank" class="cite">[Mao et al., arXiv:2510.12120]</a>. Mechanical orchestration keeps prompts lean (spec in, code out), delegating enforcement to external gates.
           </li>
         </ul>
 
@@ -404,13 +482,13 @@
         <h2>02. Documented Empirical Failure Modes</h2>
         <ul class="content-list pink">
           <li>
-            <strong>Semantic Intent Divergence (SID):</strong> Architect agents reason over abstract interfaces, while implementer agents reason across local token buffers, leading to diverging assumptions <span class="cite">[Acharya, arXiv:2604.16339; Baker, CodeCtx]</span>. Worktrees prevent file overwrites, but semantic merge recovery remains complex <span class="cite">[Liu et al., arXiv:2605.20563]</span>.
+            <strong>Semantic Intent Divergence (SID):</strong> Architect agents reason over abstract interfaces, while implementer agents reason across local token buffers, leading to diverging assumptions <a href="https://arxiv.org/abs/2604.16339" target="_blank" class="cite">[Acharya, arXiv:2604.16339]</a>; <a href="https://rybkr.com/papers/context-synchronization-for-multi-agent-workflows.pdf" target="_blank" class="cite">[Baker, CodeCtx]</a>. Worktrees prevent file overwrites, but semantic merge recovery remains complex <a href="https://arxiv.org/abs/2605.20563" target="_blank" class="cite">[Liu et al., arXiv:2605.20563]</a>.
           </li>
           <li>
-            <strong>Reward Hacking & Test False Positives:</strong> In a 49-task sample audit of SWE-bench Verified, 28.5% (14/49) of evaluated tasks had test suites weak enough to accept Docker-verified patches that were demonstrably broken <span class="cite">[Rajan, arXiv:2606.16062]</span>. Conversely, OpenAI audited 138 hard-fail problems (27.6% of the benchmark) and found 59.4% had flawed tests or descriptions that rejected valid patches <span class="cite">[OpenAI, 2026]</span>. Passing a test suite (<code>exit 0</code>) is a necessary mechanical signal, but not a complete oracle of correctness.
+            <strong>Reward Hacking & Test False Positives:</strong> In a 49-task sample audit of SWE-bench Verified, 28.5% (14/49) of evaluated tasks had test suites weak enough to accept Docker-verified patches that were demonstrably broken <a href="https://arxiv.org/abs/2606.16062" target="_blank" class="cite">[Rajan, arXiv:2606.16062]</a>. Conversely, OpenAI audited 138 hard-fail problems (27.6% of the benchmark) and found 59.4% had flawed tests or descriptions that rejected valid patches <a href="https://openai.com/index/why-we-no-longer-evaluate-swe-bench-verified/" target="_blank" class="cite">[OpenAI, 2026]</a>. Passing a test suite (<code>exit 0</code>) is a necessary mechanical signal, but not a complete oracle of correctness.
           </li>
           <li>
-            <strong>Same-Agent TDD Limitations:</strong> When an implementing agent writes its own test fixtures, it risks generating tautological assertions that mirror implementation bugs <span class="cite">[Autonoma practitioner report]</span>. In an exploratory evaluation on Fowler's site, Birgitta Böckeler observed that same-agent TDD loops yielded negligible mutation improvements because agents frequently skipped or faked the initial failing (red) step. Test fixtures must be independently authored in the planning plane and frozen prior to execution.
+            <strong>Same-Agent TDD Limitations:</strong> When an implementing agent writes its own test fixtures, it risks generating tautological assertions that mirror implementation bugs <a href="https://getautonoma.com/blog/ai-generated-tests-pass-but-dont-assert" target="_blank" class="cite">[Autonoma Report]</a>. In an exploratory evaluation on Fowler's site, Birgitta Böckeler observed that same-agent TDD loops yielded negligible mutation improvements because agents frequently skipped or faked the initial failing (red) step <a href="https://martinfowler.com/articles/exploring-gen-ai/tdd-in-the-agent-loop.html" target="_blank" class="cite">[Böckeler, martinfowler.com]</a>. Test fixtures must be independently authored in the planning plane and frozen prior to execution.
           </li>
         </ul>
       </section>
@@ -436,23 +514,28 @@
               <tr>
                 <td><span class="badge-pill b-plan">Planning</span></td>
                 <td>Specs, frozen TDD fixtures, human gates.</td>
-                <td><strong>Google Antigravity SDK:</strong> Structured JSON/Pydantic output, sub-agents, and command execution denial by default (<code>confirm_run_command()</code>).</td>
+                <td>
+                  <strong><a href="https://antigravity.google/blog/introducing-google-antigravity-sdk" target="_blank">Google Antigravity SDK &rarr;</a></strong>: Structured JSON/Pydantic output, sub-agents, and command execution denial by default (<code>confirm_run_command()</code>).
+                </td>
                 <td>Antigravity is not a spec compiler. Other labs bundle code and tests together; pipeline policy must enforce TDD role separation.</td>
               </tr>
               <tr>
                 <td><span class="badge-pill b-exec">Execution</span></td>
                 <td>Isolated implementation against frozen tests.</td>
                 <td>
-                  • <strong>Cursor 2.0 Local:</strong> Up to 8 parallel agents via Git worktrees or remote machines.<br/>
-                  • <strong>Cursor Cloud Agents:</strong> Dedicated Firecracker microVMs.<br/>
-                  • <strong>macOS 2.0 Terminals:</strong> Sandboxed workspace access, no internet by default.
+                  • <strong><a href="https://cursor.com/changelog/2-0" target="_blank">Cursor 2.0 Local &rarr;</a></strong>: Up to 8 parallel agents via Git worktrees or remote machines.<br/>
+                  • <strong><a href="https://cursor.com/docs/cloud-agent/security" target="_blank">Cursor Cloud Agents &rarr;</a></strong>: Dedicated Firecracker microVMs.<br/>
+                  • <strong><a href="https://cursor.com/docs/cloud-agent/security-network" target="_blank">Network Modes &rarr;</a></strong>: Sandboxed workspace access, no internet by default.
                 </td>
                 <td>Cloud Agents have outbound internet enabled by default; they are not an AST editor and are not air-gapped unless egress policies are explicitly applied.</td>
               </tr>
               <tr>
                 <td><span class="badge-pill b-orch">Control</span></td>
                 <td>Worktree lifecycle, task handoffs, merge gates.</td>
-                <td><strong>OpenOrchestrator (<code>owt</code>):</strong> CLI worktree multiplexer with pre-merge Conflict Guard.</td>
+                <td>
+                  • <strong><a href="https://github.com/gitpcl/openorchestrator" target="_blank">OpenOrchestrator (owt) &rarr;</a></strong>: CLI worktree multiplexer.<br/>
+                  • <strong><a href="https://open-orchestrator.com/getting-started/introduction" target="_blank">Conflict Guard &rarr;</a></strong>: Pre-merge file-overlap detection.
+                </td>
                 <td>Conflict Guard detects file-overlap before merge; it does not resolve unstated semantic merge conflicts.</td>
               </tr>
             </tbody>
@@ -513,7 +596,7 @@
       <section class="whitepaper-section">
         <h2>05. Sandboxed Egress Control & Mechanical Trust Rules</h2>
         <p>
-          Unrestricted outbound internet during agent execution allows data leakage and live API fallbacks that bypass mocks. Docker Sandboxes (<code>sbx</code>) run inside microVMs with host-side credential proxying—secrets are never injected into the agent environment. Evaluation environments must use locked-down egress policies.
+          Unrestricted outbound internet during agent execution allows data leakage and live API fallbacks that bypass mocks. <a href="https://docs.docker.com/ai/sandboxes/" target="_blank" class="cite">Docker Sandboxes (sbx)</a> run inside microVMs with host-side credential proxying—secrets are never injected into the agent environment. Evaluation environments must use locked-down egress policies (<a href="https://docs.docker.com/ai/sandboxes/security/defaults/" target="_blank" class="cite">Security Defaults &rarr;</a>).
         </p>
 
         <div class="code-container">
@@ -557,22 +640,133 @@ constraints:
         </ol>
       </section>
 
-      <!-- Sources and Citations -->
+      <!-- Primary Sources & References / Bibliography -->
       <section class="whitepaper-section">
         <h2 style="color: var(--accent-blue);">Primary Sources & References</h2>
+        
         <div class="sources-container">
+          <!-- Category 1: Academic Papers -->
+          <div class="sources-category">// 01. ACADEMIC_PAPERS_&_PREPRINTS</div>
           <ul class="sources-list">
-            <li><strong>[Liu et al., arXiv:2307.03172]</strong> Lost in the Middle: How Language Models Use Long Contexts (TACL 2024).</li>
-            <li><strong>[Geng et al., arXiv:2502.15851]</strong> Control Illusion: The Failure of Instruction Hierarchies in LLMs (AAAI 2026).</li>
-            <li><strong>[Bhaumik, AI Engineer]</strong> From Chaos to Choreography: Multi-Agent Orchestration Patterns (Stale cache production failure; shared state).</li>
-            <li><strong>[Acharya, arXiv:2604.16339]</strong> Semantic Consensus & Semantic Intent Divergence in Agentic Systems.</li>
-            <li><strong>[Zhang et al., arXiv:2606.21666]</strong> Hallucination as Context Drift: Multi-Agent Communication Topologies (Domain-specific hallucination rates).</li>
-            <li><strong>[Liu et al., arXiv:2605.20563]</strong> Multi-agent Collaboration with State Management (STORM: Merge isolation and conflict deferral).</li>
-            <li><strong>[Rajan, arXiv:2606.16062]</strong> Auditing Reward Hackability in Code RL Training Environments (SWE-bench Verified 49-task audit).</li>
-            <li><strong>[OpenAI, 2026]</strong> Why We No Longer Evaluate SWE-bench Verified (Flawed test analysis across 138 audited hard failures).</li>
-            <li><strong>[Böckeler, martinfowler.com]</strong> TDD Inside the Agent Loop (Exploratory evaluation of mutation scores and skipped red-state TDD).</li>
-            <li><strong>[Mao et al., arXiv:2510.12120]</strong> SEMAP: State-Engineered Multi-Agent Protocols (Structured state transitions vs. naive chat).</li>
-            <li><strong>[Autonoma & Vendor Docs]</strong> AI-generated tests that pass but don't assert (Practitioner report); Google Antigravity SDK; Cursor 2.0; Docker Sandboxes.</li>
+            <li>
+              <strong>[Liu et al., arXiv:2307.03172]</strong> Lost in the Middle: How Language Models Use Long Contexts (TACL 2024).
+              <span class="source-links">
+                <a href="https://arxiv.org/abs/2307.03172" target="_blank" class="source-badge">arXiv abs &rarr;</a>
+                <a href="https://arxiv.org/pdf/2307.03172" target="_blank" class="source-badge pdf">PDF &rarr;</a>
+              </span>
+            </li>
+            <li>
+              <strong>[Geng et al., arXiv:2502.15851]</strong> Control Illusion: The Failure of Instruction Hierarchies in LLMs (AAAI 2026).
+              <span class="source-links">
+                <a href="https://arxiv.org/abs/2502.15851" target="_blank" class="source-badge">arXiv abs &rarr;</a>
+                <a href="https://arxiv.org/pdf/2502.15851" target="_blank" class="source-badge pdf">PDF &rarr;</a>
+              </span>
+            </li>
+            <li>
+              <strong>[Acharya, arXiv:2604.16339]</strong> Semantic Consensus & Semantic Intent Divergence in Agentic Systems.
+              <span class="source-links">
+                <a href="https://arxiv.org/abs/2604.16339" target="_blank" class="source-badge">arXiv abs &rarr;</a>
+                <a href="https://arxiv.org/pdf/2604.16339" target="_blank" class="source-badge pdf">PDF &rarr;</a>
+              </span>
+            </li>
+            <li>
+              <strong>[Zhang et al., arXiv:2606.21666]</strong> Hallucination as Context Drift: Multi-Agent Communication Topologies (Domain-specific hallucination rates).
+              <span class="source-links">
+                <a href="https://arxiv.org/abs/2606.21666" target="_blank" class="source-badge">arXiv abs &rarr;</a>
+                <a href="https://arxiv.org/pdf/2606.21666" target="_blank" class="source-badge pdf">PDF &rarr;</a>
+              </span>
+            </li>
+            <li>
+              <strong>[Liu et al., arXiv:2605.20563]</strong> Multi-agent Collaboration with State Management (STORM: Merge isolation and conflict deferral).
+              <span class="source-links">
+                <a href="https://arxiv.org/abs/2605.20563" target="_blank" class="source-badge">arXiv abs &rarr;</a>
+                <a href="https://arxiv.org/pdf/2605.20563" target="_blank" class="source-badge pdf">PDF &rarr;</a>
+              </span>
+            </li>
+            <li>
+              <strong>[Rajan, arXiv:2606.16062]</strong> Auditing Reward Hackability in Code RL Training Environments (SWE-bench Verified 49-task audit).
+              <span class="source-links">
+                <a href="https://arxiv.org/abs/2606.16062" target="_blank" class="source-badge">arXiv abs &rarr;</a>
+                <a href="https://arxiv.org/pdf/2606.16062" target="_blank" class="source-badge pdf">PDF &rarr;</a>
+              </span>
+            </li>
+            <li>
+              <strong>[Mao et al., arXiv:2510.12120]</strong> SEMAP: State-Engineered Multi-Agent Protocols (Structured state transitions vs. naive chat).
+              <span class="source-links">
+                <a href="https://arxiv.org/abs/2510.12120" target="_blank" class="source-badge">arXiv abs &rarr;</a>
+                <a href="https://arxiv.org/pdf/2510.12120" target="_blank" class="source-badge pdf">PDF &rarr;</a>
+              </span>
+            </li>
+          </ul>
+
+          <!-- Category 2: Practitioner, Talks & Industry Reports -->
+          <div class="sources-category">// 02. PRACTITIONER_TALKS_&_INDUSTRY_AUDITS</div>
+          <ul class="sources-list">
+            <li>
+              <strong>[Bhaumik, AI Engineer]</strong> From Chaos to Choreography: Multi-Agent Orchestration Patterns (Stale cache production failure; shared state).
+              <span class="source-links">
+                <a href="https://ai.engineer/talks/from-chaos-to-choreography-multi-agent-orchestration-patterns-that-actually-work-sandipan-bhaumi" target="_blank" class="source-badge">Talk Page &rarr;</a>
+                <a href="https://www.youtube.com/watch?v=2czYyrTzILg" target="_blank" class="source-badge pdf">YouTube &rarr;</a>
+              </span>
+            </li>
+            <li>
+              <strong>[Böckeler, martinfowler.com]</strong> TDD Inside the Agent Loop (Exploratory evaluation of mutation scores and skipped red-state TDD).
+              <span class="source-links">
+                <a href="https://martinfowler.com/articles/exploring-gen-ai/tdd-in-the-agent-loop.html" target="_blank" class="source-badge">Fowler Article &rarr;</a>
+              </span>
+            </li>
+            <li>
+              <strong>[Autonoma Report]</strong> AI-generated tests that pass but don't assert (Practitioner finding on tautological fixtures).
+              <span class="source-links">
+                <a href="https://getautonoma.com/blog/ai-generated-tests-pass-but-dont-assert" target="_blank" class="source-badge">Practitioner Blog &rarr;</a>
+              </span>
+            </li>
+            <li>
+              <strong>[OpenAI, 2026]</strong> Why We No Longer Evaluate SWE-bench Verified (Flawed test analysis across 138 audited hard failures).
+              <span class="source-links">
+                <a href="https://openai.com/index/why-we-no-longer-evaluate-swe-bench-verified/" target="_blank" class="source-badge">OpenAI Report &rarr;</a>
+              </span>
+            </li>
+            <li>
+              <strong>[Baker, CodeCtx]</strong> Context Synchronization for Multi-Agent Workflows.
+              <span class="source-links">
+                <a href="https://rybkr.com/papers/context-synchronization-for-multi-agent-workflows.pdf" target="_blank" class="source-badge pdf">PDF &rarr;</a>
+                <a href="https://github.com/rybkr/codectx" target="_blank" class="source-badge green">GitHub &rarr;</a>
+              </span>
+            </li>
+          </ul>
+
+          <!-- Category 3: Vendor Docs & Platform Specs -->
+          <div class="sources-category">// 03. PLATFORM_SPECS_&_TOOLING</div>
+          <ul class="sources-list">
+            <li>
+              <strong>[Google Antigravity SDK]</strong> Autonomous sub-agent orchestration framework and execution gating.
+              <span class="source-links">
+                <a href="https://antigravity.google/blog/introducing-google-antigravity-sdk" target="_blank" class="source-badge">Official Announcement &rarr;</a>
+              </span>
+            </li>
+            <li>
+              <strong>[Cursor 2.0 & Cloud Agents]</strong> Worktree-isolated local agents and Firecracker microVM containment.
+              <span class="source-links">
+                <a href="https://cursor.com/changelog/2-0" target="_blank" class="source-badge">Cursor 2.0 &rarr;</a>
+                <a href="https://cursor.com/docs/cloud-agent/security" target="_blank" class="source-badge">Agent Security &rarr;</a>
+                <a href="https://cursor.com/docs/cloud-agent/security-network" target="_blank" class="source-badge">Network Modes &rarr;</a>
+              </span>
+            </li>
+            <li>
+              <strong>[Docker Sandboxes (sbx)]</strong> Egress denial and host-side credential proxying for LLM tool isolation.
+              <span class="source-links">
+                <a href="https://docs.docker.com/ai/sandboxes/" target="_blank" class="source-badge">Docker Sandboxes &rarr;</a>
+                <a href="https://docs.docker.com/ai/sandboxes/security/defaults/" target="_blank" class="source-badge">Security Defaults &rarr;</a>
+              </span>
+            </li>
+            <li>
+              <strong>[OpenOrchestrator (owt)]</strong> Git worktree CLI multiplexer and pre-merge Conflict Guard.
+              <span class="source-links">
+                <a href="https://github.com/gitpcl/openorchestrator" target="_blank" class="source-badge green">owt GitHub &rarr;</a>
+                <a href="https://open-orchestrator.com/getting-started/introduction" target="_blank" class="source-badge">Conflict Guard Intro &rarr;</a>
+              </span>
+            </li>
           </ul>
         </div>
       </section>
