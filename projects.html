@@ -3,37 +3,49 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SuhLabs | Project Matrix</title>
+    <title>SuhLabs | Projects & Tooling</title>
+    <meta
+      name="description"
+      content="Open-source defensive security tools, compliance automation apps, and active engineering repositories by SuhLabs."
+    />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Fira+Code:wght@400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Fira+Code:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
     <style>
       .project-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
         gap: 1.5rem;
         margin-top: 1.5rem;
       }
       .project-card {
         background: var(--bg-secondary);
         border: 1px solid var(--border-color);
-        padding: 1.5rem;
+        padding: 1.75rem;
         border-radius: 4px;
         position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
+      }
+      .project-card:hover {
+        transform: translateY(-2px);
+        border-color: rgba(96, 171, 49, 0.4);
       }
       .project-card h3 {
         margin-top: 0;
         font-family: "Fira Code", monospace;
-        font-size: 1.1rem;
-        color: var(--text-primary);
+        font-size: 1.15rem;
+        color: var(--text-main);
       }
       .project-card p {
         color: var(--text-muted);
         font-size: 0.9rem;
-        line-height: 1.5;
-        margin-bottom: 1.5rem;
+        line-height: 1.6;
+        margin-bottom: 1.25rem;
       }
       .tag {
         display: inline-block;
@@ -52,7 +64,7 @@
       }
       .section-header h2 {
         font-family: "Fira Code", monospace;
-        font-size: 1.2rem;
+        font-size: 1.15rem;
         color: var(--accent-green);
         margin: 0;
       }
@@ -68,6 +80,15 @@
         font-size: 0.85rem;
         color: #d1d5db;
         line-height: 1.6;
+      }
+      .card-btn-sm {
+        display: inline-block;
+        font-family: "Fira Code", monospace;
+        font-size: 0.8rem;
+        padding: 0.4rem 0.8rem;
+        text-decoration: none;
+        border-radius: 4px;
+        transition: all 0.2s;
       }
     </style>
   </head>
@@ -91,192 +112,200 @@
       </div>
     </nav>
 
-    <div class="container" style="padding-top: 3rem">
+    <div class="container" style="padding-top: 3rem; padding-bottom: 5rem;">
       <header class="hero" style="min-height: auto; padding: 2rem 0">
-        <h1>Project <span class="highlight-green">Matrix</span></h1>
-        <p>Active development streams, defensive compliance tooling, and deployed commercial assets.</p>
+        <h1>Projects & <span class="highlight-green">Tooling</span></h1>
+        <p>Defensive security tools, compliance automation apps, and active open-source repositories.</p>
         
         <div class="auth-notice-banner">
           <strong style="color: var(--accent-green)">// DEFENSIVE_RESEARCH_POLICY:</strong> SuhLabs publishes defensive research and compliance tooling. Recon and simulation work is for authorized environments only.
         </div>
       </header>
 
+      <!-- Section 1: Published Splunk Apps & Official Articles -->
       <div class="section-header" style="display: flex; justify-content: space-between; align-items: center;">
-        <h2>// PUBLISHED_SPLUNKBASE_APPS</h2>
+        <h2>// PUBLISHED_SPLUNK_APPS_&_COMMUNITY_ARTICLES</h2>
         <a href="https://github.com/JohnYoungSuh" target="_blank" rel="noopener noreferrer" style="color: var(--accent-green); font-family: 'Fira Code', monospace; text-decoration: none; font-size: 0.85rem;">[VIEW_GITHUB_PROFILE &rarr;]</a>
       </div>
-      <div class="project-grid" style="grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); margin-bottom: 4rem;">
+      <div class="project-grid">
         <!-- Published App 1: Zero Trust Compliance -->
-        <div class="project-card" style="border-left: 4px solid var(--accent-green); background: rgba(12, 23, 36, 0.9);">
-          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
-            <h3 style="color: var(--accent-green); font-size: 1.2rem;">Zero Trust Compliance</h3>
-            <span style="font-family: 'Fira Code', monospace; font-size: 0.75rem; color: var(--accent-green); background: rgba(96, 171, 49, 0.1); padding: 0.1rem 0.4rem; border-radius: 3px;"><span class="pulse-dot" style="background-color: var(--accent-green); box-shadow: 0 0 8px var(--accent-green);"></span>SPLUNKBASE 9582</span>
+        <div class="project-card" style="border-left: 4px solid var(--accent-green);">
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
+              <h3 style="color: var(--accent-green);">Zero Trust Compliance</h3>
+              <span style="font-family: 'Fira Code', monospace; font-size: 0.75rem; color: var(--accent-green); background: rgba(96, 171, 49, 0.1); padding: 0.1rem 0.4rem; border-radius: 3px;"><span class="pulse-dot" style="background-color: var(--accent-green); box-shadow: 0 0 8px var(--accent-green);"></span>SPLUNKBASE 9582</span>
+            </div>
+            <p>
+              Translates DoD Zero Trust Execution Roadmaps and NIST 800-207 into automated, telemetry-driven proof of delivery. Structures evidence ingestion across all 7 ZT Pillars with log-based audit readiness.
+            </p>
+            <div style="display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 1.2rem;">
+              <span class="tag" style="border-color: var(--accent-green); color: var(--accent-green);">Splunk App</span>
+              <span class="tag" style="border-color: var(--accent-pink); color: var(--accent-pink);">Zero Trust</span>
+              <span class="tag" style="border-color: var(--accent-blue); color: var(--accent-blue);">DoD COA / NIST</span>
+            </div>
           </div>
-          <p style="font-size: 0.9rem; line-height: 1.6; color: var(--text-muted); margin-bottom: 1.2rem;">
-            Translates DoD Zero Trust Execution Roadmaps and NIST 800-207 into automated, telemetry-driven proof of delivery. Structures evidence ingestion across all 7 ZT Pillars with log-based audit readiness.
-          </p>
-          <div style="display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 1.2rem;">
-            <span class="tag" style="border-color: var(--accent-green); color: var(--accent-green);">Splunk App</span>
-            <span class="tag" style="border-color: var(--accent-pink); color: var(--accent-pink);">Zero Trust</span>
-            <span class="tag" style="border-color: var(--accent-blue); color: var(--accent-blue);">DoD COA / NIST</span>
-          </div>
-          <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-            <a href="https://splunkbase.splunk.com/app/9582" target="_blank" rel="noopener noreferrer" style="display: inline-block; color: var(--accent-green); font-family: 'Fira Code', monospace; font-size: 0.8rem; border: 1px solid var(--accent-green); padding: 0.4rem 0.8rem; text-decoration: none; border-radius: 4px; transition: all 0.2s;">Splunkbase #9582 &rarr;</a>
-            <a href="zero-trust-whitepaper.html" style="display: inline-block; color: var(--text-main); font-family: 'Fira Code', monospace; font-size: 0.8rem; border: 1px solid var(--border-color); padding: 0.4rem 0.8rem; text-decoration: none; border-radius: 4px; transition: all 0.2s;">Whitepaper &rarr;</a>
-            <a href="https://community.splunk.com/t5/Community-Blog/Rethinking-Zero-Trust-From-Product-Purchases-to-Logical-Control/ba-p/762651" target="_blank" rel="noopener noreferrer" style="display: inline-block; color: var(--accent-pink); font-family: 'Fira Code', monospace; font-size: 0.8rem; border: 1px solid var(--accent-pink); padding: 0.4rem 0.8rem; text-decoration: none; border-radius: 4px; transition: all 0.2s;">Community Blog &rarr;</a>
+          <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; border-top: 1px solid rgba(26, 54, 93, 0.5); padding-top: 1rem;">
+            <a href="https://splunkbase.splunk.com/app/9582" target="_blank" rel="noopener noreferrer" class="card-btn-sm" style="background: var(--accent-green); color: #000; font-weight: 600;">Splunkbase #9582 &rarr;</a>
+            <a href="zero-trust-whitepaper.html" class="card-btn-sm" style="border: 1px solid var(--border-color); color: var(--text-main);">Whitepaper &rarr;</a>
+            <a href="https://community.splunk.com/t5/Community-Blog/Rethinking-Zero-Trust-From-Product-Purchases-to-Logical-Control/ba-p/762651" target="_blank" rel="noopener noreferrer" class="card-btn-sm" style="border: 1px solid var(--accent-pink); color: var(--accent-pink);">Community Blog &rarr;</a>
           </div>
         </div>
 
         <!-- Published App 2: AWS-DFD-Visualizer -->
-        <div class="project-card" style="border-left: 4px solid var(--accent-blue); background: rgba(12, 23, 36, 0.9);">
-          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
-            <h3 style="color: var(--accent-blue); font-size: 1.2rem;">AWS-DFD-Visualizer</h3>
-            <span style="font-family: 'Fira Code', monospace; font-size: 0.75rem; color: var(--accent-blue); background: rgba(0, 173, 255, 0.1); padding: 0.1rem 0.4rem; border-radius: 3px;"><span class="pulse-dot" style="background-color: var(--accent-blue); box-shadow: 0 0 8px var(--accent-blue);"></span>SPLUNKBASE 8628</span>
+        <div class="project-card" style="border-left: 4px solid var(--accent-blue);">
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
+              <h3 style="color: var(--accent-blue);">AWS-DFD-Visualizer</h3>
+              <span style="font-family: 'Fira Code', monospace; font-size: 0.75rem; color: var(--accent-blue); background: rgba(0, 173, 255, 0.1); padding: 0.1rem 0.4rem; border-radius: 3px;"><span class="pulse-dot" style="background-color: var(--accent-blue); box-shadow: 0 0 8px var(--accent-blue);"></span>SPLUNKBASE 8628</span>
+            </div>
+            <p>
+              Renders complex multi-cloud architecture into dynamic, audit-ready Zero Trust topology blueprints across NIST 800-207 Three-Plane Swimlanes (Identity, Policy, Infrastructure). Built for DoD IL5.
+            </p>
+            <div style="display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 1.2rem;">
+              <span class="tag" style="border-color: var(--accent-blue); color: var(--accent-blue);">JavaScript</span>
+              <span class="tag" style="border-color: var(--accent-green); color: var(--accent-green);">Zero Trust</span>
+              <span class="tag" style="border-color: var(--accent-pink); color: var(--accent-pink);">NIST 800-207</span>
+            </div>
           </div>
-          <p style="font-size: 0.9rem; line-height: 1.6; color: var(--text-muted); margin-bottom: 1.2rem;">
-            Renders complex multi-cloud architecture into dynamic, audit-ready Zero Trust topology blueprints across NIST 800-207 Three-Plane Swimlanes (Identity, Policy, Infrastructure). Built for DoD IL5.
-          </p>
-          <div style="display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 1.2rem;">
-            <span class="tag" style="border-color: var(--accent-blue); color: var(--accent-blue);">JavaScript</span>
-            <span class="tag" style="border-color: var(--accent-green); color: var(--accent-green);">Zero Trust</span>
-            <span class="tag" style="border-color: var(--accent-pink); color: var(--accent-pink);">NIST 800-207</span>
-          </div>
-          <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-            <a href="https://github.com/JohnYoungSuh/AWS-DFD-Visualizer" target="_blank" rel="noopener noreferrer" style="display: inline-block; color: var(--text-main); font-family: 'Fira Code', monospace; font-size: 0.8rem; border: 1px solid var(--border-color); padding: 0.4rem 0.8rem; text-decoration: none; border-radius: 4px; transition: all 0.2s;">View on GitHub &rarr;</a>
-            <a href="https://splunkbase.splunk.com/app/8628" target="_blank" rel="noopener noreferrer" style="display: inline-block; color: var(--accent-blue); font-family: 'Fira Code', monospace; font-size: 0.8rem; border: 1px solid var(--accent-blue); padding: 0.4rem 0.8rem; text-decoration: none; border-radius: 4px; transition: all 0.2s;">Splunkbase #8628 &rarr;</a>
+          <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; border-top: 1px solid rgba(26, 54, 93, 0.5); padding-top: 1rem;">
+            <a href="https://github.com/JohnYoungSuh/AWS-DFD-Visualizer" target="_blank" rel="noopener noreferrer" class="card-btn-sm" style="border: 1px solid var(--border-color); color: var(--text-main);">GitHub &rarr;</a>
+            <a href="https://splunkbase.splunk.com/app/8628" target="_blank" rel="noopener noreferrer" class="card-btn-sm" style="border: 1px solid var(--accent-blue); color: var(--accent-blue);">Splunkbase #8628 &rarr;</a>
           </div>
         </div>
 
         <!-- Published App 3: TA-suhlabs-eMASS -->
-        <div class="project-card" style="border-left: 4px solid var(--accent-pink); background: rgba(12, 23, 36, 0.9);">
-          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
-            <h3 style="color: var(--accent-pink); font-size: 1.2rem;">TA-suhlabs-eMASS</h3>
-            <span style="font-family: 'Fira Code', monospace; font-size: 0.75rem; color: var(--accent-pink); background: rgba(235, 52, 162, 0.1); padding: 0.1rem 0.4rem; border-radius: 3px;"><span class="pulse-dot" style="background-color: var(--accent-pink); box-shadow: 0 0 8px var(--accent-pink);"></span>SPLUNKBASE 8253</span>
-          </div>
-          <p style="font-size: 0.9rem; line-height: 1.6; color: var(--text-muted); margin-bottom: 1.2rem;">
-            Splunk Technology Add-on for automated eMASS Plan of Action & Milestones (POA&M) data collection. Directly converts raw security data into structured RMF audit-ready evidence.
-          </p>
-          <div style="display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 1.2rem;">
-            <span class="tag" style="border-color: var(--accent-pink); color: var(--accent-pink);">Python</span>
-            <span class="tag" style="border-color: var(--accent-green); color: var(--accent-green);">Splunk TA</span>
-            <span class="tag" style="border-color: var(--accent-blue); color: var(--accent-blue);">eMASS / RMF</span>
-          </div>
-          <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-            <a href="https://github.com/JohnYoungSuh/TA-suhlabs-eMASS" target="_blank" rel="noopener noreferrer" style="display: inline-block; color: var(--text-main); font-family: 'Fira Code', monospace; font-size: 0.8rem; border: 1px solid var(--border-color); padding: 0.4rem 0.8rem; text-decoration: none; border-radius: 4px; transition: all 0.2s;">View on GitHub &rarr;</a>
-            <a href="https://splunkbase.splunk.com/app/8253" target="_blank" rel="noopener noreferrer" style="display: inline-block; color: var(--accent-pink); font-family: 'Fira Code', monospace; font-size: 0.8rem; border: 1px solid var(--accent-pink); padding: 0.4rem 0.8rem; text-decoration: none; border-radius: 4px; transition: all 0.2s;">Splunkbase #8253 &rarr;</a>
-          </div>
-        </div>
-
-        <!-- Published Publication 4: Asset & Identity in Splunk ES -->
-        <div class="project-card" style="border-left: 4px solid var(--accent-green); background: rgba(12, 23, 36, 0.9);">
-          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
-            <h3 style="color: var(--accent-green); font-size: 1.2rem;">Asset & Identity in Splunk ES</h3>
-            <span style="font-family: 'Fira Code', monospace; font-size: 0.75rem; color: var(--accent-pink); background: rgba(235, 52, 162, 0.1); padding: 0.1rem 0.4rem; border-radius: 3px;"><span class="pulse-dot" style="background-color: var(--accent-pink); box-shadow: 0 0 8px var(--accent-pink);"></span>SPLUNK COMMUNITY</span>
-          </div>
-          <p style="font-size: 0.9rem; line-height: 1.6; color: var(--text-muted); margin-bottom: 1.2rem;">
-            Architectural guide on building reliable, automated Asset and Identity (A&I) frameworks inside Splunk Enterprise Security. Details entity resolution, deduplication pipelines, and multi-source reconciliation.
-          </p>
-          <div style="display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 1.2rem;">
-            <span class="tag" style="border-color: var(--accent-green); color: var(--accent-green);">Splunk ES</span>
-            <span class="tag" style="border-color: var(--accent-blue); color: var(--accent-blue);">Asset & Identity</span>
-            <span class="tag" style="border-color: var(--accent-pink); color: var(--accent-pink);">SIEM Governance</span>
-          </div>
-          <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-            <a href="https://community.splunk.com/t5/Community-Blog/Building-Reliable-Asset-and-Identity-Frameworks-in-Splunk-ES/ba-p/754359" target="_blank" rel="noopener noreferrer" style="display: inline-block; color: var(--accent-pink); font-family: 'Fira Code', monospace; font-size: 0.8rem; border: 1px solid var(--accent-pink); padding: 0.4rem 0.8rem; text-decoration: none; border-radius: 4px; transition: all 0.2s;">Read on Splunk Community &rarr;</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="section-header">
-        <h2>// COMMERCIAL_DEPLOYMENT</h2>
-      </div>
-      <div class="project-grid">
         <div class="project-card" style="border-left: 4px solid var(--accent-pink);">
-          <h3><a href="https://www.popshoney-dohelp.com" target="_blank" rel="noopener noreferrer" style="color: var(--accent-pink); text-decoration: none;">popshoney-dohelp.com &rarr;</a></h3>
-          <p style="font-size: 0.9rem; line-height: 1.6; color: var(--text-muted); margin-bottom: 1.2rem;">
-            Commercial web presence for handyman services. Focus on SEO
-            dominance and mobile-first conversions.
-          </p>
-          <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-            <a href="https://www.popshoney-dohelp.com" target="_blank" rel="noopener noreferrer" style="display: inline-block; color: var(--accent-pink); font-family: 'Fira Code', monospace; font-size: 0.8rem; border: 1px solid var(--accent-pink); padding: 0.4rem 0.8rem; text-decoration: none; border-radius: 4px; transition: all 0.2s;">Visit Live Site &rarr;</a>
-            <a href="https://github.com/JohnYoungSuh/popshoney-dohelp.com" target="_blank" rel="noopener noreferrer" style="display: inline-block; color: var(--text-main); font-family: 'Fira Code', monospace; font-size: 0.8rem; border: 1px solid var(--border-color); padding: 0.4rem 0.8rem; text-decoration: none; border-radius: 4px; transition: all 0.2s;">View on GitHub &rarr;</a>
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
+              <h3 style="color: var(--accent-pink);">TA-suhlabs-eMASS</h3>
+              <span style="font-family: 'Fira Code', monospace; font-size: 0.75rem; color: var(--accent-pink); background: rgba(235, 52, 162, 0.1); padding: 0.1rem 0.4rem; border-radius: 3px;"><span class="pulse-dot" style="background-color: var(--accent-pink); box-shadow: 0 0 8px var(--accent-pink);"></span>SPLUNKBASE 8253</span>
+            </div>
+            <p>
+              Splunk Technology Add-on for automated eMASS Plan of Action & Milestones (POA&M) data collection. Directly converts raw security data into structured RMF audit-ready evidence.
+            </p>
+            <div style="display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 1.2rem;">
+              <span class="tag" style="border-color: var(--accent-pink); color: var(--accent-pink);">Python</span>
+              <span class="tag" style="border-color: var(--accent-green); color: var(--accent-green);">Splunk TA</span>
+              <span class="tag" style="border-color: var(--accent-blue); color: var(--accent-blue);">eMASS / RMF</span>
+            </div>
+          </div>
+          <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; border-top: 1px solid rgba(26, 54, 93, 0.5); padding-top: 1rem;">
+            <a href="https://github.com/JohnYoungSuh/TA-suhlabs-eMASS" target="_blank" rel="noopener noreferrer" class="card-btn-sm" style="border: 1px solid var(--border-color); color: var(--text-main);">GitHub &rarr;</a>
+            <a href="https://splunkbase.splunk.com/app/8253" target="_blank" rel="noopener noreferrer" class="card-btn-sm" style="border: 1px solid var(--accent-pink); color: var(--accent-pink);">Splunkbase #8253 &rarr;</a>
+          </div>
+        </div>
+
+        <!-- Published Article 4: Asset & Identity in Splunk ES -->
+        <div class="project-card" style="border-left: 4px solid var(--accent-green);">
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
+              <h3 style="color: var(--accent-green);">Asset & Identity in Splunk ES</h3>
+              <span style="font-family: 'Fira Code', monospace; font-size: 0.75rem; color: var(--accent-pink); background: rgba(235, 52, 162, 0.1); padding: 0.1rem 0.4rem; border-radius: 3px;"><span class="pulse-dot" style="background-color: var(--accent-pink); box-shadow: 0 0 8px var(--accent-pink);"></span>SPLUNK COMMUNITY</span>
+            </div>
+            <p>
+              Architectural guide on building reliable, automated Asset and Identity (A&I) frameworks inside Splunk Enterprise Security. Details entity resolution, deduplication pipelines, and multi-source reconciliation.
+            </p>
+            <div style="display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 1.2rem;">
+              <span class="tag" style="border-color: var(--accent-green); color: var(--accent-green);">Splunk ES</span>
+              <span class="tag" style="border-color: var(--accent-blue); color: var(--accent-blue);">Asset & Identity</span>
+              <span class="tag" style="border-color: var(--accent-pink); color: var(--accent-pink);">SIEM Governance</span>
+            </div>
+          </div>
+          <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; border-top: 1px solid rgba(26, 54, 93, 0.5); padding-top: 1rem;">
+            <a href="https://community.splunk.com/t5/Community-Blog/Building-Reliable-Asset-and-Identity-Frameworks-in-Splunk-ES/ba-p/754359" target="_blank" rel="noopener noreferrer" class="card-btn-sm" style="border: 1px solid var(--accent-pink); color: var(--accent-pink);">Read on Splunk Community &rarr;</a>
           </div>
         </div>
       </div>
 
+      <!-- Section 2: Open Source Defensive Tooling & Repositories -->
       <div class="section-header">
-        <h2>// DEFENSIVE_TOOLING_&_RESEARCH</h2>
+        <h2>// OPEN_SOURCE_DEFENSIVE_TOOLING_&_REPOSITORIES</h2>
       </div>
       <div class="project-grid">
-        <div class="project-card">
-          <h3><a href="multi-agent-pipelines-whitepaper.html" style="color: var(--accent-green); text-decoration: none;">ai-agent-governance-framework &rarr;</a></h3>
-          <p>
-            Core framework for ensuring sovereign execution of autonomous
-            agents. Reference architecture for mechanical control planes.
-          </p>
-          <div style="display: flex; gap: 0.4rem; flex-wrap: wrap;">
-            <a href="multi-agent-pipelines-whitepaper.html" style="text-decoration: none;"><span class="tag" style="border-color: var(--accent-green); color: var(--accent-green);">PIPELINES_WHITEPAPER</span></a>
-            <a href="https://github.com/JohnYoungSuh/ai-agent-governance-framework" target="_blank" rel="noopener noreferrer" style="text-decoration: none;"><span class="tag">GOVERNANCE</span></a>
+        <!-- Tool 1: AI Agent Governance Framework -->
+        <div class="project-card" style="border-left: 4px solid var(--accent-blue);">
+          <div>
+            <h3 style="color: var(--accent-blue);">ai-agent-governance-framework</h3>
+            <p>
+              Reference architecture and tooling for mechanical control planes in autonomous coding teams. Enforces frozen schemas, read-only test mountings, Git worktree isolation, and deny-by-default egress sandboxes.
+            </p>
+            <div style="display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 1.2rem;">
+              <span class="tag" style="border-color: var(--accent-blue); color: var(--accent-blue);">AI_GOVERNANCE</span>
+              <span class="tag" style="border-color: var(--accent-green); color: var(--accent-green);">CONTROL_PLANES</span>
+            </div>
+          </div>
+          <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; border-top: 1px solid rgba(26, 54, 93, 0.5); padding-top: 1rem;">
+            <a href="https://github.com/JohnYoungSuh/ai-agent-governance-framework" target="_blank" rel="noopener noreferrer" class="card-btn-sm" style="border: 1px solid var(--accent-blue); color: var(--accent-blue);">Clone Repository &rarr;</a>
+            <a href="multi-agent-pipelines-whitepaper.html" class="card-btn-sm" style="border: 1px solid var(--border-color); color: var(--text-main);">Whitepaper &rarr;</a>
           </div>
         </div>
-        <div class="project-card">
-          <h3><a href="https://github.com/JohnYoungSuh/suhlabs" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">aiops-substrate &rarr;</a></h3>
-          <p>Foundational operational layer for AI workload management.</p>
-          <span class="tag">INFRASTRUCTURE</span>
-        </div>
-        <div class="project-card">
-          <h3><a href="zero-trust-whitepaper.html" style="color: var(--accent-green); text-decoration: none;">splunk-app-for-zero-trust-execution &rarr;</a></h3>
-          <p>
-            Splunk app transforming DoD COA execution roadmaps into automated proof of delivery.
-          </p>
-          <div style="display: flex; gap: 0.4rem; flex-wrap: wrap;">
-            <a href="zero-trust-whitepaper.html" style="text-decoration: none;"><span class="tag">ZERO_TRUST_WHITEPAPER</span></a>
-            <a href="https://community.splunk.com/t5/Community-Blog/Rethinking-Zero-Trust-From-Product-Purchases-to-Logical-Control/ba-p/762651" target="_blank" rel="noopener noreferrer" style="text-decoration: none;"><span class="tag" style="border-color: var(--accent-pink); color: var(--accent-pink);">SPLUNK_COMMUNITY_BLOG</span></a>
-          </div>
-        </div>
-        <div class="project-card">
-          <h3><a href="https://github.com/JohnYoungSuh/okta-recon-generator" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">okta-recon-generator &rarr;</a></h3>
-          <p>Defensive identity-provider reconnaissance for authorized assessments (a tenant you own or have written permission to test). Not for unauthorized access.</p>
-          <span class="tag">DEFENSIVE_RECON</span>
-        </div>
-        <div class="project-card">
-          <h3><a href="https://github.com/JohnYoungSuh/Cloud-AIDevSecOps-Templates" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">ml-antipatterns &rarr;</a></h3>
-          <p>
-            Research documentation on common failures in machine learning
-            deployments.
-          </p>
-          <span class="tag">RESEARCH</span>
-        </div>
-        <div class="project-card">
-          <h3><a href="https://github.com/JohnYoungSuh/purple-apt-cicd-recon" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">purple-apt-cicd-recon &rarr;</a></h3>
-          <p>Purple-team CI/CD attack-path simulation for labs and authorized programs. Detection engineering, not an exploit kit.</p>
-          <span class="tag">PURPLE_TEAM</span>
-        </div>
-        <div class="project-card">
-          <h3><a href="https://github.com/JohnYoungSuh/suhlabs" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">home-cluster-devsecops &rarr;</a></h3>
-          <p>Private cloud architecture for secure home lab environments.</p>
-          <span class="tag">INFRASTRUCTURE</span>
-        </div>
-        <div class="project-card">
-          <h3><a href="https://github.com/JohnYoungSuh/suhlabs" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">suhlabs-infr-ai-poc &rarr;</a></h3>
-          <p>Proof of concept for infrastructure-aware AI models.</p>
-          <span class="tag">AI_OPS</span>
-        </div>
-      </div>
 
-      <div class="section-header">
-        <h2>// UTILITY_MODULES</h2>
-      </div>
-      <div class="project-grid">
-        <div class="project-card">
-          <h3><a href="https://github.com/JohnYoungSuh/TA-suhlabs-eMASS" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">apidog-emass-yaml &rarr;</a></h3>
-          <p>Configuration translation tools for compliance automation.</p>
-          <span class="tag">COMPLIANCE</span>
+        <!-- Tool 2: Okta Recon Generator -->
+        <div class="project-card" style="border-left: 4px solid var(--accent-green);">
+          <div>
+            <h3 style="color: var(--accent-green);">okta-recon-generator</h3>
+            <p>
+              Defensive identity-provider reconnaissance tool for authorized assessments (a tenant you own or have written permission to test). Audits stale credentials, MFA coverage, and inactive admin accounts.
+            </p>
+            <div style="display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 1.2rem;">
+              <span class="tag" style="border-color: var(--accent-green); color: var(--accent-green);">DEFENSIVE_RECON</span>
+              <span class="tag" style="border-color: var(--accent-blue); color: var(--accent-blue);">IDENTITY_AUDIT</span>
+            </div>
+          </div>
+          <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; border-top: 1px solid rgba(26, 54, 93, 0.5); padding-top: 1rem;">
+            <a href="https://github.com/JohnYoungSuh/okta-recon-generator" target="_blank" rel="noopener noreferrer" class="card-btn-sm" style="border: 1px solid var(--accent-green); color: var(--accent-green);">View on GitHub &rarr;</a>
+          </div>
         </div>
-        <div class="project-card">
-          <h3><a href="https://github.com/JohnYoungSuh/TA-asset-identity-framework" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">TA-asset-identity-framework &rarr;</a></h3>
-          <p>Splunk Technology Add-on for asset identification.</p>
-          <span class="tag">SPLUNK_TA</span>
+
+        <!-- Tool 3: Purple APT CI/CD Recon -->
+        <div class="project-card" style="border-left: 4px solid var(--accent-pink);">
+          <div>
+            <h3 style="color: var(--accent-pink);">purple-apt-cicd-recon</h3>
+            <p>
+              Purple-team CI/CD attack-path simulation templates for labs and authorized programs. Built specifically for detection engineering and software supply chain posture auditing.
+            </p>
+            <div style="display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 1.2rem;">
+              <span class="tag" style="border-color: var(--accent-pink); color: var(--accent-pink);">PURPLE_TEAM</span>
+              <span class="tag" style="border-color: var(--accent-blue); color: var(--accent-blue);">CI_CD_SECURITY</span>
+            </div>
+          </div>
+          <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; border-top: 1px solid rgba(26, 54, 93, 0.5); padding-top: 1rem;">
+            <a href="https://github.com/JohnYoungSuh/purple-apt-cicd-recon" target="_blank" rel="noopener noreferrer" class="card-btn-sm" style="border: 1px solid var(--accent-pink); color: var(--accent-pink);">View on GitHub &rarr;</a>
+          </div>
+        </div>
+
+        <!-- Tool 4: Cloud AI DevSecOps Templates -->
+        <div class="project-card" style="border-left: 4px solid var(--accent-blue);">
+          <div>
+            <h3 style="color: var(--accent-blue);">Cloud-AIDevSecOps-Templates</h3>
+            <p>
+              Hardened infrastructure-as-code and CI/CD pipeline security templates. Incorporates static analysis gates, secret scanning rules, and automated vulnerability check workflows.
+            </p>
+            <div style="display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 1.2rem;">
+              <span class="tag" style="border-color: var(--accent-blue); color: var(--accent-blue);">DEVSECOPS</span>
+              <span class="tag" style="border-color: var(--accent-green); color: var(--accent-green);">PIPELINE_SECURITY</span>
+            </div>
+          </div>
+          <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; border-top: 1px solid rgba(26, 54, 93, 0.5); padding-top: 1rem;">
+            <a href="https://github.com/JohnYoungSuh/Cloud-AIDevSecOps-Templates" target="_blank" rel="noopener noreferrer" class="card-btn-sm" style="border: 1px solid var(--accent-blue); color: var(--accent-blue);">View on GitHub &rarr;</a>
+          </div>
+        </div>
+
+        <!-- Tool 5: TA-asset-identity-framework -->
+        <div class="project-card" style="border-left: 4px solid var(--accent-green);">
+          <div>
+            <h3 style="color: var(--accent-green);">TA-asset-identity-framework</h3>
+            <p>
+              Splunk Technology Add-on implementing automated asset identification, MAC address resolution, and dynamic identity correlation tables for Enterprise Security.
+            </p>
+            <div style="display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 1.2rem;">
+              <span class="tag" style="border-color: var(--accent-green); color: var(--accent-green);">SPLUNK_TA</span>
+              <span class="tag" style="border-color: var(--accent-blue); color: var(--accent-blue);">ASSET_IDENTITY</span>
+            </div>
+          </div>
+          <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; border-top: 1px solid rgba(26, 54, 93, 0.5); padding-top: 1rem;">
+            <a href="https://github.com/JohnYoungSuh/TA-asset-identity-framework" target="_blank" rel="noopener noreferrer" class="card-btn-sm" style="border: 1px solid var(--accent-green); color: var(--accent-green);">View on GitHub &rarr;</a>
+          </div>
         </div>
       </div>
     </div>
@@ -285,7 +314,7 @@
       <div class="logo">SUH<span>LABS</span></div>
       <p>| Sovereign Code | Defensive Security & Compliance Tooling |</p>
       <div class="disclaimer">
-        SuhLabs publishes defensive research and compliance tooling. Recon and simulation work is for authorized environments only.
+        SuhLabs publishes defensive research and compliance tooling under open-source licenses. Recon and simulation work is for authorized environments only.
       </div>
     </footer>
     <script>
