@@ -263,7 +263,7 @@
         margin-bottom: 0.4rem;
       }
 
-      /* References styling */
+      /* References Bibliography styling */
       .sources-container {
         background: rgba(12, 23, 36, 0.85);
         border: 1px solid var(--border-color);
@@ -276,9 +276,9 @@
         color: var(--accent-green);
         font-size: 0.9rem;
         font-weight: 600;
-        margin-top: 1.5rem;
-        margin-bottom: 0.8rem;
-        padding-bottom: 0.3rem;
+        margin-top: 1.75rem;
+        margin-bottom: 0.9rem;
+        padding-bottom: 0.35rem;
         border-bottom: 1px solid rgba(26, 54, 93, 0.6);
         display: flex;
         align-items: center;
@@ -294,10 +294,10 @@
       }
       .sources-list li {
         color: var(--text-muted);
-        font-size: 0.85rem;
-        line-height: 1.65;
-        margin-bottom: 0.85rem;
-        padding-left: 1.2rem;
+        font-size: 0.88rem;
+        line-height: 1.7;
+        margin-bottom: 0.9rem;
+        padding-left: 1.3rem;
         position: relative;
       }
       .sources-list li::before {
@@ -309,48 +309,53 @@
         font-size: 1.1rem;
         top: -0.1rem;
       }
-      .sources-list strong {
-        color: #93c5fd;
+      .sources-list a.bib-cite {
+        color: var(--accent-blue);
         font-family: "Fira Code", monospace;
         font-size: 0.82rem;
-      }
-      .source-links {
-        display: inline-flex;
-        gap: 0.4rem;
-        margin-left: 0.5rem;
-        vertical-align: middle;
-      }
-      .source-badge {
-        display: inline-block;
-        font-family: "Fira Code", monospace;
-        font-size: 0.7rem;
-        padding: 0.15rem 0.45rem;
-        border-radius: 3px;
+        font-weight: 600;
         text-decoration: none;
-        border: 1px solid var(--accent-blue);
-        color: var(--accent-blue);
-        background: rgba(0, 173, 255, 0.1);
+        border-bottom: 1px dotted var(--accent-blue);
         transition: all 0.2s ease;
       }
-      .source-badge:hover {
-        background: var(--accent-blue);
-        color: #000000;
+      .sources-list a.bib-cite:hover {
+        color: #ffffff;
+        border-bottom-style: solid;
       }
-      .source-badge.pdf {
-        border-color: var(--accent-pink);
+      .sources-list a.bib-title {
+        color: #e2e8f0;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.2s ease;
+      }
+      .sources-list a.bib-title:hover {
+        color: var(--accent-green);
+        text-decoration: underline;
+      }
+      .source-aux-link {
+        display: inline-block;
+        font-family: "Fira Code", monospace;
+        font-size: 0.72rem;
+        margin-left: 0.4rem;
+        padding: 0.1rem 0.4rem;
+        border-radius: 3px;
+        text-decoration: none;
+        border: 1px solid var(--accent-pink);
         color: var(--accent-pink);
         background: rgba(235, 52, 162, 0.1);
+        transition: all 0.2s ease;
+        vertical-align: middle;
       }
-      .source-badge.pdf:hover {
+      .source-aux-link:hover {
         background: var(--accent-pink);
         color: #000000;
       }
-      .source-badge.green {
+      .source-aux-link.green {
         border-color: var(--accent-green);
         color: var(--accent-green);
         background: rgba(96, 171, 49, 0.1);
       }
-      .source-badge.green:hover {
+      .source-aux-link.green:hover {
         background: var(--accent-green);
         color: #000000;
       }
@@ -649,53 +654,39 @@ constraints:
           <div class="sources-category">// 01. ACADEMIC_PAPERS_&_PREPRINTS</div>
           <ul class="sources-list">
             <li>
-              <strong>[Liu et al., arXiv:2307.03172]</strong> Lost in the Middle: How Language Models Use Long Contexts (TACL 2024).
-              <span class="source-links">
-                <a href="https://arxiv.org/abs/2307.03172" target="_blank" class="source-badge">arXiv abs &rarr;</a>
-                <a href="https://arxiv.org/pdf/2307.03172" target="_blank" class="source-badge pdf">PDF &rarr;</a>
-              </span>
+              [<a href="https://arxiv.org/abs/2307.03172" target="_blank" class="bib-cite">Liu et al., arXiv:2307.03172</a>] 
+              <a href="https://arxiv.org/abs/2307.03172" target="_blank" class="bib-title">Lost in the Middle: How Language Models Use Long Contexts</a> (TACL 2024).
+              <a href="https://arxiv.org/pdf/2307.03172" target="_blank" class="source-aux-link">PDF &rarr;</a>
             </li>
             <li>
-              <strong>[Geng et al., arXiv:2502.15851]</strong> Control Illusion: The Failure of Instruction Hierarchies in LLMs (AAAI 2026).
-              <span class="source-links">
-                <a href="https://arxiv.org/abs/2502.15851" target="_blank" class="source-badge">arXiv abs &rarr;</a>
-                <a href="https://arxiv.org/pdf/2502.15851" target="_blank" class="source-badge pdf">PDF &rarr;</a>
-              </span>
+              [<a href="https://arxiv.org/abs/2502.15851" target="_blank" class="bib-cite">Geng et al., arXiv:2502.15851</a>] 
+              <a href="https://arxiv.org/abs/2502.15851" target="_blank" class="bib-title">Control Illusion: The Failure of Instruction Hierarchies in LLMs</a> (AAAI 2026).
+              <a href="https://arxiv.org/pdf/2502.15851" target="_blank" class="source-aux-link">PDF &rarr;</a>
             </li>
             <li>
-              <strong>[Acharya, arXiv:2604.16339]</strong> Semantic Consensus & Semantic Intent Divergence in Agentic Systems.
-              <span class="source-links">
-                <a href="https://arxiv.org/abs/2604.16339" target="_blank" class="source-badge">arXiv abs &rarr;</a>
-                <a href="https://arxiv.org/pdf/2604.16339" target="_blank" class="source-badge pdf">PDF &rarr;</a>
-              </span>
+              [<a href="https://arxiv.org/abs/2604.16339" target="_blank" class="bib-cite">Acharya, arXiv:2604.16339</a>] 
+              <a href="https://arxiv.org/abs/2604.16339" target="_blank" class="bib-title">Semantic Consensus & Semantic Intent Divergence in Agentic Systems</a>.
+              <a href="https://arxiv.org/pdf/2604.16339" target="_blank" class="source-aux-link">PDF &rarr;</a>
             </li>
             <li>
-              <strong>[Zhang et al., arXiv:2606.21666]</strong> Hallucination as Context Drift: Multi-Agent Communication Topologies (Domain-specific hallucination rates).
-              <span class="source-links">
-                <a href="https://arxiv.org/abs/2606.21666" target="_blank" class="source-badge">arXiv abs &rarr;</a>
-                <a href="https://arxiv.org/pdf/2606.21666" target="_blank" class="source-badge pdf">PDF &rarr;</a>
-              </span>
+              [<a href="https://arxiv.org/abs/2606.21666" target="_blank" class="bib-cite">Zhang et al., arXiv:2606.21666</a>] 
+              <a href="https://arxiv.org/abs/2606.21666" target="_blank" class="bib-title">Hallucination as Context Drift: Multi-Agent Communication Topologies</a> (Domain-specific hallucination rates).
+              <a href="https://arxiv.org/pdf/2606.21666" target="_blank" class="source-aux-link">PDF &rarr;</a>
             </li>
             <li>
-              <strong>[Liu et al., arXiv:2605.20563]</strong> Multi-agent Collaboration with State Management (STORM: Merge isolation and conflict deferral).
-              <span class="source-links">
-                <a href="https://arxiv.org/abs/2605.20563" target="_blank" class="source-badge">arXiv abs &rarr;</a>
-                <a href="https://arxiv.org/pdf/2605.20563" target="_blank" class="source-badge pdf">PDF &rarr;</a>
-              </span>
+              [<a href="https://arxiv.org/abs/2605.20563" target="_blank" class="bib-cite">Liu et al., arXiv:2605.20563</a>] 
+              <a href="https://arxiv.org/abs/2605.20563" target="_blank" class="bib-title">Multi-agent Collaboration with State Management</a> (STORM: Merge isolation and conflict deferral).
+              <a href="https://arxiv.org/pdf/2605.20563" target="_blank" class="source-aux-link">PDF &rarr;</a>
             </li>
             <li>
-              <strong>[Rajan, arXiv:2606.16062]</strong> Auditing Reward Hackability in Code RL Training Environments (SWE-bench Verified 49-task audit).
-              <span class="source-links">
-                <a href="https://arxiv.org/abs/2606.16062" target="_blank" class="source-badge">arXiv abs &rarr;</a>
-                <a href="https://arxiv.org/pdf/2606.16062" target="_blank" class="source-badge pdf">PDF &rarr;</a>
-              </span>
+              [<a href="https://arxiv.org/abs/2606.16062" target="_blank" class="bib-cite">Rajan, arXiv:2606.16062</a>] 
+              <a href="https://arxiv.org/abs/2606.16062" target="_blank" class="bib-title">Auditing Reward Hackability in Code RL Training Environments</a> (SWE-bench Verified 49-task audit).
+              <a href="https://arxiv.org/pdf/2606.16062" target="_blank" class="source-aux-link">PDF &rarr;</a>
             </li>
             <li>
-              <strong>[Mao et al., arXiv:2510.12120]</strong> SEMAP: State-Engineered Multi-Agent Protocols (Structured state transitions vs. naive chat).
-              <span class="source-links">
-                <a href="https://arxiv.org/abs/2510.12120" target="_blank" class="source-badge">arXiv abs &rarr;</a>
-                <a href="https://arxiv.org/pdf/2510.12120" target="_blank" class="source-badge pdf">PDF &rarr;</a>
-              </span>
+              [<a href="https://arxiv.org/abs/2510.12120" target="_blank" class="bib-cite">Mao et al., arXiv:2510.12120</a>] 
+              <a href="https://arxiv.org/abs/2510.12120" target="_blank" class="bib-title">SEMAP: State-Engineered Multi-Agent Protocols</a> (Structured state transitions vs. naive chat).
+              <a href="https://arxiv.org/pdf/2510.12120" target="_blank" class="source-aux-link">PDF &rarr;</a>
             </li>
           </ul>
 
@@ -703,36 +694,26 @@ constraints:
           <div class="sources-category">// 02. PRACTITIONER_TALKS_&_INDUSTRY_AUDITS</div>
           <ul class="sources-list">
             <li>
-              <strong>[Bhaumik, AI Engineer]</strong> From Chaos to Choreography: Multi-Agent Orchestration Patterns (Stale cache production failure; shared state).
-              <span class="source-links">
-                <a href="https://ai.engineer/talks/from-chaos-to-choreography-multi-agent-orchestration-patterns-that-actually-work-sandipan-bhaumi" target="_blank" class="source-badge">Talk Page &rarr;</a>
-                <a href="https://www.youtube.com/watch?v=2czYyrTzILg" target="_blank" class="source-badge pdf">YouTube &rarr;</a>
-              </span>
+              [<a href="https://ai.engineer/talks/from-chaos-to-choreography-multi-agent-orchestration-patterns-that-actually-work-sandipan-bhaumi" target="_blank" class="bib-cite">Bhaumik, AI Engineer</a>] 
+              <a href="https://ai.engineer/talks/from-chaos-to-choreography-multi-agent-orchestration-patterns-that-actually-work-sandipan-bhaumi" target="_blank" class="bib-title">From Chaos to Choreography: Multi-Agent Orchestration Patterns That Actually Work</a>.
+              <a href="https://www.youtube.com/watch?v=2czYyrTzILg" target="_blank" class="source-aux-link">YouTube &rarr;</a>
             </li>
             <li>
-              <strong>[Böckeler, martinfowler.com]</strong> TDD Inside the Agent Loop (Exploratory evaluation of mutation scores and skipped red-state TDD).
-              <span class="source-links">
-                <a href="https://martinfowler.com/articles/exploring-gen-ai/tdd-in-the-agent-loop.html" target="_blank" class="source-badge">Fowler Article &rarr;</a>
-              </span>
+              [<a href="https://martinfowler.com/articles/exploring-gen-ai/tdd-in-the-agent-loop.html" target="_blank" class="bib-cite">Böckeler, martinfowler.com</a>] 
+              <a href="https://martinfowler.com/articles/exploring-gen-ai/tdd-in-the-agent-loop.html" target="_blank" class="bib-title">TDD Inside the Agent Loop</a> (Martin Fowler).
             </li>
             <li>
-              <strong>[Autonoma Report]</strong> AI-generated tests that pass but don't assert (Practitioner finding on tautological fixtures).
-              <span class="source-links">
-                <a href="https://getautonoma.com/blog/ai-generated-tests-pass-but-dont-assert" target="_blank" class="source-badge">Practitioner Blog &rarr;</a>
-              </span>
+              [<a href="https://getautonoma.com/blog/ai-generated-tests-pass-but-dont-assert" target="_blank" class="bib-cite">Autonoma Report</a>] 
+              <a href="https://getautonoma.com/blog/ai-generated-tests-pass-but-dont-assert" target="_blank" class="bib-title">AI-Generated Tests That Pass But Don't Assert</a> (Practitioner finding on tautological fixtures).
             </li>
             <li>
-              <strong>[OpenAI, 2026]</strong> Why We No Longer Evaluate SWE-bench Verified (Flawed test analysis across 138 audited hard failures).
-              <span class="source-links">
-                <a href="https://openai.com/index/why-we-no-longer-evaluate-swe-bench-verified/" target="_blank" class="source-badge">OpenAI Report &rarr;</a>
-              </span>
+              [<a href="https://openai.com/index/why-we-no-longer-evaluate-swe-bench-verified/" target="_blank" class="bib-cite">OpenAI, 2026</a>] 
+              <a href="https://openai.com/index/why-we-no-longer-evaluate-swe-bench-verified/" target="_blank" class="bib-title">Why We No Longer Evaluate SWE-bench Verified</a> (Flawed test analysis across 138 audited hard failures).
             </li>
             <li>
-              <strong>[Baker, CodeCtx]</strong> Context Synchronization for Multi-Agent Workflows.
-              <span class="source-links">
-                <a href="https://rybkr.com/papers/context-synchronization-for-multi-agent-workflows.pdf" target="_blank" class="source-badge pdf">PDF &rarr;</a>
-                <a href="https://github.com/rybkr/codectx" target="_blank" class="source-badge green">GitHub &rarr;</a>
-              </span>
+              [<a href="https://rybkr.com/papers/context-synchronization-for-multi-agent-workflows.pdf" target="_blank" class="bib-cite">Baker, CodeCtx</a>] 
+              <a href="https://rybkr.com/papers/context-synchronization-for-multi-agent-workflows.pdf" target="_blank" class="bib-title">Context Synchronization for Multi-Agent Workflows</a>.
+              <a href="https://github.com/rybkr/codectx" target="_blank" class="source-aux-link green">GitHub &rarr;</a>
             </li>
           </ul>
 
@@ -740,32 +721,24 @@ constraints:
           <div class="sources-category">// 03. PLATFORM_SPECS_&_TOOLING</div>
           <ul class="sources-list">
             <li>
-              <strong>[Google Antigravity SDK]</strong> Autonomous sub-agent orchestration framework and execution gating.
-              <span class="source-links">
-                <a href="https://antigravity.google/blog/introducing-google-antigravity-sdk" target="_blank" class="source-badge">Official Announcement &rarr;</a>
-              </span>
+              [<a href="https://antigravity.google/blog/introducing-google-antigravity-sdk" target="_blank" class="bib-cite">Google Antigravity SDK</a>] 
+              <a href="https://antigravity.google/blog/introducing-google-antigravity-sdk" target="_blank" class="bib-title">Introducing Google Antigravity SDK</a> (Sub-agent orchestration & execution gating).
             </li>
             <li>
-              <strong>[Cursor 2.0 & Cloud Agents]</strong> Worktree-isolated local agents and Firecracker microVM containment.
-              <span class="source-links">
-                <a href="https://cursor.com/changelog/2-0" target="_blank" class="source-badge">Cursor 2.0 &rarr;</a>
-                <a href="https://cursor.com/docs/cloud-agent/security" target="_blank" class="source-badge">Agent Security &rarr;</a>
-                <a href="https://cursor.com/docs/cloud-agent/security-network" target="_blank" class="source-badge">Network Modes &rarr;</a>
-              </span>
+              [<a href="https://cursor.com/changelog/2-0" target="_blank" class="bib-cite">Cursor 2.0</a>] 
+              <a href="https://cursor.com/changelog/2-0" target="_blank" class="bib-title">Cursor 2.0 Changelog</a>
+              <a href="https://cursor.com/docs/cloud-agent/security" target="_blank" class="source-aux-link">Security Docs &rarr;</a>
+              <a href="https://cursor.com/docs/cloud-agent/security-network" target="_blank" class="source-aux-link">Network Modes &rarr;</a>
             </li>
             <li>
-              <strong>[Docker Sandboxes (sbx)]</strong> Egress denial and host-side credential proxying for LLM tool isolation.
-              <span class="source-links">
-                <a href="https://docs.docker.com/ai/sandboxes/" target="_blank" class="source-badge">Docker Sandboxes &rarr;</a>
-                <a href="https://docs.docker.com/ai/sandboxes/security/defaults/" target="_blank" class="source-badge">Security Defaults &rarr;</a>
-              </span>
+              [<a href="https://docs.docker.com/ai/sandboxes/" target="_blank" class="bib-cite">Docker Sandboxes</a>] 
+              <a href="https://docs.docker.com/ai/sandboxes/" target="_blank" class="bib-title">Docker Sandboxes (sbx) Overview</a>
+              <a href="https://docs.docker.com/ai/sandboxes/security/defaults/" target="_blank" class="source-aux-link">Security Defaults &rarr;</a>
             </li>
             <li>
-              <strong>[OpenOrchestrator (owt)]</strong> Git worktree CLI multiplexer and pre-merge Conflict Guard.
-              <span class="source-links">
-                <a href="https://github.com/gitpcl/openorchestrator" target="_blank" class="source-badge green">owt GitHub &rarr;</a>
-                <a href="https://open-orchestrator.com/getting-started/introduction" target="_blank" class="source-badge">Conflict Guard Intro &rarr;</a>
-              </span>
+              [<a href="https://github.com/gitpcl/openorchestrator" target="_blank" class="bib-cite">OpenOrchestrator</a>] 
+              <a href="https://github.com/gitpcl/openorchestrator" target="_blank" class="bib-title">OpenOrchestrator (owt) CLI Multiplexer</a>
+              <a href="https://open-orchestrator.com/getting-started/introduction" target="_blank" class="source-aux-link green">Conflict Guard &rarr;</a>
             </li>
           </ul>
         </div>
