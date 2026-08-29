@@ -3,10 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SuhLabs | Open-Source Security & Governance Tooling</title>
+    <title>SuhLabs | Open-source tools for agent gates, Zero Trust evidence, Splunk compliance</title>
     <meta
       name="description"
-      content="Open-source defensive engineering for multi-agent mechanical control planes and Zero Trust compliance control evidence."
+      content="Open-source work on agent pipeline failure, Zero Trust control evidence, and compliance automation. Issues welcome."
     />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Fira+Code:wght@400;500;600&display=swap"
@@ -16,8 +16,8 @@
     <style>
       .tool-matrix-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
-        gap: 1.75rem;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 1.5rem;
         margin-top: 1.5rem;
       }
       .tool-card {
@@ -37,7 +37,8 @@
       .tool-card h3 {
         margin-top: 0;
         font-family: "Fira Code", monospace;
-        font-size: 1.2rem;
+        font-size: 1.15rem;
+        line-height: 1.35;
       }
       .problem-label {
         font-family: "Fira Code", monospace;
@@ -115,23 +116,23 @@
     </nav>
 
     <header class="hero" style="padding: 4.5rem 2rem 3rem 2rem;">
-      <h1 style="font-size: 3rem; line-height: 1.15; margin-bottom: 1rem;">
-        Defensive tooling. <br /><span style="color: var(--accent-green)"
-          >Clone the repositories.</span
+      <h1 style="font-size: 3.25rem; line-height: 1.15; margin-bottom: 1rem;">
+        Three problems. <br /><span style="color: var(--accent-green)"
+          >Clone the tools.</span
         >
       </h1>
       <p style="font-size: 1.15rem; color: var(--text-muted); max-width: 800px; line-height: 1.6; margin-bottom: 1.75rem;">
-        Open-source engineering on autonomous agent pipeline failures, Zero Trust control evidence, and compliance automation. Built for defenders, audited in the open.
+        Open-source work on agent pipeline failure, Zero Trust control evidence, and compliance automation. Issues welcome.
       </p>
       <div style="display: flex; gap: 0.8rem; flex-wrap: wrap;">
-        <a href="projects.html" class="card-btn primary" style="padding: 0.65rem 1.25rem; font-size: 0.85rem;">Explore All Projects &rarr;</a>
-        <a href="community.html" class="card-btn secondary" style="padding: 0.65rem 1.25rem; font-size: 0.85rem;">Contribute & Report Issues &rarr;</a>
+        <a href="community.html" class="card-btn primary" style="padding: 0.65rem 1.25rem; font-size: 0.85rem;">Contribute &rarr;</a>
+        <a href="projects.html" class="card-btn secondary" style="padding: 0.65rem 1.25rem; font-size: 0.85rem;">Browse Repositories &rarr;</a>
       </div>
     </header>
 
     <div class="container" style="padding-top: 1rem; padding-bottom: 5rem;">
       <div class="section-header" style="margin-top: 1rem; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">
-        <h2 style="font-family: 'Fira Code', monospace; font-size: 1.15rem; color: var(--accent-green); margin: 0;">// OPEN_SOURCE_SECURITY_TOOLS</h2>
+        <h2 style="font-family: 'Fira Code', monospace; font-size: 1.15rem; color: var(--accent-green); margin: 0;">// THREE_EQUAL_PROBLEMS_&_TOOLS</h2>
       </div>
 
       <div class="tool-matrix-grid">
@@ -139,16 +140,17 @@
         <div class="tool-card" style="border-left: 4px solid var(--accent-blue);">
           <div>
             <div class="problem-label" style="color: var(--accent-blue);">
-              // PROBLEM_01: PROMPT-ONLY AGENT DRIFT
+              // PROBLEM_01: AGENT PIPELINE DRIFT
             </div>
-            <h3 style="color: var(--accent-blue);">Autonomous Agent Governance</h3>
+            <h3 style="color: var(--accent-blue);">Agents Without Mechanical Gates</h3>
             <p class="problem-text">
-              Autonomous coding agents operating without mechanical gates suffer from semantic drift, reward hacking (writing passing tests that fail to assert), and non-deterministic tool coordination. Prompt rulebooks are probabilistic suggestions; stability requires frozen schemas, read-only TDD test mounts, Git worktrees, and deny-by-default sandbox egress.
+              Autonomous coding agents suffer from semantic drift, reward hacking (passing tests that fail to assert), and prompt-only failures. Prompts are probabilistic suggestions; stability requires frozen schemas, read-only TDD test mounts, Git worktrees, and deny-by-default sandbox egress.
             </p>
           </div>
           <div class="card-actions">
-            <a href="https://github.com/JohnYoungSuh/ai-agent-governance-framework" target="_blank" rel="noopener noreferrer" class="card-btn primary">Clone Repository &rarr;</a>
-            <a href="multi-agent-pipelines-whitepaper.html" class="card-btn secondary">Design Whitepaper &rarr;</a>
+            <a href="https://github.com/JohnYoungSuh/ai-agent-governance-framework" target="_blank" rel="noopener noreferrer" class="card-btn primary">Clone Framework &rarr;</a>
+            <a href="multi-agent-pipelines-whitepaper.html" class="card-btn secondary">Design Note &rarr;</a>
+            <a href="community.html" class="card-btn secondary">Contribute &rarr;</a>
           </div>
         </div>
 
@@ -156,17 +158,17 @@
         <div class="tool-card" style="border-left: 4px solid var(--accent-green);">
           <div>
             <div class="problem-label" style="color: var(--accent-green);">
-              // PROBLEM_02: UNVERIFIED ZERO TRUST
+              // PROBLEM_02: ZERO TRUST AS PURCHASES
             </div>
-            <h3 style="color: var(--accent-green);">Zero Trust Control Evidence</h3>
+            <h3 style="color: var(--accent-green);">Zero Trust as Purchases, Not Control Proof</h3>
             <p class="problem-text">
-              Zero Trust is frequently procured as commercial vendor suites, yet organizations fail DoD COA and NIST 800-207 audits due to a lack of verifiable proof of delivery. Our open-source Splunk applications translate execution roadmaps into automated, log-based evidence ingestion across all 7 ZT pillars.
+              Zero Trust is frequently bought as commercial vendor suites, yet organizations fail DoD COA and NIST 800-207 audits due to a lack of verifiable proof of delivery. Our open-source Splunk applications translate execution roadmaps into automated, log-based evidence ingestion across all 7 ZT pillars.
             </p>
           </div>
           <div class="card-actions">
             <a href="https://splunkbase.splunk.com/app/9582" target="_blank" rel="noopener noreferrer" class="card-btn primary"><span class="pulse-dot" style="background: #000; box-shadow: 0 0 6px #000;"></span>Splunkbase #9582</a>
-            <a href="https://splunkbase.splunk.com/app/8628" target="_blank" rel="noopener noreferrer" class="card-btn secondary">DFD Visualizer #8628</a>
-            <a href="zero-trust-whitepaper.html" class="card-btn secondary">Whitepaper &rarr;</a>
+            <a href="https://splunkbase.splunk.com/app/8628" target="_blank" rel="noopener noreferrer" class="card-btn secondary">Splunkbase #8628</a>
+            <a href="zero-trust-whitepaper.html" class="card-btn secondary">Design Note &rarr;</a>
             <a href="https://community.splunk.com/t5/Community-Blog/Rethinking-Zero-Trust-From-Product-Purchases-to-Logical-Control/ba-p/762651" target="_blank" rel="noopener noreferrer" class="card-btn pink">Splunk Blog &rarr;</a>
           </div>
         </div>
@@ -177,7 +179,7 @@
             <div class="problem-label" style="color: var(--accent-pink);">
               // PROBLEM_03: MANUAL AUDIT OVERHEAD
             </div>
-            <h3 style="color: var(--accent-pink);">eMASS Compliance Automation</h3>
+            <h3 style="color: var(--accent-pink);">Manual Audit Overhead & POA&M Tracking</h3>
             <p class="problem-text">
               Federal RMF audits and eMASS Plan of Action & Milestones (POA&M) tracking burden teams with manual spreadsheets. This Splunk Technology Add-on converts raw compliance milestone exports into structured, audit-ready SIEM evidence feeds automatically.
             </p>
@@ -185,6 +187,7 @@
           <div class="card-actions">
             <a href="https://github.com/JohnYoungSuh/TA-suhlabs-eMASS" target="_blank" rel="noopener noreferrer" class="card-btn primary">Clone TA on GitHub &rarr;</a>
             <a href="https://splunkbase.splunk.com/app/8253" target="_blank" rel="noopener noreferrer" class="card-btn pink"><span class="pulse-dot" style="background-color: var(--accent-pink); box-shadow: 0 0 8px var(--accent-pink);"></span>Splunkbase #8253</a>
+            <a href="community.html" class="card-btn secondary">Contribute &rarr;</a>
           </div>
         </div>
       </div>
