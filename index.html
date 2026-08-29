@@ -3,16 +3,96 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SuhLabs | Sovereign Governance & Perception Research</title>
+    <title>SuhLabs | Open-Source Security & Governance Tooling</title>
     <meta
       name="description"
-      content="SuhLabs delivers defensive Zero Trust compliance tooling, sovereign AI agent governance frameworks, and sensor perception research."
+      content="Open-source defensive engineering for multi-agent mechanical control planes and Zero Trust compliance control evidence."
     />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Fira+Code:wght@400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Fira+Code:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
+    <style>
+      .tool-matrix-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+        gap: 1.75rem;
+        margin-top: 1.5rem;
+      }
+      .tool-card {
+        background: var(--bg-secondary);
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        padding: 1.75rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, border-color 0.25s ease;
+      }
+      .tool-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), 0 0 12px rgba(96, 171, 49, 0.15);
+      }
+      .tool-card h3 {
+        margin-top: 0;
+        font-family: "Fira Code", monospace;
+        font-size: 1.2rem;
+      }
+      .problem-label {
+        font-family: "Fira Code", monospace;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        margin-bottom: 0.5rem;
+      }
+      .problem-text {
+        color: #d1d5db;
+        font-size: 0.92rem;
+        line-height: 1.6;
+        margin-bottom: 1.25rem;
+      }
+      .card-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: auto;
+        padding-top: 1.25rem;
+        border-top: 1px solid rgba(26, 54, 93, 0.5);
+      }
+      .card-btn {
+        display: inline-block;
+        font-family: "Fira Code", monospace;
+        font-size: 0.8rem;
+        font-weight: 600;
+        text-decoration: none;
+        padding: 0.45rem 0.85rem;
+        border-radius: 4px;
+        transition: all 0.2s ease;
+      }
+      .card-btn.primary {
+        background: var(--accent-green);
+        color: #000;
+      }
+      .card-btn.primary:hover {
+        opacity: 0.9;
+      }
+      .card-btn.secondary {
+        border: 1px solid var(--border-color);
+        color: var(--text-main);
+      }
+      .card-btn.secondary:hover {
+        border-color: var(--accent-blue);
+        color: var(--accent-blue);
+      }
+      .card-btn.pink {
+        border: 1px solid var(--accent-pink);
+        color: var(--accent-pink);
+      }
+      .card-btn.pink:hover {
+        background: rgba(235, 52, 162, 0.1);
+      }
+    </style>
   </head>
   <body>
     <nav>
@@ -34,98 +114,87 @@
       </div>
     </nav>
 
-    <header class="hero">
-      <h1>
-        Probabilistic Speed. <br /><span style="color: var(--accent-green)"
-          >Sovereign Architecture.</span
+    <header class="hero" style="padding: 4.5rem 2rem 3rem 2rem;">
+      <h1 style="font-size: 3rem; line-height: 1.15; margin-bottom: 1rem;">
+        Defensive tooling. <br /><span style="color: var(--accent-green)"
+          >Clone the repositories.</span
         >
       </h1>
-      <p>
-        Build with the speed of AI, guided by the certainty of code. <br />
-        SuhLabs delivers an
-        <strong style="color: var(--accent-pink)"
-          >agent first governance framework</strong
-        >
-        that enforces policies, standards, and peer validation with precision.
-        From securing enterprise cloud infrastructure to
-        protecting smart devices, our
-        research provides mechanical guardrails enabling autonomous systems to
-        operate safely and responsibly.
+      <p style="font-size: 1.15rem; color: var(--text-muted); max-width: 800px; line-height: 1.6; margin-bottom: 1.75rem;">
+        Open-source engineering on autonomous agent pipeline failures, Zero Trust control evidence, and compliance automation. Built for defenders, audited in the open.
       </p>
+      <div style="display: flex; gap: 0.8rem; flex-wrap: wrap;">
+        <a href="projects.html" class="card-btn primary" style="padding: 0.65rem 1.25rem; font-size: 0.85rem;">Explore All Projects &rarr;</a>
+        <a href="community.html" class="card-btn secondary" style="padding: 0.65rem 1.25rem; font-size: 0.85rem;">Contribute & Report Issues &rarr;</a>
+      </div>
     </header>
 
-    <div class="container">
-      <section id="zero-trust" style="margin-bottom: 3rem;">
-        <span class="label" style="color: var(--accent-green)">Flagship Release: Zero Trust Control Evidence</span>
-        <div class="blueprint-box" style="border-left: 4px solid var(--accent-green);">
-          <div class="blueprint-text">
-            <h2>Rethinking Zero Trust</h2>
-            <p>
-              Translating DoD COA execution roadmaps and NIST 800-207 into automated, telemetry-driven proof of delivery. Powered by <strong>Zero Trust Compliance</strong> (Splunkbase #9582) and <strong>AWS-DFD-Visualizer</strong> (Splunkbase #8628).
-            </p>
-            <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap; margin-top: 1.5rem;">
-              <a href="https://splunkbase.splunk.com/app/9582" target="_blank" rel="noopener noreferrer" class="btn-green" style="background: var(--accent-green); color: #000; padding: 0.6rem 1.1rem; text-decoration: none; font-family: 'Fira Code', monospace; font-size: 0.85rem; border-radius: 4px; font-weight: 600;">Splunkbase #9582 &rarr;</a>
-              <a href="zero-trust-whitepaper.html" style="color: var(--text-main); border: 1px solid var(--border-color); padding: 0.6rem 1.1rem; text-decoration: none; font-family: 'Fira Code', monospace; font-size: 0.85rem; border-radius: 4px; transition: all 0.2s;">Read Whitepaper &rarr;</a>
-              <a href="https://community.splunk.com/t5/Community-Blog/Rethinking-Zero-Trust-From-Product-Purchases-to-Logical-Control/ba-p/762651" target="_blank" rel="noopener noreferrer" style="font-family: 'Fira Code', monospace; font-size: 0.75rem; color: var(--accent-pink); border: 1px solid var(--accent-pink); padding: 0.5rem 0.8rem; border-radius: 4px; text-decoration: none; display: inline-flex; align-items: center; transition: all 0.2s;"><span class="pulse-dot" style="background-color: var(--accent-pink); box-shadow: 0 0 8px var(--accent-pink);"></span>COMMUNITY BLOG &rarr;</a>
+    <div class="container" style="padding-top: 1rem; padding-bottom: 5rem;">
+      <div class="section-header" style="margin-top: 1rem; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">
+        <h2 style="font-family: 'Fira Code', monospace; font-size: 1.15rem; color: var(--accent-green); margin: 0;">// OPEN_SOURCE_SECURITY_TOOLS</h2>
+      </div>
+
+      <div class="tool-matrix-grid">
+        <!-- Card 1: Multi-Agent Mechanical Control Planes -->
+        <div class="tool-card" style="border-left: 4px solid var(--accent-blue);">
+          <div>
+            <div class="problem-label" style="color: var(--accent-blue);">
+              // PROBLEM_01: PROMPT-ONLY AGENT DRIFT
             </div>
-          </div>
-          <div class="terminal">
-            <div style="color: var(--accent-pink)">// LIVE_SPLUNKBASE_CATALOG</div>
-            <div>$ splunkbase-catalog --vendor suhlabs</div>
-            <div>> Zero Trust Compliance: <span style="color: var(--accent-green)">APP_ID_9582 (LIVE)</span></div>
-            <div>> DFD Visualizer: <span style="color: var(--accent-blue)">APP_ID_8628 (LIVE)</span></div>
-            <div>> eMASS POA&M Add-on: <span style="color: var(--accent-pink)">APP_ID_8253 (LIVE)</span></div>
-            <div>> DoD COA Mapping: <span>INGESTED</span></div>
-            <div>> Splunk Community Blog: <span style="color: var(--accent-pink)">PUBLISHED</span></div>
-          </div>
-        </div>
-      </section>
-
-      <section id="kernel">
-        <span class="label">Core Substrate: AGT Kernel</span>
-        <div class="blueprint-box">
-          <div class="blueprint-text">
-            <h2>Atomic Governance</h2>
-            <p>
-              Our research focuses on a <strong>Fail-Closed</strong> atomic
-              transaction model that mechanically couples policy evaluation with
-              immutable ledger commitment before tool calls execute.
+            <h3 style="color: var(--accent-blue);">Autonomous Agent Governance</h3>
+            <p class="problem-text">
+              Autonomous coding agents operating without mechanical gates suffer from semantic drift, reward hacking (writing passing tests that fail to assert), and non-deterministic tool coordination. Prompt rulebooks are probabilistic suggestions; stability requires frozen schemas, read-only TDD test mounts, Git worktrees, and deny-by-default sandbox egress.
             </p>
-            <a href="experiments.html" style="display: inline-block; margin-top: 1rem; padding: 0.6rem 1rem; text-decoration: none; border: 1px solid var(--accent-green); color: var(--accent-green); font-family: 'Fira Code', monospace; font-size: 0.8rem; border-radius: 4px;">Explore Experiments &rarr;</a>
           </div>
-          <div class="terminal">
-            <div style="color: var(--accent-pink)">// AGT_KERNEL_SPEC (ILLUSTRATIVE)</div>
-            <div>$ agt-kernel --eval-policy --mode=fail-closed</div>
-            <div>> Architecture Model: <span>ATOMIC_GATE</span></div>
-            <div>> Tool Call Isolation: <span>SANDBOXED</span></div>
-            <div>> Policy Verification: <span>ENFORCED_EXTERNALLY</span></div>
+          <div class="card-actions">
+            <a href="https://github.com/JohnYoungSuh/ai-agent-governance-framework" target="_blank" rel="noopener noreferrer" class="card-btn primary">Clone Repository &rarr;</a>
+            <a href="multi-agent-pipelines-whitepaper.html" class="card-btn secondary">Design Whitepaper &rarr;</a>
           </div>
         </div>
-      </section>
 
-      <section id="shield">
-        <div class="radio-shack-box">
-          <div class="badge">V1.0 SHIELD (RESEARCH CONCEPT)</div>
-          <h3>Hardware Privacy Appliance Specs</h3>
-          <p>
-            An exploratory hardware-level metadata scrubber specification informed by our research in
-            optical perception and atomic governance. Designed as a physical-layer privacy barrier.
-          </p>
-          <ul class="spec-list">
-            <li>Hardware-Enforced Metadata Masking (Design Concept)</li>
-            <li>Physical Data-Diode Ingress Isolation</li>
-            <li>Sovereign Identity Protection Standards</li>
-          </ul>
+        <!-- Card 2: Zero Trust Control Evidence -->
+        <div class="tool-card" style="border-left: 4px solid var(--accent-green);">
+          <div>
+            <div class="problem-label" style="color: var(--accent-green);">
+              // PROBLEM_02: UNVERIFIED ZERO TRUST
+            </div>
+            <h3 style="color: var(--accent-green);">Zero Trust Control Evidence</h3>
+            <p class="problem-text">
+              Zero Trust is frequently procured as commercial vendor suites, yet organizations fail DoD COA and NIST 800-207 audits due to a lack of verifiable proof of delivery. Our open-source Splunk applications translate execution roadmaps into automated, log-based evidence ingestion across all 7 ZT pillars.
+            </p>
+          </div>
+          <div class="card-actions">
+            <a href="https://splunkbase.splunk.com/app/9582" target="_blank" rel="noopener noreferrer" class="card-btn primary"><span class="pulse-dot" style="background: #000; box-shadow: 0 0 6px #000;"></span>Splunkbase #9582</a>
+            <a href="https://splunkbase.splunk.com/app/8628" target="_blank" rel="noopener noreferrer" class="card-btn secondary">DFD Visualizer #8628</a>
+            <a href="zero-trust-whitepaper.html" class="card-btn secondary">Whitepaper &rarr;</a>
+            <a href="https://community.splunk.com/t5/Community-Blog/Rethinking-Zero-Trust-From-Product-Purchases-to-Logical-Control/ba-p/762651" target="_blank" rel="noopener noreferrer" class="card-btn pink">Splunk Blog &rarr;</a>
+          </div>
         </div>
-      </section>
+
+        <!-- Card 3: eMASS POA&M Compliance Automation -->
+        <div class="tool-card" style="border-left: 4px solid var(--accent-pink);">
+          <div>
+            <div class="problem-label" style="color: var(--accent-pink);">
+              // PROBLEM_03: MANUAL AUDIT OVERHEAD
+            </div>
+            <h3 style="color: var(--accent-pink);">eMASS Compliance Automation</h3>
+            <p class="problem-text">
+              Federal RMF audits and eMASS Plan of Action & Milestones (POA&M) tracking burden teams with manual spreadsheets. This Splunk Technology Add-on converts raw compliance milestone exports into structured, audit-ready SIEM evidence feeds automatically.
+            </p>
+          </div>
+          <div class="card-actions">
+            <a href="https://github.com/JohnYoungSuh/TA-suhlabs-eMASS" target="_blank" rel="noopener noreferrer" class="card-btn primary">Clone TA on GitHub &rarr;</a>
+            <a href="https://splunkbase.splunk.com/app/8253" target="_blank" rel="noopener noreferrer" class="card-btn pink"><span class="pulse-dot" style="background-color: var(--accent-pink); box-shadow: 0 0 8px var(--accent-pink);"></span>Splunkbase #8253</a>
+          </div>
+        </div>
+      </div>
     </div>
 
     <footer>
       <div class="logo">SUH<span>LABS</span></div>
       <p>| Sovereign Code | Defensive Security & Compliance Tooling |</p>
       <div class="disclaimer">
-        SuhLabs is an independent research entity. Reference to "Murray Hill"
-        and "Radio Shack" is for aesthetic inspiration only. SuhLabs publishes defensive research and compliance tooling. Recon and simulation work is for authorized environments only.
+        SuhLabs publishes defensive research and compliance tooling under unconditional open-source licenses (MIT / Apache 2.0). Recon and simulation work is for authorized environments only.
       </div>
     </footer>
     <script>
