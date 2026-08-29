@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SuhLabs | Engineering Robust Multi-Agent Pipelines</title>
+    <meta
+      name="description"
+      content="Technical Whitepaper: Solving Semantic Drift, Reward Hacking, and Non-Determinism in Autonomous Software Teams with Mechanical Control Planes."
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Fira+Code:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      .whitepaper-header {
+        margin-bottom: 2.5rem;
+      }
+      .badge-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.6rem;
+        margin: 1.25rem 0;
+      }
+      .badge-item {
+        background: rgba(96, 171, 49, 0.1);
+        border: 1px solid var(--accent-green);
+        color: var(--accent-green);
+        padding: 0.35rem 0.85rem;
+        border-radius: 4px;
+        font-family: "Fira Code", monospace;
+        font-size: 0.75rem;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+      }
+      .badge-item.pink {
+        background: rgba(235, 52, 162, 0.1);
+        border-color: var(--accent-pink);
+        color: var(--accent-pink);
+      }
+      .badge-item.blue {
+        background: rgba(0, 173, 255, 0.1);
+        border-color: var(--accent-blue);
+        color: var(--accent-blue);
+      }
+
+      .exec-summary-box {
+        background: rgba(12, 23, 36, 0.95);
+        border: 1px solid var(--border-color);
+        border-left: 4px solid var(--accent-blue);
+        padding: 1.75rem 2rem;
+        border-radius: 6px;
+        margin: 2rem 0 3.5rem 0;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+      }
+      .exec-summary-title {
+        font-family: "Fira Code", monospace;
+        color: var(--accent-blue);
+        font-size: 0.95rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 0.75rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .exec-summary-box p {
+        color: #d1d5db;
+        line-height: 1.7;
+        margin: 0;
+        font-size: 0.95rem;
+      }
+
+      .whitepaper-section {
+        margin-bottom: 3.5rem;
+      }
+      .whitepaper-section h2 {
+        color: var(--accent-green);
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 0.6rem;
+        margin-bottom: 1.25rem;
+        font-family: "Fira Code", monospace;
+        font-size: 1.35rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .whitepaper-section h3 {
+        color: var(--text-main);
+        margin-top: 1.75rem;
+        margin-bottom: 0.75rem;
+        font-size: 1.1rem;
+        font-family: "Fira Code", monospace;
+      }
+      .whitepaper-section p {
+        color: var(--text-muted);
+        line-height: 1.7;
+        margin-bottom: 1.2rem;
+      }
+
+      .content-list {
+        list-style-type: none;
+        padding-left: 0;
+        margin: 1.2rem 0;
+      }
+      .content-list li {
+        color: var(--text-muted);
+        line-height: 1.65;
+        margin-bottom: 1rem;
+        padding-left: 1.5rem;
+        position: relative;
+      }
+      .content-list li::before {
+        content: "■";
+        color: var(--accent-green);
+        position: absolute;
+        left: 0;
+        font-size: 0.7rem;
+        top: 0.2rem;
+      }
+      .content-list.pink li::before {
+        color: var(--accent-pink);
+      }
+      .content-list strong {
+        color: var(--text-main);
+      }
+
+      .cite {
+        color: var(--accent-blue);
+        font-family: "Fira Code", monospace;
+        font-size: 0.78rem;
+        font-weight: 500;
+      }
+
+      /* Dark Mode Interactive Data Tables */
+      .table-wrapper {
+        overflow-x: auto;
+        margin: 1.75rem 0 2.25rem 0;
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        background: var(--bg-secondary);
+      }
+      .wp-table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: left;
+        font-size: 0.88rem;
+      }
+      .wp-table th {
+        background: rgba(4, 13, 22, 0.95);
+        color: var(--accent-green);
+        font-family: "Fira Code", monospace;
+        font-weight: 600;
+        font-size: 0.8rem;
+        padding: 0.85rem 1.1rem;
+        border-bottom: 1px solid var(--border-color);
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+      }
+      .wp-table td {
+        padding: 0.95rem 1.1rem;
+        border-bottom: 1px solid rgba(26, 54, 93, 0.4);
+        color: var(--text-muted);
+        line-height: 1.6;
+        vertical-align: top;
+      }
+      .wp-table tr:last-child td {
+        border-bottom: none;
+      }
+      .wp-table tr:hover td {
+        background: rgba(0, 173, 255, 0.03);
+      }
+      .wp-table strong {
+        color: var(--text-main);
+      }
+
+      .badge-pill {
+        display: inline-block;
+        padding: 0.2rem 0.5rem;
+        font-family: "Fira Code", monospace;
+        font-size: 0.72rem;
+        font-weight: 600;
+        border-radius: 3px;
+        letter-spacing: 0.5px;
+      }
+      .b-plan { background: rgba(0, 173, 255, 0.15); color: var(--accent-blue); border: 1px solid var(--accent-blue); }
+      .b-exec { background: rgba(96, 171, 49, 0.15); color: var(--accent-green); border: 1px solid var(--accent-green); }
+      .b-orch { background: rgba(235, 52, 162, 0.15); color: var(--accent-pink); border: 1px solid var(--accent-pink); }
+      .b-gate { background: rgba(255, 170, 0, 0.15); color: #ffaa00; border: 1px solid #ffaa00; }
+
+      /* Code Block & Terminal */
+      .code-container {
+        background: #02060b;
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        padding: 1.25rem 1.5rem;
+        margin: 1.5rem 0;
+        overflow-x: auto;
+      }
+      .code-header {
+        font-family: "Fira Code", monospace;
+        font-size: 0.75rem;
+        color: var(--accent-pink);
+        margin-bottom: 0.75rem;
+        border-bottom: 1px solid #1a293b;
+        padding-bottom: 0.4rem;
+      }
+      .code-container pre {
+        margin: 0;
+        font-family: "Fira Code", monospace;
+        font-size: 0.8rem;
+        line-height: 1.55;
+        color: #e2e8f0;
+      }
+
+      /* Trust Rules Ordered List */
+      .rules-list {
+        counter-reset: rule-counter;
+        list-style: none;
+        padding-left: 0;
+        margin: 1.5rem 0;
+      }
+      .rules-list li {
+        counter-increment: rule-counter;
+        background: var(--bg-secondary);
+        border: 1px solid var(--border-color);
+        border-left: 4px solid var(--accent-green);
+        padding: 1.2rem 1.5rem;
+        border-radius: 4px;
+        margin-bottom: 1rem;
+        position: relative;
+        line-height: 1.65;
+        color: var(--text-muted);
+      }
+      .rules-list li strong {
+        color: var(--text-main);
+        font-family: "Fira Code", monospace;
+        font-size: 0.95rem;
+        display: block;
+        margin-bottom: 0.4rem;
+      }
+
+      /* References styling */
+      .sources-container {
+        background: rgba(12, 23, 36, 0.7);
+        border: 1px solid var(--border-color);
+        padding: 1.5rem;
+        border-radius: 6px;
+      }
+      .sources-list {
+        list-style: none;
+        padding-left: 0;
+        margin: 0;
+      }
+      .sources-list li {
+        color: var(--text-muted);
+        font-size: 0.82rem;
+        line-height: 1.6;
+        margin-bottom: 0.75rem;
+        padding-left: 1.2rem;
+        position: relative;
+      }
+      .sources-list li::before {
+        content: "›";
+        color: var(--accent-blue);
+        position: absolute;
+        left: 0;
+        font-weight: bold;
+        font-size: 1.1rem;
+        top: -0.1rem;
+      }
+      .sources-list strong {
+        color: #93c5fd;
+        font-family: "Fira Code", monospace;
+        font-size: 0.8rem;
+      }
+
+      /* Print Styles for PDF Export */
+      @media print {
+        body {
+          background: #ffffff;
+          color: #000000;
+        }
+        nav, footer, .hamburger {
+          display: none !important;
+        }
+        .container {
+          max-width: 100%;
+          padding: 0;
+        }
+        .exec-summary-box, .table-wrapper, .code-container, .rules-list li, .sources-container {
+          border: 1px solid #ccc;
+          background: #f9f9f9;
+          color: #000;
+        }
+        .whitepaper-section h2, .whitepaper-section h3 {
+          color: #000;
+        }
+        .wp-table th {
+          background: #eee;
+          color: #000;
+        }
+        .wp-table td, .sources-list li, .rules-list li {
+          color: #333;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <div class="logo">
+        <a href="index.html" style="text-decoration: none; color: inherit"
+          >SUH<span>LABS</span></a
+        >
+      </div>
+      <div class="hamburger" onclick="toggleMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <div class="nav-links">
+        <a href="index.html">Back to Hub</a>
+        <a href="projects.html">Projects</a>
+        <a href="signals.html">Signals</a>
+        <a href="experiments.html">Experiments</a>
+        <a href="community.html">Community</a>
+      </div>
+    </nav>
+
+    <div class="container" style="padding-top: 4rem">
+      <header class="whitepaper-header">
+        <span class="label" style="color: var(--accent-green)">Technical Whitepaper · 2026 Reference Architecture</span>
+        <h1 style="font-size: 2.75rem; line-height: 1.2; margin: 0.75rem 0 1rem 0;">
+          Engineering Robust <br /><span style="color: var(--accent-green)">Multi-Agent Pipelines</span>
+        </h1>
+        <p style="font-size: 1.15rem; color: var(--text-muted); max-width: 850px; line-height: 1.6;">
+          Solving Semantic Drift, Reward Hacking, and Non-Determinism in Autonomous Software Teams with Mechanical Control Planes.
+        </p>
+
+        <div class="badge-group">
+          <span class="badge-item"><span class="pulse-dot"></span>Audited Reference Architecture</span>
+          <span class="badge-item blue">Grounded Citations: Primary Docs & Empirical Research</span>
+          <span class="badge-item pink">Focus: Planning/Execution Split, Worktrees, & Sandboxed Egress</span>
+        </div>
+      </header>
+
+      <!-- Executive Summary -->
+      <div class="exec-summary-box">
+        <div class="exec-summary-title">
+          <span>// EXECUTIVE_SUMMARY</span>
+        </div>
+        <p>
+          Pairing autonomous coding agents across tools—one "architect," another "developer"—fails in three documented ways: semantic drift between intent and implementation, reward hacking against weak test suites, and coordination degradation across unconstrained multi-turn conversations. Prompt "skills," system instructions, and dynamic memory files (e.g., <code>MEMORIES.md</code>) cannot resolve these failures—they are probabilistic suggestions. Stability requires a <strong>mechanical control plane</strong>: frozen schemas, Git worktrees, read-only tests, compilers, and deny-by-default network egress.
+        </p>
+      </div>
+
+      <!-- Section 1 -->
+      <section class="whitepaper-section">
+        <h2>01. Prompt Skills Are Not a Control Plane</h2>
+        <p>
+          Relying on prompt-level personas or dynamically injected rulebooks as an architectural control plane fails due to physical and statistical constraints:
+        </p>
+        <ul class="content-list">
+          <li>
+            <strong>Probabilistic Suggestions vs. Deterministic Gates:</strong> As context windows expand, model retrieval degrades across the middle of the context <span class="cite">[Liu et al., arXiv:2307.03172]</span>. Furthermore, system/user role separation does not provide a robust instruction hierarchy: models routinely deprioritize privileged directives under formatting conflicts or social framing <span class="cite">[Geng et al., arXiv:2502.15851]</span>. When an un-gated agent modifies an interface, it emits fluent rationalizations ("the mock required an extra parameter"). A compiler or schema validator does not negotiate—it yields a deterministic <code>exit 1</code>.
+          </li>
+          <li>
+            <strong>Physical State Isolation Cannot Be Prompted:</strong> Prompts cannot serialize multiple writers on a single inode. Git worktrees or remote VMs provide physical workspace isolation, preventing agents from clobbering each other's active trees mid-run. However, isolation only defers conflict resolution: STORM shows that physical isolation does not eliminate semantic merge conflicts across decoupled modules <span class="cite">[Liu et al., arXiv:2605.20563]</span>. Runtime contamination (mutating shared test databases or hitting live third-party endpoints) requires microVM boundaries with host-side proxying, not prompt rules. Shared mutable state degrades system integrity regardless of prompt quality—e.g., Bhaumik's production case where a stale 500ms cache read caused ~20% erroneous risk decisions across well-prompted agents <span class="cite">[Bhaumik, AI Engineer]</span>.
+          </li>
+          <li>
+            <strong>The Context Pollution Tax:</strong> Accumulating past post-mortems and negative rules inside an agent's prompt bloats token overhead, increases latency, and shifts critical constraints into the low-attention center of the context window. While unconstrained broadcast topologies can raise hallucination rates in some domains (such as travel planning: HR 0.658 vs 0.492) <span class="cite">[Zhang et al., arXiv:2606.21666]</span>, structured protocols cut coordination failures <span class="cite">[Mao et al., arXiv:2510.12120]</span>. Mechanical orchestration keeps prompts lean (spec in, code out), delegating enforcement to external gates.
+          </li>
+        </ul>
+
+        <div class="table-wrapper">
+          <table class="wp-table">
+            <thead>
+              <tr>
+                <th style="width: 25%;">Layer</th>
+                <th style="width: 35%;">Allowed Authority</th>
+                <th style="width: 40%;">Operational Primitives</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Orchestration (Guardrails)</strong></td>
+                <td>Hard constraints; non-negotiable boundaries. Violation yields <code>exit 1</code>.</td>
+                <td>Frozen OpenAPI/JSON Schemas, Git worktrees, build/lint gates, read-only tests, egress lockdown, retry caps.</td>
+              </tr>
+              <tr>
+                <td><strong>Skills (Optimization)</strong></td>
+                <td>Soft preferences within an isolated task context.</td>
+                <td>Code style, idioms, domain terminology, library selection hints.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Section 2 -->
+      <section class="whitepaper-section">
+        <h2>02. Documented Empirical Failure Modes</h2>
+        <ul class="content-list pink">
+          <li>
+            <strong>Semantic Intent Divergence (SID):</strong> Architect agents reason over abstract interfaces, while implementer agents reason across local token buffers, leading to diverging assumptions <span class="cite">[Acharya, arXiv:2604.16339; Baker, CodeCtx]</span>. Worktrees prevent file overwrites, but semantic merge recovery remains complex <span class="cite">[Liu et al., arXiv:2605.20563]</span>.
+          </li>
+          <li>
+            <strong>Reward Hacking & Test False Positives:</strong> In a 49-task sample audit of SWE-bench Verified, 28.5% (14/49) of evaluated tasks had test suites weak enough to accept Docker-verified patches that were demonstrably broken <span class="cite">[Rajan, arXiv:2606.16062]</span>. Conversely, OpenAI audited 138 hard-fail problems (27.6% of the benchmark) and found 59.4% had flawed tests or descriptions that rejected valid patches <span class="cite">[OpenAI, 2026]</span>. Passing a test suite (<code>exit 0</code>) is a necessary mechanical signal, but not a complete oracle of correctness.
+          </li>
+          <li>
+            <strong>Same-Agent TDD Limitations:</strong> When an implementing agent writes its own test fixtures, it risks generating tautological assertions that mirror implementation bugs <span class="cite">[Autonoma practitioner report]</span>. In an exploratory evaluation on Fowler's site, Birgitta Böckeler observed that same-agent TDD loops yielded negligible mutation improvements because agents frequently skipped or faked the initial failing (red) step. Test fixtures must be independently authored in the planning plane and frozen prior to execution.
+          </li>
+        </ul>
+      </section>
+
+      <!-- Section 3 -->
+      <section class="whitepaper-section">
+        <h2>03. Role Separation by Policy: Tools as Hosts</h2>
+        <p>
+          Tooling platforms provide execution runtimes, not out-of-the-box architectural guarantees. Roles must be established by explicit pipeline policy:
+        </p>
+
+        <div class="table-wrapper">
+          <table class="wp-table">
+            <thead>
+              <tr>
+                <th style="width: 14%;">Plane</th>
+                <th style="width: 18%;">Assigned Job</th>
+                <th style="width: 34%;">Target Surfaces (Configured by Policy)</th>
+                <th style="width: 34%;">Operational Boundary (Do Not Overclaim)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="badge-pill b-plan">Planning</span></td>
+                <td>Specs, frozen TDD fixtures, human gates.</td>
+                <td><strong>Google Antigravity SDK:</strong> Structured JSON/Pydantic output, sub-agents, and command execution denial by default (<code>confirm_run_command()</code>).</td>
+                <td>Antigravity is not a spec compiler. Other labs bundle code and tests together; pipeline policy must enforce TDD role separation.</td>
+              </tr>
+              <tr>
+                <td><span class="badge-pill b-exec">Execution</span></td>
+                <td>Isolated implementation against frozen tests.</td>
+                <td>
+                  • <strong>Cursor 2.0 Local:</strong> Up to 8 parallel agents via Git worktrees or remote machines.<br/>
+                  • <strong>Cursor Cloud Agents:</strong> Dedicated Firecracker microVMs.<br/>
+                  • <strong>macOS 2.0 Terminals:</strong> Sandboxed workspace access, no internet by default.
+                </td>
+                <td>Cloud Agents have outbound internet enabled by default; they are not an AST editor and are not air-gapped unless egress policies are explicitly applied.</td>
+              </tr>
+              <tr>
+                <td><span class="badge-pill b-orch">Control</span></td>
+                <td>Worktree lifecycle, task handoffs, merge gates.</td>
+                <td><strong>OpenOrchestrator (<code>owt</code>):</strong> CLI worktree multiplexer with pre-merge Conflict Guard.</td>
+                <td>Conflict Guard detects file-overlap before merge; it does not resolve unstated semantic merge conflicts.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Section 4 -->
+      <section class="whitepaper-section">
+        <h2>04. End-to-End Orchestrated Pipeline Flow</h2>
+        <div class="table-wrapper">
+          <table class="wp-table">
+            <thead>
+              <tr>
+                <th style="width: 12%;">Phase</th>
+                <th style="width: 22%;">Actor / Surface</th>
+                <th style="width: 33%;">Generated Artifact</th>
+                <th style="width: 33%;">Mechanical Verification Gate</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>1. Spec</strong></td>
+                <td><span class="badge-pill b-plan">Planning Agent + Human</span></td>
+                <td>OpenAPI / JSON schemas, typed interfaces, task manifest.</td>
+                <td>Schema validation; explicit human approval gate; contract freeze by policy.</td>
+              </tr>
+              <tr>
+                <td><strong>2. TDD</strong></td>
+                <td><span class="badge-pill b-plan">Planning/QA Agent</span></td>
+                <td>Unit and integration tests that fail against empty stubs.</td>
+                <td>Independent runner verifies tests fail for the right reason (not missing files). Tests mounted read-only.</td>
+              </tr>
+              <tr>
+                <td><strong>3. Isolate</strong></td>
+                <td><span class="badge-pill b-orch">Control Plane (owt)</span></td>
+                <td>Dedicated <code>git worktree</code> + restricted sandbox network.</td>
+                <td>Physical filesystem separation; containment policy applied before tool calls.</td>
+              </tr>
+              <tr>
+                <td><strong>4. Execute</strong></td>
+                <td><span class="badge-pill b-exec">Execution Agent (Cursor)</span></td>
+                <td>Concrete implementation source files.</td>
+                <td>Local loop capped at 3 retries (team convention); tests remain read-only.</td>
+              </tr>
+              <tr>
+                <td><strong>5. Evaluate</strong></td>
+                <td><span class="badge-pill b-gate">Deterministic CI</span></td>
+                <td>Build logs, mutation scores, AST type checks, overlap diffs.</td>
+                <td><code>exit 0</code> baseline, mutation tests pass, Conflict Guard passes, Human PR review.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Section 5 -->
+      <section class="whitepaper-section">
+        <h2>05. Sandboxed Egress Control & Mechanical Trust Rules</h2>
+        <p>
+          Unrestricted outbound internet during agent execution allows data leakage and live API fallbacks that bypass mocks. Docker Sandboxes (<code>sbx</code>) run inside microVMs with host-side credential proxying—secrets are never injected into the agent environment. Evaluation environments must use locked-down egress policies.
+        </p>
+
+        <div class="code-container">
+          <div class="code-header">// SBX_CONTAINMENT_POLICY_SKETCH.YAML</div>
+          <pre><code># Illustrative Policy Sketch (Mapped to `sbx policy` / Cursor egress; not a vendor schema)
+version: "1.0"
+intent: "evaluation-time containment"
+network:
+  default_policy: deny
+  allowlist:
+    - host: registry.npmjs.org
+      ports: [443]
+    - host: pypi.org
+      ports: [443]
+security:
+  credential_injection: host_proxy   # Sentinel swapped on host; secrets never enter microVM
+  disable_raw_sockets: true
+constraints:
+  max_memory_mb: 4096
+  cpu_limit: 2.0</code></pre>
+        </div>
+
+        <h3 style="color: var(--accent-green); margin-top: 2rem;">The Four Mechanical Trust Rules</h3>
+        <ol class="rules-list">
+          <li>
+            <strong>1. Treat Exit 0 as a Necessary Signal, Not an Oracle</strong>
+            Natural language affirmations carry no evidential weight. Trust requires a mechanical <code>exit 0</code> from compilers and linters, but passing tests alone do not guarantee semantic correctness.
+          </li>
+          <li>
+            <strong>2. Decouple Test Authorship</strong>
+            The implementing agent must not author or alter test suites. Tests authored in Phase 2 must be mounted into the execution sandbox as read-only volumes.
+          </li>
+          <li>
+            <strong>3. Enforce Mutation Testing in CI</strong>
+            A green test suite is necessary but insufficient. Automated mutation testing (e.g., Mutmut, Stryker) must verify that tests fail when semantic mutations are injected.
+          </li>
+          <li>
+            <strong>4. Evict on Budget Exceed</strong>
+            If an agent exceeds its retry budget (e.g., 3 attempts) or fails static checks, automatically evict the worktree branch. Do not waste human hours debugging drifted context windows.
+          </li>
+        </ol>
+      </section>
+
+      <!-- Sources and Citations -->
+      <section class="whitepaper-section">
+        <h2 style="color: var(--accent-blue);">Primary Sources & References</h2>
+        <div class="sources-container">
+          <ul class="sources-list">
+            <li><strong>[Liu et al., arXiv:2307.03172]</strong> Lost in the Middle: How Language Models Use Long Contexts (TACL 2024).</li>
+            <li><strong>[Geng et al., arXiv:2502.15851]</strong> Control Illusion: The Failure of Instruction Hierarchies in LLMs (AAAI 2026).</li>
+            <li><strong>[Bhaumik, AI Engineer]</strong> From Chaos to Choreography: Multi-Agent Orchestration Patterns (Stale cache production failure; shared state).</li>
+            <li><strong>[Acharya, arXiv:2604.16339]</strong> Semantic Consensus & Semantic Intent Divergence in Agentic Systems.</li>
+            <li><strong>[Zhang et al., arXiv:2606.21666]</strong> Hallucination as Context Drift: Multi-Agent Communication Topologies (Domain-specific hallucination rates).</li>
+            <li><strong>[Liu et al., arXiv:2605.20563]</strong> Multi-agent Collaboration with State Management (STORM: Merge isolation and conflict deferral).</li>
+            <li><strong>[Rajan, arXiv:2606.16062]</strong> Auditing Reward Hackability in Code RL Training Environments (SWE-bench Verified 49-task audit).</li>
+            <li><strong>[OpenAI, 2026]</strong> Why We No Longer Evaluate SWE-bench Verified (Flawed test analysis across 138 audited hard failures).</li>
+            <li><strong>[Böckeler, martinfowler.com]</strong> TDD Inside the Agent Loop (Exploratory evaluation of mutation scores and skipped red-state TDD).</li>
+            <li><strong>[Mao et al., arXiv:2510.12120]</strong> SEMAP: State-Engineered Multi-Agent Protocols (Structured state transitions vs. naive chat).</li>
+            <li><strong>[Autonoma & Vendor Docs]</strong> AI-generated tests that pass but don't assert (Practitioner report); Google Antigravity SDK; Cursor 2.0; Docker Sandboxes.</li>
+          </ul>
+        </div>
+      </section>
+    </div>
+
+    <footer>
+      <div class="logo">SUH<span>LABS</span></div>
+      <p>| Murray Hill Inspired | Radio Shack Spirited |</p>
+      <div class="disclaimer">
+        SuhLabs is an independent research entity. Reference to "Murray Hill"
+        and "Radio Shack" is for aesthetic inspiration only.
+      </div>
+    </footer>
+    <script>
+      function toggleMenu() {
+        const nav = document.querySelector(".nav-links");
+        const hamburger = document.querySelector(".hamburger");
+        nav.classList.toggle("active");
+        hamburger.classList.toggle("active");
+      }
+    </script>
+  </body>
+</html>
