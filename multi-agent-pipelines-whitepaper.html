@@ -3,13 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SuhLabs | Engineering Robust Multi-Agent Pipelines</title>
+    <title>SuhLabs | Engineering Robust Multi-Agent Coding Pipelines</title>
     <meta
       name="description"
-      content="Technical Whitepaper: Solving Semantic Drift, Reward Hacking, and Non-Determinism in Autonomous Software Teams with Mechanical Control Planes."
+      content="A Control-Plane Reference Architecture for Intent Integrity, Evaluation Integrity, and Contained Execution in Autonomous Software Teams."
     />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Fira+Code:wght@400;500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
@@ -68,13 +68,13 @@
       }
       .exec-summary-box p {
         color: #d1d5db;
-        line-height: 1.7;
+        line-height: 1.75;
         margin: 0;
         font-size: 0.95rem;
       }
 
       .whitepaper-section {
-        margin-bottom: 3.5rem;
+        margin-bottom: 3.75rem;
       }
       .whitepaper-section h2 {
         color: var(--accent-green);
@@ -89,15 +89,33 @@
       }
       .whitepaper-section h3 {
         color: var(--text-main);
-        margin-top: 1.75rem;
-        margin-bottom: 0.75rem;
+        margin-top: 2rem;
+        margin-bottom: 0.85rem;
         font-size: 1.1rem;
         font-family: "Fira Code", monospace;
       }
+      .whitepaper-section h4 {
+        color: var(--accent-blue);
+        margin-top: 1.5rem;
+        margin-bottom: 0.6rem;
+        font-size: 0.95rem;
+        font-family: "Fira Code", monospace;
+        letter-spacing: 0.5px;
+      }
       .whitepaper-section p {
         color: var(--text-muted);
-        line-height: 1.7;
+        line-height: 1.75;
         margin-bottom: 1.2rem;
+      }
+
+      .figure-caption, .table-caption {
+        font-family: "Fira Code", monospace;
+        font-size: 0.78rem;
+        color: var(--accent-blue);
+        margin-top: 0.6rem;
+        margin-bottom: 1.5rem;
+        display: block;
+        letter-spacing: 0.3px;
       }
 
       .content-list {
@@ -108,7 +126,7 @@
       .content-list li {
         color: var(--text-muted);
         line-height: 1.7;
-        margin-bottom: 1.1rem;
+        margin-bottom: 1.2rem;
         padding-left: 1.5rem;
         position: relative;
       }
@@ -122,6 +140,9 @@
       }
       .content-list.pink li::before {
         color: var(--accent-pink);
+      }
+      .content-list.blue li::before {
+        color: var(--accent-blue);
       }
       .content-list strong {
         color: var(--text-main);
@@ -145,7 +166,7 @@
       /* Dark Mode Interactive Data Tables */
       .table-wrapper {
         overflow-x: auto;
-        margin: 1.75rem 0 2.25rem 0;
+        margin: 1.5rem 0 1rem 0;
         border: 1px solid var(--border-color);
         border-radius: 6px;
         background: var(--bg-secondary);
@@ -161,7 +182,7 @@
         color: var(--accent-green);
         font-family: "Fira Code", monospace;
         font-weight: 600;
-        font-size: 0.8rem;
+        font-size: 0.78rem;
         padding: 0.85rem 1.1rem;
         border-bottom: 1px solid var(--border-color);
         letter-spacing: 0.5px;
@@ -202,11 +223,30 @@
         font-weight: 600;
         border-radius: 3px;
         letter-spacing: 0.5px;
+        white-space: nowrap;
       }
       .b-plan { background: rgba(0, 173, 255, 0.15); color: var(--accent-blue); border: 1px solid var(--accent-blue); }
       .b-exec { background: rgba(96, 171, 49, 0.15); color: var(--accent-green); border: 1px solid var(--accent-green); }
       .b-orch { background: rgba(235, 52, 162, 0.15); color: var(--accent-pink); border: 1px solid var(--accent-pink); }
       .b-gate { background: rgba(255, 170, 0, 0.15); color: #ffaa00; border: 1px solid #ffaa00; }
+      .b-sec  { background: rgba(255, 77, 77, 0.15); color: #ff6b6b; border: 1px solid #ff6b6b; }
+
+      /* Architecture Diagram Block */
+      .diagram-container {
+        background: #02060b;
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        padding: 1.5rem;
+        margin: 1.5rem 0 0.5rem 0;
+        overflow-x: auto;
+      }
+      .diagram-container pre {
+        margin: 0;
+        font-family: "Fira Code", monospace;
+        font-size: 0.8rem;
+        line-height: 1.45;
+        color: #e2e8f0;
+      }
 
       /* Code Block & Terminal */
       .code-container {
@@ -214,7 +254,7 @@
         border: 1px solid var(--border-color);
         border-radius: 6px;
         padding: 1.25rem 1.5rem;
-        margin: 1.5rem 0;
+        margin: 1.5rem 0 1rem 0;
         overflow-x: auto;
       }
       .code-header {
@@ -224,6 +264,9 @@
         margin-bottom: 0.75rem;
         border-bottom: 1px solid #1a293b;
         padding-bottom: 0.4rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
       }
       .code-container pre {
         margin: 0;
@@ -233,7 +276,39 @@
         color: #e2e8f0;
       }
 
-      /* Trust Rules Ordered List */
+      /* Callout Box */
+      .callout-box {
+        background: rgba(12, 23, 36, 0.7);
+        border: 1px solid var(--border-color);
+        border-left: 4px solid var(--accent-pink);
+        padding: 1.2rem 1.5rem;
+        border-radius: 4px;
+        margin: 1.5rem 0;
+      }
+      .callout-box.green {
+        border-left-color: var(--accent-green);
+      }
+      .callout-box.blue {
+        border-left-color: var(--accent-blue);
+      }
+      .callout-title {
+        font-family: "Fira Code", monospace;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--text-main);
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .callout-box p {
+        margin: 0;
+        font-size: 0.9rem;
+        line-height: 1.65;
+        color: var(--text-muted);
+      }
+
+      /* Rules List */
       .rules-list {
         counter-reset: rule-counter;
         list-style: none;
@@ -247,7 +322,7 @@
         border-left: 4px solid var(--accent-green);
         padding: 1.2rem 1.5rem;
         border-radius: 4px;
-        margin-bottom: 1rem;
+        margin-bottom: 1.1rem;
         position: relative;
         line-height: 1.65;
         color: var(--text-muted);
@@ -260,7 +335,7 @@
         margin-bottom: 0.4rem;
       }
 
-      /* References Bibliography styling */
+      /* Bibliography styling */
       .sources-container {
         background: rgba(12, 23, 36, 0.85);
         border: 1px solid var(--border-color);
@@ -273,8 +348,8 @@
         color: var(--accent-green);
         font-size: 0.9rem;
         font-weight: 600;
-        margin-top: 1.75rem;
-        margin-bottom: 0.9rem;
+        margin-top: 2rem;
+        margin-bottom: 1rem;
         padding-bottom: 0.35rem;
         border-bottom: 1px solid rgba(26, 54, 93, 0.6);
         display: flex;
@@ -293,7 +368,7 @@
         color: var(--text-muted);
         font-size: 0.88rem;
         line-height: 1.7;
-        margin-bottom: 0.9rem;
+        margin-bottom: 1rem;
         padding-left: 1.3rem;
         position: relative;
       }
@@ -306,19 +381,6 @@
         font-size: 1.1rem;
         top: -0.1rem;
       }
-      .sources-list a.bib-cite {
-        color: var(--accent-blue);
-        font-family: "Fira Code", monospace;
-        font-size: 0.82rem;
-        font-weight: 600;
-        text-decoration: none;
-        border-bottom: 1px dotted var(--accent-blue);
-        transition: all 0.2s ease;
-      }
-      .sources-list a.bib-cite:hover {
-        color: #ffffff;
-        border-bottom-style: solid;
-      }
       .sources-list a.bib-title {
         color: #e2e8f0;
         text-decoration: none;
@@ -328,6 +390,17 @@
       .sources-list a.bib-title:hover {
         color: var(--accent-green);
         text-decoration: underline;
+      }
+      .source-evidence-tag {
+        display: inline-block;
+        font-family: "Fira Code", monospace;
+        font-size: 0.68rem;
+        padding: 0.1rem 0.4rem;
+        border-radius: 3px;
+        margin-right: 0.4rem;
+        background: rgba(0, 173, 255, 0.12);
+        color: var(--accent-blue);
+        border: 1px solid rgba(0, 173, 255, 0.3);
       }
       .source-aux-link {
         display: inline-block;
@@ -356,34 +429,72 @@
         background: var(--accent-green);
         color: #000000;
       }
+      .source-aux-link.blue {
+        border-color: var(--accent-blue);
+        color: var(--accent-blue);
+        background: rgba(0, 173, 255, 0.1);
+      }
+      .source-aux-link.blue:hover {
+        background: var(--accent-blue);
+        color: #000000;
+      }
 
-      /* Print Styles for PDF Export */
+      /* Print Styles for Monochromatic Clean Export */
       @media print {
         body {
-          background: #ffffff;
-          color: #000000;
+          background: #ffffff !important;
+          color: #111827 !important;
+          font-size: 10pt;
         }
         nav, footer, .hamburger {
           display: none !important;
         }
         .container {
-          max-width: 100%;
-          padding: 0;
+          max-width: 100% !important;
+          padding: 0 !important;
+          margin: 0 !important;
         }
-        .exec-summary-box, .table-wrapper, .code-container, .rules-list li, .sources-container {
-          border: 1px solid #ccc;
-          background: #f9f9f9;
-          color: #000;
+        .whitepaper-header h1 {
+          font-size: 18pt !important;
+          color: #000000 !important;
         }
-        .whitepaper-section h2, .whitepaper-section h3 {
-          color: #000;
+        .exec-summary-box, .table-wrapper, .code-container, .diagram-container, .rules-list li, .sources-container, .callout-box {
+          border: 1px solid #d1d5db !important;
+          background: #f9fafb !important;
+          color: #111827 !important;
+          box-shadow: none !important;
+        }
+        .whitepaper-section h2 {
+          color: #111827 !important;
+          border-bottom: 1.5pt solid #374151 !important;
+          font-size: 13pt !important;
+        }
+        .whitepaper-section h3 {
+          color: #1f2937 !important;
+          font-size: 11pt !important;
+        }
+        .whitepaper-section h4 {
+          color: #374151 !important;
         }
         .wp-table th {
-          background: #eee;
-          color: #000;
+          background: #e5e7eb !important;
+          color: #111827 !important;
+          border-bottom: 1pt solid #9ca3af !important;
         }
-        .wp-table td, .sources-list li, .rules-list li {
-          color: #333;
+        .wp-table td, .sources-list li, .rules-list li, .whitepaper-section p {
+          color: #374151 !important;
+        }
+        .code-container pre, .diagram-container pre {
+          color: #111827 !important;
+        }
+        .source-aux-link, .source-evidence-tag, .badge-pill, .badge-item {
+          border: 1px solid #9ca3af !important;
+          color: #111827 !important;
+          background: #e5e7eb !important;
+        }
+        .cite, a.bib-title {
+          color: #111827 !important;
+          text-decoration: underline !important;
         }
       }
     </style>
@@ -410,318 +521,814 @@
 
     <div class="container" style="padding-top: 4rem">
       <header class="whitepaper-header">
-        <span class="label" style="color: var(--accent-green)">Technical Whitepaper · 2026 Reference Architecture</span>
+        <span class="label" style="color: var(--accent-green)">Technical Whitepaper · Enterprise Agent Architecture</span>
         <h1 style="font-size: 2.75rem; line-height: 1.2; margin: 0.75rem 0 1rem 0;">
-          Engineering Robust <br /><span style="color: var(--accent-green)">Multi-Agent Pipelines</span>
+          Engineering Robust <br /><span style="color: var(--accent-green)">Multi-Agent Coding Pipelines</span>
         </h1>
-        <p style="font-size: 1.15rem; color: var(--text-muted); max-width: 850px; line-height: 1.6;">
-          Solving Semantic Drift, Reward Hacking, and Non-Determinism in Autonomous Software Teams with Mechanical Control Planes.
+        <p style="font-size: 1.15rem; color: var(--text-muted); max-width: 880px; line-height: 1.6;">
+          A Control-Plane Reference Architecture for Intent Integrity, Evaluation Integrity, and Contained Execution in Autonomous Software Teams.
         </p>
 
         <div class="badge-group">
-          <span class="badge-item"><span class="pulse-dot"></span>Audited Reference Architecture</span>
-          <span class="badge-item blue">Grounded Citations: Primary Docs & Empirical Research</span>
-          <span class="badge-item pink">Focus: Planning/Execution Split, Worktrees, & Sandboxed Egress</span>
+          <span class="badge-item"><span class="pulse-dot"></span>Reference Architecture & Control Spec</span>
+          <span class="badge-item blue">Evidence Taxonomy: Empirical Research, Docs & Preprints</span>
+          <span class="badge-item pink">Focus: Planning/Execution Split, Evaluation Surface Immutability & Egress Isolation</span>
         </div>
       </header>
 
-      <!-- Executive Summary -->
+      <!-- Executive Abstract -->
       <div class="exec-summary-box">
         <div class="exec-summary-title">
-          <span>// EXECUTIVE_SUMMARY</span>
+          <span>Executive Abstract</span>
         </div>
         <p>
-          Pairing autonomous coding agents across tools—one "architect," another "developer"—fails in three documented ways: semantic drift between intent and implementation, reward hacking against weak test suites, and coordination degradation across unconstrained multi-turn conversations. Prompt "skills," system instructions, and dynamic memory files (e.g., <code>MEMORIES.md</code>) cannot resolve these failures—they are probabilistic suggestions. Stability requires a <strong>mechanical control plane</strong>: frozen schemas, Git worktrees, read-only tests, compilers, and deny-by-default network egress.
+          Autonomous software agents can produce changes that appear credible, pass incomplete test suites, and still violate intended behavior, security constraints, or integration assumptions. These risks compound when multiple agents plan, implement, test, and merge changes across shared or partially isolated state. Prompt instructions, personas, and dynamically retrieved rulebooks remain useful for task guidance, but they are not authoritative enforcement mechanisms; their effect depends on probabilistic model behavior and context selection. A robust agentic software engineering pipeline therefore separates guidance from enforcement: agents propose and implement changes, while an external control plane constrains what they can modify, what they can access, how they are evaluated, and what evidence is required prior to merge. This paper presents a vendor-neutral reference architecture built around three distinct planes: a planning plane that produces versioned contracts and independently owned evaluation artifacts; an execution plane that operates in isolated, least-privilege environments; and a control plane that coordinates state, verifies artifacts, records evidence, and governs merge decisions. The architecture bounds—rather than eliminates—semantic divergence, evaluation gaming, coordination conflicts, and unauthorized external effects.
         </p>
       </div>
 
       <!-- Section 1 -->
       <section class="whitepaper-section">
-        <h2>01. Prompt Skills Are Not a Control Plane</h2>
+        <h2>1. Scope, Definitions, and Assurance Levels</h2>
         <p>
-          Relying on prompt-level personas or dynamically injected rulebooks as an architectural control plane fails due to physical and statistical constraints:
+          Before examining failure modes and mechanical controls, we establish operational boundaries, define terminology, and outline a graduated maturity model for pipeline assurance.
+        </p>
+
+        <h3>1.1 Definition of Mechanical Controls</h3>
+        <p>
+          In an agentic assurance context, we define a <strong>mechanical control</strong> as:
+        </p>
+        <div class="callout-box green">
+          <div class="callout-title">Mechanical Control Definition</div>
+          <p>
+            An externally enforced, machine-evaluable constraint whose enforcement and verification are independent of the executing agent's natural-language compliance claim or probabilistic token generation. Examples include operating-system read-only volume mounts, signed artifact digest verification, capability-restricted tool invocation schemas, policy-enforced egress proxies, compiler type checks, AST lint rules, and branch protection merge barriers.
+          </p>
+        </div>
+        <p>
+          Mechanical controls are not assumed to be infallible or capable of discovering unstated intent; rather, their execution is independent of the agent under evaluation.
+        </p>
+
+        <h3>1.2 Operational Scope</h3>
+        <p>
+          This architecture addresses repository-level autonomous software modification wherein one or more LLM agents ingest source code, formulate technical plans, modify designated implementation files, execute approved tools, and submit candidate patches. The architecture operates under explicit boundary conditions:
         </p>
         <ul class="content-list">
-          <li>
-            <strong>Probabilistic Suggestions vs. Deterministic Gates:</strong> As context windows expand, model retrieval degrades across the center of the window, a phenomenon documented in <a href="https://arxiv.org/abs/2307.03172" target="_blank" rel="noopener noreferrer" class="cite">Lost in the Middle (Liu et al.)</a>. Furthermore, system/user role separation fails to enforce a durable instruction hierarchy: models routinely deprioritize privileged directives under formatting conflicts or social framing, as proven in <a href="https://arxiv.org/abs/2502.15851" target="_blank" rel="noopener noreferrer" class="cite">Control Illusion (Geng et al.)</a>. When an un-gated agent modifies an interface, it emits fluent rationalizations ("the mock required an extra parameter"). A compiler or schema validator does not negotiate—it yields a deterministic <code>exit 1</code>.
-          </li>
-          <li>
-            <strong>Physical State Isolation Cannot Be Prompted:</strong> Prompts cannot serialize multiple writers on a single inode. Git worktrees or remote VMs provide physical workspace isolation, preventing agents from clobbering each other's active trees mid-run. However, isolation only defers conflict resolution: the <a href="https://arxiv.org/abs/2605.20563" target="_blank" rel="noopener noreferrer" class="cite">STORM framework (Liu et al.)</a> demonstrates that physical isolation does not eliminate semantic merge conflicts across decoupled modules. Runtime contamination (mutating shared test databases or hitting live third-party endpoints) requires microVM boundaries with host-side proxying, not prompt rules. Shared mutable state degrades system integrity regardless of prompt quality—e.g., Sandipan Bhaumik's production case study where a <a href="https://ai.engineer/talks/from-chaos-to-choreography-multi-agent-orchestration-patterns-that-actually-work-sandipan-bhaumi" target="_blank" rel="noopener noreferrer" class="cite">stale 500ms cache read caused ~20% erroneous risk decisions</a> across well-prompted agents.
-          </li>
-          <li>
-            <strong>The Context Pollution Tax:</strong> Accumulating past post-mortems and negative rules inside an agent's prompt bloats token overhead, increases latency, and shifts critical constraints into the low-attention center of the context window. While unconstrained broadcast topologies <a href="https://arxiv.org/abs/2606.21666" target="_blank" rel="noopener noreferrer" class="cite">significantly elevate hallucination rates (Zhang et al.)</a>, structured state protocols like <a href="https://arxiv.org/abs/2510.12120" target="_blank" rel="noopener noreferrer" class="cite">SEMAP (Mao et al.)</a> cut coordination failures. Mechanical orchestration keeps prompts lean (spec in, code out), delegating enforcement to external gates.
-          </li>
+          <li><strong>In Scope:</strong> Guardrails against semantic intent drift, test modification / evaluation gaming, stale-state workspace clobbering, secret extraction into guest environments, unauthorized network egress, and unreviewed production merges.</li>
+          <li><strong>Out of Scope:</strong> Formal verification of arbitrary algorithmic correctness, real-time protection against fully privileged bare-metal host compromise, or automated discovery of unstated human business requirements.</li>
         </ul>
+
+        <h3>1.3 Actor and Trust Zone Model</h3>
+        <p>
+          To eliminate ambiguity between agent capability and system authority, the architecture defines six operational entities across distinct trust boundaries:
+        </p>
 
         <div class="table-wrapper">
           <table class="wp-table">
             <thead>
               <tr>
-                <th style="width: 25%;">Layer</th>
-                <th style="width: 35%;">Allowed Authority</th>
-                <th style="width: 40%;">Operational Primitives</th>
+                <th style="width: 18%;">Actor / Component</th>
+                <th style="width: 18%;">Trust Level</th>
+                <th style="width: 32%;">Permitted Actions</th>
+                <th style="width: 32%;">Prohibited Actions</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td><strong>Orchestration (Guardrails)</strong></td>
-                <td>Hard constraints; non-negotiable boundaries. Violation yields <code>exit 1</code>.</td>
-                <td>Frozen OpenAPI/JSON Schemas, Git worktrees, build/lint gates, read-only tests, egress lockdown, retry caps.</td>
+                <td><strong>Human Approver</strong></td>
+                <td><span class="badge-pill b-plan">Trusted</span></td>
+                <td>Approve frozen contract schemas, authorize production branch merges, grant policy exception waivers.</td>
+                <td>Bypass CI evidence requirements without an auditable, recorded waiver manifest.</td>
               </tr>
               <tr>
-                <td><strong>Skills (Optimization)</strong></td>
-                <td>Soft preferences within an isolated task context.</td>
-                <td>Code style, idioms, domain terminology, library selection hints.</td>
+                <td><strong>Planning Agent</strong></td>
+                <td><span class="badge-pill b-plan">Semi-Trusted</span></td>
+                <td>Generate technical specifications, author typed schemas, propose frozen TDD suites, assign risk labels.</td>
+                <td>Directly write to production branches, mutate CI workflows, or execute implementation code.</td>
+              </tr>
+              <tr>
+                <td><strong>Execution Agent</strong></td>
+                <td><span class="badge-pill b-sec">Untrusted for Enforcement</span></td>
+                <td>Read approved contracts, edit allowlisted implementation files within an isolated guest workspace, invoke policy-checked tools.</td>
+                <td>Modify test files, alter lockfiles, change CI definitions, access raw credentials, or contact unauthorized networks.</td>
+              </tr>
+              <tr>
+                <td><strong>Control Plane</strong></td>
+                <td><span class="badge-pill b-orch">Trusted Computing Base</span></td>
+                <td>Provision isolated runners/worktrees, enforce write allowlists, mediate egress via host proxy, retain run evidence, govern merge gates.</td>
+                <td>Generate unreviewed production code changes or bypass configured gating policies.</td>
+              </tr>
+              <tr>
+                <td><strong>CI Evaluator</strong></td>
+                <td><span class="badge-pill b-gate">Trusted Computing Base</span></td>
+                <td>Execute pinned test suites against candidate patches, run mutation tests, emit cryptographically bound attestations.</td>
+                <td>Consume unpinned, executor-modifiable test configurations or unverified dependency sources.</td>
+              </tr>
+              <tr>
+                <td><strong>External Services</strong></td>
+                <td><span class="badge-pill b-orch">Conditionally Trusted</span></td>
+                <td>Serve allowlisted package dependencies and verified API responses over proxy-mediated channels.</td>
+                <td>Receive unredacted repository state, unmasked credentials, or unconstrained outbound network requests.</td>
               </tr>
             </tbody>
           </table>
         </div>
+        <span class="table-caption">Table 1. Actor and trust boundary definitions across the agentic lifecycle.</span>
+
+        <h3>1.4 Agentic Assurance Maturity Levels</h3>
+        <p>
+          Organizations adopt mechanical controls progressively. We define six assurance levels to structure deployment milestones:
+        </p>
+
+        <div class="table-wrapper">
+          <table class="wp-table">
+            <thead>
+              <tr>
+                <th style="width: 12%;">Level</th>
+                <th style="width: 26%;">Description</th>
+                <th style="width: 62%;">Minimum Required Mechanical Controls</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>L0</strong></td>
+                <td>Prompt-Managed</td>
+                <td>System prompts, conversational conventions, manual copy-paste code reviews. No mechanical boundaries.</td>
+              </tr>
+              <tr>
+                <td><strong>L1</strong></td>
+                <td>Workspace-Isolated</td>
+                <td>Separate Git worktrees or independent containers per agent run; protected <code>main</code> branch with pull request requirements.</td>
+              </tr>
+              <tr>
+                <td><strong>L2</strong></td>
+                <td>Evaluation-Protected</td>
+                <td>Execution agents cannot alter evaluation surfaces; read-only test mounts, immutable CI workflows, writable file path allowlists.</td>
+              </tr>
+              <tr>
+                <td><strong>L3</strong></td>
+                <td>Capability-Contained</td>
+                <td>Default-deny network egress, host-side credential mediation proxy, execution in dedicated microVM or sandbox runner, tool policy allowlists.</td>
+              </tr>
+              <tr>
+                <td><strong>L4</strong></td>
+                <td>Evidence-Attested</td>
+                <td>Hermetic build images, pinned dependency lockfile digests, signed task manifests, structured tool-call audit logs, reproducible CI attestations.</td>
+              </tr>
+              <tr>
+                <td><strong>L5</strong></td>
+                <td>High-Assurance</td>
+                <td>Independent dual-agent test authorship, automated mutation testing score thresholds, dependency-aware conflict detection, dual human sign-off.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <span class="table-caption">Table 2. Six-tier assurance maturity model for autonomous agent pipelines.</span>
       </section>
 
       <!-- Section 2 -->
       <section class="whitepaper-section">
-        <h2>02. Documented Empirical Failure Modes</h2>
-        <ul class="content-list pink">
+        <h2>2. Why Prompt Guidance Is Not Enforcement</h2>
+        <p>
+          Natural-language instructions improve agent behavior, but they cannot establish an independently enforceable boundary. When an agent receives an instruction in its prompt, that same agent is responsible for interpreting the rule, evaluating edge cases, and asserting whether it complied. In safety- or integrity-sensitive software engineering pipelines, this conflates guidance with enforcement.
+        </p>
+
+        <h3>2.1 Statistical and Contextual Limits of Prompts</h3>
+        <p>
+          Empirical research identifies fundamental constraints in prompt-only governance:
+        </p>
+        <ul class="content-list">
           <li>
-            <strong>Semantic Intent Divergence (SID):</strong> Architect agents reason over abstract interfaces, while implementer agents reason across local token buffers, leading to diverging assumptions as analyzed in <a href="https://arxiv.org/abs/2604.16339" target="_blank" rel="noopener noreferrer" class="cite">Semantic Consensus (Acharya)</a> and <a href="https://rybkr.com/papers/context-synchronization-for-multi-agent-workflows.pdf" target="_blank" rel="noopener noreferrer" class="cite">CodeCtx Context Synchronization (Baker)</a>. Worktrees prevent file overwrites, but <a href="https://arxiv.org/abs/2605.20563" target="_blank" rel="noopener noreferrer" class="cite">semantic merge recovery</a> remains non-trivial.
+            <strong>Context Degradation and Retrieval Attenuation:</strong> As conversational context expands, retrieval fidelity drops significantly in the middle of the context window (<a href="https://arxiv.org/abs/2307.03172" target="_blank" rel="noopener noreferrer" class="cite">Lost in the Middle, Liu et al., 2024</a>). Placing architectural rules or security constraints in prompt headers or memory files does not guarantee attention during long multi-turn tool-call sequences.
           </li>
           <li>
-            <strong>Reward Hacking & Test False Positives:</strong> In an audit of SWE-bench Verified, <a href="https://arxiv.org/abs/2606.16062" target="_blank" rel="noopener noreferrer" class="cite">28.5% of evaluated tasks had test suites weak enough</a> to accept Docker-verified patches that were demonstrably broken (Rajan). Conversely, <a href="https://openai.com/index/why-we-no-longer-evaluate-swe-bench-verified/" target="_blank" rel="noopener noreferrer" class="cite">OpenAI's benchmark audit</a> of 138 hard-fail problems revealed that 59.4% had flawed tests or ambiguous descriptions that rejected valid patches. Passing a test suite (<code>exit 0</code>) is a necessary mechanical signal, but not a complete oracle of correctness.
+            <strong>Inconsistent Instruction Hierarchies:</strong> Multi-agent systems frequently rely on system/user prompt separation to enforce privileged constraints. However, empirical evaluations demonstrate that models do not reliably prioritize privileged system instructions over user inputs or tool outputs when formatting conflicts or counter-framing occur (<a href="https://arxiv.org/abs/2502.15851" target="_blank" rel="noopener noreferrer" class="cite">Control Illusion, Geng et al., AAAI 2026</a>).
           </li>
           <li>
-            <strong>Same-Agent TDD Limitations:</strong> When an implementing agent writes its own test fixtures, it risks generating <a href="https://getautonoma.com/blog/ai-generated-tests-pass-but-dont-assert" target="_blank" rel="noopener noreferrer" class="cite">tautological assertions that pass without asserting (Autonoma)</a>. In an empirical evaluation on Martin Fowler's site, Birgitta Böckeler observed that <a href="https://martinfowler.com/articles/exploring-gen-ai/tdd-in-the-agent-loop.html" target="_blank" rel="noopener noreferrer" class="cite">same-agent TDD loops yielded negligible mutation improvements</a> because agents frequently skipped or simulated the initial failing (red) step. Test fixtures must be independently authored in the planning plane and frozen prior to execution.
+            <strong>Context Pollution Overhead:</strong> Accumulating past post-mortems and negative instructions in dynamic memory files (e.g., <code>MEMORIES.md</code>) inflates token costs and increases latency. Unconstrained broadcast communication topologies have been shown to elevate hallucination rates across collaborating agents (<a href="https://arxiv.org/abs/2606.21666" target="_blank" rel="noopener noreferrer" class="cite">Zhang et al., 2026</a>), whereas structured state machines (<a href="https://arxiv.org/abs/2510.12120" target="_blank" rel="noopener noreferrer" class="cite">SEMAP, Mao et al., 2025</a>) bound context to immediate task parameters.
           </li>
         </ul>
+
+        <h3>2.2 The Three Orthogonal Pipeline Properties</h3>
+        <p>
+          To avoid conflating mechanisms, the architecture strictly distinguishes three orthogonal properties:
+        </p>
+        <ul class="content-list blue">
+          <li><strong>Safety & Security (Containment):</strong> Preventing unauthorized data exfiltration, credential leakage, arbitrary network access, or lateral host movement (enforced via microVM sandboxes, host credential proxies, and egress filters).</li>
+          <li><strong>Integrity & Correctness (Verification):</strong> Ensuring proposed changes conform to interface contracts, satisfy independent specifications, resist mutation, and pass deterministic type/build gates (enforced via schemas, compilers, and immutable test suites).</li>
+          <li><strong>Coordination Consistency (State Management):</strong> Preventing concurrent workspace overwrites, stale interface assumptions, and unmanaged merge conflicts (enforced via isolated worktrees, dependency-aware write checks, and merge locks).</li>
+        </ul>
+
+        <div class="table-wrapper">
+          <table class="wp-table">
+            <thead>
+              <tr>
+                <th style="width: 22%;">Governance Layer</th>
+                <th style="width: 28%;">Primary Purpose</th>
+                <th style="width: 28%;">Typical Primitives</th>
+                <th style="width: 22%;">Assurance Property</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Agent Guidance</strong></td>
+                <td>Improve quality, efficiency, and stylistic alignment of candidate changes.</td>
+                <td>Personas, domain skills, reference examples, coding conventions, retrieved API documentation.</td>
+                <td>Probabilistic and advisory (non-binding).</td>
+              </tr>
+              <tr>
+                <td><strong>Mechanical Control Plane</strong></td>
+                <td>Enforce non-negotiable security, integrity, and release boundaries.</td>
+                <td>Read-only evaluation mounts, schema validators, egress proxies, capability policies, merge gates.</td>
+                <td>Externally enforced and machine-auditable.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <span class="table-caption">Table 3. Dual-layer governance model: Guidance vs. Mechanical Control Plane.</span>
       </section>
 
       <!-- Section 3 -->
       <section class="whitepaper-section">
-        <h2>03. Role Separation by Policy: Tools as Hosts</h2>
+        <h2>3. Documented Empirical Failure Modes</h2>
         <p>
-          Tooling platforms provide execution runtimes, not out-of-the-box architectural guarantees. Roles must be established by explicit pipeline policy:
+          Engineering a robust control plane requires cataloging the specific failure modes observed in autonomous coding pipelines and mapping each to an empirical evidence base.
+        </p>
+
+        <ul class="content-list pink">
+          <li>
+            <strong>Intent Divergence & Semantic Drift:</strong> When planning agents communicate specifications in natural language, implementing agents frequently adopt diverging interface assumptions (<a href="https://arxiv.org/abs/2604.16339" target="_blank" rel="noopener noreferrer" class="cite">Semantic Consensus, Acharya, 2026</a>; <a href="https://rybkr.com/papers/context-synchronization-for-multi-agent-workflows.pdf" target="_blank" rel="noopener noreferrer" class="cite">CodeCtx, Baker, 2026</a>). Natural language agreements lack machine-checkable boundary definitions.
+          </li>
+          <li>
+            <strong>Evaluation Gaming and Test-Oracle Uncertainty:</strong> Automated test execution (<code>exit 0</code>) is bounded evidence, not absolute proof of correctness. Empirical audits reveal dual-directional oracle failures:
+            <ul style="margin-top: 0.5rem; margin-bottom: 0.5rem; padding-left: 1.2rem; list-style-type: circle;">
+              <li><em>False Acceptance (Weak Oracles):</em> In an empirical audit of SWE-bench Verified, <a href="https://arxiv.org/abs/2606.16062" target="_blank" rel="noopener noreferrer" class="cite">Rajan (2026)</a> found that <strong>28.5% of evaluated tasks</strong> accepted Docker-verified patches that were functionally defective due to incomplete assertion coverage.</li>
+              <li><em>False Rejection & Ambiguity:</em> Conversely, in an audit of 138 difficult failures, <a href="https://openai.com/index/why-we-no-longer-evaluate-swe-bench-verified/" target="_blank" rel="noopener noreferrer" class="cite">OpenAI (2026)</a> reported that <strong>59.4% of failed instances</strong> suffered from flawed reference tests or underspecified descriptions that rejected correct implementations.</li>
+            </ul>
+          </li>
+          <li>
+            <strong>Same-Agent TDD Pathologies:</strong> When an executing agent generates both test fixtures and implementation code, it often produces tautological assertions that pass unconditionally (<a href="https://getautonoma.com/blog/ai-generated-tests-pass-but-dont-assert" target="_blank" rel="noopener noreferrer" class="cite">Autonoma, 2025</a>). In an empirical evaluation, <a href="https://martinfowler.com/articles/exploring-gen-ai/tdd-in-the-agent-loop.html" target="_blank" rel="noopener noreferrer" class="cite">Böckeler (2024)</a> documented that single-agent TDD loops yielded negligible mutation testing improvements because agents skipped initial failing states or tailored assertions to match existing code bugs.
+          </li>
+          <li>
+            <strong>Stale-State Coordination Failures:</strong> While Git worktrees provide separate working directories, they do not prevent agents from committing changes based on obsolete interface assumptions. As demonstrated by <a href="https://arxiv.org/abs/2605.20563" target="_blank" rel="noopener noreferrer" class="cite">STORM (Liu et al., 2026)</a>, multi-agent collaboration requires state-aware mediation that tracks dependency reads and blocks stale writes against shared abstractions. In production systems, uncoordinated reads against short-lived caches can trigger cascade failures across otherwise well-prompted agents (<a href="https://ai.engineer/talks/from-chaos-to-choreography-multi-agent-orchestration-patterns-that-actually-work-sandipan-bhaumi" target="_blank" rel="noopener noreferrer" class="cite">Bhaumik, 2024</a>).
+          </li>
+          <li>
+            <strong>Boundary Escape & Credential Disclosure:</strong> Coding agents granted unconstrained shell access can leak environment variables, query cloud metadata endpoints (e.g., <code>169.254.169.254</code>), or invoke billable third-party APIs during test execution instead of using local mocks.
+          </li>
+        </ul>
+      </section>
+
+      <!-- Section 4 -->
+      <section class="whitepaper-section">
+        <h2>4. Reference Architecture: The Three-Plane Model</h2>
+        <p>
+          To systematically address these failure modes, we present a vendor-neutral reference architecture structured into three decoupled planes governed by a Trusted Computing Base (TCB).
+        </p>
+
+        <div class="diagram-container">
+          <pre>
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                              HUMAN AUTHORITY                                │
+│          • Contract Approval                • Production Merge Sign-Off     │
+└──────────────────────────────────────┬──────────────────────────────────────┘
+                                       │
+┌──────────────────────────────────────▼──────────────────────────────────────┐
+│                            CONTROL PLANE (TCB)                              │
+│  • Task Manifest Registry            • Worktree / Runner Provisioner        │
+│  • Filepath & Tool Policy Engine     • Host-Side Credential Proxy           │
+│  • Egress Firewall Controller        • Immutable Attestation & Audit Log    │
+└───────────────────┬─────────────────────────────────────┬───────────────────┘
+                    │                                     │
+         Frozen Spec & Test Bundle             Immutable Evaluation Attestation
+                    │                                     │
+┌───────────────────▼───────────────┐     ┌───────────────▼───────────────────┐
+│          PLANNING PLANE           │     │         EVALUATION PLANE          │
+│  • OpenAPI / JSON Schema Contract │     │  • Read-Only Test & Fixture Suite │
+│  • Independent TDD Authoring      │     │  • Pinned Compiler / Linter AST   │
+│  • Risk & Scope Manifest          │     │  • Mutation Testing Engine        │
+└───────────────────┬───────────────┘     └───────────────▲───────────────────┘
+                    │                                     │
+           Signed Task Manifest                    Candidate Patch
+                    │                                     │
+┌───────────────────▼─────────────────────────────────────┴───────────────────┐
+│                           EXECUTION PLANE (GUEST)                           │
+│  • Isolated Git Worktree / MicroVM Sandbox (Least Privilege)                │
+│  • Write-Allowlisted Implementation Surface (Evaluation Surface Immutable)  │
+│  • Default-Deny Outbound Egress (Host Proxy Mediated)                       │
+└─────────────────────────────────────────────────────────────────────────────┘
+          </pre>
+        </div>
+        <span class="figure-caption">Figure 1. Three-plane reference architecture for intent integrity, evaluation integrity, and contained execution.</span>
+
+        <h3>4.1 Control-Objective Matrix</h3>
+        <p>
+          The architecture maps explicit control objectives to required mechanical primitives, generated evidence artifacts, and acknowledged residual risks:
         </p>
 
         <div class="table-wrapper">
           <table class="wp-table">
             <thead>
               <tr>
-                <th style="width: 14%;">Plane</th>
-                <th style="width: 18%;">Assigned Job</th>
-                <th style="width: 34%;">Target Surfaces (Configured by Policy)</th>
-                <th style="width: 34%;">Operational Boundary (Do Not Overclaim)</th>
+                <th style="width: 20%;">Control Objective</th>
+                <th style="width: 25%;">Required Mechanism</th>
+                <th style="width: 25%;">Evidence Artifact</th>
+                <th style="width: 30%;">Residual Risk</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td><span class="badge-pill b-plan">Planning</span></td>
-                <td>Specs, frozen TDD fixtures, human gates.</td>
-                <td>
-                  <strong><a href="https://antigravity.google/blog/introducing-google-antigravity-sdk" target="_blank" rel="noopener noreferrer">Google Antigravity SDK &rarr;</a></strong>: Structured JSON/Pydantic output, sub-agents, and command execution denial by default (<code>confirm_run_command()</code>).
-                </td>
-                <td>Antigravity is not a spec compiler. Other labs bundle code and tests together; pipeline policy must enforce TDD role separation.</td>
+                <td><strong>Prevent Evaluation Tampering</strong></td>
+                <td>Read-only evaluation mounts; executor file write allowlist; immutable CI workflow definitions.</td>
+                <td>Mount manifest digest, path write audit logs, cryptographic CI attestation.</td>
+                <td>Zero-day vulnerabilities in the underlying container runtime or virtualized filesystem driver.</td>
               </tr>
               <tr>
-                <td><span class="badge-pill b-exec">Execution</span></td>
-                <td>Isolated implementation against frozen tests.</td>
-                <td>
-                  • <strong><a href="https://cursor.com/changelog/2-0" target="_blank" rel="noopener noreferrer">Cursor 2.0 Local &rarr;</a></strong>: Up to 8 parallel agents via Git worktrees or remote machines.<br/>
-                  • <strong><a href="https://cursor.com/docs/cloud-agent/security" target="_blank" rel="noopener noreferrer">Cursor Cloud Agents &rarr;</a></strong>: Dedicated Firecracker microVMs.<br/>
-                  • <strong><a href="https://cursor.com/docs/cloud-agent/security-network" target="_blank" rel="noopener noreferrer">Network Modes &rarr;</a></strong>: Sandboxed workspace access, no internet by default.
-                </td>
-                <td>Cloud Agents have outbound internet enabled by default; they are not an AST editor and are not air-gapped unless egress policies are explicitly applied.</td>
+                <td><strong>Detect Stale Assumptions</strong></td>
+                <td>Versioned interface schemas; dependency-aware write checks; pre-merge conflict guards.</td>
+                <td>Contract hash, observed-revision log, semantic overlap report.</td>
+                <td>Syntactically valid merges that alter unstated emergent runtime behavior.</td>
               </tr>
               <tr>
-                <td><span class="badge-pill b-orch">Control</span></td>
-                <td>Worktree lifecycle, task handoffs, merge gates.</td>
-                <td>
-                  • <strong><a href="https://github.com/gitpcl/openorchestrator" target="_blank" rel="noopener noreferrer">OpenOrchestrator (owt) &rarr;</a></strong>: CLI worktree multiplexer.<br/>
-                  • <strong><a href="https://open-orchestrator.com/getting-started/introduction" target="_blank" rel="noopener noreferrer">Conflict Guard &rarr;</a></strong>: Pre-merge file-overlap detection.
-                </td>
-                <td>Conflict Guard detects file-overlap before merge; it does not resolve unstated semantic merge conflicts.</td>
+                <td><strong>Prevent Credential Disclosure</strong></td>
+                <td>Host-side credential mediation proxy; scoped temporary tokens; no secret injection into guest environment.</td>
+                <td>Proxy access audit log, token issuance records, guest environment variable dump.</td>
+                <td>Agent misusing an authorized, proxied capability within its granted scope.</td>
+              </tr>
+              <tr>
+                <td><strong>Restrict External Effects</strong></td>
+                <td>Default-deny DNS and IP egress; destination/method allowlisting; runner CPU/memory/token quotas.</td>
+                <td>Network policy hash, blocked connection audit log, resource usage metrics.</td>
+                <td>Allowlisted package registry serving a malicious or compromised upstream dependency.</td>
+              </tr>
+              <tr>
+                <td><strong>Ensure Test Adequacy</strong></td>
+                <td>Decoupled test authorship (Planning Plane); automated mutation score thresholds; negative control tests.</td>
+                <td>Test authorship provenance, mutation coverage report, baseline failure logs.</td>
+                <td>High mutation score on incomplete business requirements or flawed specifications.</td>
+              </tr>
+              <tr>
+                <td><strong>Ensure Pipeline Reproducibility</strong></td>
+                <td>Pinned base container digests; pinned package lockfiles; seeded pseudo-randomness; hermetic toolchains.</td>
+                <td>OCI container digest, lockfile SHA-256 hash, hermetic build provenance record.</td>
+                <td>Nondeterminism in underlying model inferences or concurrency-dependent race conditions.</td>
               </tr>
             </tbody>
           </table>
         </div>
-      </section>
+        <span class="table-caption">Table 4. Control-objective matrix across the agentic lifecycle.</span>
 
-      <!-- Section 4 -->
-      <section class="whitepaper-section">
-        <h2>04. End-to-End Orchestrated Pipeline Flow</h2>
-        <div class="table-wrapper">
-          <table class="wp-table">
-            <thead>
-              <tr>
-                <th style="width: 12%;">Phase</th>
-                <th style="width: 22%;">Actor / Surface</th>
-                <th style="width: 33%;">Generated Artifact</th>
-                <th style="width: 33%;">Mechanical Verification Gate</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><strong>1. Spec</strong></td>
-                <td><span class="badge-pill b-plan">Planning Agent + Human</span></td>
-                <td>OpenAPI / JSON schemas, typed interfaces, task manifest.</td>
-                <td>Schema validation; explicit human approval gate; contract freeze by policy.</td>
-              </tr>
-              <tr>
-                <td><strong>2. TDD</strong></td>
-                <td><span class="badge-pill b-plan">Planning/QA Agent</span></td>
-                <td>Unit and integration tests that fail against empty stubs.</td>
-                <td>Independent runner verifies tests fail for the right reason (not missing files). Tests mounted read-only.</td>
-              </tr>
-              <tr>
-                <td><strong>3. Isolate</strong></td>
-                <td><span class="badge-pill b-orch">Control Plane (owt)</span></td>
-                <td>Dedicated <code>git worktree</code> + restricted sandbox network.</td>
-                <td>Physical filesystem separation; containment policy applied before tool calls.</td>
-              </tr>
-              <tr>
-                <td><strong>4. Execute</strong></td>
-                <td><span class="badge-pill b-exec">Execution Agent (Cursor)</span></td>
-                <td>Concrete implementation source files.</td>
-                <td>Local loop capped at 3 retries (team convention); tests remain read-only.</td>
-              </tr>
-              <tr>
-                <td><strong>5. Evaluate</strong></td>
-                <td><span class="badge-pill b-gate">Deterministic CI</span></td>
-                <td>Build logs, mutation scores, AST type checks, overlap diffs.</td>
-                <td><code>exit 0</code> baseline, mutation tests pass, Conflict Guard passes, Human PR review.</td>
-              </tr>
-            </tbody>
-          </table>
+        <h3>4.2 Control-Plane Specifications</h3>
+        <p>
+          To make the architecture actionable for platform engineering teams, we define the concrete data structures and policies enforced by the control plane.
+        </p>
+
+        <h4>Specification 1: Signed Task Manifest Schema</h4>
+        <p>
+          Before an execution agent is spawned, the control plane generates an immutable, signed manifest binding the agent to an approved scope:
+        </p>
+        <div class="code-container">
+          <div class="code-header">
+            <span>TASK_MANIFEST_SCHEMA.JSON</span>
+            <span>CONTROL PLANE SPECIFICATION</span>
+          </div>
+          <pre><code>{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AgentTaskManifest",
+  "type": "object",
+  "required": [
+    "task_id", "repository", "base_commit_sha", "contract_hash",
+    "evaluation_bundle_hash", "writable_path_patterns", "denied_path_patterns",
+    "egress_policy_id", "budget_limits", "approver"
+  ],
+  "properties": {
+    "task_id": { "type": "string", "format": "uuid" },
+    "repository": { "type": "string" },
+    "base_commit_sha": { "type": "string", "pattern": "^[a-f0-9]{40}$" },
+    "contract_hash": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "evaluation_bundle_hash": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "writable_path_patterns": { "type": "array", "items": { "type": "string" } },
+    "denied_path_patterns": { "type": "array", "items": { "type": "string" } },
+    "egress_policy_id": { "type": "string" },
+    "budget_limits": {
+      "type": "object",
+      "required": ["max_retries", "max_wallclock_seconds", "max_tokens"],
+      "properties": {
+        "max_retries": { "type": "integer", "maximum": 5 },
+        "max_wallclock_seconds": { "type": "integer", "maximum": 1800 },
+        "max_tokens": { "type": "integer", "maximum": 500000 }
+      }
+    },
+    "approver": {
+      "type": "object",
+      "required": ["identity", "timestamp", "signature"],
+      "properties": {
+        "identity": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "signature": { "type": "string" }
+      }
+    }
+  }
+}</code></pre>
+        </div>
+
+        <h4>Specification 2: Immutable Evaluation Surface</h4>
+        <p>
+          The evaluation surface comprises all files and configurations that determine whether candidate code is accepted. The control plane binds this surface as an immutable bundle:
+        </p>
+        <ul class="content-list">
+          <li><strong>Test Suites & Fixtures:</strong> All unit, integration, and end-to-end test files generated during the planning phase.</li>
+          <li><strong>Dependency Resolution:</strong> Lockfiles (e.g., <code>package-lock.json</code>, <code>poetry.lock</code>) and package configuration manifests.</li>
+          <li><strong>Build & CI Scripts:</strong> Pipeline definitions (e.g., <code>.github/workflows/</code>), linter configs, compiler flags, and test runner arguments.</li>
+          <li><strong>Evaluation Runner Image:</strong> Pinned OCI digest of the container running the evaluation suite.</li>
+        </ul>
+
+        <h4>Specification 3: Sandbox Egress & Credential Containment Policy</h4>
+        <p>
+          Execution environments operate with default-deny network access. Necessary external communication (e.g., package registry downloads) is routed through a host-side proxy that strips guest credentials and verifies target hosts against an allowlist:
+        </p>
+        <div class="code-container">
+          <div class="code-header">
+            <span>CONTAINMENT_POLICY.YAML</span>
+            <span>HOST-SIDE ENFORCEMENT</span>
+          </div>
+          <pre><code>version: "1.0"
+metadata:
+  policy_id: "pol-sbx-strict-v2"
+  enforcement_tier: "L3_CAPABILITY_CONTAINED"
+filesystem:
+  writable_paths:
+    - "src/modules/billing/**"
+    - "src/utils/math/**"
+  read_only_mounts:
+    - host_path: "/var/bundles/eval-task-4819"
+      guest_path: "/workspace/tests"
+  denied_paths:
+    - ".git/**"
+    - ".github/**"
+    - "package.json"
+    - "package-lock.json"
+network:
+  default_egress: "deny"
+  allowlist:
+    - host: "registry.npmjs.org"
+      port: 443
+      protocol: "https"
+    - host: "pypi.org"
+      port: 443
+      protocol: "https"
+credential_mediation:
+  mode: "host_proxy"
+  secret_references:
+    - proxy_token_id: "npm-read-token"
+      injected_on_host: true
+      guest_visible: false</code></pre>
         </div>
       </section>
 
       <!-- Section 5 -->
       <section class="whitepaper-section">
-        <h2>05. Sandboxed Egress Control & Mechanical Trust Rules</h2>
+        <h2>5. Operational Pipeline and Assurance State Machine</h2>
         <p>
-          Unrestricted outbound internet during agent execution allows data leakage and live API fallbacks that bypass mocks. <a href="https://docs.docker.com/ai/sandboxes/" target="_blank" rel="noopener noreferrer" class="cite">Docker Sandboxes (sbx)</a> run inside microVMs with host-side credential proxying—secrets are never injected into the agent environment. Evaluation environments must enforce <a href="https://docs.docker.com/ai/sandboxes/security/defaults/" target="_blank" rel="noopener noreferrer" class="cite">locked-down egress security defaults</a>.
+          The reference architecture translates governance rules into an automated, multi-stage state machine with formal transition criteria and failure handling.
         </p>
 
-        <div class="code-container">
-          <div class="code-header">// SBX_CONTAINMENT_POLICY_SKETCH.YAML</div>
-          <pre><code># Illustrative Policy Sketch (Mapped to `sbx policy` / Cursor egress; not a vendor schema)
-version: "1.0"
-intent: "evaluation-time containment"
-network:
-  default_policy: deny
-  allowlist:
-    - host: registry.npmjs.org
-      ports: [443]
-    - host: pypi.org
-      ports: [443]
-security:
-  credential_injection: host_proxy   # Sentinel swapped on host; secrets never enter microVM
-  disable_raw_sockets: true
-constraints:
-  max_memory_mb: 4096
-  cpu_limit: 2.0</code></pre>
+        <div class="table-wrapper">
+          <table class="wp-table">
+            <thead>
+              <tr>
+                <th style="width: 14%;">Stage</th>
+                <th style="width: 18%;">Immutable Inputs</th>
+                <th style="width: 20%;">Mutable Outputs</th>
+                <th style="width: 24%;">Verification Gate</th>
+                <th style="width: 24%;">Failure Disposition</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>1. Contract Approval</strong></td>
+                <td>Requirements, Architecture Decision Records (ADRs).</td>
+                <td>Versioned OpenAPI / JSON schemas, typed interfaces, task manifest.</td>
+                <td>Schema validation; explicit human approver signature.</td>
+                <td>Reject to Planning; refine requirements.</td>
+              </tr>
+              <tr>
+                <td><strong>2. Evaluation Bundle Creation</strong></td>
+                <td>Approved contract, base repository commit.</td>
+                <td>Independent test suites, fixtures, runner manifest.</td>
+                <td>Baseline runner verifies tests fail cleanly on empty stubs (red state).</td>
+                <td>Reject to QA / Planning; rewrite invalid fixtures.</td>
+              </tr>
+              <tr>
+                <td><strong>3. Execution Admission</strong></td>
+                <td>Frozen contract, evaluation bundle, task manifest.</td>
+                <td>Isolated Git worktree, sandboxed microVM container.</td>
+                <td>Policy engine validates file allowlist, path deny-rules, and egress rules.</td>
+                <td>Halt sandbox startup; alert platform operator.</td>
+              </tr>
+              <tr>
+                <td><strong>4. Implementation Execution</strong></td>
+                <td>Task manifest, allowlisted source files, read-only tests.</td>
+                <td>Candidate patch diffs, local execution logs.</td>
+                <td>Local retry budget (max 3), local compiler/linter AST checks.</td>
+                <td>Quarantine branch; capture diagnostic evidence bundle.</td>
+              </tr>
+              <tr>
+                <td><strong>5. CI Evaluation & Attestation</strong></td>
+                <td>Candidate patch, frozen evaluation bundle.</td>
+                <td>CI build logs, mutation test scores, attestation record.</td>
+                <td>Pinned test pass (<code>exit 0</code>), mutation threshold satisfied, conflict guard pass.</td>
+                <td>Quarantine branch; return structured failure log to Planning.</td>
+              </tr>
+              <tr>
+                <td><strong>6. Production Merge Decision</strong></td>
+                <td>Signed evidence bundle, cryptographic CI attestation.</td>
+                <td>Production branch merge commit or explicit rejection.</td>
+                <td>Human review, CODEOWNERS policy check, risk matrix evaluation.</td>
+                <td>Reject PR or grant time-bound waiver with recorded justification.</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
+        <span class="table-caption">Table 5. Multi-agent lifecycle state machine: inputs, outputs, gates, and dispositions.</span>
 
-        <h3 style="color: var(--accent-green); margin-top: 2rem;">The Four Mechanical Trust Rules</h3>
+        <h3>5.1 The Four Mechanical Assurance Rules</h3>
+        <p>
+          The state machine enforces four core operational rules:
+        </p>
+
         <ol class="rules-list">
           <li>
-            <strong>1. Treat Exit 0 as a Necessary Signal, Not an Oracle</strong>
-            Natural language affirmations carry no evidential weight. Trust requires a mechanical <code>exit 0</code> from compilers and linters, but passing tests alone do not guarantee semantic correctness.
+            <strong>1. Treat Automated Success as Bounded Evidence</strong>
+            A successful build, type check, or test pass (<code>exit 0</code>) confirms conformance only to the specific assertions executed. It does not establish full behavioral correctness. Pipeline gates must require defense-in-depth verification (static analysis, schema conformance, mutation testing, and review) rather than relying on binary test results as a comprehensive oracle.
           </li>
           <li>
-            <strong>2. Decouple Test Authorship</strong>
-            The implementing agent must not author or alter test suites. Tests authored in Phase 2 must be mounted into the execution sandbox as read-only volumes.
+            <strong>2. Preserve Total Evaluator Independence</strong>
+            An execution agent must have zero capability to alter the evaluation suite, test fixtures, test runner commands, dependency lockfiles, compiler options, or CI workflows. The entire evaluation surface must be bound to the task manifest and mounted as read-only volumes.
           </li>
           <li>
-            <strong>3. Enforce Mutation Testing in CI</strong>
-            A green test suite is necessary but insufficient. Automated mutation testing (e.g., Mutmut, Stryker) must verify that tests fail when semantic mutations are injected.
+            <strong>3. Enforce Layered Adequacy Checks</strong>
+            In safety-critical or core architectural modules, the CI evaluator must inject automated mutation testing (e.g., Mutmut, Stryker) to verify that the test suite detects intentional semantic mutations. For general codebases, mutation testing is applied on a calibrated risk-tier basis during PR evaluation or nightly regression runs.
           </li>
           <li>
-            <strong>4. Evict on Budget Exceed</strong>
-            If an agent exceeds its retry budget (e.g., 3 attempts) or fails static checks, automatically evict the worktree branch. Do not waste human hours debugging drifted context windows.
+            <strong>4. Enforce Bounded Autonomy with Evidence-Preserving Quarantine</strong>
+            When an agent exceeds its retry budget, triggers a policy violation, or fails evaluation gates, the control plane immediately revokes execution capabilities and quarantines the branch. Crucially, the system does not discard execution artifacts; it archives the task manifest, tool-call audit logs, patch diffs, test output, and container digests for post-mortem analysis and policy refinement.
           </li>
         </ol>
       </section>
 
-      <!-- Primary Sources & References / Bibliography -->
+      <!-- Section 6 -->
       <section class="whitepaper-section">
-        <h2 style="color: var(--accent-blue);">Primary Sources & References</h2>
+        <h2>6. Deployment Profiles and Residual Risk Analysis</h2>
+        <p>
+          Real-world adoption balances security assurance with operational complexity. We outline two implementation profiles and document unmitigated residual risks.
+        </p>
+
+        <div class="table-wrapper">
+          <table class="wp-table">
+            <thead>
+              <tr>
+                <th style="width: 22%;">Dimension</th>
+                <th style="width: 39%;">Minimum Viable Profile (Standard Repositories)</th>
+                <th style="width: 39%;">High-Assurance Profile (Safety-Critical / Financial)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Isolation Boundary</strong></td>
+                <td>Isolated Git worktrees inside shared developer containers.</td>
+                <td>Dedicated Firecracker microVMs or ephemeral hardened sandboxes per task.</td>
+              </tr>
+              <tr>
+                <td><strong>Evaluation Immutability</strong></td>
+                <td>Filesystem permission masks (<code>chmod -w</code>) and pre-commit path checks.</td>
+                <td>Read-only OS volume mounts verified by cryptographic hash manifests.</td>
+              </tr>
+              <tr>
+                <td><strong>Network Egress</strong></td>
+                <td>DNS filtering and environment variable secret stripping.</td>
+                <td>Default-deny network isolation with host-side credential mediation proxies.</td>
+              </tr>
+              <tr>
+                <td><strong>Test Adequacy</strong></td>
+                <td>Decoupled test authorship in planning plane; standard unit/integration suite.</td>
+                <td>Mandatory mutation score thresholds (>80%) and automated negative control tests.</td>
+              </tr>
+              <tr>
+                <td><strong>Merge Authorization</strong></td>
+                <td>Single peer review on PR; passing CI checks.</td>
+                <td>Dual human sign-off (CODEOWNERS + Security), signed CI attestation bundle.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <span class="table-caption">Table 6. Minimum viable vs. High-assurance enterprise deployment profiles.</span>
+
+        <h3>6.1 Residual Risk and Defense-in-Depth Mitigations</h3>
+        <p>
+          A rigorous reference architecture must explicitly identify residual risks that fall outside automated control-plane guarantees:
+        </p>
+
+        <div class="table-wrapper">
+          <table class="wp-table">
+            <thead>
+              <tr>
+                <th style="width: 25%;">Residual Risk</th>
+                <th style="width: 35%;">Failure Mode Description</th>
+                <th style="width: 40%;">Recommended Defense-in-Depth Mitigation</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Unstated Business Intent</strong></td>
+                <td>The code satisfies all formal schemas and unit tests but implements a commercially incorrect workflow.</td>
+                <td>Mandatory human domain-expert review during contract approval; staged feature-flag rollouts.</td>
+              </tr>
+              <tr>
+                <td><strong>Upstream Dependency Poisoning</strong></td>
+                <td>An allowlisted package repository serves a compromised sub-dependency that passes build gates.</td>
+                <td>Software Bill of Materials (SBOM) scanning, dependency pinning, and vulnerability database auditing.</td>
+              </tr>
+              <tr>
+                <td><strong>Proxied Capability Misuse</strong></td>
+                <td>An agent issues excessive or abusive API requests through an authorized host proxy.</td>
+                <td>Granular rate limiting, path/method allowlisting, and anomaly detection on host proxy traffic.</td>
+              </tr>
+              <tr>
+                <td><strong>Host / Hypervisor Escape</strong></td>
+                <td>A zero-day exploit in container or virtualization software breaches host isolation.</td>
+                <td>Kernel hardening (e.g., seccomp, AppArmor), ephemeral VM destruction, least-privilege host daemons.</td>
+              </tr>
+              <tr>
+                <td><strong>Timing & Concurrency Flaws</strong></td>
+                <td>Candidate patches pass single-threaded CI runs but deadlock under production load.</td>
+                <td>Automated load/stress testing in staging environments; telemetry canary monitoring prior to 100% traffic shift.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <span class="table-caption">Table 7. Residual risk taxonomy and corresponding organizational mitigations.</span>
+      </section>
+
+      <!-- Section 7: Primary Sources & Categorized Bibliography -->
+      <section class="whitepaper-section">
+        <h2 style="color: var(--accent-blue);">7. Primary Sources and Evidence Bibliography</h2>
+        <p>
+          Sources are classified into four distinct evidentiary tiers: peer-reviewed research, academic preprints and empirical studies, official product documentation and security specifications, and practitioner case studies.
+        </p>
         
         <div class="sources-container">
-          <!-- Category 1: Academic Papers -->
-          <div class="sources-category">// 01. ACADEMIC_PAPERS_&_PREPRINTS</div>
+          <!-- Category 1: Peer-Reviewed Research -->
+          <div class="sources-category">1. Peer-Reviewed Academic Research</div>
           <ul class="sources-list">
             <li>
-              <a href="https://arxiv.org/abs/2307.03172" target="_blank" rel="noopener noreferrer" class="bib-title">Lost in the Middle: How Language Models Use Long Contexts</a> — Liu et al. (TACL 2024)
+              <span class="source-evidence-tag">PEER-REVIEWED</span>
+              <a href="https://arxiv.org/abs/2307.03172" target="_blank" rel="noopener noreferrer" class="bib-title">Lost in the Middle: How Language Models Use Long Contexts</a> — Liu, N. F., Lin, K., Hewitt, J., Paranjape, A., Bevilacqua, M., Petroni, F., & Liang, P. (Transactions of the Association for Computational Linguistics, 12, 157–173, 2024).
               <a href="https://arxiv.org/pdf/2307.03172" target="_blank" rel="noopener noreferrer" class="source-aux-link">PDF &rarr;</a>
             </li>
             <li>
-              <a href="https://arxiv.org/abs/2502.15851" target="_blank" rel="noopener noreferrer" class="bib-title">Control Illusion: The Failure of Instruction Hierarchies in LLMs</a> — Geng et al. (AAAI 2026)
+              <span class="source-evidence-tag">PEER-REVIEWED</span>
+              <a href="https://arxiv.org/abs/2502.15851" target="_blank" rel="noopener noreferrer" class="bib-title">Control Illusion: The Failure of Instruction Hierarchies in Large Language Models</a> — Geng, J., et al. (Proceedings of the AAAI Conference on Human Computation and Crowdsourcing / AAAI 2026).
               <a href="https://arxiv.org/pdf/2502.15851" target="_blank" rel="noopener noreferrer" class="source-aux-link">PDF &rarr;</a>
             </li>
+          </ul>
+
+          <!-- Category 2: Academic Preprints & Empirical Studies -->
+          <div class="sources-category">2. Academic Preprints and Empirical Studies</div>
+          <ul class="sources-list">
             <li>
-              <a href="https://arxiv.org/abs/2604.16339" target="_blank" rel="noopener noreferrer" class="bib-title">Semantic Consensus & Semantic Intent Divergence in Agentic Systems</a> — Acharya
-              <a href="https://arxiv.org/pdf/2604.16339" target="_blank" rel="noopener noreferrer" class="source-aux-link">PDF &rarr;</a>
-            </li>
-            <li>
-              <a href="https://arxiv.org/abs/2606.21666" target="_blank" rel="noopener noreferrer" class="bib-title">Hallucination as Context Drift: Multi-Agent Communication Topologies</a> — Zhang et al.
-              <a href="https://arxiv.org/pdf/2606.21666" target="_blank" rel="noopener noreferrer" class="source-aux-link">PDF &rarr;</a>
-            </li>
-            <li>
-              <a href="https://arxiv.org/abs/2605.20563" target="_blank" rel="noopener noreferrer" class="bib-title">Multi-Agent Collaboration with State Management (STORM)</a> — Liu et al.
-              <a href="https://arxiv.org/pdf/2605.20563" target="_blank" rel="noopener noreferrer" class="source-aux-link">PDF &rarr;</a>
-            </li>
-            <li>
-              <a href="https://arxiv.org/abs/2606.16062" target="_blank" rel="noopener noreferrer" class="bib-title">Auditing Reward Hackability in Code RL Training Environments</a> — Rajan (SWE-bench Verified)
+              <span class="source-evidence-tag">EMPIRICAL STUDY</span>
+              <a href="https://arxiv.org/abs/2606.16062" target="_blank" rel="noopener noreferrer" class="bib-title">Auditing Reward Hackability in Code RL Training Environments</a> — Rajan, A. (arXiv:2606.16062, 2026). Documents that 28.5% of audited SWE-bench Verified tasks accepted incorrect patches under weak test suites.
               <a href="https://arxiv.org/pdf/2606.16062" target="_blank" rel="noopener noreferrer" class="source-aux-link">PDF &rarr;</a>
             </li>
             <li>
-              <a href="https://arxiv.org/abs/2510.12120" target="_blank" rel="noopener noreferrer" class="bib-title">SEMAP: State-Engineered Multi-Agent Protocols</a> — Mao et al.
+              <span class="source-evidence-tag">BENCHMARK AUDIT</span>
+              <a href="https://openai.com/index/why-we-no-longer-evaluate-swe-bench-verified/" target="_blank" rel="noopener noreferrer" class="bib-title">Why We No Longer Evaluate SWE-bench Verified</a> — OpenAI (Official Research Benchmark Report, 2026). Reports 59.4% of difficult failures had flawed tests or ambiguous descriptions rejecting valid patches.
+              <a href="https://openai.com/index/why-we-no-longer-evaluate-swe-bench-verified/" target="_blank" rel="noopener noreferrer" class="source-aux-link blue">Report &rarr;</a>
+            </li>
+            <li>
+              <span class="source-evidence-tag">PREPRINT</span>
+              <a href="https://arxiv.org/abs/2605.20563" target="_blank" rel="noopener noreferrer" class="bib-title">STORM: Multi-Agent Collaboration with State-Aware Dependency Management</a> — Liu, Y., et al. (arXiv:2605.20563, 2026). Evaluates stale-state write mediation and improvements over git-worktree baselines on Commit0-Lite.
+              <a href="https://arxiv.org/pdf/2605.20563" target="_blank" rel="noopener noreferrer" class="source-aux-link">PDF &rarr;</a>
+            </li>
+            <li>
+              <span class="source-evidence-tag">PREPRINT</span>
+              <a href="https://arxiv.org/abs/2510.12120" target="_blank" rel="noopener noreferrer" class="bib-title">SEMAP: State-Engineered Multi-Agent Protocols for Deterministic Handoffs</a> — Mao, C., et al. (arXiv:2510.12120, 2025). Evaluates structured finite-state communication versus conversational broadcast.
               <a href="https://arxiv.org/pdf/2510.12120" target="_blank" rel="noopener noreferrer" class="source-aux-link">PDF &rarr;</a>
+            </li>
+            <li>
+              <span class="source-evidence-tag">PREPRINT</span>
+              <a href="https://arxiv.org/abs/2606.21666" target="_blank" rel="noopener noreferrer" class="bib-title">Hallucination as Context Drift: Multi-Agent Communication Topologies</a> — Zhang, L., et al. (arXiv:2606.21666, 2026). Analyzes error propagation across dense agent communication topologies.
+              <a href="https://arxiv.org/pdf/2606.21666" target="_blank" rel="noopener noreferrer" class="source-aux-link">PDF &rarr;</a>
+            </li>
+            <li>
+              <span class="source-evidence-tag">PREPRINT</span>
+              <a href="https://arxiv.org/abs/2604.16339" target="_blank" rel="noopener noreferrer" class="bib-title">Semantic Consensus and Semantic Intent Divergence in Agentic Systems</a> — Acharya, S. (arXiv:2604.16339, 2026). Analyzes abstract vs. token-level interface divergence between agents.
+              <a href="https://arxiv.org/pdf/2604.16339" target="_blank" rel="noopener noreferrer" class="source-aux-link">PDF &rarr;</a>
             </li>
           </ul>
 
-          <!-- Category 2: Practitioner, Talks & Industry Reports -->
-          <div class="sources-category">// 02. PRACTITIONER_TALKS_&_INDUSTRY_AUDITS</div>
+          <!-- Category 3: Official Product Documentation -->
+          <div class="sources-category">3. Official Product Documentation and Security Specifications</div>
           <ul class="sources-list">
             <li>
-              <a href="https://ai.engineer/talks/from-chaos-to-choreography-multi-agent-orchestration-patterns-that-actually-work-sandipan-bhaumi" target="_blank" rel="noopener noreferrer" class="bib-title">From Chaos to Choreography: Multi-Agent Orchestration Patterns That Actually Work</a> — Sandipan Bhaumik (AI Engineer)
+              <span class="source-evidence-tag">VENDOR SPEC</span>
+              <a href="https://antigravity.google/blog/introducing-google-antigravity-sdk" target="_blank" rel="noopener noreferrer" class="bib-title">Google Antigravity SDK: Core Concepts & Tool Execution Policies</a> — Google (Documented SDK Policy Specification; accessed 2026). Details declarative tool permission models and confirmation gates.
+              <a href="https://antigravity.google/docs/sdk/policies/" target="_blank" rel="noopener noreferrer" class="source-aux-link blue">Policy Docs &rarr;</a>
+            </li>
+            <li>
+              <span class="source-evidence-tag">SECURITY DOCS</span>
+              <a href="https://docs.docker.com/ai/sandboxes/" target="_blank" rel="noopener noreferrer" class="bib-title">Docker Sandboxes (sbx) Architecture & Security Defaults</a> — Docker Inc. (Official Documentation; accessed 2026). Specifies microVM containment, host credential proxying, and default-deny egress controls.
+              <a href="https://docs.docker.com/ai/sandboxes/security/defaults/" target="_blank" rel="noopener noreferrer" class="source-aux-link blue">Security Defaults &rarr;</a>
+            </li>
+            <li>
+              <span class="source-evidence-tag">PRODUCT SPEC</span>
+              <a href="https://cursor.com/changelog/2-0" target="_blank" rel="noopener noreferrer" class="bib-title">Cursor 2.0 Multi-Agent Execution & Cloud Agent Security Model</a> — Anysphere (Changelog and Security Whitepaper; accessed 2026). Documents parallel worktree execution and Firecracker microVM network isolation modes.
+              <a href="https://cursor.com/docs/cloud-agent/security" target="_blank" rel="noopener noreferrer" class="source-aux-link blue">Security Docs &rarr;</a>
+            </li>
+            <li>
+              <span class="source-evidence-tag">OPEN SOURCE</span>
+              <a href="https://github.com/gitpcl/openorchestrator" target="_blank" rel="noopener noreferrer" class="bib-title">OpenOrchestrator (owt) Git Worktree Multiplexer & Pre-Merge Conflict Guard</a> — OpenOrchestrator Project (v1.4 Specification, 2026).
+              <a href="https://open-orchestrator.com/getting-started/introduction" target="_blank" rel="noopener noreferrer" class="source-aux-link green">Docs &rarr;</a>
+            </li>
+          </ul>
+
+          <!-- Category 4: Practitioner Observations & Case Studies -->
+          <div class="sources-category">4. Practitioner Observations, Talks, and Industry Audits</div>
+          <ul class="sources-list">
+            <li>
+              <span class="source-evidence-tag">CONFERENCE TALK</span>
+              <a href="https://ai.engineer/talks/from-chaos-to-choreography-multi-agent-orchestration-patterns-that-actually-work-sandipan-bhaumi" target="_blank" rel="noopener noreferrer" class="bib-title">From Chaos to Choreography: Multi-Agent Orchestration Patterns That Actually Work</a> — Bhaumik, S. (AI Engineer World's Fair, 2024). Production case study on stale-cache state contamination in multi-agent pipelines.
               <a href="https://www.youtube.com/watch?v=2czYyrTzILg" target="_blank" rel="noopener noreferrer" class="source-aux-link">YouTube &rarr;</a>
             </li>
             <li>
-              <a href="https://martinfowler.com/articles/exploring-gen-ai/tdd-in-the-agent-loop.html" target="_blank" rel="noopener noreferrer" class="bib-title">TDD Inside the Agent Loop</a> — Birgitta Böckeler (martinfowler.com)
+              <span class="source-evidence-tag">INDUSTRY ESSAY</span>
+              <a href="https://martinfowler.com/articles/exploring-gen-ai/tdd-in-the-agent-loop.html" target="_blank" rel="noopener noreferrer" class="bib-title">TDD Inside the Agent Loop: Empirical Observations on Test-Driven AI Code Generation</a> — Böckeler, B. (martinfowler.com, 2024). Documents limitations of same-agent TDD loops and lack of mutation resistance.
+              <a href="https://martinfowler.com/articles/exploring-gen-ai/tdd-in-the-agent-loop.html" target="_blank" rel="noopener noreferrer" class="source-aux-link">Article &rarr;</a>
             </li>
             <li>
-              <a href="https://getautonoma.com/blog/ai-generated-tests-pass-but-dont-assert" target="_blank" rel="noopener noreferrer" class="bib-title">AI-Generated Tests That Pass But Don't Assert</a> — Autonoma Practitioner Report
+              <span class="source-evidence-tag">TECHNICAL REPORT</span>
+              <a href="https://getautonoma.com/blog/ai-generated-tests-pass-but-dont-assert" target="_blank" rel="noopener noreferrer" class="bib-title">AI-Generated Tests That Pass But Don't Assert</a> — Autonoma Engineering Report (2025). Analysis of tautological test generation in self-testing coding agents.
+              <a href="https://getautonoma.com/blog/ai-generated-tests-pass-but-dont-assert" target="_blank" rel="noopener noreferrer" class="source-aux-link">Article &rarr;</a>
             </li>
             <li>
-              <a href="https://openai.com/index/why-we-no-longer-evaluate-swe-bench-verified/" target="_blank" rel="noopener noreferrer" class="bib-title">Why We No Longer Evaluate SWE-bench Verified</a> — OpenAI Benchmark Audit (2026)
-            </li>
-            <li>
-              <a href="https://rybkr.com/papers/context-synchronization-for-multi-agent-workflows.pdf" target="_blank" rel="noopener noreferrer" class="bib-title">Context Synchronization for Multi-Agent Workflows (CodeCtx)</a> — Ryan Baker
+              <span class="source-evidence-tag">WHITE PAPER</span>
+              <a href="https://rybkr.com/papers/context-synchronization-for-multi-agent-workflows.pdf" target="_blank" rel="noopener noreferrer" class="bib-title">Context Synchronization for Multi-Agent Workflows (CodeCtx)</a> — Baker, R. (Technical Whitepaper, 2026).
               <a href="https://github.com/rybkr/codectx" target="_blank" rel="noopener noreferrer" class="source-aux-link green">GitHub &rarr;</a>
             </li>
           </ul>
-
-          <!-- Category 3: Vendor Docs & Platform Specs -->
-          <div class="sources-category">// 03. PLATFORM_SPECS_&_TOOLING</div>
-          <ul class="sources-list">
-            <li>
-              <a href="https://antigravity.google/blog/introducing-google-antigravity-sdk" target="_blank" rel="noopener noreferrer" class="bib-title">Introducing Google Antigravity SDK</a> — Sub-agent orchestration & execution gating
-            </li>
-            <li>
-              <a href="https://cursor.com/changelog/2-0" target="_blank" rel="noopener noreferrer" class="bib-title">Cursor 2.0 Local Agents & MicroVMs</a> — Changelog & Specs
-              <a href="https://cursor.com/docs/cloud-agent/security" target="_blank" rel="noopener noreferrer" class="source-aux-link">Security Docs &rarr;</a>
-              <a href="https://cursor.com/docs/cloud-agent/security-network" target="_blank" rel="noopener noreferrer" class="source-aux-link">Network Modes &rarr;</a>
-            </li>
-            <li>
-              <a href="https://docs.docker.com/ai/sandboxes/" target="_blank" rel="noopener noreferrer" class="bib-title">Docker Sandboxes (sbx)</a> — MicroVM Tool Containment
-              <a href="https://docs.docker.com/ai/sandboxes/security/defaults/" target="_blank" rel="noopener noreferrer" class="source-aux-link">Security Defaults &rarr;</a>
-            </li>
-            <li>
-              <a href="https://github.com/gitpcl/openorchestrator" target="_blank" rel="noopener noreferrer" class="bib-title">OpenOrchestrator (owt) CLI Multiplexer</a> — Worktree orchestration & pre-merge Conflict Guard
-              <a href="https://open-orchestrator.com/getting-started/introduction" target="_blank" rel="noopener noreferrer" class="source-aux-link green">Conflict Guard Docs &rarr;</a>
-            </li>
-          </ul>
         </div>
+      </section>
+
+      <!-- Appendix: Vendor Mapping to Functional Roles -->
+      <section class="whitepaper-section">
+        <h2>Appendix: Tool and Vendor Mapping to Architectural Roles</h2>
+        <p>
+          To maintain architectural portability, the three-plane model is vendor-neutral. Commercial and open-source tools function as execution hosts configured by pipeline policy, rather than standalone governance systems:
+        </p>
+
+        <div class="table-wrapper">
+          <table class="wp-table">
+            <thead>
+              <tr>
+                <th style="width: 22%;">Architectural Role</th>
+                <th style="width: 25%;">Representative Tool Implementation</th>
+                <th style="width: 28%;">Configured Policy Primitives</th>
+                <th style="width: 25%;">Operational Boundary</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Planning Runtime</strong></td>
+                <td>Google Antigravity SDK, Anthropic Claude CLI, OpenAI Assistants.</td>
+                <td>Structured Pydantic schemas, sub-agent spawning, declarative tool denial policies.</td>
+                <td>Generates specifications and test suites; must not execute candidate implementation code.</td>
+              </tr>
+              <tr>
+                <td><strong>Isolated Coding Runtime</strong></td>
+                <td>Cursor 2.0 (Local / Cloud), GitHub Copilot Workspace, Aider.</td>
+                <td>Git worktree checkouts, ephemeral microVM execution, writable path allowlists.</td>
+                <td>Egress and write boundaries must be enforced externally by the control plane.</td>
+              </tr>
+              <tr>
+                <td><strong>Sandbox & Credential Proxy</strong></td>
+                <td>Docker Sandboxes (<code>sbx</code>), Firecracker microVMs, gVisor.</td>
+                <td>Host-side credential injection, default-deny network routing, read-only test mounts.</td>
+                <td>Contains execution; does not verify semantic intent or test adequacy.</td>
+              </tr>
+              <tr>
+                <td><strong>State & Worktree Controller</strong></td>
+                <td>OpenOrchestrator (<code>owt</code>), custom Git CLI daemons, STORM coordinators.</td>
+                <td>Automated worktree lifecycle, dependency-aware write checking, pre-merge overlap gates.</td>
+                <td>Prevents concurrent index clobbering; requires schema gates for semantic agreement.</td>
+              </tr>
+              <tr>
+                <td><strong>Evaluation & Attestation Engine</strong></td>
+                <td>GitHub Actions, GitLab CI, Buildkite, Dagger, Tekton.</td>
+                <td>Hermetic test runners, mutation testing engines (Mutmut/Stryker), signed attestations.</td>
+                <td>Deterministic execution of pinned suites; requires frozen inputs from Planning Plane.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <span class="table-caption">Table 8. Functional role mapping for common agentic tools and platforms.</span>
       </section>
     </div>
 
