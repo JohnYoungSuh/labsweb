@@ -240,6 +240,55 @@
       .b-sec  { background: rgba(255, 77, 77, 0.15); color: #ff6b6b; border: 1px solid #ff6b6b; }
 
       /* Architecture Figure Block */
+      /* Table of Contents */
+      .toc-box {
+        background: rgba(12, 23, 36, 0.9);
+        border: 1px solid var(--border-color);
+        border-left: 4px solid var(--accent-green);
+        padding: 1.5rem 1.75rem;
+        border-radius: 6px;
+        margin: 2rem 0 3.5rem 0;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      }
+      .toc-title {
+        font-family: "Fira Code", monospace;
+        color: var(--accent-green);
+        font-size: 0.9rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .toc-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 0.6rem 1.5rem;
+      }
+      .toc-link {
+        color: var(--text-muted);
+        text-decoration: none;
+        font-family: "Fira Code", monospace;
+        font-size: 0.82rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        padding: 0.2rem 0;
+      }
+      .toc-link:hover {
+        color: var(--accent-blue);
+        transform: translateX(4px);
+      }
+      .toc-link::before {
+        content: "›";
+        color: var(--accent-green);
+        font-weight: bold;
+        font-size: 1rem;
+      }
+
       .architecture-figure {
         margin: 1.75rem 0 1rem 0;
         padding: 0;
@@ -490,7 +539,7 @@
           color: #111827 !important;
           font-size: 10pt;
         }
-        nav, footer, .hamburger {
+        nav, footer, .hamburger, .toc-box {
           display: none !important;
         }
         .container {
@@ -581,20 +630,38 @@
       </header>
 
       <!-- Executive Abstract -->
-      <div class="exec-summary-box">
-        <div class="exec-summary-title">
+      <div id="section-1" class="exec-summary-box">
+        <h2 class="exec-summary-title" style="margin-top: 0; padding: 0; border: none; font-size: 0.95rem;">
           <span>Executive Abstract</span>
-        </div>
+        </h2>
         <p>
           Autonomous software agents can produce changes that appear credible, pass incomplete test suites, and still violate intended behavior, security constraints, or integration assumptions. These risks compound when multiple agents plan, implement, test, and merge changes across shared or partially isolated state. Prompt instructions, personas, and dynamically retrieved rulebooks remain useful for task guidance, but they are not authoritative enforcement mechanisms; their effect depends on probabilistic model behavior and context selection. A robust agentic software engineering pipeline therefore separates guidance from enforcement: agents propose and implement changes, while an external control plane constrains what they can modify, what they can access, how they are evaluated, and what evidence is required prior to merge. This paper presents a vendor-neutral reference architecture built around three distinct planes: a planning plane that produces versioned contracts and independently owned evaluation artifacts; an execution plane that operates in isolated, least-privilege environments; and a control plane that coordinates state, verifies artifacts, records evidence, and governs merge decisions. The architecture bounds—rather than eliminates—semantic divergence, evaluation gaming, coordination conflicts, and unauthorized external effects.
         </p>
       </div>
 
+      <!-- Table of Contents -->
+      <nav aria-label="Contents" class="toc-box">
+        <div class="toc-title">
+          <span>Table of Contents</span>
+        </div>
+        <div class="toc-grid">
+          <a href="#section-1" class="toc-link">Executive Abstract</a>
+          <a href="#section-2" class="toc-link">1. Scope, Definitions, and Assurance Levels</a>
+          <a href="#section-3" class="toc-link">2. Why Prompt Guidance Is Not Enforcement</a>
+          <a href="#section-4" class="toc-link">3. Documented Empirical Failure Modes</a>
+          <a href="#section-5" class="toc-link">4. Reference Architecture: The Three-Plane Model</a>
+          <a href="#section-6" class="toc-link">5. Operational Pipeline and Assurance State Machine</a>
+          <a href="#section-7" class="toc-link">6. Deployment Profiles and Residual Risk Analysis</a>
+          <a href="#section-8" class="toc-link">7. Primary Sources and Evidence Bibliography</a>
+          <a href="#section-9" class="toc-link">Appendix: Tool and Vendor Mapping to Architectural Roles</a>
+        </div>
+      </nav>
+
       <!-- Section 1 -->
-      <section class="whitepaper-section">
+      <section id="section-2" class="whitepaper-section">
         <h2>1. Scope, Definitions, and Assurance Levels</h2>
         <p>
-          Before examining failure modes and mechanical controls, we establish operational boundaries, define terminology, and outline a graduated maturity model for pipeline assurance.
+          This section defines the scope, trust boundaries, and assurance levels used in the architecture.
         </p>
 
         <h3>1.1 Definition of Mechanical Controls</h3>
@@ -604,7 +671,7 @@
         <div class="callout-box green">
           <div class="callout-title">Mechanical Control Definition</div>
           <p>
-            An externally enforced, machine-evaluable constraint whose enforcement and verification are independent of the executing agent's natural-language compliance claim or probabilistic token generation. Examples include operating-system read-only volume mounts, signed artifact digest verification, capability-restricted tool invocation schemas, policy-enforced egress proxies, compiler type checks, AST lint rules, and branch protection merge barriers.
+            An externally enforced, machine-evaluable constraint whose enforcement and verification are independent of the executing agent's natural-language compliance claim or probabilistic token generation. Examples include operating-system read-only volume mounts, signed artifact digest verification, an external allow/deny policy decision point (PDP) whose decisions are enforced at the action boundary, capability-restricted tool invocation schemas, policy-enforced egress proxies, compiler type checks, AST lint rules, and branch protection merge barriers. Resolving a principal from a trusted issuer, and authorizing that principal again at each privileged action, are mechanical controls. When who-is-asking and what-is-allowed are one check, the system invents authority. The agent fills the gap with whatever context it has and acts with confidence on a permission it was never granted.
           </p>
         </div>
         <p>
@@ -622,7 +689,10 @@
 
         <h3>1.3 Actor and Trust Zone Model</h3>
         <p>
-          To eliminate ambiguity between agent capability and system authority, the architecture defines six operational entities across distinct trust boundaries:
+          A principal is the subject the control plane binds to a capability &mdash; a human, an agent role, or a repository. Identity comes from an issuer the control plane trusts. A name, an agent id, or a repository path sent by the caller is not an identity.
+        </p>
+        <p>
+          The architecture defines ten operational entities across distinct trust boundaries:
         </p>
 
         <div class="table-wrap">
@@ -645,20 +715,20 @@
               <tr>
                 <td><strong>Planning Agent</strong></td>
                 <td><span class="badge-pill b-plan">Semi-Trusted</span></td>
-                <td>Generate technical specifications, author typed schemas, propose frozen TDD suites, assign risk labels.</td>
-                <td>Directly write to production branches, mutate CI workflows, or execute implementation code.</td>
+                <td>Generate technical specifications, author typed schemas, propose frozen TDD suites, assign risk labels, and receive non-authorizing decision records for coordination.</td>
+                <td>Directly write to production branches, mutate CI workflows, execute implementation code, or pass a replayable credential to another actor in a handoff.</td>
               </tr>
               <tr>
                 <td><strong>Execution Agent</strong></td>
                 <td><span class="badge-pill b-sec">Untrusted for Enforcement</span></td>
-                <td>Read approved contracts, edit allowlisted implementation files within an isolated guest workspace, invoke policy-checked tools.</td>
-                <td>Modify test files, alter lockfiles, change CI definitions, access raw credentials, or contact unauthorized networks.</td>
+                <td>Read approved contracts, authenticate as itself, obtain its own scoped capability from the control plane, edit allowlisted implementation files within an isolated guest workspace, and invoke policy-checked tools.</td>
+                <td>Modify test files, alter lockfiles, change CI definitions, access raw credentials, replay another actor’s capability, or contact unauthorized networks.</td>
               </tr>
               <tr>
                 <td><strong>Control Plane</strong></td>
                 <td><span class="badge-pill b-orch">Trusted Computing Base</span></td>
-                <td>Provision isolated runners/worktrees, enforce write allowlists, mediate egress via host proxy, retain run evidence, govern merge gates.</td>
-                <td>Generate unreviewed production code changes or bypass configured gating policies.</td>
+                <td>Provision isolated runners/worktrees, enforce write allowlists, mediate egress via host proxy, retain run evidence, govern merge gates, resolve the principal from that issuer, and issue a scoped capability only after that principal authenticates as itself for the requested action.</td>
+                <td>Generate unreviewed production code changes, bypass configured gating policies, or accept a forwarded decision record, a caller-supplied name, or a repository’s own claim as authentication.</td>
               </tr>
               <tr>
                 <td><strong>CI Evaluator</strong></td>
@@ -672,10 +742,41 @@
                 <td>Serve allowlisted package dependencies and verified API responses over proxy-mediated channels.</td>
                 <td>Receive unredacted repository state, unmasked credentials, or unconstrained outbound network requests.</td>
               </tr>
+              <tr>
+                <td><strong>Evidence Observer</strong></td>
+                <td><span class="badge-pill b-sec">Untrusted for Authority; Outside the TCB</span></td>
+                <td>Read a published evidence file and render it for inspection.</td>
+                <td>Hold runner credentials, cluster credentials, signing keys, or a path that writes production state; make policy decisions or apply changes.</td>
+              </tr>
+              <tr>
+                <td><strong>Policy-Spec Repository</strong></td>
+                <td><span class="badge-pill b-plan">Conditionally Trusted (Governance)</span></td>
+                <td>Define the contract and export the policy pack. This is the governance repo.</td>
+                <td>Apply, mint another principal’s capability, or certify its own change.</td>
+              </tr>
+              <tr>
+                <td><strong>Detection Repository</strong></td>
+                <td><span class="badge-pill b-gate">Untrusted for Authority; Outside Action Path</span></td>
+                <td>Compare a declared event with observed behavior and score pass or fail. This is the purple-team repo.</td>
+                <td>Allow, apply, own the spec, or sit on the action path.</td>
+              </tr>
+              <tr>
+                <td><strong>Target Repository</strong></td>
+                <td><span class="badge-pill b-sec">Untrusted for Enforcement</span></td>
+                <td>Receive the change.</td>
+                <td>Act as a policy decision point.</td>
+              </tr>
             </tbody>
           </table>
         </div>
         <span class="table-caption">Table 1. Actor and trust boundary definitions across the agentic lifecycle.</span>
+
+        <p>
+          A Planning Agent may receive a decision record containing the allow-decision identifier, task identifier, and audit identifier. The handoff must not contain a credential that the next actor can replay. The receiving Execution Agent must authenticate as itself and obtain its own capability from the control plane. A decision identifier is a reference for correlation, not execution authority. Every privileged action is authorized again for the resolved principal. A prior allow, possession of the spec, or a detection result does not authorize the next action.
+        </p>
+        <p>
+          The Evidence Observer is outside the trusted computing base. Rendering a reported violation is neither a policy decision nor an apply operation. The observer must hold no execution credentials and have no path that writes production state.
+        </p>
 
         <h3>1.4 Agentic Assurance Maturity Levels</h3>
         <p>
@@ -729,7 +830,7 @@
       </section>
 
       <!-- Section 2 -->
-      <section class="whitepaper-section">
+      <section id="section-3" class="whitepaper-section">
         <h2>2. Why Prompt Guidance Is Not Enforcement</h2>
         <p>
           Natural-language instructions improve agent behavior, but they cannot establish an independently enforceable boundary. When an agent receives an instruction in its prompt, that same agent is responsible for interpreting the rule, evaluating edge cases, and asserting whether it complied. In safety- or integrity-sensitive software engineering pipelines, this conflates guidance with enforcement.
@@ -791,7 +892,7 @@
       </section>
 
       <!-- Section 3 -->
-      <section class="whitepaper-section">
+      <section id="section-4" class="whitepaper-section">
         <h2>3. Documented Empirical Failure Modes</h2>
         <p>
           Engineering a robust control plane requires cataloging the specific failure modes observed in autonomous coding pipelines and mapping each to an empirical evidence base.
@@ -804,8 +905,8 @@
           <li>
             <strong>Evaluation Gaming and Test-Oracle Uncertainty:</strong> Automated test execution (<code>exit 0</code>) is bounded evidence, not absolute proof of correctness. Empirical audits reveal dual-directional oracle failures:
             <ul style="margin-top: 0.5rem; margin-bottom: 0.5rem; padding-left: 1.2rem; list-style-type: circle;">
-              <li><em>False Acceptance (Weak Oracles):</em> In an empirical audit of SWE-bench Verified tasks, <a href="https://arxiv.org/abs/2606.16062" target="_blank" rel="noopener noreferrer" class="cite">Rajan (2026)</a> found that <strong>28.5% of evaluated tasks</strong> accepted Docker-verified patches that were functionally defective due to incomplete assertion coverage in the evaluation harness.</li>
-              <li><em>False Rejection & Ambiguity:</em> Conversely, in an audit of 138 difficult failures in SWE-bench Verified, <a href="https://openai.com/index/why-we-no-longer-evaluate-swe-bench-verified/" target="_blank" rel="noopener noreferrer" class="cite">OpenAI (2026)</a> reported that <strong>59.4% of evaluated failures</strong> suffered from flawed reference tests or underspecified descriptions that rejected valid candidate implementations.</li>
+              <li><em>False Acceptance (Weak Oracles):</em> In a 49-task sample of SWE-bench Verified, <a href="https://arxiv.org/abs/2606.16062" target="_blank" rel="noopener noreferrer" class="cite">Rajan (2026)</a> reported that <strong>28.5% of tasks</strong> had test suites weak enough to accept a Docker-verified incorrect patch. This is a sample result, not an estimate for every coding task.</li>
+              <li><em>False Rejection & Ambiguity:</em> In a targeted audit of 138 SWE-bench Verified problems that models often failed to solve, <a href="https://openai.com/index/why-we-no-longer-evaluate-swe-bench-verified/" target="_blank" rel="noopener noreferrer" class="cite">OpenAI (2026)</a> reported material test-design or problem-description issues in <strong>59.4% of the audited problems</strong>. The subset was selected for difficulty; the percentage does not describe the full benchmark.</li>
             </ul>
           </li>
           <li>
@@ -821,10 +922,10 @@
       </section>
 
       <!-- Section 4 -->
-      <section class="whitepaper-section">
+      <section id="section-5" class="whitepaper-section">
         <h2>4. Reference Architecture: The Three-Plane Model</h2>
         <p>
-          To systematically address these failure modes, we present a vendor-neutral reference architecture structured into three decoupled planes governed by a Trusted Computing Base (TCB).
+          The reference architecture separates planning and execution from control-plane authority. A separately governed CI evaluator checks candidate changes and produces attestations.
         </p>
 
         <figure class="architecture-figure">
@@ -927,7 +1028,7 @@
 
         <h3>4.2 Control-Plane Specifications</h3>
         <p>
-          To make the architecture actionable for platform engineering teams, we define the concrete data structures and policies enforced by the control plane.
+          The following specifications define the artifacts and policies the control plane must enforce.
         </p>
 
         <h4>Specification 1: Signed Task Manifest Schema</h4>
@@ -1173,7 +1274,7 @@ security:
       </section>
 
       <!-- Section 5 -->
-      <section class="whitepaper-section">
+      <section id="section-6" class="whitepaper-section">
         <h2>5. Operational Pipeline and Assurance State Machine</h2>
         <p>
           The reference architecture translates governance rules into an automated, multi-stage state machine with formal transition criteria and failure handling.
@@ -1209,12 +1310,12 @@ security:
                 <td><strong>3. Execution Admission</strong></td>
                 <td>Frozen contract, evaluation bundle, task manifest.</td>
                 <td>Isolated Git worktree, sandboxed microVM container.</td>
-                <td>Policy engine validates file allowlist, path deny-rules, and egress rules.</td>
+                <td>Policy engine validates file allowlist, path deny-rules, and egress rules. The Execution Agent authenticates as itself and obtains its own scoped capability; a prior decision record does not authorize execution. The execution principal is the resolved identity, and the handoff record is not that identity.</td>
                 <td>Halt sandbox startup; alert platform operator.</td>
               </tr>
               <tr>
                 <td><strong>4. Implementation Execution</strong></td>
-                <td>Task manifest, allowlisted source files, read-only tests.</td>
+                <td>Task manifest, allowlisted source files, read-only tests, and an execution capability issued to the Execution Agent after its own authorization.</td>
                 <td>Candidate patch diffs, local execution logs.</td>
                 <td>Local retry budget (max 3), local compiler/linter AST checks.</td>
                 <td>Quarantine branch; capture diagnostic evidence bundle.</td>
@@ -1238,6 +1339,10 @@ security:
         </div>
         <span class="table-caption">Table 5. Multi-agent lifecycle state machine: inputs, outputs, gates, and dispositions.</span>
 
+        <p>
+          Stage 3 &rarr; Stage 4 handoff: A Planning Agent may pass the allow-decision identifier, task identifier, and audit identifier, but must not pass a replayable capability. Before implementation begins, the Execution Agent must authenticate as itself and obtain its own scoped capability from the control plane. The handoff record does not substitute for that authorization.
+        </p>
+
         <h3>5.1 The Four Mechanical Assurance Rules</h3>
         <p>
           The state machine enforces four core operational rules:
@@ -1258,13 +1363,16 @@ security:
           </li>
           <li>
             <strong>4. Enforce Bounded Autonomy with Evidence-Preserving Quarantine</strong>
-            When an agent exceeds its retry budget, triggers a policy violation, or fails evaluation gates, the control plane immediately revokes execution capabilities and quarantines the branch. Crucially, the system does not discard execution artifacts; it archives the task manifest, tool-call audit logs, patch diffs, test output, and container digests for post-mortem analysis and policy refinement.
+            When an agent exceeds its retry budget, triggers a policy violation, or fails evaluation gates, the control plane immediately revokes execution capabilities and quarantines the branch. The system archives the task manifest, tool-call audit logs, patch diffs, test output, and container digests for post-mortem analysis and policy refinement.
           </li>
         </ol>
+        <p style="margin-top: 1.25rem; color: var(--text-main); font-weight: 500;">
+          No repository is trusted to skip the control plane, including the repository that holds the policy and the repository that detects drift.
+        </p>
       </section>
 
       <!-- Section 6 -->
-      <section class="whitepaper-section">
+      <section id="section-7" class="whitepaper-section">
         <h2>6. Deployment Profiles and Residual Risk Analysis</h2>
         <p>
           Real-world adoption balances security assurance with operational complexity. We outline two implementation profiles and document unmitigated residual risks.
@@ -1312,7 +1420,7 @@ security:
 
         <h3>6.1 Residual Risk and Defense-in-Depth Mitigations</h3>
         <p>
-          A rigorous reference architecture must explicitly identify residual risks that fall outside automated control-plane guarantees:
+          Automated control-plane enforcement does not eliminate the following risks:
         </p>
 
         <div class="table-wrap">
@@ -1357,7 +1465,8 @@ security:
       </section>
 
       <!-- Section 7: Primary Sources & Categorized Bibliography -->
-      <section id="sources" class="whitepaper-section" aria-labelledby="sources-heading">
+      <section id="section-8" class="whitepaper-section" aria-labelledby="sources-heading">
+        <a id="sources"></a>
         <h2 id="sources-heading" style="color: var(--accent-blue);">7. Primary Sources and Evidence Bibliography</h2>
         
         <div class="sources-container">
@@ -1414,18 +1523,18 @@ security:
           <div class="sources-category">2. Academic Preprints and Empirical Studies</div>
           <ul class="sources-list">
             <li>
-              <span class="source-evidence-tag">PREPRINT / EMPIRICAL STUDY</span>
-              <a href="https://arxiv.org/abs/2502.15851" target="_blank" rel="noopener noreferrer" class="bib-title">Control Illusion: The Failure of Instruction Hierarchies in Large Language Models</a> — Geng, J., et al. (arXiv:2502.15851, 2025). Evaluates instruction-hierarchy prioritization fragility across multiple LLM families under conflicting constraints and framing.
+              <span class="source-evidence-tag">PEER-REVIEWED / PREPRINT VERSION</span>
+              <a href="https://arxiv.org/abs/2502.15851" target="_blank" rel="noopener noreferrer" class="bib-title">Control Illusion: The Failure of Instruction Hierarchies in Large Language Models</a> — Geng, Y., et al. (<a href="https://arxiv.org/abs/2502.15851" target="_blank" rel="noopener noreferrer" class="cite">arXiv:2502.15851</a>, 2025; AAAI 2026, 40(36), 30816–30824). Evaluates instruction-hierarchy prioritization fragility across multiple LLM families under conflicting constraints and framing.
               <a href="https://arxiv.org/pdf/2502.15851" target="_blank" rel="noopener noreferrer" class="source-aux-link">PDF &rarr;</a>
             </li>
             <li>
               <span class="source-evidence-tag">EMPIRICAL STUDY</span>
-              <a href="https://arxiv.org/abs/2606.16062" target="_blank" rel="noopener noreferrer" class="bib-title">Auditing Reward Hackability in Code RL Training Environments</a> — Rajan, A. (arXiv:2606.16062, 2026). Documents that 28.5% of audited SWE-bench Verified tasks accepted incorrect patches under weak test suites.
+              <a href="https://arxiv.org/abs/2606.16062" target="_blank" rel="noopener noreferrer" class="bib-title">Auditing Reward Hackability in Code RL Training Environments</a> — Rajan, S. (<a href="https://arxiv.org/abs/2606.16062" target="_blank" rel="noopener noreferrer" class="cite">arXiv:2606.16062</a>, 2026). Reports that 28.5% of a 49-task SWE-bench Verified sample accepted Docker-verified incorrect patches under weak test suites.
               <a href="https://arxiv.org/pdf/2606.16062" target="_blank" rel="noopener noreferrer" class="source-aux-link">PDF &rarr;</a>
             </li>
             <li>
               <span class="source-evidence-tag">BENCHMARK AUDIT</span>
-              <a href="https://openai.com/index/why-we-no-longer-evaluate-swe-bench-verified/" target="_blank" rel="noopener noreferrer" class="bib-title">Why We No Longer Evaluate SWE-bench Verified</a> — OpenAI (Official Research Benchmark Report, 2026). Reports 59.4% of difficult failures had flawed tests or ambiguous descriptions rejecting valid patches.
+              <a href="https://openai.com/index/why-we-no-longer-evaluate-swe-bench-verified/" target="_blank" rel="noopener noreferrer" class="bib-title">Why We No Longer Evaluate SWE-bench Verified</a> — OpenAI (Official Research Benchmark Report, 2026). Reports material test-design or problem-description issues in 59.4% of a targeted 138-problem subset that models often failed to solve.
               <a href="https://openai.com/index/why-we-no-longer-evaluate-swe-bench-verified/" target="_blank" rel="noopener noreferrer" class="source-aux-link blue">Report &rarr;</a>
             </li>
             <li>
@@ -1503,7 +1612,7 @@ security:
       </section>
 
       <!-- Appendix: Vendor Mapping to Functional Roles -->
-      <section class="whitepaper-section">
+      <section id="section-9" class="whitepaper-section">
         <h2>Appendix: Tool and Vendor Mapping to Architectural Roles</h2>
         <p>
           To maintain architectural portability, the three-plane model is vendor-neutral. Commercial and open-source tools function as execution hosts configured by pipeline policy, rather than standalone governance systems:
