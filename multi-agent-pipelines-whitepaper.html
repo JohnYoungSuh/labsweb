@@ -671,7 +671,7 @@
         <div class="callout-box green">
           <div class="callout-title">Mechanical Control Definition</div>
           <p>
-            An externally enforced, machine-evaluable constraint whose enforcement and verification are independent of the executing agent's natural-language compliance claim or probabilistic token generation. Examples include operating-system read-only volume mounts, signed artifact digest verification, an external allow/deny policy decision point (PDP) whose decisions are enforced at the action boundary, capability-restricted tool invocation schemas, policy-enforced egress proxies, compiler type checks, AST lint rules, and branch protection merge barriers. Resolving a principal from a trusted issuer, and authorizing that principal again at each privileged action, are mechanical controls. When who-is-asking and what-is-allowed are one check, the system invents authority. The agent fills the gap with whatever context it has and acts with confidence on a permission it was never granted.
+            An externally enforced, machine-evaluable constraint whose enforcement and verification are independent of the executing agent's natural-language compliance claim or probabilistic token generation. Examples include operating-system read-only volume mounts, signed artifact digest verification, an external allow/deny policy decision point (PDP) whose decisions are enforced at the action boundary (<a href="#saltzer-1975" class="cite">Saltzer &amp; Schroeder, 1975</a>; <a href="#nist-800-207" class="cite">NIST SP 800-207</a>), capability-restricted tool invocation schemas, policy-enforced egress proxies, compiler type checks, AST lint rules, and branch protection merge barriers. Resolving a principal from a trusted issuer, and authorizing that principal again at each privileged action, are mechanical controls. When who-is-asking and what-is-allowed are one check, the system invents authority. The agent fills the gap with whatever context it has and acts with confidence on a permission it was never granted.
           </p>
         </div>
         <p>
@@ -692,7 +692,7 @@
           A principal is the subject the control plane binds to a capability &mdash; a human, an agent role, or a repository. Identity comes from an issuer the control plane trusts. A name, an agent id, or a repository path sent by the caller is not an identity.
         </p>
         <p>
-          The architecture defines ten operational entities across distinct trust boundaries:
+          The architecture defines ten operational entities across distinct trust boundaries. This architecture assigns these permissions and prohibitions to each principal:
         </p>
 
         <div class="table-wrap">
@@ -772,7 +772,7 @@
         <span class="table-caption">Table 1. Actor and trust boundary definitions across the agentic lifecycle.</span>
 
         <p>
-          A Planning Agent may receive a decision record containing the allow-decision identifier, task identifier, and audit identifier. The handoff must not contain a credential that the next actor can replay. The receiving Execution Agent must authenticate as itself and obtain its own capability from the control plane. A decision identifier is a reference for correlation, not execution authority. Every privileged action is authorized again for the resolved principal. A prior allow, possession of the spec, or a detection result does not authorize the next action.
+          A Planning Agent may receive a decision record containing the allow-decision identifier, task identifier, and audit identifier. The handoff must not contain a credential that the next actor can replay (<a href="#rfc-8693" class="cite">RFC 8693</a>). The receiving Execution Agent must authenticate as itself and obtain its own capability from the control plane. A decision identifier is a reference for correlation, not execution authority. Every privileged action is authorized again for the resolved principal. A prior allow, possession of the spec, or a detection result does not authorize the next action.
         </p>
         <p>
           The Evidence Observer is outside the trusted computing base. Rendering a reported violation is neither a policy decision nor an apply operation. The observer must hold no execution credentials and have no path that writes production state.
@@ -845,7 +845,7 @@
             <strong>Context Degradation and Retrieval Attenuation:</strong> In evaluations of long-context language models, performance can be position-sensitive, with relevant information located in the middle of long contexts receiving less effective use in the study's evaluated tasks (<a href="https://arxiv.org/abs/2307.03172" target="_blank" rel="noopener noreferrer" class="cite">Lost in the Middle, Liu et al., 2024</a>). Placing critical architectural constraints or security rules solely in prompt headers or dynamic memory files does not guarantee attention during long, multi-turn tool-call trajectories.
           </li>
           <li>
-            <strong>Inconsistent Instruction Hierarchies:</strong> Multi-agent systems frequently rely on system/user prompt separation to enforce privileged constraints. However, empirical evaluations have found that several tested models do not consistently prioritize privileged instructions when formatting conflicts or counter-framing are introduced in evaluated settings (<a href="https://arxiv.org/abs/2502.15851" target="_blank" rel="noopener noreferrer" class="cite">Control Illusion, Geng et al., arXiv:2502.15851</a>).
+            <strong>Inconsistent Instruction Hierarchies:</strong> Multi-agent systems frequently rely on system/user prompt separation to enforce privileged constraints. However, empirical evaluations have found that several tested models do not consistently prioritize privileged instructions when formatting conflicts or counter-framing are introduced in evaluated settings (<a href="https://arxiv.org/abs/2502.15851" target="_blank" rel="noopener noreferrer" class="cite">Control Illusion, Geng, Y., et al., arXiv:2502.15851; AAAI 2026</a>).
           </li>
           <li>
             <strong>Context Pollution and Communication Topologies:</strong> Accumulating past post-mortems and negative instructions in dynamic memory files (e.g., <code>MEMORIES.md</code>) inflates token costs and increases latency. In one controlled study, naïve full-broadcast synchronization increased hallucination in a multi-agent travel-planning setting, while the same effect did not replicate in the study's software-planning tasks (<a href="https://arxiv.org/abs/2606.21666" target="_blank" rel="noopener noreferrer" class="cite">Rodrigues, arXiv:2606.21666</a>). The result supports treating communication topology and shared-state protocol design as context-dependent engineering variables rather than assuming broadcast coordination is uniformly beneficial. Structured protocols like SEMAP (<a href="https://arxiv.org/abs/2510.12120" target="_blank" rel="noopener noreferrer" class="cite">Mao et al., arXiv:2510.12120</a>) organize state and report failure reductions in evaluated software engineering tasks.
@@ -1509,12 +1509,27 @@ security:
             empirical proof.
           </div>
 
-          <!-- Category 1: Peer-Reviewed Research -->
-          <div class="sources-category">1. Peer-Reviewed Academic Research</div>
+          <!-- Category 1: Peer-Reviewed Research and Foundational Security Standards -->
+          <div class="sources-category">1. Peer-Reviewed Academic Research and Foundational Security Standards</div>
           <ul class="sources-list">
+            <li id="saltzer-1975">
+              <span class="source-evidence-tag">PEER-REVIEWED / SEMINAL</span>
+              <a href="https://doi.org/10.1109/PROC.1975.9939" target="_blank" rel="noopener noreferrer" class="bib-title">The Protection of Information in Computer Systems</a> — Saltzer, J. H., &amp; Schroeder, M. D. (Proceedings of the IEEE, 63(9), 1278–1308, 1975). Foundational principles for complete mediation, separation of privilege, and distinguishing authenticated identity from access authorization.
+              <a href="https://web.mit.edu/Saltzer/www/publications/protection/index.html" target="_blank" rel="noopener noreferrer" class="source-aux-link">Classic Paper &rarr;</a>
+            </li>
+            <li id="nist-800-207">
+              <span class="source-evidence-tag">NATIONAL STANDARD</span>
+              <a href="https://doi.org/10.6028/NIST.SP.800-207" target="_blank" rel="noopener noreferrer" class="bib-title">Zero Trust Architecture</a> — Rose, S., Borchert, O., Mitchell, S., &amp; Connelly, S. (NIST Special Publication 800-207, 2020). Defines dynamic per-session mechanical authorization, external Policy Decision Point / Policy Enforcement Point (PDP/PEP) boundaries, and trusted issuer identity resolution.
+              <a href="https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-207.pdf" target="_blank" rel="noopener noreferrer" class="source-aux-link">PDF &rarr;</a>
+            </li>
+            <li id="rfc-8693">
+              <span class="source-evidence-tag">SECURITY STANDARD</span>
+              <a href="https://doi.org/10.17487/RFC8693" target="_blank" rel="noopener noreferrer" class="bib-title">OAuth 2.0 Token Exchange</a> — Jones, M., Nadalin, A., Campbell, B., Bradley, J., &amp; Mortimore, C. (Internet Engineering Task Force RFC 8693, 2020). Specifies delegation boundaries, cross-actor security tokens, and non-replayable execution capability issuance.
+              <a href="https://www.rfc-editor.org/rfc/rfc8693.html" target="_blank" rel="noopener noreferrer" class="source-aux-link blue">RFC &rarr;</a>
+            </li>
             <li>
               <span class="source-evidence-tag">PEER-REVIEWED</span>
-              <a href="https://arxiv.org/abs/2307.03172" target="_blank" rel="noopener noreferrer" class="bib-title">Lost in the Middle: How Language Models Use Long Contexts</a> — Liu, N. F., Lin, K., Hewitt, J., Paranjape, A., Bevilacqua, M., Petroni, F., & Liang, P. (Transactions of the Association for Computational Linguistics, 12, 157–173, 2024).
+              <a href="https://arxiv.org/abs/2307.03172" target="_blank" rel="noopener noreferrer" class="bib-title">Lost in the Middle: How Language Models Use Long Contexts</a> — Liu, N. F., Lin, K., Hewitt, J., Paranjape, A., Bevilacqua, M., Petroni, F., &amp; Liang, P. (Transactions of the Association for Computational Linguistics, 12, 157–173, 2024).
               <a href="https://arxiv.org/pdf/2307.03172" target="_blank" rel="noopener noreferrer" class="source-aux-link">PDF &rarr;</a>
             </li>
           </ul>
