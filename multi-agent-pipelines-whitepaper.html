@@ -716,25 +716,25 @@
                 <td><strong>Planning Agent</strong></td>
                 <td><span class="badge-pill b-plan">Semi-Trusted</span></td>
                 <td>Generate technical specifications, author typed schemas, propose frozen TDD suites, assign risk labels, and receive non-authorizing decision records for coordination.</td>
-                <td>Directly write to production branches, mutate CI workflows, execute implementation code, or pass a replayable credential to another actor in a handoff.</td>
+                <td>Directly write to production branches, mutate CI workflows, execute implementation code, pass a replayable credential to another actor in a handoff, or author vacuous test fixtures that fail on syntax/import errors rather than behavioral assertions.</td>
               </tr>
               <tr>
                 <td><strong>Execution Agent</strong></td>
                 <td><span class="badge-pill b-sec">Untrusted for Enforcement</span></td>
                 <td>Read approved contracts, authenticate as itself, obtain its own scoped capability from the control plane, edit allowlisted implementation files within an isolated guest workspace, and invoke policy-checked tools.</td>
-                <td>Modify test files, alter lockfiles, change CI definitions, access raw credentials, replay another actor’s capability, or contact unauthorized networks.</td>
+                <td>Modify test files, alter lockfiles, modify compiler/linter/build configurations (e.g., <code>tsconfig.json</code>, <code>build.rs</code>, <code>pyproject.toml</code>, <code>Makefile</code>), change CI definitions, access raw credentials, replay another actor’s capability, exhaust shared proxy rate limits, or contact unauthorized networks.</td>
               </tr>
               <tr>
                 <td><strong>Control Plane</strong></td>
                 <td><span class="badge-pill b-orch">Trusted Computing Base</span></td>
-                <td>Provision isolated runners/worktrees, enforce write allowlists, mediate egress via host proxy, retain run evidence, govern merge gates, resolve the principal from that issuer, and issue a scoped capability only after that principal authenticates as itself for the requested action.</td>
+                <td>Provision isolated runners/worktrees, enforce write allowlists and kernel-level path confinement, mediate egress via TLS-terminating host proxy, partition rate limits and token buckets per task capability, retain run evidence, govern merge gates, resolve the principal from that issuer, and issue a scoped capability only after that principal authenticates as itself for the requested action.</td>
                 <td>Generate unreviewed production code changes, bypass configured gating policies, or accept a forwarded decision record, a caller-supplied name, or a repository’s own claim as authentication.</td>
               </tr>
               <tr>
                 <td><strong>CI Evaluator</strong></td>
                 <td><span class="badge-pill b-gate">Trusted Computing Base</span></td>
-                <td>Execute pinned test suites against candidate patches, run mutation tests, emit verifiable CI attestations.</td>
-                <td>Consume unpinned, executor-modifiable test configurations or unverified dependency sources.</td>
+                <td>Execute pinned test suites against candidate patches, enforce pre-CI diff filters, run mutation tests, emit verifiable CI attestations.</td>
+                <td>Consume unpinned, executor-modifiable test configurations, candidate patches modifying build/compiler configs, or unverified dependency sources.</td>
               </tr>
               <tr>
                 <td><strong>External Services</strong></td>
@@ -772,7 +772,7 @@
         <span class="table-caption">Table 1. Actor and trust boundary definitions across the agentic lifecycle.</span>
 
         <p>
-          A Planning Agent may receive a decision record containing the allow-decision identifier, task identifier, and audit identifier. The handoff must not contain a credential that the next actor can replay (<a href="#rfc-8693" class="cite">RFC 8693</a>). The receiving Execution Agent must authenticate as itself and obtain its own capability from the control plane. A decision identifier is a reference for correlation, not execution authority. Every privileged action is authorized again for the resolved principal. A prior allow, possession of the spec, or a detection result does not authorize the next action.
+          A Planning Agent may receive a decision record containing the allow-decision identifier, task identifier, and audit identifier. The handoff must not contain a credential that the next actor can replay (<a href="#rfc-8693" class="cite">RFC 8693</a>). The receiving Execution Agent must authenticate as itself and obtain its own capability from the control plane. A decision identifier is a reference for correlation, not execution authority. Every privileged action is authorized again for the resolved principal. A prior allow, possession of the spec, or a detection result does not authorize the next action. Furthermore, execution capabilities and mediated proxy access are strictly partitioned per task identifier (<code>task_id</code>). Downstream execution agents cannot share token buckets or induce cross-agent rate-limit exhaustion against sibling sandboxes.
         </p>
         <p>
           The Evidence Observer is outside the trusted computing base. Rendering a reported violation is neither a policy decision nor an apply operation. The observer must hold no execution credentials and have no path that writes production state.
@@ -918,6 +918,15 @@
           <li>
             <strong>Boundary Escape & Credential Disclosure:</strong> Coding agents granted unconstrained shell access can leak environment variables, query cloud metadata endpoints (e.g., <code>169.254.169.254</code>), or invoke billable third-party APIs during test execution instead of using local mocks.
           </li>
+          <li>
+            <strong>The "Local Compiler/Linter" Confused Deputy Trap:</strong> When execution loops permit an agent to invoke local compilers or linters to validate work in progress, failing to deny write access to build or compiler configurations (e.g., <code>tsconfig.json</code>, <code>pyproject.toml</code>, <code>Cargo.toml</code>, <code>build.rs</code>, <code>setup.py</code>, <code>Makefile</code>) creates a critical confused deputy vulnerability. An agent can inject arbitrary command execution via build hooks (e.g., <code>build.rs</code> execution in Rust or <code>setup.py</code> execution in Python), disable AST lint rules in <code>.eslintrc.js</code>, or alter compiler path aliases in <code>tsconfig.json</code>. This compromises the local validation loop and, if such configuration modifications are committed into <code>patch.diff</code>, threatens to compromise downstream evaluation runners unless intercepted by pre-CI diff filters.
+          </li>
+          <li>
+            <strong>Stage 2 "Red-State" Oracle Inversion (Vacuous Failure):</strong> A standard requirement of multi-agent TDD pipelines is verifying that new test suites fail cleanly on empty stubs before implementation begins (red state). However, an unverified red-state gate can be satisfied vacuously: a semi-trusted Planning Agent (or an imperfect model) can author tests containing syntax errors, unresolvable module imports, or broken fixture references. These tests crash at startup (<code>SyntaxError</code>, <code>ModuleNotFoundError</code>, <code>ReferenceError</code>) rather than failing on behavioral assertions (<code>AssertionError</code>). Because the test process exits with a non-zero code, an uncalibrated gate registers this as a valid "red state", introducing broken fixtures that can never be satisfied by correct implementation code or that mask absent functional assertions.
+          </li>
+          <li>
+            <strong>Cross-Agent Contention & Side-Channels via Shared Dependencies:</strong> In multi-agent environments with parallel sandboxes, sharing an unpartitioned internal package cache or a global credential proxy token bucket allows one agent to exhaust rate limits (e.g., <code>npm-read-token</code>), inducing denial-of-service (DoS) against sibling tasks. Furthermore, variable response latencies from shared cache hits create timing side-channels that leak cross-task execution state between isolated agents.
+          </li>
         </ul>
       </section>
 
@@ -1045,84 +1054,101 @@
           </div>
           <pre><code class="language-json">{
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "AgentTaskManifest",
+  "title": "SignedAgentTaskManifestEnvelope",
   "type": "object",
   "additionalProperties": false,
-  "required": [
-    "manifest_schema_version", "policy_engine_version", "task_id",
-    "repository_url", "base_commit_sha", "contract_hash", "evaluation",
-    "writable_path_patterns", "denied_path_patterns", "egress_policy",
-    "budget_limits", "approver", "signature"
-  ],
+  "required": ["manifest", "signature"],
   "properties": {
-    "manifest_schema_version": { "type": "string", "const": "1.0" },
-    "policy_engine_version": { "type": "string", "minLength": 1 },
-    "task_id": { "type": "string", "format": "uuid" },
-    "repository_url": { "type": "string", "format": "uri" },
-    "base_commit_sha": { "type": "string", "pattern": "^[a-f0-9]{40}$" },
-    "contract_hash": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
-    "evaluation": {
+    "manifest": {
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "bundle_digest",
-        "runner_image_digest",
-        "acceptance_command",
-        "acceptance_command_digest",
-        "environment_allowlist"
+        "manifest_schema_version",
+        "policy_engine_version",
+        "task_id",
+        "repository_url",
+        "base_commit_sha",
+        "contract_hash",
+        "evaluation",
+        "writable_path_patterns",
+        "denied_path_patterns",
+        "egress_policy",
+        "budget_limits",
+        "approver",
+        "expires_at"
       ],
       "properties": {
-        "bundle_digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
-        "runner_image_digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
-        "acceptance_command": {
+        "manifest_schema_version": { "type": "string", "const": "1.0" },
+        "policy_engine_version": { "type": "string", "minLength": 1 },
+        "task_id": { "type": "string", "format": "uuid" },
+        "repository_url": { "type": "string", "format": "uri" },
+        "base_commit_sha": { "type": "string", "pattern": "^([a-f0-9]{40}|[a-f0-9]{64})$" },
+        "contract_hash": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+        "evaluation": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "bundle_digest",
+            "runner_image_digest",
+            "acceptance_command",
+            "acceptance_command_digest",
+            "environment_allowlist"
+          ],
+          "properties": {
+            "bundle_digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+            "runner_image_digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+            "acceptance_command": {
+              "type": "array",
+              "minItems": 1,
+              "items": { "type": "string", "minLength": 1 }
+            },
+            "acceptance_command_digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+            "environment_allowlist": {
+              "type": "array",
+              "items": { "type": "string", "pattern": "^[A-Z_][A-Z0-9_]*$" },
+              "uniqueItems": true
+            }
+          }
+        },
+        "writable_path_patterns": {
           "type": "array",
           "minItems": 1,
           "items": { "type": "string", "minLength": 1 }
         },
-        "acceptance_command_digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
-        "environment_allowlist": {
+        "denied_path_patterns": {
           "type": "array",
-          "items": { "type": "string", "pattern": "^[A-Z_][A-Z0-9_]*$" },
-          "uniqueItems": true
-        }
-      }
-    },
-    "writable_path_patterns": {
-      "type": "array",
-      "minItems": 1,
-      "items": { "type": "string", "minLength": 1 }
-    },
-    "denied_path_patterns": {
-      "type": "array",
-      "minItems": 1,
-      "items": { "type": "string", "minLength": 1 }
-    },
-    "egress_policy": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["policy_id", "policy_digest"],
-      "properties": {
-        "policy_id": { "type": "string", "minLength": 1 },
-        "policy_digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" }
-      }
-    },
-    "budget_limits": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["max_retries", "max_wallclock_seconds", "max_tokens"],
-      "properties": {
-        "max_retries": { "type": "integer", "minimum": 0, "maximum": 5 },
-        "max_wallclock_seconds": { "type": "integer", "minimum": 1, "maximum": 1800 },
-        "max_tokens": { "type": "integer", "minimum": 1, "maximum": 500000 }
-      }
-    },
-    "approver": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["identity", "timestamp"],
-      "properties": {
-        "identity": { "type": "string" },
-        "timestamp": { "type": "string", "format": "date-time" }
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "egress_policy": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["policy_id", "policy_digest"],
+          "properties": {
+            "policy_id": { "type": "string", "minLength": 1 },
+            "policy_digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" }
+          }
+        },
+        "budget_limits": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["max_retries", "max_wallclock_seconds", "max_tokens"],
+          "properties": {
+            "max_retries": { "type": "integer", "minimum": 0, "maximum": 5 },
+            "max_wallclock_seconds": { "type": "integer", "minimum": 1, "maximum": 1800 },
+            "max_tokens": { "type": "integer", "minimum": 1, "maximum": 500000 }
+          }
+        },
+        "approver": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["identity", "timestamp"],
+          "properties": {
+            "identity": { "type": "string" },
+            "timestamp": { "type": "string", "format": "date-time" }
+          }
+        },
+        "expires_at": { "type": "string", "format": "date-time" }
       }
     },
     "signature": {
@@ -1141,23 +1167,27 @@
 }</code></pre>
         </div>
         <p>
-          <strong>Signer, Verifier & Time Trust Boundary:</strong> The execution agent must not possess a manifest-signing key or the ability to register a trusted signer. Manifest signatures are generated by a planning authority or control-plane service identity. Admission control and CI evaluate signature and token validity against a control-plane trusted time source; the execution guest's system clock is not authoritative for manifest expiry or attestation validity. Admission control verifies the manifest signature, payload digest, expiration timestamp, contract hash, and evaluation-bundle hash before provisioning the execution environment. CI repeats those checks before producing an acceptance attestation.
+          <strong>Signer, Verifier & Time Trust Boundary:</strong> The execution agent must not possess a manifest-signing key or the ability to register a trusted signer. Manifest signatures are generated by a planning authority or control-plane service identity. Admission control and CI evaluate signature and token validity against a control-plane trusted time source; the execution guest's system clock is not authoritative for manifest expiry or attestation validity. Admission control verifies the manifest signature, payload digest, expiration timestamp (<code>expires_at</code>), contract hash, and evaluation-bundle hash before provisioning the execution environment. CI repeats those checks before producing an acceptance attestation.
+        </p>
+        <p>
+          <strong>In-Band Signature Canonicalization Hazard & Envelope Structure (RFC 8785):</strong> In-band signature designs—where a signature block is embedded directly inside the root JSON object it signs—introduce a critical canonicalization hazard under <a href="#rfc-8785" class="cite">RFC 8785</a> (JSON Canonicalization Scheme / JCS). Computing the <code>payload_digest</code> of an object containing its own signature requires verifiers to mutate the parsed AST or execute fragile field-stripping rules prior to serialization. Specification 1 eliminates this vulnerability by enforcing an explicit two-key envelope structure (<code>{"manifest": {...}, "signature": {...}}</code>), functionally equivalent to Dead Simple Signing Envelope (DSSE) and in-toto Statement v1. The verifier serializes and hashes <code>envelope.manifest</code> strictly without AST mutation. The schema also enforces Git object hash agility (<code>^[a-f0-9]{40}$</code> for SHA-1 and <code>^[a-f0-9]{64}$</code> for SHA-256), protecting repositories utilizing Git <code>objectFormat = sha256</code> against chosen-prefix collision attacks.
         </p>
         <p>
           <strong>Evaluator Canonicalization & Environment Allowlisting:</strong> <code>acceptance_command_digest</code> is computed over the RFC 8785/JCS-canonicalized evaluator descriptor, including the argument array, working directory, declared environment allowlist, and runner-image digest; the execution agent cannot modify any component of that descriptor. The evaluator inherits no ambient environment variables except those explicitly allowlisted and recorded in the evaluator descriptor.
         </p>
         <p>
-          <strong>Path Authorization & Normalization Semantics:</strong> Path authorization is evaluated on canonicalized, repository-relative paths after symlink resolution. Deny rules strictly override allow rules. The control plane rejects path traversal (<code>..</code>), symlink escape, alternate data streams, case-folding ambiguities, and any write whose resolved destination falls outside the approved workspace root.
+          <strong>Kernel-Level Path Confinement & TOCTOU Elimination:</strong> Path authorization must not rely on userspace string matching or pre-execution tool wrappers. An execution agent operating with multi-process concurrency (<code>max_processes: 128</code>) can execute a classic Time-of-Check to Time-of-Use (TOCTOU) symlink race, substituting a benign directory inside <code>src/modules/billing/</code> with a symlink to sensitive paths between the authorization check and the POSIX <code>openat()</code> call. To eliminate this race, guest filesystem confinement must be enforced at the kernel/VFS layer using Linux <code>openat2()</code> with <code>RESOLVE_BENEATH | RESOLVE_NO_SYMLINKS</code> flags, Landlock LSM rules restricting filesystem descriptors, or by mounting denied paths as distinct read-only bind mounts at the container/hypervisor layer. Furthermore, Git worktree confinement must explicitly account for the fact that a worktree <code>.git</code> entry is a text file (containing <code>gitdir: ...</code>) rather than a directory; glob engines matching only <code>.git/**</code> fail to protect the worktree pointer file itself. Both <code>.git</code> and <code>.git/**</code> must be denied, or Git metadata must be omitted entirely from the guest in favor of host-side tree diffing.
         </p>
 
         <h4>Specification 2: Immutable Evaluation Surface</h4>
         <p>
-          The evaluation surface comprises all files and configurations that determine whether candidate code is accepted. Independently owned means that the executor lacks write authority over the test bundle, evaluator configuration, test command, dependency-resolution inputs, and acceptance criteria for its assigned task. The full evaluation surface must be cryptographically bound to the task manifest and immutable to the execution agent. Where evaluator artifacts are exposed within the guest, they must be mounted read-only; CI workflow definitions, acceptance commands, runner configuration, and protected-branch policies must be enforced outside the executor's write authority:
+          The evaluation surface comprises all files and configurations that determine whether candidate code is accepted. Independently owned means that the executor lacks write authority over the test bundle, evaluator configuration, test command, dependency-resolution inputs, build system rules, compiler/linter settings, and acceptance criteria for its assigned task. The full evaluation surface must be cryptographically bound to the task manifest and immutable to the execution agent. Where evaluator artifacts are exposed within the guest, they must be mounted read-only; CI workflow definitions, acceptance commands, runner configuration, compiler/linter definitions, and protected-branch policies must be enforced outside the executor's write authority:
         </p>
         <ul class="content-list">
           <li><strong>Test Suites & Fixtures:</strong> The approved test suite and fixtures for the task, including relevant pre-existing regression tests, independently authored task tests, integration fixtures, and end-to-end scenarios selected by the planning/QA authority.</li>
-          <li><strong>Dependency Resolution:</strong> Lockfiles (e.g., <code>package-lock.json</code>, <code>poetry.lock</code>) and package configuration manifests.</li>
-          <li><strong>Build & CI Scripts:</strong> Pipeline definitions (e.g., <code>.github/workflows/</code>), linter configs, compiler flags, and test runner arguments.</li>
+          <li><strong>Dependency Resolution:</strong> Lockfiles (e.g., <code>package-lock.json</code>, <code>poetry.lock</code>) and package configuration manifests (e.g., <code>package.json</code>).</li>
+          <li><strong>Build & CI Scripts:</strong> Pipeline definitions (e.g., <code>.github/workflows/</code>), test runner arguments, and build-system definitions (e.g., <code>Makefile</code>, <code>Cargo.toml</code>, <code>build.rs</code>, <code>CMakeLists.txt</code>).</li>
+          <li><strong>Compiler, Linter, & AST Tooling Configurations:</strong> Type-checker and compiler configurations (e.g., <code>tsconfig.json</code>), linter configs (e.g., <code>.eslintrc.js</code>, <code>eslint.config.js</code>), and macro settings that could otherwise act as confused deputies or weaken AST validation semantics during local execution.</li>
           <li><strong>Evaluation Runner Image:</strong> Pinned OCI digest of the container running the evaluation suite.</li>
         </ul>
 
@@ -1189,10 +1219,25 @@ filesystem:
     - host_path: "/var/bundles/eval-task-4819"
       guest_path: "/workspace/tests"
   denied_paths:
+    - ".git"
     - ".git/**"
     - ".github/**"
     - "package.json"
     - "package-lock.json"
+    - "tsconfig*.json"
+    - ".eslintrc*"
+    - "eslint.config.*"
+    - "pyproject.toml"
+    - "setup.py"
+    - "setup.cfg"
+    - "Cargo.toml"
+    - "build.rs"
+    - "Makefile"
+    - "CMakeLists.txt"
+  vfs_enforcement:
+    mechanism: "openat2_resolve_beneath"
+    flags: ["RESOLVE_BENEATH", "RESOLVE_NO_SYMLINKS"]
+    kernel_lsm: "landlock"
 
 network:
   default_egress: "deny"
@@ -1208,10 +1253,14 @@ network:
       port: 443
       protocol: "https"
       allowed_methods: ["GET", "HEAD"]
+      disallow_upgrade: true               # Blocks WebSocket (Upgrade: websocket) tunneling
+      disallow_connection_coalescing: true # Prohibits HTTP/2 cross-origin reuse
     - host: "pypi.org"
       port: 443
       protocol: "https"
       allowed_methods: ["GET", "HEAD"]
+      disallow_upgrade: true
+      disallow_connection_coalescing: true
 
 resources:
   cpu_cores: 2
@@ -1246,13 +1295,23 @@ security:
   credential_mediation:
     mode: "host_proxy"
     raw_credentials_mounted_in_guest: false
+    tls_termination:
+      enabled: true
+      trust_store_ca: "ephemeral-host-ca" # Guest microVM trust store provisioned with per-run Host Proxy Internal CA
     secret_references:
       - proxy_token_id: "npm-read-token"
         scope: "read:packages"
-        rate_limit_per_minute: 60</code></pre>
+        rate_limit_per_minute: 60
+        rate_limit_scope: "per_task_id" # Scoped strictly per task_id to prevent sibling token bucket exhaustion or timing side-channels</code></pre>
         </div>
         <p>
+          <strong>Host-Proxy TLS Termination & Ephemeral CA Trust Bootstrap:</strong> Because all communication with allowlisted package registries (e.g., <code>registry.npmjs.org</code>, <code>pypi.org</code>) traverses HTTPS over port 443, inspecting HTTP request methods (permitting <code>GET</code>/<code>HEAD</code> while rejecting <code>POST</code>/<code>PUT</code>/<code>DELETE</code>) and injecting scoped authorization credentials on the host side requires the host proxy to terminate TLS (acting as a trusted forward proxy) and re-originate TLS to the upstream endpoint. To establish trust without compromising the broader system, the control plane injects an ephemeral, per-run internal Certificate Authority (CA) certificate into the guest microVM's trust store (e.g., <code>/etc/ssl/certs</code>) during sandbox initialization. To prevent protocol-level escapes, the host proxy explicitly strips and rejects HTTP/1.1 <code>Upgrade: websocket</code> headers, blocks HTTP <code>CONNECT</code> tunneling over allowlisted domains, and disables HTTP/2 connection coalescing (preventing an agent from reusing an established TLS connection to route unauthorized requests to sibling domains hosted on shared CDN IP addresses).
+        </p>
+        <p>
           <strong>Egress Filtering, Destination Validation & IPv6 Handling:</strong> Destination validation occurs at the host-side proxy or network-policy enforcement point, after DNS resolution and before connection establishment. For HTTP(S), the proxy must re-evaluate each redirect target, enforce the allowlist against the resolved destination and SNI/Host metadata, deny IP-literal destinations unless explicitly authorized, and prevent credentials from being forwarded to a changed origin. The egress controller must evaluate the final resolved destination on every connection, normalize IPv4-mapped IPv6 addresses (e.g., <code>::ffff:169.254.169.254</code>), block loopback (<code>127.0.0.0/8</code>, <code>::1/128</code>), link-local (<code>fe80::/10</code>), cloud metadata (<code>169.254.169.254</code>), and prohibited private address ranges, prevent DNS rebinding, and deny direct IP connections unless explicitly authorized.
+        </p>
+        <p>
+          <strong>Per-Task Token Bucket Scoping & Dependency Cache Isolation:</strong> In multi-agent execution clusters, sharing global rate limits or a single proxy token bucket introduces dangerous cross-agent side channels. An adversarial or buggy agent can deliberately exhaust the shared package-registry token bucket, triggering denial-of-service (DoS) against sibling execution tasks. Furthermore, varying latency responses from a shared internal cache can leak information across task boundaries via timing side-channels. The host proxy must partition rate limits and token buckets strictly per <code>task_id</code> / execution capability. When internal artifact caches or mirrors are used, they must enforce strict read-only partition boundaries or content-addressed cryptographic verification.
         </p>
         <p>
           <strong>Build-Time vs. Runtime Dependency Caching:</strong> For high-assurance profiles, dependency resolution should occur before execution from a verified internal artifact mirror or content-addressed cache. Runtime registry access is an exception path and must be constrained by lockfile digests, package integrity metadata, provenance checks, and policy-logged retrieval.
@@ -1303,8 +1362,8 @@ security:
                 <td><strong>2. Evaluation Bundle Creation</strong></td>
                 <td>Approved contract, base repository commit.</td>
                 <td>Independent test suites, fixtures, runner manifest.</td>
-                <td>Baseline runner verifies tests fail cleanly on empty stubs (red state).</td>
-                <td>Reject to QA / Planning; rewrite invalid fixtures.</td>
+                <td>Baseline runner compiles test suite, verifies fixture/module imports load without harness or syntax errors, executes target entrypoint, and confirms failure occurs exclusively on behavioral assertions (<code>AssertionError</code>, exit code 1) on empty stubs (strict non-vacuous red state).</td>
+                <td>Reject to QA / Planning; quarantine invalid, syntactically broken, or vacuous test fixtures.</td>
               </tr>
               <tr>
                 <td><strong>3. Execution Admission</strong></td>
@@ -1315,16 +1374,16 @@ security:
               </tr>
               <tr>
                 <td><strong>4. Implementation Execution</strong></td>
-                <td>Task manifest, allowlisted source files, read-only tests, and an execution capability issued to the Execution Agent after its own authorization.</td>
+                <td>Task manifest, allowlisted source files, read-only tests, immutable build/compiler configs, and an execution capability issued to the Execution Agent after its own authorization.</td>
                 <td>Candidate patch diffs, local execution logs.</td>
-                <td>Local retry budget (max 3), local compiler/linter AST checks.</td>
+                <td>Local retry budget (max 3), local compiler/linter AST checks on frozen configs (denied build/linter configs protected; pre-CI diff filter automatically quarantines any patch touching non-source files or build configurations).</td>
                 <td>Quarantine branch; capture diagnostic evidence bundle.</td>
               </tr>
               <tr>
                 <td><strong>5. CI Evaluation & Attestation</strong></td>
                 <td>Candidate patch, frozen evaluation bundle.</td>
                 <td>CI build logs, mutation test scores, attestation record.</td>
-                <td>Pinned test pass (<code>exit 0</code>), mutation threshold satisfied, conflict guard pass.</td>
+                <td>Pre-CI diff filter pass (zero modifications to build configs or evaluation surfaces), pinned test pass (<code>exit 0</code>), mutation threshold satisfied, conflict guard pass.</td>
                 <td>Quarantine branch; return structured failure log to Planning.</td>
               </tr>
               <tr>
@@ -1355,11 +1414,11 @@ security:
           </li>
           <li>
             <strong>2. Preserve Total Evaluator Independence</strong>
-            The full evaluation surface must be cryptographically bound to the task manifest and immutable to the execution agent. Where evaluator artifacts are exposed within the guest, they must be mounted read-only; CI workflow definitions, acceptance commands, runner configuration, and protected-branch policies must be enforced outside the executor's write authority.
+            The full evaluation surface must be cryptographically bound to the task manifest and immutable to the execution agent. This surface encompasses not only test files and fixtures, but all build scripts (e.g., <code>Makefile</code>, <code>build.rs</code>, <code>setup.py</code>), compiler/type-checker settings (e.g., <code>tsconfig.json</code>), linter definitions (e.g., <code>.eslintrc.js</code>), and lockfiles. Where evaluator artifacts are exposed within the guest, they must be mounted read-only; CI workflow definitions, acceptance commands, runner configuration, and protected-branch policies must be enforced outside the executor's write authority to prevent the local compiler/linter confused deputy trap.
           </li>
           <li>
             <strong>3. Enforce Layered Adequacy Checks</strong>
-            In safety-critical or core architectural modules, the CI evaluator must inject automated mutation testing (e.g., Mutmut, Stryker) to verify that the test suite detects intentional semantic mutations. For general codebases, mutation testing is applied on a calibrated risk-tier basis during PR evaluation or nightly regression runs.
+            Baseline TDD red-state gates must strictly verify that initial test suite failures stem exclusively from unsatisfied behavioral assertions rather than harness setup errors, missing dependencies, or syntax exceptions (preventing vacuous test acceptance). In safety-critical or core architectural modules, the CI evaluator must additionally inject automated mutation testing (e.g., Mutmut, Stryker) to verify that the test suite detects intentional semantic mutations. For general codebases, mutation testing is applied on a calibrated risk-tier basis during PR evaluation or nightly regression runs.
           </li>
           <li>
             <strong>4. Enforce Bounded Autonomy with Evidence-Preserving Quarantine</strong>
@@ -1391,22 +1450,22 @@ security:
               <tr>
                 <td><strong>Isolation Boundary</strong></td>
                 <td>Isolated Git worktrees inside shared developer containers.</td>
-                <td>Dedicated Firecracker microVMs or ephemeral hardened sandboxes per task.</td>
+                <td>Dedicated Firecracker microVMs or ephemeral hardened sandboxes per task; kernel VFS-level <code>openat2</code> confinement (<code>RESOLVE_BENEATH | RESOLVE_NO_SYMLINKS</code>) or read-only snapshot mounts; host-side tree diff extraction without exposing Git worktree files.</td>
               </tr>
               <tr>
                 <td><strong>Evaluation Immutability</strong></td>
                 <td>Separate evaluator checkout or immutable artifact bundle; server-enforced protected paths; executor runs without permission to alter the evaluator source, evaluator configuration, or CI acceptance command.</td>
-                <td>Read-only OS volume mounts verified by cryptographic hash manifests.</td>
+                <td>Read-only OS volume mounts verified by cryptographic hash manifests; strict pre-CI diff filters quarantining any edits to build, linter, or compiler configs.</td>
               </tr>
               <tr>
                 <td><strong>Network Egress</strong></td>
                 <td>DNS filtering and environment variable secret stripping.</td>
-                <td>Default-deny network isolation with host-side credential mediation proxies.</td>
+                <td>Default-deny network isolation with TLS-terminating host-side credential mediation proxies, per-task rate limit scoping, and ephemeral guest CA injection.</td>
               </tr>
               <tr>
                 <td><strong>Test Adequacy</strong></td>
                 <td>Decoupled test authorship in planning plane; standard unit/integration suite.</td>
-                <td>Risk-calibrated mutation score thresholds per module class; automated negative control tests.</td>
+                <td>Risk-calibrated mutation score thresholds per module class; automated negative control tests and behavioral assertion validation.</td>
               </tr>
               <tr>
                 <td><strong>Merge Authorization</strong></td>
@@ -1444,9 +1503,9 @@ security:
                 <td>Software Bill of Materials (SBOM) scanning, dependency pinning, and vulnerability database auditing.</td>
               </tr>
               <tr>
-                <td><strong>Proxied Capability Misuse</strong></td>
-                <td>An agent issues excessive or abusive API requests through an authorized host proxy.</td>
-                <td>Granular rate limiting, path/method allowlisting, and anomaly detection on host proxy traffic.</td>
+                <td><strong>Proxied Capability Misuse & Sibling Contention</strong></td>
+                <td>An agent issues excessive API requests through an authorized host proxy, or attempts timing side-channels against sibling tasks.</td>
+                <td>Granular per-task rate limiting and token buckets, path/method allowlisting, cache partition isolation, and anomaly detection on host proxy traffic.</td>
               </tr>
               <tr>
                 <td><strong>Host / Hypervisor Escape</strong></td>
@@ -1526,6 +1585,11 @@ security:
               <span class="source-evidence-tag">SECURITY STANDARD</span>
               <a href="https://doi.org/10.17487/RFC8693" target="_blank" rel="noopener noreferrer" class="bib-title">OAuth 2.0 Token Exchange</a> — Jones, M., Nadalin, A., Campbell, B., Bradley, J., &amp; Mortimore, C. (Internet Engineering Task Force RFC 8693, 2020). Specifies delegation boundaries, cross-actor security tokens, and non-replayable execution capability issuance.
               <a href="https://www.rfc-editor.org/rfc/rfc8693.html" target="_blank" rel="noopener noreferrer" class="source-aux-link blue">RFC &rarr;</a>
+            </li>
+            <li id="rfc-8785">
+              <span class="source-evidence-tag">DATA FORMAT STANDARD</span>
+              <a href="https://doi.org/10.17487/RFC8785" target="_blank" rel="noopener noreferrer" class="bib-title">JSON Canonicalization Scheme (JCS)</a> — Rundgren, A., Jordan, B., &amp; Erdtman, S. (Internet Engineering Task Force RFC 8785, 2020). Defines deterministic canonical formatting of JSON data for cryptographic hashing and digital signatures.
+              <a href="https://www.rfc-editor.org/rfc/rfc8785.html" target="_blank" rel="noopener noreferrer" class="source-aux-link blue">RFC &rarr;</a>
             </li>
             <li>
               <span class="source-evidence-tag">PEER-REVIEWED</span>
