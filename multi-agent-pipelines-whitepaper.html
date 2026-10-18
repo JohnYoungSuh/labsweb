@@ -929,7 +929,7 @@
         </p>
 
         <figure class="architecture-figure">
-          <pre role="img" aria-label="Three-plane architecture showing human authority above the control plane; planning and evaluation planes under control-plane governance; and an isolated execution plane below.">
+          <pre role="img" aria-label="Three-plane architecture showing human authority above the control plane; planning plane and CI evaluator under control-plane governance; and an isolated execution plane below.">
 ┌─────────────────────────────────────────────────────────────────────────────┐
 │                              HUMAN AUTHORITY                                │
 │          • Contract Approval                • Production Merge Sign-Off     │
@@ -945,7 +945,7 @@
          Frozen Spec & Test Bundle             Immutable Evaluation Attestation
                     │                                     │
 ┌───────────────────▼───────────────┐     ┌───────────────▼───────────────────┐
-│          PLANNING PLANE           │     │         EVALUATION PLANE          │
+│          PLANNING PLANE           │     │           CI EVALUATOR            │
 │  • OpenAPI / JSON Schema Contract │     │  • Read-Only Test & Fixture Suite │
 │  • Independent TDD Authoring      │     │  • Pinned Compiler / Linter AST   │
 │  • Risk & Scope Manifest          │     │  • Mutation Testing Engine        │
