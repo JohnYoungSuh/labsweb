@@ -3,34 +3,40 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SuhLabs | Zero Trust Architecture Whitepaper</title>
+    <title>SuhLabs | Zero Trust Compliance &amp; IMS Splunk App</title>
     <meta
       name="description"
-      content="Rethinking Zero Trust: From Product Purchases to Logical Control Evidence. Open-source research on Splunk App for Zero Trust Execution and AWS-DFD-Visualizer."
+      content="Rethinking Zero Trust: From Product Purchases to Logical Control Evidence. Planning software and critical path verification engine on Splunk Enterprise 10.4+ for the 152 activities of the DoD Zero Trust Execution Roadmap."
     />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Fira+Code:wght@400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
     <style>
       .whitepaper-header {
-        margin-bottom: 3rem;
+        margin-bottom: 2.5rem;
       }
       .badge-group {
         display: flex;
         flex-wrap: wrap;
-        gap: 0.5rem;
-        margin: 1.5rem 0;
+        gap: 0.6rem;
+        margin: 1.25rem 0;
       }
       .badge-item {
         background: rgba(96, 171, 49, 0.1);
         border: 1px solid var(--accent-green);
         color: var(--accent-green);
-        padding: 0.3rem 0.8rem;
+        padding: 0.35rem 0.85rem;
         border-radius: 4px;
         font-family: "Fira Code", monospace;
         font-size: 0.75rem;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        text-decoration: none;
       }
       .badge-item.pink {
         background: rgba(235, 52, 162, 0.1);
@@ -42,27 +48,182 @@
         border-color: var(--accent-blue);
         color: var(--accent-blue);
       }
+
+      .exec-summary-box {
+        background: rgba(12, 23, 36, 0.95);
+        border: 1px solid var(--border-color);
+        border-left: 4px solid var(--accent-green);
+        padding: 1.75rem 2rem;
+        border-radius: 6px;
+        margin: 2rem 0 3rem 0;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+      }
+      .exec-summary-title {
+        font-family: "Fira Code", monospace;
+        color: var(--accent-green);
+        font-size: 0.95rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 0.75rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .exec-summary-box p {
+        color: #d1d5db;
+        line-height: 1.75;
+        margin: 0;
+        font-size: 0.95rem;
+      }
+
       .whitepaper-section {
         margin-bottom: 3.5rem;
       }
       .whitepaper-section h2 {
         color: var(--accent-green);
         border-bottom: 1px solid var(--border-color);
-        padding-bottom: 0.5rem;
+        padding-bottom: 0.6rem;
         margin-bottom: 1.25rem;
         font-family: "Fira Code", monospace;
-        font-size: 1.4rem;
+        font-size: 1.35rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
       }
       .whitepaper-section h3 {
         color: var(--text-main);
-        margin-top: 1.8rem;
-        margin-bottom: 0.8rem;
+        margin-top: 2rem;
+        margin-bottom: 0.85rem;
+        font-size: 1.1rem;
+        font-family: "Fira Code", monospace;
       }
       .whitepaper-section p {
         color: var(--text-muted);
-        line-height: 1.7;
+        line-height: 1.75;
         margin-bottom: 1.2rem;
       }
+
+      /* Architecture Figure Block */
+      .architecture-figure {
+        margin: 1.75rem 0 1rem 0;
+        padding: 0;
+      }
+      .architecture-figure pre {
+        background: #02060b;
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        padding: 1.5rem;
+        margin: 0;
+        font-family: "Fira Code", monospace;
+        font-size: 0.8rem;
+        line-height: 1.45;
+        color: #e2e8f0;
+        overflow-x: auto;
+        white-space: pre;
+      }
+      .architecture-figure figcaption {
+        font-family: "Fira Code", monospace;
+        font-size: 0.78rem;
+        color: var(--accent-blue);
+        margin-top: 0.6rem;
+        margin-bottom: 1.5rem;
+        display: block;
+        letter-spacing: 0.3px;
+      }
+
+      /* Dark Mode Interactive Data Tables */
+      .table-wrap {
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        margin: 1.5rem 0 1rem 0;
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        background: var(--bg-secondary);
+      }
+      .wp-table {
+        width: 100%;
+        min-width: 780px;
+        border-collapse: collapse;
+        text-align: left;
+        font-size: 0.88rem;
+      }
+      .wp-table caption {
+        caption-side: bottom;
+        text-align: left;
+        font-family: "Fira Code", monospace;
+        font-size: 0.78rem;
+        color: var(--accent-blue);
+        padding: 0.6rem 1rem;
+        letter-spacing: 0.3px;
+      }
+      .wp-table th {
+        background: rgba(4, 13, 22, 0.95);
+        color: var(--accent-green);
+        font-family: "Fira Code", monospace;
+        font-weight: 600;
+        font-size: 0.78rem;
+        padding: 0.85rem 1.1rem;
+        border-bottom: 1px solid var(--border-color);
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+      }
+      .wp-table td {
+        padding: 0.95rem 1.1rem;
+        border-bottom: 1px solid rgba(26, 54, 93, 0.4);
+        color: var(--text-muted);
+        line-height: 1.6;
+        vertical-align: top;
+      }
+      .wp-table tr:last-child td {
+        border-bottom: none;
+      }
+      .wp-table tr:hover td {
+        background: rgba(0, 173, 255, 0.03);
+      }
+      .wp-table strong {
+        color: var(--text-main);
+      }
+      .wp-table code {
+        font-family: "Fira Code", monospace;
+        color: var(--accent-pink);
+        font-size: 0.82rem;
+      }
+
+      /* Callout Box */
+      .callout-box {
+        background: rgba(12, 23, 36, 0.7);
+        border: 1px solid var(--border-color);
+        border-left: 4px solid var(--accent-pink);
+        padding: 1.25rem 1.5rem;
+        border-radius: 4px;
+        margin: 1.75rem 0;
+      }
+      .callout-box.green {
+        border-left-color: var(--accent-green);
+      }
+      .callout-box.blue {
+        border-left-color: var(--accent-blue);
+      }
+      .callout-title {
+        font-family: "Fira Code", monospace;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--text-main);
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .callout-box p {
+        margin: 0;
+        font-size: 0.9rem;
+        line-height: 1.65;
+        color: var(--text-muted);
+      }
+
+      /* Component / Policy Card */
       .component-card {
         background: var(--bg-secondary);
         border: 1px solid var(--border-color);
@@ -102,30 +263,7 @@
       .component-card strong {
         color: var(--text-main);
       }
-      .strategy-list {
-        list-style-type: none;
-        padding-left: 0;
-      }
-      .strategy-list li {
-        background: var(--bg-secondary);
-        border: 1px solid var(--border-color);
-        padding: 1.25rem;
-        margin-bottom: 1rem;
-        border-radius: 4px;
-        transition: border-color 0.2s;
-      }
-      .strategy-list li:hover {
-        border-color: var(--accent-green);
-      }
-      .strategy-list strong {
-        color: var(--accent-green);
-        font-family: "Fira Code", monospace;
-        display: block;
-        margin-bottom: 0.4rem;
-      }
-      .strategy-list p {
-        margin-bottom: 0;
-      }
+
       .footer-note {
         border-top: 1px dashed var(--border-color);
         padding-top: 1.5rem;
@@ -148,6 +286,51 @@
       }
       .back-nav:hover {
         transform: translateX(-4px);
+      }
+
+      /* Print Styles for Monochromatic Clean Export */
+      @media print {
+        body {
+          background: #ffffff !important;
+          color: #111827 !important;
+          font-size: 10pt;
+        }
+        nav, footer, .hamburger, .back-nav, .badge-group {
+          display: none !important;
+        }
+        .container {
+          max-width: 100% !important;
+          padding: 0 !important;
+          margin: 0 !important;
+        }
+        .whitepaper-header h1 {
+          font-size: 18pt !important;
+          color: #000000 !important;
+        }
+        .exec-summary-box, .table-wrap, .architecture-figure pre, .callout-box, .component-card {
+          border: 1px solid #d1d5db !important;
+          background: #f9fafb !important;
+          color: #111827 !important;
+          box-shadow: none !important;
+        }
+        .whitepaper-section h2 {
+          color: #111827 !important;
+          border-bottom: 1.5pt solid #374151 !important;
+          font-size: 13pt !important;
+        }
+        .whitepaper-section h3 {
+          color: #1f2937 !important;
+          font-size: 11pt !important;
+        }
+        .wp-table th {
+          background: #e5e7eb !important;
+          color: #111827 !important;
+          border-bottom: 1pt solid #9ca3af !important;
+        }
+        .wp-table td {
+          color: #374151 !important;
+          border-bottom: 0.5pt solid #e5e7eb !important;
+        }
       }
     </style>
   </head>
@@ -175,22 +358,28 @@
       <a href="experiments.html" class="back-nav">&larr; BACK_TO_EXPERIMENTS</a>
 
       <header class="whitepaper-header">
-        <span class="label">Open Source Project Proposal & Technical Blog</span>
+        <span class="label">Technical Whitepaper · Defense Zero Trust Architecture</span>
         <h1 style="font-size: 2.8rem; margin-top: 0.5rem; margin-bottom: 1rem">
           Rethinking Zero Trust: From Product Purchases to Logical Control Evidence
         </h1>
-        
+        <p style="font-size: 1.05rem; color: var(--text-muted); max-width: 860px; line-height: 1.7">
+          Native Splunk planning software and critical path verification engine translating all 152 activities of the DoD Zero Trust Execution Roadmap (COAs 1–3) into cryptographically verified Proof of Delivery (PoD) and an Integrated Master Schedule (IMS).
+        </p>
+
         <div class="badge-group">
-          <a href="https://splunkbase.splunk.com/app/9582" target="_blank" rel="noopener noreferrer" class="badge-item" style="text-decoration: none; display: inline-flex; align-items: center;">
+          <a href="https://splunkbase.splunk.com/app/9582" target="_blank" rel="noopener noreferrer" class="badge-item">
             <span class="pulse-dot"></span>
-            SPLUNKBASE APP #9582 &rarr;
+            SPLUNKBASE APP #9582 (v1.1.7) &rarr;
           </a>
-          <a href="https://community.splunk.com/t5/Community-Blog/Rethinking-Zero-Trust-From-Product-Purchases-to-Logical-Control/ba-p/762651" target="_blank" rel="noopener noreferrer" class="badge-item pink" style="text-decoration: none; display: inline-flex; align-items: center;">
+          <a href="https://community.splunk.com/t5/Community-Blog/Rethinking-Zero-Trust-From-Product-Purchases-to-Logical-Control/ba-p/762651" target="_blank" rel="noopener noreferrer" class="badge-item pink">
             <span class="pulse-dot" style="background-color: var(--accent-pink); box-shadow: 0 0 8px var(--accent-pink);"></span>
             SPLUNK COMMUNITY BLOG &rarr;
           </a>
-          <span class="badge-item blue">DoD COA & NIST 800-207</span>
-          <a href="https://splunkbase.splunk.com/app/8628" target="_blank" rel="noopener noreferrer" class="badge-item" style="text-decoration: none;">AWS-DFD-Visualizer #8628 &rarr;</a>
+          <span class="badge-item blue">DoD ZTA Roadmap v1.1 (152 Activities)</span>
+          <a href="https://splunkbase.splunk.com/app/8628" target="_blank" rel="noopener noreferrer" class="badge-item">
+            AWS-DFD-Visualizer #8628 (v2.8.3) &rarr;
+          </a>
+          <span class="badge-item">Splunk 10.4+ / Python 3.13 Runtime</span>
         </div>
       </header>
 
@@ -204,67 +393,342 @@
             Published on Splunk Community: <em>"Rethinking Zero Trust: From Product Purchases to Logical Control Evidence"</em>
           </div>
         </div>
-        <a href="https://community.splunk.com/t5/Community-Blog/Rethinking-Zero-Trust-From-Product-Purchases-to-Logical-Control/ba-p/762651" target="_blank" rel="noopener noreferrer" style="background: var(--accent-pink); color: #000; font-family: 'Fira Code', monospace; font-weight: 600; font-size: 0.8rem; padding: 0.5rem 1rem; border-radius: 4px; text-decoration: none; white-space: nowrap; transition: opacity 0.2s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">Read on Splunk Community &rarr;</a>
+        <a href="https://community.splunk.com/t5/Community-Blog/Rethinking-Zero-Trust-From-Product-Purchases-to-Logical-Control/ba-p/762651" target="_blank" rel="noopener noreferrer" style="background: var(--accent-pink); color: #000; font-family: 'Fira Code', monospace; font-weight: 600; font-size: 0.8rem; padding: 0.5rem 1rem; border-radius: 4px; text-decoration: none; white-space: nowrap; transition: opacity 0.2s;">Read on Splunk Community &rarr;</a>
       </div>
 
-      <div class="whitepaper-section">
-        <h2>1. Buying a tool does not close a task</h2>
+      <div class="exec-summary-box">
+        <div class="exec-summary-title">// EXECUTIVE_SUMMARY</div>
         <p>
-          Zero Trust work stalls when a team treats it as a product to buy. A role owner sees a task on the roadmap and procures a tool to mark the task done. The DoD Zero Trust Execution Roadmap and NIST SP 800-207 describe outcomes. Meeting an outcome takes some mix of technical, logical, and administrative controls. A vendor feature list is not that mix.
-        </p>
-        <p>
-          Each course-of-action task has a phase, a target maturity, and a boundary: user, device, application, data, or network. The record for that task is which control is in place, what it observes, and which outcome it is supposed to meet. A SIEM, an EDR, or a network access-control product does not produce that record by itself.
-        </p>
-      </div>
-
-      <div class="whitepaper-section">
-        <h2>2. Splunk App for Zero Trust Execution (9582)</h2>
-        <p>
-          The open-source <strong>Splunk App for Zero Trust Execution</strong> (Splunkbase 9582) loads a DoD course-of-action roadmap from an Excel file through the Splunk Lookup Editor. Navigation is the seven Zero Trust pillars: User, Device, Application/Workload, Data, Network, Automation, and Visibility. Each task is a tab. People working the task write status updates and attach log evidence in the app. The app assembles those entries into a Proof of Delivery for an ISSO or CISO to review and sign. A task with no evidence is listed as a milestone, so the same app is also the schedule.
-        </p>
-        <p>
-          Teams without a SIEM can track the same task list in Microsoft Planner. Each task's outcome definition can be stored as JSON, and Planner labels can mark Discovery, Phase 1, and Phase 2, plus predecessors and successors. Planner does not ingest logs and does not build the proof package. Someone copies evidence in by hand. In the Splunk app, log evidence is attached in the tool and the proof package is generated from the entries.
+          Zero Trust initiatives stall when treated as procurement exercises. Defense programs must satisfy all 152 activities mandated by the DoD Zero Trust Execution Roadmap (COAs 1–3) with full audit traceability to an Integrated Master Schedule (IMS). Commercial SIEM, EDR, and C2C tools generate telemetry, but they do not assemble cryptographic proof or manage project delivery. The <strong>Splunk App for Zero Trust Compliance (v1.1.7, Splunkbase #9582)</strong> runs natively inside Splunk Enterprise 10.4+, replacing CSV spreadsheets with a 5-column Kanban planning board, automated KV Store state projections, a DAG critical path method (CPM) search command (<code>| getcriticalpath</code>), and a cryptographic Proof of Delivery (PoD) vault.
         </p>
       </div>
 
       <div class="whitepaper-section">
-        <h2>3. AWS-DFD-Visualizer (8628, v2.8.3)</h2>
+        <h2>1. The Operator Constraint: Buying a Tool Does Not Close a Task</h2>
         <p>
-          <strong>AWS-DFD-Visualizer</strong> (Splunkbase 8628, v2.8.3) draws the current cloud inventory as a diagram. It groups assets into tiers (web, mid-tier, data stores, containers) and places them on the three NIST SP 800-207 planes: Identity, Policy and Control, and Infrastructure/Data. The layout follows that publication. The project targets DoD Impact Level 5 environments. The diagram shows where the policy components sit. It is a picture of inventory plus those labels. A compliance determination is a separate review of the evidence.
+          Implementing Zero Trust (ZT) across defense programs frequently breaks down because organizations mistake vendor procurement for operational delivery. When functional owners treat roadmap activities as commercial software purchases, they deploy disparate tools—identity providers, microsegmentation agents, endpoint sensors—and discover at audit time that requirements remain unsatisfied.
+        </p>
+        <p>
+          The <strong>DoD Zero Trust Execution Roadmap</strong> and <strong>NIST SP 800-207</strong> define explicit operational outcomes across seven architectural pillars:
+        </p>
+        <p style="padding-left: 1.5rem; color: var(--text-main); font-family: 'Fira Code', monospace; font-size: 0.9rem; line-height: 1.8;">
+          1. User (Identity)<br />
+          2. Device<br />
+          3. Applications &amp; Workloads<br />
+          4. Data<br />
+          5. Network &amp; Environment<br />
+          6. Automation &amp; Orchestration<br />
+          7. Visibility &amp; Analytics
+        </p>
+        <p>
+          Each of the 152 activities specifies target maturity tiers, execution phases, and prerequisite predecessor dependencies. Satisfying an activity outcome requires evaluating which control is in place, what telemetry it observes, and which cryptographic evidence proves delivery. A SIEM or an EDR provides raw logs; it does not produce the defensible record required for an Authorizing Official (AO) or ISSO sign-off.
+        </p>
+      </div>
+
+      <div class="whitepaper-section">
+        <h2>2. Platform Architecture: Planning Software on Splunk 10.4+</h2>
+        <p>
+          The open-source <strong>Splunk App for Zero Trust Compliance</strong> (<code>zero_trust_compliance</code>, v1.1.7 Build 1006) operates as native planning and verification software running directly on Splunk Enterprise 10.4+ using the default Python 3.13 runtime.
+        </p>
+        <p>
+          The application replaces legacy CSV lookups with four persistent <strong>Splunk KV Store (MongoDB)</strong> collections, establishing an operational write-through architecture:
+        </p>
+
+        <figure class="architecture-figure">
+          <pre><code>+-----------------------------------------------------------------------------------+
+|                           SPLUNK WEB UI LAYER (PORT 8000)                         |
+|                                                                                   |
+|  +--------------------+  +--------------------+  +-----------------------------+  |
+|  |   Planning Board   |  |   Posture Matrix   |  |  Integrated Master Schedule |  |
+|  |     (zt_kanban)    |  |  (zt_overview.xml) |  |       (zt_ims_gantt.xml)    |  |
+|  +---------+----------+  +---------+----------+  +--------------+--------------+  |
++------------|-----------------------|----------------------------|-----------------+
+             | POST Mutations        | inputlookup                | | getcriticalpath
+             v                       v                            v
++-----------------------+  +--------------------+  +-----------------------------+
+| REST Handlers (__raw) |  |   Comp KV Store    |  |        IMS KV Store         |
+| zt_stories_handler.py |  | zt_compliance_items|  |      zt_milestones_ims      |
++------------+----------+  +---------+----------+  +--------------+--------------+
+             | 1. Write Record       ^                            ^
+             +-----------------------+--- 2. Best-Effort Sync ----+</code></pre>
+          <figcaption>Fig 2.1: Native Splunk runtime architecture showing mutation dispatch via persistent Python 3.13 REST handlers and projection to Posture Matrix and IMS Gantt collections.</figcaption>
+        </figure>
+
+        <div class="table-wrap">
+          <table class="wp-table">
+            <caption>Table 2.1: Persistent KV Store schema specifications (default/collections.conf)</caption>
+            <thead>
+              <tr>
+                <th scope="col">Collection Name</th>
+                <th scope="col">Architectural Purpose</th>
+                <th scope="col">Key Schema Fields</th>
+                <th scope="col">Storage Engine</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>zt_agile_stories</strong></td>
+                <td>Kanban story delivery canvas and write hub</td>
+                <td><code>story_id</code>, <code>ref</code>, <code>parent_wbs_code</code>, <code>sprint</code>, <code>status</code>, <code>story_points</code></td>
+                <td>KV Store (MongoDB)</td>
+              </tr>
+              <tr>
+                <td><strong>zt_compliance_items</strong></td>
+                <td>152-Activity 7-pillar baseline posture projection</td>
+                <td><code>ref</code>, <code>pillar</code>, <code>status</code>, <code>completion_pct</code>, <code>disruption_score</code></td>
+                <td>KV Store (MongoDB)</td>
+              </tr>
+              <tr>
+                <td><strong>zt_milestones_ims</strong></td>
+                <td>WBS milestone tracking &amp; critical path schedule</td>
+                <td><code>milestone_id</code>, <code>predecessor_ids</code>, <code>duration_days</code>, <code>status</code>, <code>actual_end_date</code></td>
+                <td>KV Store (MongoDB)</td>
+              </tr>
+              <tr>
+                <td><strong>zt_evidence_pod</strong></td>
+                <td>Cryptographic evidence artifact vault</td>
+                <td><code>evidence_id</code>, <code>ref</code>, <code>hash_sha256</code>, <code>governance_policy_id</code>, <code>verified_by</code></td>
+                <td>KV Store (MongoDB)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="whitepaper-section">
+        <h2>3. The Agile × Zero Trust Operational Delivery Loop</h2>
+        <p>
+          To prevent multi-year waterfall compliance debt, the application maps agile sprint mechanisms directly to DoD Zero Trust Operational Milestones (ZTOM). Work progresses through a 5-column Kanban pipeline:
+        </p>
+        <p style="padding-left: 1.5rem; color: var(--accent-green); font-family: 'Fira Code', monospace; font-size: 0.9rem;">
+          Backlog &rarr; To Do &rarr; In Progress &rarr; Testing / In Review &rarr; Done / Certified
+        </p>
+        <p>
+          Role-governed stage gates ensure regulatory integrity throughout the loop:
+        </p>
+        <ul style="color: var(--text-muted); line-height: 1.7; margin-bottom: 1.5rem; padding-left: 1.5rem;">
+          <li>
+            <strong>Technical SME:</strong> Pulls committed activities into active sprints (Sprint 0 through Sprint 6+), opens the slide-out Proof of Delivery (PoD) drawer, attaches verifiable SHA-256 telemetry digests, and advances the card to <em>Testing / In Review</em>. SMEs cannot self-certify work to Done.
+          </li>
+          <li>
+            <strong>Scrum Master / PM:</strong> Governs Work-in-Progress (WIP) column limits, monitors cycle time and throughput KPIs, and synchronizes activity roadmaps with project onboarding spreadsheets.
+          </li>
+          <li>
+            <strong>ISSO / ISSM Gatekeeper:</strong> Inspects the Testing queue. Regulatory sign-off requires that the program is onboarded, the activity is in an owned pillar, and each required ZTOM outcome has a verified passing SIEM hash. Without this proof, status changes return HTTP 422 and the card remains blocked.
+          </li>
+        </ul>
+
+        <div class="table-wrap">
+          <table class="wp-table">
+            <caption>Table 3.1: Best-effort update-only status projections across KV collections on card mutation</caption>
+            <thead>
+              <tr>
+                <th scope="col">Story Status (zt_agile_stories)</th>
+                <th scope="col">Compliance Status</th>
+                <th scope="col">Compliance %</th>
+                <th scope="col">IMS Status</th>
+                <th scope="col">IMS %</th>
+                <th scope="col">Actual End Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Done / Certified</strong></td>
+                <td><code>Compliant</code></td>
+                <td>100%</td>
+                <td><code>Completed</code></td>
+                <td>100%</td>
+                <td>Current Date (<code>YYYY-MM-DD</code>)</td>
+              </tr>
+              <tr>
+                <td><strong>Testing / In Review</strong></td>
+                <td><code>Working</code></td>
+                <td>75%</td>
+                <td><code>In Progress</code></td>
+                <td>75%</td>
+                <td>Preserved / Unchanged</td>
+              </tr>
+              <tr>
+                <td><strong>In Progress</strong></td>
+                <td><code>Working</code></td>
+                <td>35%</td>
+                <td><code>In Progress</code></td>
+                <td>35%</td>
+                <td>Preserved / Unchanged</td>
+              </tr>
+              <tr>
+                <td><strong>To Do</strong></td>
+                <td><code>Pending</code></td>
+                <td>10%</td>
+                <td><code>Pending</code></td>
+                <td>10%</td>
+                <td>Preserved / Unchanged</td>
+              </tr>
+              <tr>
+                <td><strong>Backlog</strong></td>
+                <td><code>Pending</code></td>
+                <td>0%</td>
+                <td><code>Pending</code></td>
+                <td>0%</td>
+                <td>Preserved / Unchanged</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="whitepaper-section">
+        <h2>4. Critical Path Engine &amp; Integrated Master Schedule</h2>
+        <p>
+          Compliance tracking without an operational schedule results in unmanaged blockers. The application introduces a custom Splunk search command, <code>| getcriticalpath</code> (implemented in <code>bin/get_critical_path.py</code>), which executes a server-side Directed Acyclic Graph (DAG) Critical Path Method (CPM) using Kahn's topological sort.
+        </p>
+        <p>
+          The engine computes early and late start/finish dates alongside total float/slack for all milestone dependencies. The calendar logic dynamically calculates true operational time by skipping:
+        </p>
+        <ul style="color: var(--text-muted); line-height: 1.7; padding-left: 1.5rem; margin-bottom: 1.5rem;">
+          <li>Weekend calendar intervals (Saturday/Sunday).</li>
+          <li>All 11 US statutory federal/DoD public holidays, including weekend observance shifts (e.g. Friday observance for Saturday holidays, Monday observance for Sunday holidays).</li>
+          <li>Project-wide team PTO exclusions defined in the <code>pto_tok</code> macro.</li>
+        </ul>
+        <p>
+          The resulting Gantt interface (<code>zt_ims_gantt</code>) provides real-time Schedule Performance Index (SPI) metrics and highlights critical-path milestone chains that risk slipping program Authority to Operate (ATO) deadlines.
+        </p>
+      </div>
+
+      <div class="whitepaper-section">
+        <h2>5. Proof of Delivery (PoD) Vault &amp; REST Endpoints</h2>
+        <p>
+          Compliance is proven by cryptographically bound evidence, not spreadsheet checkboxes. The Proof of Delivery (PoD) vault (<code>zt_pod_handler.py</code>) links each roadmap activity to:
+        </p>
+        <ul style="color: var(--text-muted); line-height: 1.7; padding-left: 1.5rem; margin-bottom: 1.5rem;">
+          <li>Cryptographic SHA-256 digests of live Splunk CIM queries, raw event counts, or ACAS/VRAM vulnerability scans.</li>
+          <li>Multi-framework governance cross-mappings (DoD ZTA, NIST SP 800-53 Rev 5, SOC 2, and FedRAMP High).</li>
+          <li>Digital attestation metadata recording the authenticated Splunk session user and timestamp.</li>
+          <li>Internal audit logging to <code>index=_internal sourcetype=zerotrust_audit</code>.</li>
+        </ul>
+
+        <div class="table-wrap">
+          <table class="wp-table">
+            <caption>Table 5.1: Persistent Python 3.13 REST endpoints queried via single __raw dispatch</caption>
+            <thead>
+              <tr>
+                <th scope="col">REST Endpoint</th>
+                <th scope="col">Handler Script</th>
+                <th scope="col">HTTP Methods</th>
+                <th scope="col">Operational Function</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>/services/zt_compliance/zt_stories_handler</code></td>
+                <td><code>bin/zt_stories_handler.py</code></td>
+                <td><code>GET</code>, <code>POST</code></td>
+                <td>Agile Kanban card lifecycle, WIP tracking, and cross-collection status sync.</td>
+              </tr>
+              <tr>
+                <td><code>/services/zt_compliance/zt_compliance_handler</code></td>
+                <td><code>bin/zt_compliance_handler.py</code></td>
+                <td><code>GET</code>, <code>POST</code></td>
+                <td>7-Pillar compliance baseline CRUD and program sheet synchronization.</td>
+              </tr>
+              <tr>
+                <td><code>/services/zt_compliance/zt_pod_handler</code></td>
+                <td><code>bin/zt_pod_handler.py</code></td>
+                <td><code>GET</code>, <code>POST</code></td>
+                <td>Cryptographic evidence vault registration and SHA-256 hash validation.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="whitepaper-section">
+        <h2>6. Architecture Topology: AWS-DFD-Visualizer (Splunkbase #8628)</h2>
+        <p>
+          To bridge the gap between compliance schedules and live cloud infrastructure, companion project <strong>AWS-DFD-Visualizer</strong> (Splunkbase #8628, v2.8.3) renders cloud asset inventory onto NIST SP 800-207 Three-Plane swimlanes:
         </p>
 
         <div class="component-card">
-          <h3>Policy components the diagram labels</h3>
+          <h3>POLICY COMPONENTS IDENTIFIED IN TOPOLOGY</h3>
           <ul>
             <li>
-              <strong>PEP (Policy Enforcement Point) & PIP (Policy Information Point):</strong> Real-time posture checks fed by tools like ForeScout C2C, Trellix, Microsoft Defender for Endpoint (MDE), and Tenable.
+              <strong>PEP (Policy Enforcement Point) &amp; PIP (Policy Information Point):</strong> Workload sensors and posture checkers fed by ForeScout C2C, Trellix, Microsoft Defender for Endpoint (MDE), and Tenable.
             </li>
             <li>
-              <strong>PDP (Policy Decision Point), PE (Policy Engine), PA (Policy Administrator) & PAP (Policy Administration Point):</strong> Orchestrated control logic anchored by SOAR playbooks and enterprise SIEM policies (Splunk/Sentinel).
+              <strong>PDP (Policy Decision Point), PE (Policy Engine), &amp; PA (Policy Administrator):</strong> Orchestrated control logic anchored by enterprise SIEM policies and automated playbooks.
             </li>
           </ul>
         </div>
 
-        <p>
-          The app detects whether the inventory is AWS, Azure, or GCP and marks paths that miss an expected control, such as SSH on port 22 open to ingress. A marked path is a finding to check. It does not show that a policy engine blocked the traffic.
-        </p>
+        <div class="callout-box blue">
+          <div class="callout-title">// CLAIMS_BOUNDARY: OBSERVATION VS. ENFORCEMENT</div>
+          <p>
+            AWS-DFD-Visualizer detects CSP asset environments (AWS, Azure, GCP) and marks topology paths that miss an expected control, such as unapproved direct SSH (port 22) ingress. A marked path is an <strong>operational finding to review</strong>. It does not prove that a policy engine actively dropped or blocked unauthorized traffic, nor does diagram generation constitute an automated compliance certificate. A formal audit determination remains an independent regulatory review of cryptographic evidence.
+          </p>
+        </div>
       </div>
 
       <div class="whitepaper-section">
-        <h2>4. Demand signal</h2>
+        <h2>7. System Boundaries &amp; Operational Reality</h2>
         <p>
-          Further work on the Splunk App for Zero Trust Execution depends on whether people use the pieces already published. The signals are downloads and installs of AWS-DFD-Visualizer (Splunkbase 8628), comments on the Splunk Community post, and whether teams ask for the Splunk workflow or the Planner workflow.
+          In accordance with SuhLabs engineering principles, the capabilities and boundaries of the v1.1.7 pilot release are documented transparently:
         </p>
 
-        <!-- Demand Validation CTA Box -->
-        <div style="background: rgba(12, 23, 36, 0.95); border: 2px dashed var(--accent-green); padding: 2rem; border-radius: 6px; margin-top: 2rem;">
-          <h3 style="color: var(--accent-green); font-family: 'Fira Code', monospace; margin-top: 0; margin-bottom: 0.8rem; font-size: 1.1rem;">// DEMAND_VALIDATION_HUB</h3>
-          <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">
-            The links below are the published apps. Comments on the Splunk Community post are the feedback channel for <strong>Splunk App for Zero Trust Execution</strong>.
+        <div class="table-wrap">
+          <table class="wp-table">
+            <caption>Table 7.1: Documented system boundaries and technical limits in v1.1.7</caption>
+            <thead>
+              <tr>
+                <th scope="col">Subsystem</th>
+                <th scope="col">Implementation Reality in v1.1.7</th>
+                <th scope="col">Documented Boundary &amp; Next Stage</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Cross-Collection Sync</strong></td>
+                <td>Best-effort update-only sync from <code>zt_agile_stories</code> to compliance and IMS collections.</td>
+                <td>Sync updates existing records. It is not a distributed two-phase atomic commit (2PC). If an update fails, an error is recorded to <code>_internal</code>.</td>
+              </tr>
+              <tr>
+                <td><strong>ISSO / EDIPI Stage-Gate</strong></td>
+                <td>Workflow gating uses simulated DoD EDIPI digital signatures to enforce verification criteria.</td>
+                <td>The server binds the SHA-256 of the acceptance. Hardware smartcard CAC mutual TLS authentication is queued for the post-pilot ATO milestone.</td>
+              </tr>
+              <tr>
+                <td><strong>Predictive Risk Analytics</strong></td>
+                <td>Risk scoring and maturity tier evaluation run on native Splunk SPL <code>eval</code> over KV lookups.</td>
+                <td>No external MLTK (Machine Learning Toolkit) app dependency is required. Scoring is deterministic rule logic, not black-box neural inference.</td>
+              </tr>
+              <tr>
+                <td><strong>CPM Predecessors</strong></td>
+                <td>Server-side topological sort in <code>| getcriticalpath</code> operates on comma-separated milestone IDs.</td>
+                <td>Predecessors formatted as semicolon-separated roadmap titles are ignored by CPM calculations until mapped to milestone IDs.</td>
+              </tr>
+              <tr>
+                <td><strong>Discovery Telemetry</strong></td>
+                <td>Automated discovery scheduled searches populate observation state in the KV store.</td>
+                <td>Telemetry volume does not automatically mark an activity Compliant. A single passing hash confirms outcome proof; continuous authorization (cATO) requires recurring verification.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="whitepaper-section">
+        <h2>8. Open-Source Ecosystem &amp; Verification Hub</h2>
+        <p>
+          Further engineering on the Zero Trust Execution suite is shaped directly by defense community adoption and feedback on published artifacts:
+        </p>
+
+        <div style="background: rgba(12, 23, 36, 0.95); border: 2px dashed var(--accent-green); padding: 2rem; border-radius: 6px; margin-top: 1.5rem;">
+          <h3 style="color: var(--accent-green); font-family: 'Fira Code', monospace; margin-top: 0; margin-bottom: 0.8rem; font-size: 1.1rem;">// DEFENSE_TOOLING_CATALOG</h3>
+          <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem; line-height: 1.6;">
+            Access published open-source applications and join the technical discussion on the official Splunk Community blog:
           </p>
           <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
             <a href="https://splunkbase.splunk.com/app/9582" target="_blank" rel="noopener noreferrer" style="background: var(--accent-green); color: #000; font-family: 'Fira Code', monospace; font-weight: 600; text-decoration: none; padding: 0.7rem 1.2rem; font-size: 0.85rem; border-radius: 4px;">Get Zero Trust Compliance on Splunkbase (#9582) &rarr;</a>
-            <a href="https://community.splunk.com/t5/Community-Blog/Rethinking-Zero-Trust-From-Product-Purchases-to-Logical-Control/ba-p/762651" target="_blank" rel="noopener noreferrer" style="background: var(--accent-pink); color: #000; font-family: 'Fira Code', monospace; font-weight: 600; text-decoration: none; padding: 0.7rem 1.2rem; font-size: 0.85rem; border-radius: 4px;">Read & Comment on Splunk Community &rarr;</a>
+            <a href="https://community.splunk.com/t5/Community-Blog/Rethinking-Zero-Trust-From-Product-Purchases-to-Logical-Control/ba-p/762651" target="_blank" rel="noopener noreferrer" style="background: var(--accent-pink); color: #000; font-family: 'Fira Code', monospace; font-weight: 600; text-decoration: none; padding: 0.7rem 1.2rem; font-size: 0.85rem; border-radius: 4px;">Read &amp; Comment on Splunk Community &rarr;</a>
             <a href="https://github.com/JohnYoungSuh/AWS-DFD-Visualizer" target="_blank" rel="noopener noreferrer" style="border: 1px solid var(--accent-blue); color: var(--accent-blue); font-family: 'Fira Code', monospace; text-decoration: none; padding: 0.7rem 1.2rem; font-size: 0.85rem; border-radius: 4px;">AWS-DFD-Visualizer on GitHub &rarr;</a>
             <a href="https://splunkbase.splunk.com/app/8628" target="_blank" rel="noopener noreferrer" style="border: 1px solid var(--accent-blue); color: var(--accent-blue); font-family: 'Fira Code', monospace; text-decoration: none; padding: 0.7rem 1.2rem; font-size: 0.85rem; border-radius: 4px;">Splunkbase #8628 (DFD) &rarr;</a>
             <a href="https://splunkbase.splunk.com/app/8253" target="_blank" rel="noopener noreferrer" style="border: 1px solid var(--accent-pink); color: var(--accent-pink); font-family: 'Fira Code', monospace; text-decoration: none; padding: 0.7rem 1.2rem; font-size: 0.85rem; border-radius: 4px;">Splunkbase #8253 (eMASS) &rarr;</a>
@@ -272,21 +736,14 @@
         </div>
       </div>
 
-      <div class="whitepaper-section">
-        <h2>5. The record</h2>
-        <p>
-          A SIEM, an EDR, or a network access-control product can supply the logs. The record that matters ties each course-of-action task to a control and to evidence. Splunk App 9582 builds that record from entries in the app. Planner can hold the same task list if someone files the evidence by hand.
-        </p>
-      </div>
-
       <div class="footer-note">
-        This research is published on the <a href="https://community.splunk.com/t5/Community-Blog/Rethinking-Zero-Trust-From-Product-Purchases-to-Logical-Control/ba-p/762651" target="_blank" rel="noopener noreferrer" style="color: var(--accent-green); text-decoration: underline;">Splunk Community Blog</a>, detailing open-source releases: Zero Trust Compliance (Splunkbase App ID: 9582) and AWS-DFD-Visualizer (Splunkbase App ID: 8628).
+        This research is published on the <a href="https://community.splunk.com/t5/Community-Blog/Rethinking-Zero-Trust-From-Product-Purchases-to-Logical-Control/ba-p/762651" target="_blank" rel="noopener noreferrer" style="color: var(--accent-green); text-decoration: underline;">Splunk Community Blog</a>, detailing open-source defense releases: Zero Trust Compliance (Splunkbase App ID: 9582) and AWS-DFD-Visualizer (Splunkbase App ID: 8628).
       </div>
     </div>
 
     <footer>
       <div class="logo">SUH<span>LABS</span></div>
-      <p>| Sovereign Governance & Zero Trust Engineering | Defensive Security & Compliance Tooling |</p>
+      <p>| Sovereign Governance &amp; Zero Trust Engineering | Defensive Security &amp; Compliance Tooling |</p>
       <div class="disclaimer">
         SuhLabs publishes defensive research and compliance tooling. Recon and simulation work is for authorized environments only.
       </div>
