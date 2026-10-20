@@ -113,22 +113,21 @@
           </div>
         </div>
         <p>
-          Over the past 20 years, the industry has engineered sensors for the
-          world's most demanding optical systems—from Leica's rangefinders to
-          Hasselblad's medium format backs. The shift from CCD to CMOS was
-          pivotal, but the true revolution lies in the
-          <strong>Stacked Back-Illuminated (BSI) architecture</strong> shown
-          above.
+          A stacked back-illuminated sensor bonds a photodiode die to a
+          separate logic die. The figure above is that stack: microlenses and a
+          Bayer filter over the photodiodes, copper-to-copper bonds, then
+          column-parallel ADCs and MIPI serialization on the logic die.
         </p>
         <p>
-          In modern Sony sensors, we separate the photodiode layer from the
-          logic/processing layer. This allows us to maximize the fill factor of
-          the pixels (capturing more photons) while simultaneously using a
-          high-speed logic process node for the readout circuitry beneath. The
-          <strong>Cu-Cu (Copper-to-Copper) interconnects</strong> provide the
-          high-density vertical electrical pathways needed to parallelize
-          readout, essentially eliminating the "rolling shutter" effect in our
-          latest designs.
+          The split is the point of the stack. The photodiode die can be a
+          process chosen for light collection, so the photodiode sets the fill
+          factor. The readout transistors sit on the logic die, which can be a
+          denser digital process for the ADCs.
+          <strong>Cu-Cu (copper-to-copper) interconnects</strong> are the bonds
+          between the two dies. Parallel column readout shortens the delay from
+          the first row to the last. That delay is what makes rolling shutter
+          visible. A global shutter is a different pixel circuit: it starts and
+          ends exposure for every pixel at the same time.
         </p>
       </div>
 
@@ -150,13 +149,11 @@
             "
           >
             <div style="flex: 1; min-width: 300px">
-              <h3>Decoding the Signal</h3>
+              <h3>Reading the curve</h3>
               <p>
-                The <strong>Photon Transfer Curve (PTC)</strong> is the
-                "heartbeat" of any image sensor. It plots the noise (standard
-                deviation) against the signal (mean) on a log-log scale. This
-                single plot reveals the three fundamental operating regimes of
-                the device:
+                A <strong>photon transfer curve (PTC)</strong> plots noise
+                (standard deviation) against mean signal on a log-log scale.
+                Three regimes show up on that plot:
               </p>
               <ul class="feature-list">
                 <li>
@@ -290,16 +287,16 @@
       <div class="whitepaper-section">
         <h2>4. Interactive Simulations</h2>
         <p>
-          Sensor architecture is best understood through experimentation. Use
-          these interactive modules to simulate fundamental physical properties
-          of image capture.
+          Two calculators follow. The first draws Poisson shot noise. The
+          second computes dynamic range from full-well capacity and read noise.
         </p>
 
         <!-- Simulation 1: Shot Noise -->
-        <h3>Sim 1: The Photon Rain (Shot Noise)</h3>
+        <h3>Sim 1: Shot noise</h3>
         <p>
-          Photon arrival is a Poisson process. As light levels drop, the "rain"
-          of photons becomes sparse, creating visible noise.
+          Photon arrival is a Poisson process. The standard deviation of the
+          count is the square root of the mean, so the same absolute noise is a
+          larger fraction of the signal when the signal is small.
         </p>
         <div
           class="wing-card"
@@ -365,10 +362,10 @@
         </div>
 
         <!-- Simulation 2: Dynamic Range Calc -->
-        <h3>Sim 2: Dynamic Range Architect</h3>
+        <h3>Sim 2: Dynamic range</h3>
         <p>
-          Design your own sensor pixel. Adjust the Full Well Capacity (FWC) and
-          Read Noise to see the theoretical Dynamic Range.
+          Set full-well capacity and read noise. Dynamic range is
+          20·log<sub>10</sub>(full well / read noise), in dB.
         </p>
         <div
           class="blueprint-box"

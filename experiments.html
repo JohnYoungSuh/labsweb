@@ -168,16 +168,17 @@
         class="wing-card"
         style="border-left: 4px solid var(--accent-green); margin-bottom: 2rem"
       >
-        <h3>AI Agent Drift: Semantic Ingestion</h3>
+        <h3>Agent Command Logging</h3>
         <p>
-          A framework for logging generative AI internal states into Splunk to
-          detect hallucination and out-of-bounds actions in real-time.
+          A note on recording agent prompt text and tool-call strings in
+          Splunk, plus a keyword deny-list check. The check does not measure
+          hallucination or semantic drift, and a miss is not an approval.
         </p>
         <div class="terminal">
-          <div>$ cat /var/log/agent_reasoning.json | splunk_ingest</div>
-          <div>> Ingesting: <span>RAW_THOUGHTS</span></div>
-          <div>> Drift Level: <span style="color: #ff3333">HIGH (88%)</span></div>
-          <div>> Action: <span style="color: #ff3333">CONTAINMENT_TRIGGERED</span></div>
+          <div>$ echo "sudo rm -rf /" | keyword_check</div>
+          <div>> Match: <span style="color: #ff3333">rm -rf</span></div>
+          <div>> Result: <span style="color: #ff3333">DENY_LIST_MATCH</span></div>
+          <div>> Action: <span>none (demo does not block)</span></div>
         </div>
         <div style="margin-top: 1rem">
           <a
@@ -202,10 +203,10 @@
         class="wing-card"
         style="border-left: 4px solid var(--accent-blue); margin-bottom: 2rem"
       >
-        <h3>Optical Sensor Perception & Privacy</h3>
+        <h3>Digital Sensor Characterization</h3>
         <p>
-          Characterizing noise regimes, stacked CMOS architectures, and optical
-          metadata leakage to design physical-layer privacy appliances.
+          How a stacked CMOS sensor is built, how to read a photon transfer
+          curve, and a home procedure for measuring one.
         </p>
         <div style="margin-top: 1rem">
           <a

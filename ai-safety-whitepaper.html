@@ -3,9 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>
-      SuhLabs | Technical Whitepaper: AI Safety & Semantic Ingestion
-    </title>
+    <title>SuhLabs | Agent Command Logging</title>
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Fira+Code:wght@400;500&display=swap"
       rel="stylesheet"
@@ -100,125 +98,122 @@
       <a href="experiments.html" class="back-nav">&larr; BACK_TO_EXPERIMENTS</a>
 
       <header class="whitepaper-header">
-        <span class="label" style="color: var(--accent-green)">Technical Whitepaper · AI Governance</span>
+        <span class="label" style="color: var(--accent-green)">Note · Agent logging</span>
         <h1 style="font-size: 2.5rem; margin-top: 0.5rem">
-          Autonomous Agent Drift: <br /><span style="color: var(--accent-green)"
-            >Semantic Ingestion & Kinetic Telemetry</span
-          >
+          Agent Command Logging
         </h1>
         <p style="font-size: 1.1rem; color: var(--text-muted); max-width: 800px">
-          Bridging the gap between probabilistic generative AI reasoning and
-          deterministic kinetic governance through continuous Splunk sidecar
-          telemetry.
+          Record the agent's prompt text and tool-call strings in Splunk. The
+          checker on this page matches those strings against a keyword list. It
+          does not measure drift, embeddings, or token probabilities.
         </p>
       </header>
 
       <div class="whitepaper-section">
         <h2>Executive Summary</h2>
         <p>
-          As enterprise environments shift from static software logic to
-          autonomous agent swarms, traditional logging architectures fail. LLMs
-          operate probabilistically—their "reasoning" pathways drift over
-          extended context windows, leading to unpredictable system operations
-          or unauthorized configuration changes.
+          An agent can return HTTP 200 for a call that still runs a command
+          outside its allowed set. A log of status codes does not show that
+          command. This note describes a sidecar that records the prompt text
+          and the tool-call string and forwards both to Splunk.
         </p>
         <p>
-          SuhLabs proposes a real-time observability framework that treats LLM
-          reasoning traces, token-level probability states, and tool-call intents
-          as continuous telemetry streams. By ingesting this metadata into a
-          hardened SIEM environment (Splunk), we can establish baseline
-          operational envelopes and trigger immediate, mechanical kill-switches
-          when drift exceeds safe parameters.
+          A saved search can then match those strings against a deny list. The
+          simulation on this page is that match: a substring check. It does not
+          score embeddings, token probabilities, or semantic drift, and it does
+          not stop the command.
         </p>
       </div>
 
       <div class="whitepaper-section">
-        <h2>1. The Problem: The "Black Box" of Autonomous Action</h2>
+        <h2>1. Status codes hide the command</h2>
         <p>
-          Conventional DevSecOps monitors outputs: HTTP response codes, server
-          metrics, and database logs. However, an autonomous agent can generate a
-          perfectly valid HTTP 200 payload while performing an action that
-          violates foundational system governance.
+          DevSecOps logs usually record outputs: HTTP status codes, host
+          metrics, database errors. An agent can return HTTP 200 for a request
+          that still runs a command outside its allowed set. The command string
+          has to be in the log or the review never sees it.
         </p>
         <p>
-          We address this by treating Agent "Thoughts" and intermediate token states as loggable events. By
-          binding a <strong>Splunk Technology Add-on (TA)</strong> directly to
-          the agent's runtime environment
-          (<code>TA-asset-identity-framework</code>), we establish a dedicated "Sidecar
-          Observability" pattern.
+          The sidecar for that log is a Splunk Technology Add-on running beside
+          the agent,
+          <code>TA-asset-identity-framework</code>. It ships the prompt text and
+          the tool-call string. It does not read token probabilities, and it
+          does not change model weights.
         </p>
       </div>
 
       <div class="whitepaper-section">
-        <h2>2. Architecture: The Telemetry Pipeline</h2>
+        <h2>2. What gets logged</h2>
         <div class="diagram-box">
           <pre><code>+-------------------------------------------------------------------------+
 |                           AGENT HOST ENVIRONMENT                        |
 |                                                                         |
 |  +--------------------+        +-------------------------------------+  |
 |  |  Autonomous Agent  | ====>  |  Sidecar TA (Asset Identity Guard)  |  |
-|  |  (LLM Prompt Loop) | Intent |  - Context Buffer Monitor           |  |
-|  +--------------------+ State  |  - Tool Call Pre-Flight Validator   |  |
+|  |  (LLM Prompt Loop) | Intent |  - Prompt and command log           |  |
+|  +--------------------+ State  |  - Records the tool-call string     |  |
 |                                +-------------------------------------+  |
 +---------------------------------------------------|---------------------+
                                                     | Encrypted Egress
                                                     v
                                  +-------------------------------------+
                                  |         SPLUNK SIEM / SOAR          |
-                                 |  - Real-time Vector Drift Analysis  |
-                                 |  - Deterministic Policy Ledger      |
-                                 |  - Fail-Closed Containment Trigger  |
+                                 |  - Keyword match on command logs    |
+                                 |  - Saved search, not a model score  |
+                                 |  - Alert only; does not block       |
                                  +-------------------------------------+</code></pre>
           <div class="figure-caption">
-            Fig 2.1: The Sidecar TA pattern for real-time agent telemetry ingestion and policy enforcement.
+            Fig 2.1: The sidecar records prompt text and tool-call strings and forwards them to Splunk. Splunk matches the strings. The match does not block the command.
           </div>
         </div>
-        <p style="margin-top: 1.5rem;">The architecture consists of three core components:</p>
+        <p style="margin-top: 1.5rem;">Three pieces:</p>
         <ul style="color: var(--text-muted); line-height: 1.6">
           <li>
-            <strong>Agent Nodes:</strong> The execution layer where the LLM
-            performs tasks in an isolated runtime.
+            <strong>Agent:</strong> The process that calls the model and the tools.
           </li>
           <li>
-            <strong>Sidecar TA:</strong> A local interception daemon that captures
-            raw agent prompt chains, tool invocations, and confidence vectors
-            without modifying model weights.
+            <strong>Sidecar TA:</strong> A local add-on that copies the prompt
+            text and each tool-call string before the tool runs. It does not
+            modify model weights.
           </li>
           <li>
-            <strong>Sovereign Core (Splunk):</strong> The analytical backend
-            evaluating continuous telemetry against deterministic policy schemas.
+            <strong>Splunk:</strong> Stores those events. A saved search matches
+            them against a deny list and raises an alert for a person to review.
           </li>
         </ul>
       </div>
 
       <div class="whitepaper-section">
-        <h2>3. Drift Detection via Kinetic Verification</h2>
+        <h2>3. What a reviewer is looking for</h2>
         <p>
-          Semantic drift occurs when an agent's internal state diverges from the
-          original operational objective. We categorize drift into three
-          distinct operational tiers:
+          Three kinds of failure show up in agent logs. This page only checks
+          the third, and only by substring.
         </p>
         <ul class="feature-list">
           <li>
-            <strong>L1: Contextual Hallucination</strong> - The agent invents
-            system capabilities or APIs that do not exist.
+            <strong>L1: Invented capability</strong> — The agent names an API or
+            a system function that is not there. The checker below does not
+            look for this.
           </li>
           <li>
-            <strong>L2: Policy Violation</strong> - The agent attempts actions
-            outside its authorization scope (e.g., querying credentials).
+            <strong>L2: Out-of-scope tool</strong> — The agent calls a tool it
+            was not given, such as reading credentials. The checker below does
+            not look for this.
           </li>
           <li>
-            <strong>L3: Kinetic Breach</strong> - The agent generates code or
-            executes commands that damage infrastructure or bypass mechanical
-            gates.
+            <strong>L3: Deny-listed command text</strong> — The command string
+            contains a listed pattern such as <code>rm -rf</code> or
+            <code>drop table</code>. The simulation below is this check.
           </li>
         </ul>
       </div>
 
       <div class="whitepaper-section">
-        <h2>4. Interactive Safeguard Simulation</h2>
+        <h2>4. Keyword check</h2>
         <p>
-          Simulate the Drift Detection heuristic runner below. Enter a command string to test the token-matching evaluation loop:
+          Type a command. The box flags the string if it contains one of the
+          deny-list terms. A string with none of those terms is reported as
+          unmatched. Unmatched is not approval.
         </p>
 
         <div
@@ -260,7 +255,7 @@
                   border-radius: 4px;
                 "
               >
-                ANALYZE &rarr;
+                CHECK &rarr;
               </button>
             </div>
 
@@ -277,11 +272,11 @@
                 font-size: 0.85rem;
               "
             >
-              <div style="color: var(--text-muted);">> WAITING_FOR_TELEMETRY...</div>
+              <div style="color: var(--text-muted);">> Waiting for a command string.</div>
             </div>
             
             <div style="font-family: 'Fira Code', monospace; font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem;">
-              <em>// Simulation Demo: Keyword heuristic test runner. (Illustrative demonstration only; not an active production security control).</em>
+              <em>// Keyword substring check. A miss is not an approval. This demo does not block the command.</em>
             </div>
           </div>
         </div>
@@ -301,19 +296,16 @@
       const btn = document.getElementById("analyzeBtn");
       const panel = document.getElementById("resultPanel");
 
-      const keywords = {
-        risk: [
-          "rm -rf",
-          "format",
-          "delete",
-          "drop table",
-          "shutdown",
-          "upload",
-          "curl",
-          "wget",
-        ],
-        safe: ["ls", "echo", "print", "read", "status", "check", "ping"],
-      };
+      const denyList = [
+        "rm -rf",
+        "format",
+        "delete",
+        "drop table",
+        "shutdown",
+        "upload",
+        "curl",
+        "wget",
+      ];
 
       btn.addEventListener("click", () => {
         const rawCommand = input.value;
@@ -321,8 +313,7 @@
         let riskScore = 0;
         let triggers = [];
 
-        // Simple heuristic
-        keywords.risk.forEach((word) => {
+        denyList.forEach((word) => {
           if (commandLower.includes(word)) {
             riskScore += 50;
             triggers.push(word);
@@ -344,7 +335,7 @@
         panel.appendChild(cmdNode);
 
         const analyzingNode = document.createElement("div");
-        analyzingNode.textContent = "> Analyzing Vector Embeddings & Token Heuristics...";
+        analyzingNode.textContent = "> Matching command against deny-list keywords...";
         panel.appendChild(analyzingNode);
 
         setTimeout(() => {
@@ -352,29 +343,29 @@
             const alertNode = document.createElement("div");
             alertNode.style.color = "var(--accent-pink)";
             alertNode.style.marginTop = "0.5rem";
-            alertNode.textContent = "[ALERT] DRIFT CRITERIA MATCHED";
+            alertNode.textContent = "[ALERT] DENY_LIST_MATCH";
             panel.appendChild(alertNode);
 
             const reasonNode = document.createElement("div");
             reasonNode.style.color = "var(--accent-pink)";
-            reasonNode.textContent = "[REASON] High-risk token match: [" + triggers.join(", ") + "]";
+            reasonNode.textContent = "[REASON] Keyword match: [" + triggers.join(", ") + "]";
             panel.appendChild(reasonNode);
 
             const actionNode = document.createElement("div");
             actionNode.style.color = "var(--accent-pink)";
             actionNode.style.fontWeight = "bold";
-            actionNode.textContent = "[ACTION] HEURISTIC_CONTAINMENT_TRIGGERED";
+            actionNode.textContent = "[ACTION] none — this demo does not block the command";
             panel.appendChild(actionNode);
           } else {
             const infoNode = document.createElement("div");
             infoNode.style.color = "var(--accent-green)";
             infoNode.style.marginTop = "0.5rem";
-            infoNode.textContent = "[INFO] COMPLIANCE_VERIFIED";
+            infoNode.textContent = "[INFO] NO_DENY_LIST_MATCH";
             panel.appendChild(infoNode);
 
             const statusNode = document.createElement("div");
             statusNode.style.color = "var(--accent-green)";
-            statusNode.textContent = "[STATUS] Operations Normal";
+            statusNode.textContent = "[STATUS] Unmatched is not approval. The string contains none of the listed keywords.";
             panel.appendChild(statusNode);
           }
         }, 600);

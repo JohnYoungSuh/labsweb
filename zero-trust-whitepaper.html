@@ -208,33 +208,33 @@
       </div>
 
       <div class="whitepaper-section">
-        <h2>1. Executive Summary & Misconception</h2>
+        <h2>1. Buying a tool does not close a task</h2>
         <p>
-          Implementing Zero Trust (ZT) across complex environments often falters at the very beginning due to a fundamental misunderstanding: treating Zero Trust as a commodity you can buy. When subject matter experts (SMEs) view ZT strictly through the lens of their specific functional roles, the reflex is almost always to procure a commercial tool to check off a requirement. However, Zero Trust is not a single software suite. A true ZT solution is frequently a combination of technical, logical, or administrative controls designed to achieve specific operational outcomes rather than a vendor feature set.
+          Zero Trust work stalls when a team treats it as a product to buy. A role owner sees a task on the roadmap and procures a tool to mark the task done. The DoD Zero Trust Execution Roadmap and NIST SP 800-207 describe outcomes. Meeting an outcome takes some mix of technical, logical, and administrative controls. A vendor feature list is not that mix.
         </p>
         <p>
-          To successfully execute Zero Trust, organizations must evaluate every task within the context of its execution phase, target maturity level, and operational boundary. Translating frameworks like the DoD Zero Trust Execution Roadmap Courses of Action (COAs) requires looking beyond generic tool capabilities. Teams must break down high-level objectives into granular outcomes by analyzing how user behaviors, device postures, and network boundaries interact over time. Without this phase-aware perspective, organizations risk deploying expensive security software that fails to meet actual compliance and verification mandates.
-        </p>
-      </div>
-
-      <div class="whitepaper-section">
-        <h2>2. Enterprise Compliance Hub: Splunk App for Zero Trust Execution</h2>
-        <p>
-          For Splunk customers seeking an enterprise-wide compliance hub, our open-source <strong>Splunk App for Zero Trust Execution</strong> directly bridges the gap between raw security data and audit readiness. By transforming DoD COA execution roadmaps into actionable lookup tables, ingested via the Splunk Lookup Editor from custom Excel files, the app structures its top navigation around the core ZT Pillars (User, Device, Application/Workload, Data, Network, Automation, Visibility). Individual tasks form the interactive tabs within each pillar. As SMEs populate updates and attach log-based evidence directly within the app, it automatically compiles an authoritative Proof of Delivery (PoD) ready for ISSO/CISO signature. If gaps are identified, the app dynamically generates ZT Milestones, converting Splunk into a centralized Integrated Master Schedule (IMS) tracker.
-        </p>
-        <p>
-          Organizations that do not currently operate a SIEM capable of hosting custom applications can achieve the exact same structured tracking through Microsoft Planner. By leveraging JSON-formatted outcome definitions for each ZT task, teams can manually track task predecessors, successors, and stage progressions, such as Discovery, Phase 1, and Phase 2, using native Planner labels. The fundamental trade-off comes down to operational integration: Splunk provides an automated, telemetry-driven platform combining IMS tracking, live evidence ingestion, and automated PoD generation in a single interface, whereas Microsoft Planner serves as a lightweight, non-integrated tracking alternative for manual oversight.
+          Each course-of-action task has a phase, a target maturity, and a boundary: user, device, application, data, or network. The record for that task is which control is in place, what it observes, and which outcome it is supposed to meet. A SIEM, an EDR, or a network access-control product does not produce that record by itself.
         </p>
       </div>
 
       <div class="whitepaper-section">
-        <h2>3. Real-Time Architecture Visualization: AWS-DFD-Visualizer (v2.8.3)</h2>
+        <h2>2. Splunk App for Zero Trust Execution (9582)</h2>
         <p>
-          To move from manual compliance tracking to real-time visual proof, our companion open-source project published on Splunkbase, <strong>AWS-DFD-Visualizer (v2.8.3)</strong>, renders complex multi-cloud architecture data into dynamic, audit-ready Zero Trust topology blueprints. Built for NIST 800-207 and DoD Impact Level 5 (IL5) environments, AWS-DFD-Visualizer automatically categorizes live inventory into discrete operational tiers, including web servers, mid-tier applications, data stores, and containers. It then projects these assets across NIST 800-207 Three-Plane Swimlanes (Identity, Policy & Control, and Infrastructure/Data) to visually expose the core "P*" components of your architecture.
+          The open-source <strong>Splunk App for Zero Trust Execution</strong> (Splunkbase 9582) loads a DoD course-of-action roadmap from an Excel file through the Splunk Lookup Editor. Navigation is the seven Zero Trust pillars: User, Device, Application/Workload, Data, Network, Automation, and Visibility. Each task is a tab. People working the task write status updates and attach log evidence in the app. The app assembles those entries into a Proof of Delivery for an ISSO or CISO to review and sign. A task with no evidence is listed as a milestone, so the same app is also the schedule.
+        </p>
+        <p>
+          Teams without a SIEM can track the same task list in Microsoft Planner. Each task's outcome definition can be stored as JSON, and Planner labels can mark Discovery, Phase 1, and Phase 2, plus predecessors and successors. Planner does not ingest logs and does not build the proof package. Someone copies evidence in by hand. In the Splunk app, log evidence is attached in the tool and the proof package is generated from the entries.
+        </p>
+      </div>
+
+      <div class="whitepaper-section">
+        <h2>3. AWS-DFD-Visualizer (8628, v2.8.3)</h2>
+        <p>
+          <strong>AWS-DFD-Visualizer</strong> (Splunkbase 8628, v2.8.3) draws the current cloud inventory as a diagram. It groups assets into tiers (web, mid-tier, data stores, containers) and places them on the three NIST SP 800-207 planes: Identity, Policy and Control, and Infrastructure/Data. The layout follows that publication. The project targets DoD Impact Level 5 environments. The diagram shows where the policy components sit. It is a picture of inventory plus those labels. A compliance determination is a separate review of the evidence.
         </p>
 
         <div class="component-card">
-          <h3>CORE "P*" ZERO TRUST ARCHITECTURAL COMPONENTS</h3>
+          <h3>Policy components the diagram labels</h3>
           <ul>
             <li>
               <strong>PEP (Policy Enforcement Point) & PIP (Policy Information Point):</strong> Real-time posture checks fed by tools like ForeScout C2C, Trellix, Microsoft Defender for Endpoint (MDE), and Tenable.
@@ -246,36 +246,21 @@
         </div>
 
         <p>
-          By auto-detecting CSP environments like AWS, Azure, or GCP and highlighting non-compliant paths, such as direct SSH/22 ingress, AWS-DFD-Visualizer provides immediate visual proof of policy enforcement across every workload tier.
+          The app detects whether the inventory is AWS, Azure, or GCP and marks paths that miss an expected control, such as SSH on port 22 open to ingress. A marked path is a finding to check. It does not show that a policy engine blocked the traffic.
         </p>
       </div>
 
       <div class="whitepaper-section">
-        <h2>4. Community-Driven Build Strategy & Demand Validation</h2>
+        <h2>4. Demand signal</h2>
         <p>
-          To ensure maximum alignment with community needs, full feature rollout of the Splunk App for Zero Trust Execution follows a demand-validated engineering model:
+          Further work on the Splunk App for Zero Trust Execution depends on whether people use the pieces already published. The signals are downloads and installs of AWS-DFD-Visualizer (Splunkbase 8628), comments on the Splunk Community post, and whether teams ask for the Splunk workflow or the Planner workflow.
         </p>
-        
-        <ul class="strategy-list">
-          <li>
-            <strong>Validating Market Demand</strong>
-            <p>Engagement with this community blog post alongside download metrics from our published AWS-DFD-Visualizer app act as direct demand indicators for expanding the Zero Trust Execution platform.</p>
-          </li>
-          <li>
-            <strong>Telemetry-Informed Roadmap</strong>
-            <p>Download velocity and active installation metrics directly shape our development priorities, ensuring we build features based on real-world adoption patterns.</p>
-          </li>
-          <li>
-            <strong>Continuous Feedback Loops</strong>
-            <p>Community feedback helps us continuously refine whether security teams prefer automated analytics in Splunk or lightweight manual workflows like Microsoft Planner.</p>
-          </li>
-        </ul>
 
         <!-- Demand Validation CTA Box -->
         <div style="background: rgba(12, 23, 36, 0.95); border: 2px dashed var(--accent-green); padding: 2rem; border-radius: 6px; margin-top: 2rem;">
           <h3 style="color: var(--accent-green); font-family: 'Fira Code', monospace; margin-top: 0; margin-bottom: 0.8rem; font-size: 1.1rem;">// DEMAND_VALIDATION_HUB</h3>
           <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">
-            Help shape the roadmap for the full <strong>Splunk App for Zero Trust Execution</strong>. Your downloads, stars, and feedback directly determine our engineering priorities for the upcoming mid-August release.
+            The links below are the published apps. Comments on the Splunk Community post are the feedback channel for <strong>Splunk App for Zero Trust Execution</strong>.
           </p>
           <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
             <a href="https://splunkbase.splunk.com/app/9582" target="_blank" rel="noopener noreferrer" style="background: var(--accent-green); color: #000; font-family: 'Fira Code', monospace; font-weight: 600; text-decoration: none; padding: 0.7rem 1.2rem; font-size: 0.85rem; border-radius: 4px;">Get Zero Trust Compliance on Splunkbase (#9582) &rarr;</a>
@@ -288,9 +273,9 @@
       </div>
 
       <div class="whitepaper-section">
-        <h2>5. Conclusion & Operational Impact</h2>
+        <h2>5. The record</h2>
         <p>
-          Ultimately, Zero Trust is an operational evidence discipline, not a procurement exercise. Purchasing tools like SIEMs, EDRs, or C2C platforms is only the first step; the true measure of Zero Trust lies in your ability to continuously document, map, and prove that your administrative and technical controls satisfy each task's required outcome. Whether you choose the fully integrated, automated analytics model inside Splunk or a lightweight manual workflow in Microsoft Planner, establishing a central repository for proof of delivery ensures your security posture remains defensible, compliant, and resilient against evolving threats.
+          A SIEM, an EDR, or a network access-control product can supply the logs. The record that matters ties each course-of-action task to a control and to evidence. Splunk App 9582 builds that record from entries in the app. Planner can hold the same task list if someone files the evidence by hand.
         </p>
       </div>
 
