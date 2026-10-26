@@ -942,32 +942,34 @@
           <pre role="img" aria-label="Three-plane architecture showing human authority above the control plane; planning plane and CI evaluator under control-plane governance; and an isolated execution plane below.">
 ┌─────────────────────────────────────────────────────────────────────────────┐
 │                              HUMAN AUTHORITY                                │
-│          • Contract Approval                • Production Merge Sign-Off     │
+│       • Dual-Sign Approval (Ticket &amp; Spec)      • Merge Sign-Off            │
 └──────────────────────────────────────┬──────────────────────────────────────┘
-                                       │
+                                       │ Cryptographic Approval Signature
 ┌──────────────────────────────────────▼──────────────────────────────────────┐
 │                            CONTROL PLANE (TCB)                              │
-│  • Task Manifest Registry            • Worktree / Runner Provisioner        │
-│  • Filepath & Tool Policy Engine     • Host-Side Credential Proxy           │
-│  • Egress Firewall Controller        • Immutable Attestation & Audit Log    │
-└───────────────────┬─────────────────────────────────────┬───────────────────┘
-                    │                                     │
-         Frozen Spec & Test Bundle             Immutable Evaluation Attestation
-                    │                                     │
-┌───────────────────▼───────────────┐     ┌───────────────▼───────────────────┐
-│          PLANNING PLANE           │     │           CI EVALUATOR            │
-│  • OpenAPI / JSON Schema Contract │     │  • Read-Only Test & Fixture Suite │
-│  • Independent TDD Authoring      │     │  • Pinned Compiler / Linter AST   │
-│  • Risk & Scope Manifest          │     │  • Mutation Testing Engine        │
-└───────────────────┬───────────────┘     └───────────────▲───────────────────┘
-                    │                                     │
-           Signed Task Manifest                    Candidate Patch
-                    │                                     │
-┌───────────────────▼─────────────────────────────────────┴───────────────────┐
+│  • Non-Replay Manifest Registry      • Worktree / Sandbox Provisioner       │
+│  • Filepath &amp; Tool Policy Engine     • Host-Side Credential Proxy           │
+│  • Egress Firewall Controller        • Immutable Attestation &amp; Audit Log    │
+└──────▲───────────────────────────────┬───────────────────────────────▲──────┘
+       │                               │ Read-Only Test Mounts &amp;       │ Signed
+       │ Proposed Spec &amp;               │ Scoped Task Capability Token  │ Attestation
+       │ Test Bundle                   │ (Manifest Held in TCB)        │ Bundle
+┌──────┴───────────────┐               │               ┌───────────────┴──────┐
+│    PLANNING PLANE    │               │               │     CI EVALUATOR     │
+│ • Typed Contracts    │               │               │ • Read-Only Fixtures │
+│ • TDD Test Authoring │               │               │ • Pinned AST Linters │
+│ • Scope Proposals    │               │               │ • Mutation Engine    │
+└──────────────────────┘               │               └───────────────▲──────┘
+                                       │                               │
+                                       │ Authenticate Caller Identity  │ Candidate
+                                       │ &amp; Execute Allowed Files       │ Patch Diff
+                                       ▼                               │
+┌──────────────────────────────────────────────────────────────────────┴──────┐
 │                           EXECUTION PLANE (GUEST)                           │
 │  • Isolated Git Worktree / MicroVM Sandbox (Least Privilege)                │
 │  • Write-Allowlisted Implementation Surface (Evaluation Surface Immutable)  │
-│  • Default-Deny Outbound Egress (Host Proxy Mediated)                       │
+│  • Default-Deny Outbound Egress (Host Credential Proxy Mediated)            │
+│  • Manifest Kept in Control Plane; Agent Re-authenticates for Scoped Token  │
 └─────────────────────────────────────────────────────────────────────────────┘
           </pre>
           <figcaption>Figure 1. Three-plane reference architecture for intent integrity, evaluation integrity, and contained execution.</figcaption>
@@ -1058,7 +1060,7 @@
   "title": "SignedAgentTaskManifestEnvelope",
   "type": "object",
   "additionalProperties": false,
-  "required": ["manifest", "signature"],
+  "required": ["manifest", "signatures"],
   "properties": {
     "manifest": {
       "type": "object",
@@ -1070,7 +1072,7 @@
         "denied_path_patterns", "egress_policy", "budget_limits", "approver"
       ],
       "properties": {
-        "manifest_schema_version": { "type": "string", "const": "1.1" },
+        "manifest_schema_version": { "type": "string", "const": "1.2" },
         "policy_engine_version": { "type": "string", "minLength": 1 },
         "task_id": { "type": "string", "format": "uuid" },
         "issued_at": { "type": "string", "format": "date-time" },
@@ -1140,36 +1142,55 @@
         "approver": {
           "type": "object",
           "additionalProperties": false,
-          "required": ["identity", "timestamp"],
+          "required": ["identity", "ticket_id", "key_id", "approval_timestamp"],
           "properties": {
-            "identity": { "type": "string" },
-            "timestamp": { "type": "string", "format": "date-time" }
+            "identity": { "type": "string", "minLength": 1 },
+            "ticket_id": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Immutable change ticket identifier (e.g., Forgejo issue gov#1042)."
+            },
+            "key_id": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Key ID matching the human_approver signature entry in the signatures envelope."
+            },
+            "approval_timestamp": { "type": "string", "format": "date-time" }
           }
         }
       }
     },
-    "signature": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["canonicalization", "algorithm", "key_id", "signed_at", "payload_digest", "value"],
-      "properties": {
-        "canonicalization": { "type": "string", "const": "RFC8785_JCS" },
-        "algorithm": { "type": "string", "enum": ["Ed25519", "ECDSA_P256", "RSASSA_PSS_SHA_256"] },
-        "key_id": { "type": "string" },
-        "signed_at": { "type": "string", "format": "date-time" },
-        "payload_digest": {
-          "type": "string",
-          "pattern": "^sha256:[a-f0-9]{64}$",
-          "description": "SHA-256 digest of the RFC 8785 canonicalized 'manifest' object."
-        },
-        "value": { "type": "string" }
+    "signatures": {
+      "type": "array",
+      "minItems": 2,
+      "description": "Dual signatures: one from the authorized human approver and one from the control plane issuing authority.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["canonicalization", "algorithm", "key_id", "role", "signed_at", "payload_digest", "value"],
+        "properties": {
+          "canonicalization": { "type": "string", "const": "RFC8785_JCS" },
+          "algorithm": { "type": "string", "enum": ["Ed25519", "ECDSA_P256", "RSASSA_PSS_SHA_256"] },
+          "key_id": { "type": "string", "minLength": 1 },
+          "role": { "type": "string", "enum": ["human_approver", "control_plane_authority"] },
+          "signed_at": { "type": "string", "format": "date-time" },
+          "payload_digest": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$",
+            "description": "SHA-256 digest of the RFC 8785 canonicalized 'manifest' object."
+          },
+          "value": { "type": "string", "minLength": 1, "description": "Base64-encoded digital signature over payload_digest." }
+        }
       }
     }
   }
 }</code></pre>
         </div>
         <p>
-          <strong>Signer, Verifier &amp; Time Trust Boundary:</strong> The execution agent must not possess a manifest-signing key or the ability to register a trusted signer. Manifest signatures are generated by a planning authority or control-plane service identity over the strictly canonicalized (RFC 8785 / JCS) manifest sub-object. Admission control and CI evaluate <code>issued_at</code>, <code>expires_at</code>, and token validity against a control-plane trusted time source; the execution guest's system clock is not authoritative. Admission control verifies the manifest signature, payload digest, expiration window (<code>issued_at</code> to <code>expires_at</code>), contract hash, and evaluation-bundle hash before provisioning the execution environment, and records <code>task_id</code> in a non-replay ledger. CI repeats those checks before producing an acceptance attestation.
+          <strong>Signer, Verifier &amp; Dual-Authority Trust Boundary:</strong> The execution agent must not possess a manifest-signing key or the ability to register a trusted signer. Manifest envelopes require dual signatures: (1) a human approver signature generated with a hardware security key (WebAuthn/FIDO2) or registered developer key bound to an approved change ticket (e.g., Forgejo issue), and (2) a control-plane authority signature certifying task admission. Both signatures are evaluated over the RFC 8785 (JCS) canonicalized manifest payload. Admission control and CI evaluate <code>issued_at</code>, <code>expires_at</code>, and token validity against a control-plane trusted time source; the execution guest's system clock is not authoritative. Admission control verifies both signatures, payload digest, ticket status, expiration window (<code>issued_at</code> to <code>expires_at</code>), contract hash, and evaluation-bundle hash before provisioning the execution environment, and records <code>task_id</code> in a non-replay ledger. CI repeats those checks before producing an acceptance attestation.
+        </p>
+        <p>
+          <strong>TCB Isolation &amp; Prevention of Bearer Manifest Handoffs:</strong> The signed task manifest is retained within the Control Plane Trusted Computing Base (TCB) and is never passed into the untrusted execution plane as a bearer token or handoff credential. The execution agent must authenticate as itself (presenting its own workload identity or caller key, e.g., <code>X-GPIS-Caller-Key</code> / mTLS) to the control plane to obtain a short-lived, task-scoped capability token bound to the specific <code>task_id</code> and evaluated action hash. The handoff passes only correlation references (task ID, contract hash, audit ID), never execution authority.
         </p>
         <p>
           <strong>Evaluator Canonicalization &amp; Environment Allowlisting:</strong> <code>acceptance_command_digest</code> is computed over the RFC 8785/JCS-canonicalized evaluator descriptor, including the argument array, working directory, declared environment allowlist, and runner-image digest; the execution agent cannot modify any component of that descriptor. The evaluator inherits no ambient environment variables except those explicitly allowlisted and recorded in the evaluator descriptor.
@@ -1344,7 +1365,7 @@ security:
                 <td><strong>1. Contract Approval</strong></td>
                 <td>Requirements, Architecture Decision Records (ADRs).</td>
                 <td>Versioned OpenAPI / JSON schemas, typed interfaces, task manifest.</td>
-                <td>Schema validation; explicit human approver signature.</td>
+                <td>Schema validation; dual-signature verification (matching approver.key_id and ticket_id with human_approver signature entry, and control_plane_authority admission signature over RFC 8785 canonicalized manifest).</td>
                 <td>Reject to Planning; refine requirements.</td>
               </tr>
               <tr>
@@ -1356,14 +1377,14 @@ security:
               </tr>
               <tr>
                 <td><strong>3. Execution Admission</strong></td>
-                <td>Frozen contract, evaluation bundle, task manifest.</td>
+                <td>Frozen contract, evaluation bundle, task manifest (in TCB).</td>
                 <td>Isolated Git worktree, sandboxed microVM container.</td>
-                <td>Policy engine validates file allowlist, path deny-rules, and egress rules. The Execution Agent authenticates as itself and obtains its own scoped capability; a prior decision record does not authorize execution. The execution principal is the resolved identity, and the handoff record is not that identity.</td>
+                <td>Policy engine validates file allowlist, path deny-rules, and egress rules. The Execution Agent authenticates as itself (presenting its registered caller key/workload identity) and obtains a scoped, short-lived task capability token bound to the task_id. The signed task manifest is held in the control plane TCB and is never passed as a bearer credential; the handoff passes only correlation identifiers (task_id, contract_hash, audit_id).</td>
                 <td>Halt sandbox startup; alert platform operator.</td>
               </tr>
               <tr>
                 <td><strong>4. Implementation Execution</strong></td>
-                <td>Task manifest, allowlisted source files, read-only tests, and an execution capability issued to the Execution Agent after its own authorization.</td>
+                <td>Allowlisted source files, read-only test mounts, and a short-lived execution capability token issued to the Execution Agent after authenticating as itself to the control plane (the signed task manifest remains secured in the control-plane TCB).</td>
                 <td>Candidate patch diffs, local execution logs.</td>
                 <td>Local retry budget (max 3), local compiler/linter AST checks against read-only configs, and pre-export diff validation confirming zero modifications to <code>denied_paths</code> or build/linter configurations.</td>
                 <td>Quarantine branch; capture diagnostic evidence bundle.</td>
@@ -1388,7 +1409,7 @@ security:
         <span class="table-caption">Table 5. Multi-agent lifecycle state machine: inputs, outputs, gates, and dispositions.</span>
 
         <p>
-          Stage 3 &rarr; Stage 4 handoff: A Planning Agent may pass the allow-decision identifier, task identifier, and audit identifier, but must not pass a replayable capability. Before implementation begins, the Execution Agent must authenticate as itself and obtain its own scoped capability from the control plane. The handoff record does not substitute for that authorization.
+          Stage 3 &rarr; Stage 4 handoff: A Planning Agent may submit the proposed contract and test bundle to the control plane and pass correlation identifiers (task identifier, contract hash, audit identifier), but must not pass a bearer capability or signed manifest to the execution agent. Before implementation begins, the Execution Agent must authenticate as itself to the control plane (presenting its own caller key or workload certificate) to obtain a scoped, short-lived task capability token. The control plane provisions the execution sandbox with read-only test mounts; the signed task manifest remains secured in the control-plane TCB to prevent bearer replay and unauthorized credential reuse.
         </p>
 
         <h3>5.1 The Four Mechanical Assurance Rules</h3>
@@ -1765,9 +1786,9 @@ security:
             <tbody>
               <tr>
                 <td><strong>Cryptographically Signed Task Envelope</strong></td>
-                <td>Specification 1 (<code>TASK_MANIFEST_SCHEMA.JSON</code> v1.1): Signed envelope binding RFC 8785 JCS manifest digest, <code>issued_at</code>, <code>expires_at</code>, Git SHA-256 commit hash, and non-replay ledger.</td>
-                <td><strong>Tenet 1 &amp; Tenet 4:</strong> Explicit resource classification; dynamic Policy Decision Point (PDP) validation before runner provisioning.</td>
-                <td><strong>Parameterless &amp; Non-Falsifiable Provenance:</strong> Uniquely binds build parameters and execution scope outside executor control.</td>
+                <td>Specification 1 (<code>TASK_MANIFEST_SCHEMA.JSON</code> v1.2): Dual-signed envelope binding RFC 8785 JCS manifest digest, human approver signature (key_id and ticket_id), control-plane authority signature, <code>issued_at</code>, <code>expires_at</code>, Git SHA-256 commit hash, and non-replay ledger.</td>
+                <td><strong>Tenet 1 &amp; Tenet 4:</strong> Explicit resource classification; dynamic Policy Decision Point (PDP) validation before runner provisioning; separation of intent approval from task execution.</td>
+                <td><strong>Non-Falsifiable Provenance &amp; Immutable Build Definition:</strong> Uniquely binds build inputs, commit digest, and execution scope outside executor control (avoids dynamic executor parameter injection).</td>
               </tr>
               <tr>
                 <td><strong>Kernel-Enforced VFS Path Confinement</strong></td>
@@ -1784,13 +1805,13 @@ security:
               <tr>
                 <td><strong>Host-Mediated Credential Proxy &amp; TLS Forward Proxy</strong></td>
                 <td>Specification 3: Host MITM proxy with ephemeral guest CA injection, HTTP method allowlisting (<code>GET</code>/<code>HEAD</code>), WebSocket upgrade stripping, and HTTP/2 connection coalescing disabled.</td>
-                <td><strong>Tenet 2 &amp; Tenet 6:</strong> End-to-end secured communications; zero raw credentials mounted inside untrusted guest microVMs.</td>
+                <td><strong>Tenet 3 &amp; Tenet 6:</strong> Dynamic access control and per-session least privilege; zero raw credentials mounted inside untrusted guest microVMs; external egress policy enforcement at L4/L7.</td>
                 <td><strong>Hermetic Network Egress:</strong> Guarantees that compilation and evaluation cannot initiate unauthorized outbound connections or exfiltrate state.</td>
               </tr>
               <tr>
                 <td><strong>Per-Principal Capability Scoping &amp; Cache Isolation</strong></td>
-                <td>Specifications 1 &amp; 3: Scoped capabilities (RFC 8693 token exchange), per-<code>task_id</code> rate limits and proxy token buckets, partitioned content-addressed artifact caches.</td>
-                <td><strong>Tenet 3 &amp; Tenet 6:</strong> Dynamic per-principal authentication; prevents credential replay, sibling token-bucket exhaustion, and cache timing side-channels.</td>
+                <td>Specifications 1 &amp; 3: Scoped capabilities (token exchange), caller identity authentication (e.g., <code>X-GPIS-Caller-Key</code> / mTLS), per-<code>task_id</code> rate limits and proxy token buckets, partitioned content-addressed artifact caches.</td>
+                <td><strong>Tenet 3 &amp; Tenet 6:</strong> Dynamic per-principal authentication; prevents credential replay, bearer manifest handoff re-use, sibling token-bucket exhaustion, and cache timing side-channels.</td>
                 <td><strong>Cross-Build Isolation:</strong> Guarantees independence between concurrent and sequential task executions on shared infrastructure.</td>
               </tr>
               <tr>
