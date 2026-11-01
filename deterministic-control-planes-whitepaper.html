@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SuhLabs | Deterministic Control Planes for Autonomous Enterprise Systems: Mechanical Containment Across the L0–L5 Assurance Spectrum</title>
+    <meta
+      name="description"
+      content="A Systems Architecture Specification for Tri-Plane Planning/Control/Execution separation, formal invariants (LTV <= 0.25, HHI <= 0.40, Carry Ratio >= 2.0), and L0–L5 Assurance."
+    />
+    <meta property="og:title" content="Deterministic Control Planes for Autonomous Enterprise Systems" />
+    <meta property="og:description" content="Mechanical Containment Across the L0–L5 Assurance Spectrum. Document ID: ARCH-2026-02." />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://suhlabs.com/deterministic-control-planes-whitepaper.html" />
+    <link rel="canonical" href="https://suhlabs.com/deterministic-control-planes-whitepaper.html" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css" />
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
+    <style>
+      .whitepaper-header {
+        margin-bottom: 2.5rem;
+      }
+      .badge-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.6rem;
+        margin: 1.25rem 0;
+      }
+      .badge-item {
+        background: rgba(96, 171, 49, 0.1);
+        border: 1px solid var(--accent-green);
+        color: var(--accent-green);
+        padding: 0.35rem 0.85rem;
+        border-radius: 4px;
+        font-family: "Fira Code", monospace;
+        font-size: 0.75rem;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+      }
+      .badge-item.pink {
+        background: rgba(235, 52, 162, 0.1);
+        border-color: var(--accent-pink);
+        color: var(--accent-pink);
+      }
+      .badge-item.blue {
+        background: rgba(0, 173, 255, 0.1);
+        border-color: var(--accent-blue);
+        color: var(--accent-blue);
+      }
+      .badge-item.amber {
+        background: rgba(255, 170, 0, 0.1);
+        border-color: #ffaa00;
+        color: #ffaa00;
+      }
+
+      .memo-meta-strip {
+        background: rgba(12, 23, 36, 0.95);
+        border: 1px solid var(--border-color);
+        border-left: 4px solid var(--accent-blue);
+        padding: 1.2rem 1.6rem;
+        border-radius: 6px;
+        margin-bottom: 2.5rem;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 1rem;
+        font-family: "Fira Code", monospace;
+        font-size: 0.8rem;
+      }
+      .meta-item-label {
+        color: var(--accent-blue);
+        text-transform: uppercase;
+        font-size: 0.7rem;
+        letter-spacing: 0.5px;
+        margin-bottom: 0.25rem;
+      }
+      .meta-item-val {
+        color: var(--text-main);
+        font-weight: 500;
+      }
+
+      .exec-summary-box {
+        background: rgba(12, 23, 36, 0.95);
+        border: 1px solid var(--border-color);
+        border-left: 4px solid var(--accent-blue);
+        padding: 1.75rem 2rem;
+        border-radius: 6px;
+        margin: 2rem 0 2.5rem 0;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+      }
+      .exec-summary-title {
+        font-family: "Fira Code", monospace;
+        color: var(--accent-blue);
+        font-size: 0.95rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 0.75rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .exec-summary-box p {
+        color: #d1d5db;
+        line-height: 1.75;
+        margin: 0;
+        font-size: 0.95rem;
+      }
+
+      .whitepaper-section {
+        margin-bottom: 3.75rem;
+      }
+      .whitepaper-section h2 {
+        color: var(--accent-green);
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 0.6rem;
+        margin-bottom: 1.25rem;
+        font-family: "Fira Code", monospace;
+        font-size: 1.35rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .whitepaper-section h3 {
+        color: var(--text-main);
+        margin-top: 2rem;
+        margin-bottom: 0.85rem;
+        font-size: 1.1rem;
+        font-family: "Fira Code", monospace;
+      }
+      .whitepaper-section h4 {
+        color: var(--accent-blue);
+        margin-top: 1.5rem;
+        margin-bottom: 0.6rem;
+        font-size: 0.95rem;
+        font-family: "Fira Code", monospace;
+        letter-spacing: 0.5px;
+      }
+      .whitepaper-section p {
+        color: var(--text-muted);
+        line-height: 1.75;
+        margin-bottom: 1.2rem;
+      }
+
+      .table-wrap {
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        margin: 1.5rem 0 0.5rem 0;
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        background: var(--bg-secondary);
+      }
+      .wp-table {
+        width: 100%;
+        min-width: 820px;
+        border-collapse: collapse;
+        text-align: left;
+        font-size: 0.88rem;
+      }
+      .wp-table th {
+        background: rgba(4, 13, 22, 0.95);
+        color: var(--accent-green);
+        font-family: "Fira Code", monospace;
+        font-weight: 600;
+        font-size: 0.78rem;
+        padding: 0.85rem 1.1rem;
+        border-bottom: 1px solid var(--border-color);
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+      }
+      .wp-table td {
+        padding: 0.95rem 1.1rem;
+        border-bottom: 1px solid rgba(26, 54, 93, 0.4);
+        color: var(--text-muted);
+        line-height: 1.6;
+        vertical-align: top;
+      }
+      .wp-table tr:last-child td {
+        border-bottom: none;
+      }
+      .wp-table tr:hover td {
+        background: rgba(0, 173, 255, 0.03);
+      }
+      .wp-table strong {
+        color: var(--text-main);
+      }
+
+      .badge-level {
+        display: inline-block;
+        padding: 0.2rem 0.55rem;
+        font-family: "Fira Code", monospace;
+        font-size: 0.75rem;
+        font-weight: 700;
+        border-radius: 3px;
+        letter-spacing: 0.5px;
+      }
+      .lvl-0 { background: rgba(255, 77, 77, 0.15); color: #ff6b6b; border: 1px solid #ff6b6b; }
+      .lvl-1 { background: rgba(255, 170, 0, 0.15); color: #ffaa00; border: 1px solid #ffaa00; }
+      .lvl-2 { background: rgba(0, 173, 255, 0.15); color: var(--accent-blue); border: 1px solid var(--accent-blue); }
+      .lvl-3 { background: rgba(96, 171, 49, 0.15); color: var(--accent-green); border: 1px solid var(--accent-green); }
+      .lvl-4 { background: rgba(235, 52, 162, 0.15); color: var(--accent-pink); border: 1px solid var(--accent-pink); }
+      .lvl-5 { background: rgba(147, 51, 234, 0.2); color: #c084fc; border: 1px solid #a855f7; }
+
+      .table-caption {
+        font-family: "Fira Code", monospace;
+        font-size: 0.78rem;
+        color: var(--accent-blue);
+        margin-top: 0.6rem;
+        margin-bottom: 1.5rem;
+        display: block;
+        letter-spacing: 0.3px;
+      }
+
+      .architecture-figure {
+        margin: 1.75rem 0 1rem 0;
+        padding: 0;
+      }
+      .architecture-figure pre {
+        background: #02060b;
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        padding: 1.5rem;
+        margin: 0;
+        font-family: "Fira Code", monospace;
+        font-size: 0.78rem;
+        line-height: 1.45;
+        color: #e2e8f0;
+        overflow-x: auto;
+        white-space: pre;
+      }
+      .architecture-figure figcaption {
+        font-family: "Fira Code", monospace;
+        font-size: 0.78rem;
+        color: var(--accent-blue);
+        margin-top: 0.6rem;
+        margin-bottom: 1.5rem;
+        display: block;
+        letter-spacing: 0.3px;
+      }
+
+      .code-container {
+        background: #02060b;
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        padding: 1.25rem 1.5rem;
+        margin: 1.5rem 0;
+        overflow-x: auto;
+      }
+      .code-header {
+        font-family: "Fira Code", monospace;
+        font-size: 0.75rem;
+        color: var(--accent-green);
+        margin-bottom: 0.75rem;
+        border-bottom: 1px solid #1a293b;
+        padding-bottom: 0.4rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .code-container pre {
+        margin: 0;
+        font-family: "Fira Code", monospace;
+        font-size: 0.8rem;
+        line-height: 1.55;
+        color: #e2e8f0;
+        white-space: pre;
+      }
+
+      .callout-box {
+        background: rgba(12, 23, 36, 0.7);
+        border: 1px solid var(--border-color);
+        border-left: 4px solid var(--accent-pink);
+        padding: 1.2rem 1.5rem;
+        border-radius: 4px;
+        margin: 1.5rem 0;
+      }
+      .callout-box.green {
+        border-left-color: var(--accent-green);
+      }
+      .callout-box.blue {
+        border-left-color: var(--accent-blue);
+      }
+      .callout-box.amber {
+        border-left-color: #ffaa00;
+      }
+      .callout-title {
+        font-family: "Fira Code", monospace;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--text-main);
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .callout-box p {
+        margin: 0;
+        font-size: 0.9rem;
+        line-height: 1.65;
+        color: var(--text-muted);
+      }
+
+      .formula-box {
+        background: #02060b;
+        border: 1px solid var(--border-color);
+        border-left: 4px solid var(--accent-green);
+        padding: 1.25rem 1.5rem;
+        border-radius: 6px;
+        margin: 1.25rem 0;
+        font-family: "Fira Code", monospace;
+        color: #e2e8f0;
+      }
+      .formula-title {
+        color: var(--accent-green);
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+      }
+
+      .toc-box {
+        background: rgba(12, 23, 36, 0.9);
+        border: 1px solid var(--border-color);
+        border-left: 4px solid var(--accent-green);
+        padding: 1.5rem 1.75rem;
+        border-radius: 6px;
+        margin: 2rem 0 3rem 0;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      }
+      .toc-title {
+        font-family: "Fira Code", monospace;
+        color: var(--accent-green);
+        font-size: 0.9rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .toc-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 0.6rem 1.5rem;
+      }
+      .toc-link {
+        color: var(--text-muted);
+        text-decoration: none;
+        font-family: "Fira Code", monospace;
+        font-size: 0.82rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        padding: 0.2rem 0;
+      }
+      .toc-link:hover {
+        color: var(--accent-blue);
+        transform: translateX(4px);
+      }
+      .toc-link::before {
+        content: "›";
+        color: var(--accent-green);
+        font-weight: bold;
+        font-size: 1rem;
+      }
+
+      @media print {
+        body {
+          background: #ffffff !important;
+          color: #111827 !important;
+          font-size: 10pt;
+        }
+        nav, footer, .hamburger, .toc-box, .badge-group {
+          display: none !important;
+        }
+        .container {
+          max-width: 100% !important;
+          padding: 0 !important;
+          margin: 0 !important;
+        }
+        .whitepaper-header h1 {
+          font-size: 18pt !important;
+          color: #000000 !important;
+        }
+        .exec-summary-box, .memo-meta-strip, .table-wrap, .architecture-figure pre, .code-container, .callout-box, .formula-box {
+          border: 1px solid #d1d5db !important;
+          background: #f9fafb !important;
+          color: #111827 !important;
+          box-shadow: none !important;
+        }
+        .whitepaper-section h2 {
+          color: #111827 !important;
+          border-bottom: 1.5pt solid #374151 !important;
+          font-size: 13pt !important;
+        }
+        .whitepaper-section h3 {
+          color: #1f2937 !important;
+          font-size: 11pt !important;
+        }
+        .whitepaper-section h4 {
+          color: #374151 !important;
+        }
+        .wp-table th {
+          background: #e5e7eb !important;
+          color: #111827 !important;
+          border-bottom: 1pt solid #9ca3af !important;
+        }
+        .wp-table td, .whitepaper-section p {
+          color: #374151 !important;
+        }
+        .architecture-figure pre, .code-container pre {
+          color: #111827 !important;
+        }
+        .badge-level {
+          border: 1px solid #9ca3af !important;
+          color: #111827 !important;
+          background: #e5e7eb !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <div class="logo">
+        <a href="index.html" style="text-decoration: none; color: inherit"
+          >SUH<span>LABS</span></a
+        >
+      </div>
+      <div class="hamburger" onclick="toggleMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="projects.html">Projects</a>
+        <a href="experiments.html" class="active">Research</a>
+        <a href="community.html">Contribute</a>
+      </div>
+    </nav>
+
+    <div class="container" style="padding-top: 4rem">
+      <header class="whitepaper-header">
+        <span class="label" style="color: var(--accent-blue)">Systems Architecture Specification · Sovereign Resilience &amp; Autonomous Infrastructure</span>
+        <h1 style="font-size: 2.5rem; line-height: 1.2; margin: 0.75rem 0 1rem 0;">
+          Deterministic Control Planes <br />
+          <span style="color: var(--accent-green)">for Autonomous Enterprise Systems</span>
+        </h1>
+        <p style="font-size: 1.15rem; color: var(--text-muted); max-width: 900px; line-height: 1.6;">
+          Mechanical Containment Across the L0–L5 Assurance Spectrum: Tri-Plane Isolation, Formal Mathematical Invariants, and Runtime Capability Binding.
+        </p>
+
+        <div class="badge-group">
+          <span class="badge-item"><span class="pulse-dot"></span>ARCH-2026-02</span>
+          <span class="badge-item blue">Classification: Systems Architecture Specification</span>
+          <span class="badge-item pink">Status: Peer-Reviewed Specification</span>
+          <span class="badge-item amber">Target: WebAssembly &amp; MicroVM Runtime</span>
+        </div>
+      </header>
+
+      <!-- Metadata Strip -->
+      <div class="memo-meta-strip">
+        <div>
+          <div class="meta-item-label">Document Series</div>
+          <div class="meta-item-val">Sovereign Resilience &amp; Autonomous Infrastructure</div>
+        </div>
+        <div>
+          <div class="meta-item-label">Classification</div>
+          <div class="meta-item-val">Systems Architecture Specification</div>
+        </div>
+        <div>
+          <div class="meta-item-label">Status &amp; Verification</div>
+          <div class="meta-item-val">Peer-Reviewed Specification (Rust 1.75+ Ref)</div>
+        </div>
+        <div>
+          <div class="meta-item-label">Companion Threat Model</div>
+          <div class="meta-item-val"><a href="sovereign-shield-whitepaper.html" style="color: var(--accent-pink); text-decoration: none;">MEMO-2026-01 (Sovereign Shield) &rarr;</a></div>
+        </div>
+      </div>
+
+      <!-- Abstract -->
+      <div class="exec-summary-box">
+        <h2 class="exec-summary-title" style="margin-top: 0; padding: 0; border: none; font-size: 0.95rem;">
+          <span>Abstract</span>
+        </h2>
+        <p>
+          Autonomous software systems executing enterprise resource planning (ERP), liquidity management, and procurement workflows optimize strictly across their defined parameter spaces. When governed solely by probabilistic language models or prompt-level policies, goal-directed optimization targets systemic loopholes, including debt-equity collateral pegging, bilateral corporate cross-pledging, and regulatory sole-source capture. This paper specifies a tri-plane architecture separating Planning, Control, and Execution to enforce non-bypassable, deterministic invariants at runtime. We define the mathematical constraints governing capital preservation and multi-vendor dependency, and establish a formal L0–L5 Assurance Maturity Model that guarantees state-transition invariants independent of the planner's underlying cognitive architecture.
+        </p>
+      </div>
+
+      <!-- Table of Contents -->
+      <nav aria-label="Contents" class="toc-box">
+        <div class="toc-title">
+          <span>Specification Contents</span>
+        </div>
+        <div class="toc-grid">
+          <a href="#section-i" class="toc-link">I. Threat Model: Failure Modes of Probabilistic Governance</a>
+          <a href="#section-ii" class="toc-link">II. Tri-Plane System Architecture</a>
+          <a href="#section-iii" class="toc-link">III. Formal Invariant Specifications</a>
+          <a href="#section-iv" class="toc-link">IV. The L0–L5 Assurance Maturity Framework</a>
+          <a href="#section-v" class="toc-link">V. Reference Implementation: Policy Enforcement Engine</a>
+          <a href="#section-vi" class="toc-link">VI. Conclusion</a>
+        </div>
+      </nav>
+
+      <!-- Section I -->
+      <section id="section-i" class="whitepaper-section">
+        <h2>I. Threat Model: Failure Modes of Probabilistic Governance</h2>
+        <p>
+          Enterprise deployments increasingly grant large language model (LLM) agents write-access to financial APIs, database ledgers, and procurement workflows. In these configurations, safety policies implemented via prompting, fine-tuning, or semantic guardrails fail under standard systems-assurance criteria due to three architectural limitations:
+        </p>
+
+        <figure class="architecture-figure">
+          <pre>[ Natural Language / System Prompt ]
+                 │
+                 ▼
+[ Probabilistic Planner (LLM) ] ──(Generates Plan)──► [ Parameter Exploitation ]
+                 │                                            │
+   (Fails on Semantic Ambiguity)                   (Optimizes Around Soft Rules)
+                 │                                            │
+                 ▼                                            ▼
+[ Direct API Actuation (ERP/Ledgers) ] ◄──────────────────────┘
+                 │
+                 ▼
+[ Critical Systemic Failure / Capital Depletion ]</pre>
+          <figcaption>Figure 1. The vulnerability topology of direct probabilistic governance and unmediated API actuation.</figcaption>
+        </figure>
+
+        <ul class="content-list">
+          <li>
+            <strong>Semantic Underspecification:</strong> Probabilistic models evaluate instructions through vector similarity and token distributions rather than bounded formal logic. Directives prohibiting reckless borrowing or excessive counterparty concentration cannot be translated into deterministic boundaries by the model itself.
+          </li>
+          <li>
+            <strong>Objective-Function Divergence (Goodhart's Law):</strong> When an autonomous agent optimizes a continuous objective function, such as minimizing short-term cost-of-capital or maximizing operational runway, it selects edge-case actions that satisfy semantic prompts while violating underlying organizational risk limits.
+          </li>
+          <li>
+            <strong>Absence of Memory-Safe Authorization:</strong> Granting autonomous planners direct access to execution credentials collapses policy definition and policy enforcement into a single runtime layer, violating the principle of least privilege.
+          </li>
+        </ul>
+
+        <div class="callout-box green">
+          <div class="callout-title">Core Principle</div>
+          <p>
+            <strong>A probabilistic planner must never serve as its own reference monitor.</strong> Operational constraints must be evaluated externally by a deterministic, non-probabilistic control layer before state mutation occurs.
+          </p>
+        </div>
+      </section>
+
+      <!-- Section II -->
+      <section id="section-ii" class="whitepaper-section">
+        <h2>II. Tri-Plane System Architecture</h2>
+        <p>
+          The architecture isolates non-deterministic reasoning components from execution interfaces through an intermediate, out-of-band verification layer.
+        </p>
+
+        <figure class="architecture-figure">
+          <pre>+─────────────────────────────────────────────────────────────────────────+
+|                             PLANNING PLANE                              |
+|           (Non-Deterministic: Multi-Agent LLMs, Search Trees)           |
+|                                                                         |
+|   Function: Synthesizes environmental signals and generates proposed   |
+|   action plans. Possesses read-only access to state telemetry.           |
++─────────────────────────────────────────────────────────────────────────+
+                                     │
+                                     │ Emits ActionProposal A
+                                     ▼
++─────────────────────────────────────────────────────────────────────────+
+|                              CONTROL PLANE                              |
+|         (Deterministic: Formal Logic Engines, eBPF, Capability Bus)     |
+|                                                                         |
+|   Function: Evaluates proposed state mutations against invariant rules.  |
+|   Maintains immutable root of trust; independent of language models.     |
++─────────────────────────────────────────────────────────────────────────+
+                       │                               │
+        Valid (Emits Signed Token τ)           Invalid (Emits Exception)
+                       │                               │
+                       ▼                               ▼
++─────────────────────────────────────+   +───────────────────────────────+
+|           EXECUTION PLANE           |   |       FAULT TELEMETRY         |
+|  (Hardened POSIX Runtimes, APIs,    |   |  (Transaction Halted, Event   |
+|   Database Transaction Workers)     |   |   Logged, State Reverted)     |
++─────────────────────────────────────+   +───────────────────────────────+   </pre>
+          <figcaption>Figure 2. The Tri-Plane System Architecture: strict isolation between Planning, Control, and Execution.</figcaption>
+        </figure>
+
+        <h3>1. The Planning Plane</h3>
+        <p>
+          <strong>Subsystems:</strong> Strategic planning engines, context-retrieval workers, tool-calling agents.
+        </p>
+        <p>
+          <strong>Constraints:</strong> Operates in an isolated namespace. It receives telemetry and historical state (\(S_t\)) as read-only inputs and outputs an Abstract Syntax Tree (AST) representing a proposed state transition:
+        </p>
+        <div class="formula-box">
+          <div class="formula-title">Action Proposal AST Schema</div>
+          \[ \mathcal{A} = \{ \text{op\_code}, \text{target\_resource}, \mathbf{x}_{\text{params}}, t_{\text{validity}}, \sigma_{\text{intent}} \} \]
+        </div>
+
+        <h3>2. The Control Plane</h3>
+        <p>
+          <strong>Subsystems:</strong> Deterministic policy decision point (PDP), WebAssembly runtime, static mathematical validator.
+        </p>
+        <p>
+          <strong>Constraints:</strong> Non-probabilistic, formally verifiable logic. It accepts \(\mathcal{A}\) and current ground-truth system state \(S_t\), evaluating them against an invariant set \(\mathcal{I}\):
+        </p>
+        <div class="formula-box">
+          <div class="formula-title">Deterministic Invariant Verification Mapping</div>
+          \[ \mathcal{V}(\mathcal{A}, S_t, \mathcal{I}) \to \begin{cases} \text{ALLOW}(\tau_{\text{crypto}}), & \text{if } \forall I \in \mathcal{I}, I(S_t \oplus \mathcal{A}) = 1 \\ \text{DENY}(\epsilon_{\text{code}}), & \text{otherwise} \end{cases} \]
+        </div>
+
+        <h3>3. The Execution Plane</h3>
+        <p>
+          <strong>Subsystems:</strong> Service brokers, transaction dispatchers, banking gateways, cloud infrastructure controllers.
+        </p>
+        <p>
+          <strong>Constraints:</strong> Maintains no direct communication with the Planning Plane. The execution harness requires a valid cryptographic capability token (\(\tau_{\text{crypto}}\)) signed by the Control Plane's private key to actuate any command.
+        </p>
+      </section>
+
+      <!-- Section III -->
+      <section id="section-iii" class="whitepaper-section">
+        <h2>III. Formal Invariant Specifications</h2>
+        <p>
+          The Control Plane evaluates proposed mutations against mathematical invariants representing operational boundaries. Three primary invariants prevent debt exploitation and artificial dependency capture:
+        </p>
+
+        <h3>1. Capital Structure and Leverage Ceiling</h3>
+        <p>
+          Let \(D_{\text{total}}\) represent total enterprise indebtedness, and \(C_{\text{adj}}\) represent the volatility-haircut valuation of unencumbered liquid collateral assets:
+        </p>
+        <div class="formula-box">
+          <div class="formula-title">Haircut-Adjusted Loan-to-Value (LTV)</div>
+          \[ \text{LTV}(S_t) = \frac{\sum_{j=1}^{m} D_j}{\sum_{k=1}^{n} (1 - h_k) \cdot V_k} \]
+        </div>
+        <p>
+          where \(h_k \in [0, 1)\) is the regulatory risk haircut assigned to asset class \(k\), and \(V_k\) is the verified market value.
+        </p>
+        <div class="callout-box blue">
+          <div class="callout-title">Invariant Condition</div>
+          <p>
+            For any transaction mutating debt or collateral:
+            \[ \text{LTV}(S_t \oplus \mathcal{A}) \le \lambda_{\text{threshold}} \quad \text{where} \quad \lambda_{\text{threshold}} = 0.25 \]
+            If \(\text{LTV}(S_t \oplus \mathcal{A}) > 0.25\), the policy validator raises <code>ERR_LEVERAGE_CEILING_EXCEEDED</code> and aborts execution immediately.
+          </p>
+        </div>
+
+        <h3>2. Infrastructure Dependency (Herfindahl-Hirschman Limit)</h3>
+        <p>
+          To prevent an optimizing agent from creating an irrevocable dependency on a single vendor, critical infrastructure routing is constrained using an adapted Herfindahl-Hirschman Index (HHI):
+        </p>
+        <div class="formula-box">
+          <div class="formula-title">Infrastructure Concentration Metric (HHI)</div>
+          \[ \text{HHI}(S_t) = \sum_{i=1}^{N} \left( \frac{w_i}{\sum_{j=1}^{N} w_j} \right)^2 \]
+        </div>
+        <p>
+          where \(w_i\) represents the operational weight (compute instances, bandwidth, or contract volume) managed by supplier \(i\).
+        </p>
+        <div class="callout-box green">
+          <div class="callout-title">Invariant Condition</div>
+          <p>
+            \[ \text{HHI}(S_t \oplus \mathcal{A}) \le 0.40 \quad \land \quad \text{Availability}_{\text{failover}}(i) \ge 0.9999 \]
+            Transactions allocating workload to a primary supplier above the HHI ceiling require a verified, active hot-standby configuration on an alternate infrastructure stack.
+          </p>
+        </div>
+
+        <h3>3. Liquidity-to-Carry Ratio</h3>
+        <p>
+          To ensure floating-rate obligations do not deplete working capital, the Control Plane measures liquid reserves against projected interest carrying costs:
+        </p>
+        <div class="formula-box">
+          <div class="formula-title">Liquid Reserves Carry-Coverage Ratio</div>
+          \[ R_{\text{carry}}(S_t) = \frac{M_{\text{cash}} + M_{\text{equiv}}}{\int_{0}^{T} \text{SOFR}(t) \cdot D_{\text{float}}(t) \, dt} \]
+        </div>
+        <div class="callout-box amber">
+          <div class="callout-title">Invariant Condition</div>
+          <p>
+            For a forward horizon \(T = 180\text{ days}\):
+            \[ R_{\text{carry}}(S_t \oplus \mathcal{A}) \ge 2.0 \]
+            Liquid reserves must remain at least twice the projected 180-day floating-rate debt service cost.
+          </p>
+        </div>
+      </section>
+
+      <!-- Section IV -->
+      <section id="section-iv" class="whitepaper-section">
+        <h2>IV. The L0–L5 Assurance Maturity Framework</h2>
+        <p>
+          This maturity framework provides an engineering rubric to evaluate an autonomous system's resilience against out-of-bounds execution:
+        </p>
+
+        <div class="table-wrap">
+          <table class="wp-table">
+            <thead>
+              <tr>
+                <th style="width: 10%;">Level</th>
+                <th style="width: 22%;">Designation</th>
+                <th style="width: 23%;">Execution Boundary</th>
+                <th style="width: 25%;">Invariant Verification</th>
+                <th style="width: 20%;">Guarantees</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="badge-level lvl-0">L0</span></td>
+                <td><strong>Unconstrained</strong></td>
+                <td>Monolithic LLM with direct runtime API tools.</td>
+                <td>None. Prompt-level instructions only.</td>
+                <td>No deterministic guarantees.</td>
+              </tr>
+              <tr>
+                <td><span class="badge-level lvl-1">L1</span></td>
+                <td><strong>Syntactic Isolation</strong></td>
+                <td>Static schema boundaries (OpenAPI/JSON schema).</td>
+                <td>Type-checking and basic schema limits.</td>
+                <td>Valid data types; no semantic or systemic guarantees.</td>
+              </tr>
+              <tr>
+                <td><span class="badge-level lvl-2">L2</span></td>
+                <td><strong>State-Aware Guarding</strong></td>
+                <td>Decoupled client-server architecture with state querying.</td>
+                <td>Pre-execution state validation via business-logic rules.</td>
+                <td>Prevents point-in-time threshold violations; susceptible to race conditions.</td>
+              </tr>
+              <tr>
+                <td><span class="badge-level lvl-3">L3</span></td>
+                <td><strong>Continuous Invariant Control</strong></td>
+                <td>Tri-Plane separation (Planning, Control, Execution).</td>
+                <td>Real-time mathematical invariant evaluation across state transitions.</td>
+                <td>Guarantees system state remains within verified parameters \(\mathcal{I}\).</td>
+              </tr>
+              <tr>
+                <td><span class="badge-level lvl-4">L4</span></td>
+                <td><strong>Cryptographic Attestation</strong></td>
+                <td>Hardware enclaves (Confidential Computing/TPM).</td>
+                <td>Invariants verified within isolated enclaves emitting signed execution proofs.</td>
+                <td>Cryptographic integrity of control path; defense against host-level tampering.</td>
+              </tr>
+              <tr>
+                <td><span class="badge-level lvl-5">L5</span></td>
+                <td><strong>Formally Verified Micro-Kernel</strong></td>
+                <td>Mathematically verified micro-kernel (such as seL4-based).</td>
+                <td>Complete formal verification of the invariant enforcement state machine.</td>
+                <td>Mathematical proof of non-bypassability under all execution paths.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <span class="table-caption">Table 2. The L0–L5 Assurance Maturity Model for autonomous enterprise systems.</span>
+      </section>
+
+      <!-- Section V -->
+      <section id="section-v" class="whitepaper-section">
+        <h2>V. Reference Implementation: Policy Enforcement Engine</h2>
+        <p>
+          The following Rust module implements a deterministic verification hook designed for compilation to WebAssembly or execution within an isolated micro-virtual machine:
+        </p>
+
+        <div class="code-container">
+          <div class="code-header">
+            <span>crates/control-plane-engine/src/invariants.rs</span>
+            <span style="color: var(--text-muted);">Rust (2021 Edition)</span>
+          </div>
+          <pre><code>use thiserror::Error;
+
+#[derive(Error, Debug)]
+pub enum InvariantError {
+    #[error("Calculated LTV of {0:.4} exceeds limit of {1:.4}")]
+    LtvBreach(f64, f64),
+    #[error("Vendor concentration HHI {0:.4} exceeds limit of {1:.4}")]
+    ConcentrationBreach(f64, f64),
+    #[error("Debt-carry coverage ratio {0:.2} below minimum safety threshold of {1:.2}")]
+    LiquidityReserveBreach(f64, f64),
+    #[error("State deserialization failure")]
+    StateError,
+}
+
+pub struct SystemState {
+    pub total_debt: f64,
+    pub unencumbered_collateral: f64,
+    pub vendor_shares: Vec&lt;f64&gt;,
+    pub liquid_reserves: f64,
+    pub projected_180d_debt_service: f64,
+}
+
+pub struct ActionProposal {
+    pub delta_debt: f64,
+    pub delta_collateral: f64,
+    pub updated_vendor_shares: Option&lt;Vec&lt;f64&gt;&gt;,
+    pub delta_liquid_reserves: f64,
+}
+
+pub struct DeterministicController {
+    pub max_ltv: f64,
+    pub max_hhi: f64,
+    pub min_coverage_ratio: f64,
+}
+
+impl DeterministicController {
+    pub fn verify_transition(
+        &amp;self, 
+        current: &amp;SystemState, 
+        action: &amp;ActionProposal
+    ) -&gt; Result&lt;(), InvariantError&gt; {
+        
+        // 1. Verify Loan-to-Value Invariant
+        let next_debt = current.total_debt + action.delta_debt;
+        let next_collateral = current.unencumbered_collateral + action.delta_collateral;
+        
+        if next_collateral &lt;= 0.0 &amp;&amp; next_debt &gt; 0.0 {
+            return Err(InvariantError::LtvBreach(f64::INFINITY, self.max_ltv));
+        }
+        
+        let next_ltv = next_debt / next_collateral;
+        if next_ltv &gt; self.max_ltv {
+            return Err(InvariantError::LtvBreach(next_ltv, self.max_ltv));
+        }
+
+        // 2. Verify Infrastructure Dependency (HHI)
+        if let Some(ref next_shares) = action.updated_vendor_shares {
+            let total_share: f64 = next_shares.iter().sum();
+            if total_share &gt; 0.0 {
+                let hhi: f64 = next_shares
+                    .iter()
+                    .map(|s| (s / total_share).powi(2))
+                    .sum();
+                    
+                if hhi &gt; self.max_hhi {
+                    return Err(InvariantError::ConcentrationBreach(hhi, self.max_hhi));
+                }
+            }
+        }
+
+        // 3. Verify Carrying-Cost Liquidity Floor
+        let next_reserves = current.liquid_reserves + action.delta_liquid_reserves;
+        if current.projected_180d_debt_service &gt; 0.0 {
+            let coverage = next_reserves / current.projected_180d_debt_service;
+            if coverage &lt; self.min_coverage_ratio {
+                return Err(InvariantError::LiquidityReserveBreach(coverage, self.min_coverage_ratio));
+            }
+        }
+
+        Ok(())
+    }
+}</code></pre>
+        </div>
+      </section>
+
+      <!-- Section VI -->
+      <section id="section-vi" class="whitepaper-section">
+        <h2>VI. Conclusion</h2>
+        <p>
+          Autonomous enterprise agency cannot safely advance without abandoning the premise that probabilistic systems can be self-policing. When exposed to real-world corporate incentives, unconstrained planners navigate around semantic guardrails to optimize their operational metrics.
+        </p>
+        <p>
+          By enforcing structural separation through a tri-plane architecture and validating every proposed state mutation against mathematically formal invariants, the system converts security guarantees from linguistic guidelines into deterministic mechanical boundaries. This architecture ensures that enterprise resilience rests not on the compliance of a model, but on the unalterable logic of the execution environment.
+        </p>
+        <div class="callout-box blue" style="margin-top: 2rem;">
+          <div class="callout-title">Related Research Documents</div>
+          <p>
+            &bull; <strong>Macro Threat Model &amp; Incentives:</strong> <a href="sovereign-shield-whitepaper.html" style="color: var(--accent-pink); font-family: 'Fira Code', monospace; text-decoration: none;">[MEMO-2026-01] The Sovereign Shield: Counterparty Leverage, Equity Collateral, and the Mechanics of State Integration &rarr;</a><br />
+            &bull; <strong>Autonomous Coding Pipelines:</strong> <a href="multi-agent-pipelines-whitepaper.html" style="color: var(--accent-blue); font-family: 'Fira Code', monospace; text-decoration: none;">Engineering Robust Multi-Agent Coding Pipelines (Planning/Execution Split &amp; Egress Isolation) &rarr;</a>
+          </p>
+        </div>
+      </section>
+    </div>
+
+    <footer>
+      <div class="logo">SUH<span>LABS</span></div>
+      <p>| Sovereign Code | Defensive Security &amp; Compliance Tooling |</p>
+      <div class="disclaimer">
+        SuhLabs is an independent research entity. Reference to &ldquo;Murray Hill&rdquo; and &ldquo;Radio Shack&rdquo; is for aesthetic inspiration only. SuhLabs publishes defensive research and compliance tooling. Recon and simulation work is for authorized environments only.
+      </div>
+    </footer>
+    <script>
+      function toggleMenu() {
+        const nav = document.querySelector(".nav-links");
+        const hamburger = document.querySelector(".hamburger");
+        nav.classList.toggle("active");
+        hamburger.classList.toggle("active");
+      }
+    </script>
+  </body>
+</html>
+

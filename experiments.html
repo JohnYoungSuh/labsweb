@@ -31,12 +31,126 @@
     </nav>
 
     <div class="container" style="padding-top: 5rem; padding-bottom: 5rem;">
-      <span class="label" style="color: var(--accent-blue)"
-        >Domain: Operational Research & Governance</span
+      <span class="label" style="color: var(--accent-pink)"
+        >Series: Sovereign Resilience &amp; Autonomous Infrastructure</span
       >
       <h1 style="font-size: 3rem; margin-bottom: 2rem">
-        Experiments & <span class="highlight-green">Whitepapers</span>
+        Experiments &amp; <span class="highlight-green">Whitepapers</span>
       </h1>
+
+      <!-- Paper 1: The Sovereign Shield -->
+      <div
+        class="wing-card"
+        style="border-left: 4px solid var(--accent-pink); margin-bottom: 2rem"
+      >
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
+          <h3 style="margin: 0; color: var(--accent-pink);">The Sovereign Shield: Counterparty Leverage &amp; State Integration</h3>
+          <span style="font-family: 'Fira Code', monospace; font-size: 0.75rem; color: var(--accent-pink); background: rgba(235, 52, 162, 0.1); padding: 0.2rem 0.5rem; border-radius: 3px;"><span class="pulse-dot" style="background-color: var(--accent-pink); box-shadow: 0 0 8px var(--accent-pink);"></span>MEMO-2026-01 (PUBLIC)</span>
+        </div>
+        <p>
+          Macro financial microstructure, defense supply-chain risk (C-SCRM), and behavioral threat models for autonomous corporate execution. Analyzes how apex equity collateral leverages sovereign defense integration (JWCC, Starshield) as a non-cyclical valuation floor.
+        </p>
+        <div class="terminal">
+          <div style="color: var(--accent-pink)">// SOVEREIGN_COLLATERAL_ENGINE</div>
+          <div>$ sovereign-audit --evaluate-kpis</div>
+          <div>> FINRA Margin Exposure: <span style="color: var(--accent-pink)">[~$1.48T]</span></div>
+          <div>> Customer Net Deficit:  <span style="color: #ff6b6b;">[-$1.05T]</span></div>
+          <div>> Defense Floor (JWCC):  <span style="color: var(--accent-green)">[LTV_FLOOR_DEFENDED]</span></div>
+        </div>
+        <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 1rem">
+          <a
+            href="sovereign-shield-whitepaper.html"
+            style="
+              color: var(--accent-pink);
+              text-decoration: none;
+              font-family: 'Fira Code', monospace;
+              font-size: 0.8rem;
+              border: 1px solid var(--accent-pink);
+              padding: 0.5rem 1rem;
+              border-radius: 4px;
+              display: inline-block;
+              transition: all 0.2s;
+            "
+            onmouseover="this.style.background='rgba(235, 52, 162, 0.1)'"
+            onmouseout="this.style.background='transparent'"
+            >READ RESEARCH MEMO_ &rarr;</a
+          >
+          <a
+            href="deterministic-control-planes-whitepaper.html"
+            style="
+              color: var(--text-main);
+              text-decoration: none;
+              font-family: 'Fira Code', monospace;
+              font-size: 0.8rem;
+              border: 1px solid var(--border-color);
+              padding: 0.5rem 1rem;
+              border-radius: 4px;
+              display: inline-block;
+              transition: all 0.2s;
+            "
+            onmouseover="this.style.borderColor='var(--accent-blue)'"
+            onmouseout="this.style.borderColor='var(--border-color)'"
+            >COMPANION ARCHITECTURE (ARCH-2026-02) &rarr;</a
+          >
+        </div>
+      </div>
+
+      <!-- Paper 2: Deterministic Control Planes -->
+      <div
+        class="wing-card"
+        style="border-left: 4px solid var(--accent-green); margin-bottom: 2rem"
+      >
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
+          <h3 style="margin: 0; color: var(--accent-green);">Deterministic Control Planes for Autonomous Enterprise Systems</h3>
+          <span style="font-family: 'Fira Code', monospace; font-size: 0.75rem; color: var(--accent-green); background: rgba(96, 171, 49, 0.1); padding: 0.2rem 0.5rem; border-radius: 3px;"><span class="pulse-dot" style="background-color: var(--accent-green); box-shadow: 0 0 8px var(--accent-green);"></span>ARCH-2026-02 SPEC</span>
+        </div>
+        <p>
+          Mechanical containment across the L0&ndash;L5 assurance spectrum. Tri-Plane separation (Planning, Control, Execution), mathematical invariants for capital structure (LTV &le; 0.25), vendor concentration (HHI &le; 0.40), and debt-carry coverage (R &ge; 2.0) with a Rust reference implementation.
+        </p>
+        <div class="terminal">
+          <div style="color: var(--accent-green)">// DETERMINISTIC_CONTROL_PLANE</div>
+          <div>$ cargo test --package control-plane-engine</div>
+          <div>> LTV Invariant Check:     <span style="color: var(--accent-green)">[PASS: 0.1824 &lt;= 0.2500]</span></div>
+          <div>> HHI Concentration Check: <span style="color: var(--accent-green)">[PASS: 0.3120 &lt;= 0.4000]</span></div>
+          <div>> 180d Liquidity-to-Carry: <span style="color: var(--accent-blue)">[PASS: 2.84 &gt;= 2.00]</span></div>
+        </div>
+        <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 1rem">
+          <a
+            href="deterministic-control-planes-whitepaper.html"
+            style="
+              color: var(--accent-green);
+              text-decoration: none;
+              font-family: 'Fira Code', monospace;
+              font-size: 0.8rem;
+              border: 1px solid var(--accent-green);
+              padding: 0.5rem 1rem;
+              border-radius: 4px;
+              display: inline-block;
+              transition: all 0.2s;
+            "
+            onmouseover="this.style.background='rgba(96, 171, 49, 0.1)'"
+            onmouseout="this.style.background='transparent'"
+            >READ SPECIFICATION_ &rarr;</a
+          >
+          <a
+            href="sovereign-shield-whitepaper.html"
+            style="
+              color: var(--text-main);
+              text-decoration: none;
+              font-family: 'Fira Code', monospace;
+              font-size: 0.8rem;
+              border: 1px solid var(--border-color);
+              padding: 0.5rem 1rem;
+              border-radius: 4px;
+              display: inline-block;
+              transition: all 0.2s;
+            "
+            onmouseover="this.style.borderColor='var(--accent-pink)'"
+            onmouseout="this.style.borderColor='var(--border-color)'"
+            >THREAT MODEL (MEMO-2026-01) &rarr;</a
+          >
+        </div>
+      </div>
 
       <!-- Experiment 0: Multi-Agent Pipelines Whitepaper -->
       <div
