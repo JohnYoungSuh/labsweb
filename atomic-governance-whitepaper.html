@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SuhLabs | Atomic Governance Transactions: Fail-Closed Concurrency Control and Verifiable Accountability for Non-Deterministic Autonomous Systems</title>
+    <meta
+      name="description"
+      content="A Systems Architecture Specification for the Atomic Governance Transaction (AGT): coupling cryptographic identity, pessimistic state reservation, and write-ahead ledger persistence into a fail-closed primitive."
+    />
+    <meta property="og:title" content="Atomic Governance Transactions (AGT Kernel Specification)" />
+    <meta property="og:description" content="Fail-Closed Concurrency Control and Verifiable Accountability for Non-Deterministic Autonomous Systems. Document ID: ARCH-2026-03." />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://suhlabs.com/atomic-governance-whitepaper.html" />
+    <link rel="canonical" href="https://suhlabs.com/atomic-governance-whitepaper.html" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css" />
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
+    <style>
+      .whitepaper-header {
+        margin-bottom: 2.5rem;
+      }
+      .badge-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.6rem;
+        margin: 1.25rem 0;
+      }
+      .badge-item {
+        background: rgba(96, 171, 49, 0.1);
+        border: 1px solid var(--accent-green);
+        color: var(--accent-green);
+        padding: 0.35rem 0.85rem;
+        border-radius: 4px;
+        font-family: "Fira Code", monospace;
+        font-size: 0.75rem;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+      }
+      .badge-item.pink {
+        background: rgba(235, 52, 162, 0.1);
+        border-color: var(--accent-pink);
+        color: var(--accent-pink);
+      }
+      .badge-item.blue {
+        background: rgba(0, 173, 255, 0.1);
+        border-color: var(--accent-blue);
+        color: var(--accent-blue);
+      }
+      .badge-item.amber {
+        background: rgba(255, 170, 0, 0.1);
+        border-color: #ffaa00;
+        color: #ffaa00;
+      }
+
+      .memo-meta-strip {
+        background: rgba(12, 23, 36, 0.95);
+        border: 1px solid var(--border-color);
+        border-left: 4px solid var(--accent-green);
+        padding: 1.2rem 1.6rem;
+        border-radius: 6px;
+        margin-bottom: 2.5rem;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 1rem;
+        font-family: "Fira Code", monospace;
+        font-size: 0.8rem;
+      }
+      .meta-item-label {
+        color: var(--accent-blue);
+        text-transform: uppercase;
+        font-size: 0.7rem;
+        letter-spacing: 0.5px;
+        margin-bottom: 0.25rem;
+      }
+      .meta-item-val {
+        color: var(--text-main);
+        font-weight: 500;
+      }
+
+      .exec-summary-box {
+        background: rgba(12, 23, 36, 0.95);
+        border: 1px solid var(--border-color);
+        border-left: 4px solid var(--accent-green);
+        padding: 1.75rem 2rem;
+        border-radius: 6px;
+        margin: 2rem 0 2.5rem 0;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+      }
+      .exec-summary-title {
+        font-family: "Fira Code", monospace;
+        color: var(--accent-green);
+        font-size: 0.95rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 0.75rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .exec-summary-box p {
+        color: #d1d5db;
+        line-height: 1.75;
+        margin: 0;
+        font-size: 0.95rem;
+      }
+
+      .whitepaper-section {
+        margin-bottom: 3.75rem;
+      }
+      .whitepaper-section h2 {
+        color: var(--accent-green);
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 0.6rem;
+        margin-bottom: 1.25rem;
+        font-family: "Fira Code", monospace;
+        font-size: 1.35rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .whitepaper-section h3 {
+        color: var(--text-main);
+        margin-top: 2rem;
+        margin-bottom: 0.85rem;
+        font-size: 1.1rem;
+        font-family: "Fira Code", monospace;
+      }
+      .whitepaper-section h4 {
+        color: var(--accent-blue);
+        margin-top: 1.5rem;
+        margin-bottom: 0.6rem;
+        font-size: 0.95rem;
+        font-family: "Fira Code", monospace;
+        letter-spacing: 0.5px;
+      }
+      .whitepaper-section p {
+        color: var(--text-muted);
+        line-height: 1.75;
+        margin-bottom: 1.2rem;
+      }
+
+      .content-list {
+        list-style-type: none;
+        padding-left: 0;
+        margin: 1.2rem 0;
+      }
+      .content-list li {
+        color: var(--text-muted);
+        line-height: 1.7;
+        margin-bottom: 1.2rem;
+        padding-left: 1.5rem;
+        position: relative;
+      }
+      .content-list li::before {
+        content: "■";
+        color: var(--accent-green);
+        position: absolute;
+        left: 0;
+        font-size: 0.7rem;
+        top: 0.25rem;
+      }
+      .content-list strong {
+        color: var(--text-main);
+      }
+
+      .table-wrap {
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        margin: 1.5rem 0 0.5rem 0;
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        background: var(--bg-secondary);
+      }
+      .wp-table {
+        width: 100%;
+        min-width: 760px;
+        border-collapse: collapse;
+        text-align: left;
+        font-size: 0.88rem;
+      }
+      .wp-table th {
+        background: rgba(4, 13, 22, 0.95);
+        color: var(--accent-green);
+        font-family: "Fira Code", monospace;
+        font-weight: 600;
+        font-size: 0.78rem;
+        padding: 0.85rem 1.1rem;
+        border-bottom: 1px solid var(--border-color);
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+      }
+      .wp-table td {
+        padding: 0.95rem 1.1rem;
+        border-bottom: 1px solid rgba(26, 54, 93, 0.4);
+        color: var(--text-muted);
+        line-height: 1.6;
+        vertical-align: top;
+      }
+      .wp-table tr:last-child td {
+        border-bottom: none;
+      }
+      .wp-table tr:hover td {
+        background: rgba(0, 173, 255, 0.03);
+      }
+      .wp-table strong {
+        color: var(--text-main);
+      }
+
+      .table-caption {
+        font-family: "Fira Code", monospace;
+        font-size: 0.78rem;
+        color: var(--accent-blue);
+        margin-top: 0.6rem;
+        margin-bottom: 1.5rem;
+        display: block;
+        letter-spacing: 0.3px;
+      }
+
+      code {
+        font-family: "Fira Code", monospace;
+        font-size: 0.85em;
+        background: rgba(0, 173, 255, 0.08);
+        color: var(--accent-blue);
+        border: 1px solid rgba(0, 173, 255, 0.25);
+        padding: 0.12rem 0.35rem;
+        border-radius: 3px;
+        vertical-align: baseline;
+      }
+      .katex {
+        font-size: 1.05em;
+        line-height: inherit;
+        text-rendering: auto;
+      }
+      .katex-display {
+        margin: 0.8rem 0 !important;
+      }
+
+      .architecture-figure {
+        margin: 1.75rem 0 1rem 0;
+        padding: 0;
+      }
+      .architecture-figure pre {
+        background: #02060b;
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        padding: 1.5rem;
+        margin: 0;
+        font-family: "Fira Code", monospace;
+        font-size: 0.78rem;
+        line-height: 1.45;
+        color: #e2e8f0;
+        overflow-x: auto;
+        white-space: pre;
+      }
+      .architecture-figure figcaption {
+        font-family: "Fira Code", monospace;
+        font-size: 0.78rem;
+        color: var(--accent-blue);
+        margin-top: 0.6rem;
+        margin-bottom: 1.5rem;
+        display: block;
+        letter-spacing: 0.3px;
+      }
+
+      .callout-box {
+        background: rgba(12, 23, 36, 0.7);
+        border: 1px solid var(--border-color);
+        border-left: 4px solid var(--accent-pink);
+        padding: 1.2rem 1.5rem;
+        border-radius: 4px;
+        margin: 1.5rem 0;
+      }
+      .callout-box.green {
+        border-left-color: var(--accent-green);
+      }
+      .callout-box.blue {
+        border-left-color: var(--accent-blue);
+      }
+      .callout-box.amber {
+        border-left-color: #ffaa00;
+      }
+      .callout-title {
+        font-family: "Fira Code", monospace;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--text-main);
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .callout-box p {
+        margin: 0;
+        font-size: 0.9rem;
+        line-height: 1.65;
+        color: var(--text-muted);
+      }
+
+      .formula-box {
+        background: #02060b;
+        border: 1px solid var(--border-color);
+        border-left: 4px solid var(--accent-green);
+        padding: 1.25rem 1.5rem;
+        border-radius: 6px;
+        margin: 1.25rem 0;
+        font-family: "Fira Code", monospace;
+        color: #e2e8f0;
+      }
+      .formula-title {
+        color: var(--accent-green);
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+      }
+
+      .toc-box {
+        background: rgba(12, 23, 36, 0.9);
+        border: 1px solid var(--border-color);
+        border-left: 4px solid var(--accent-green);
+        padding: 1.5rem 1.75rem;
+        border-radius: 6px;
+        margin: 2rem 0 3rem 0;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      }
+      .toc-title {
+        font-family: "Fira Code", monospace;
+        color: var(--accent-green);
+        font-size: 0.9rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .toc-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 0.6rem 1.5rem;
+      }
+      .toc-link {
+        color: var(--text-muted);
+        text-decoration: none;
+        font-family: "Fira Code", monospace;
+        font-size: 0.82rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        padding: 0.2rem 0;
+      }
+      .toc-link:hover {
+        color: var(--accent-blue);
+        transform: translateX(4px);
+      }
+      .toc-link::before {
+        content: "›";
+        color: var(--accent-green);
+        font-weight: bold;
+        font-size: 1rem;
+      }
+
+      @media print {
+        body {
+          background: #ffffff !important;
+          color: #111827 !important;
+          font-size: 10pt;
+        }
+        nav, footer, .hamburger, .toc-box, .badge-group {
+          display: none !important;
+        }
+        .container {
+          max-width: 100% !important;
+          padding: 0 !important;
+          margin: 0 !important;
+        }
+        .whitepaper-header h1 {
+          font-size: 18pt !important;
+          color: #000000 !important;
+        }
+        .exec-summary-box, .memo-meta-strip, .table-wrap, .architecture-figure pre, .callout-box, .formula-box {
+          border: 1px solid #d1d5db !important;
+          background: #f9fafb !important;
+          color: #111827 !important;
+          box-shadow: none !important;
+        }
+        .whitepaper-section h2 {
+          color: #111827 !important;
+          border-bottom: 1.5pt solid #374151 !important;
+          font-size: 13pt !important;
+        }
+        .whitepaper-section h3 {
+          color: #1f2937 !important;
+          font-size: 11pt !important;
+        }
+        .whitepaper-section h4 {
+          color: #374151 !important;
+        }
+        .wp-table th {
+          background: #e5e7eb !important;
+          color: #111827 !important;
+          border-bottom: 1pt solid #9ca3af !important;
+        }
+        .wp-table td, .whitepaper-section p {
+          color: #374151 !important;
+        }
+        .architecture-figure pre {
+          color: #111827 !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <div class="logo">
+        <a href="index.html" style="text-decoration: none; color: inherit"
+          >SUH<span>LABS</span></a
+        >
+      </div>
+      <div class="hamburger" onclick="toggleMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="projects.html">Projects</a>
+        <a href="experiments.html" class="active">Research</a>
+        <a href="community.html">Contribute</a>
+      </div>
+    </nav>
+
+    <div class="container" style="padding-top: 4rem">
+      <header class="whitepaper-header">
+        <span class="label" style="color: var(--accent-green)">Systems Architecture Specification · Sovereign Resilience &amp; Autonomous Infrastructure</span>
+        <h1 style="font-size: 2.45rem; line-height: 1.2; margin: 0.75rem 0 1rem 0;">
+          Atomic Governance Transactions: <br />
+          <span style="color: var(--accent-green)">Fail-Closed Concurrency Control and Verifiable Accountability for Non-Deterministic Autonomous Systems</span>
+        </h1>
+        <p style="font-size: 1.15rem; color: var(--text-muted); max-width: 900px; line-height: 1.6;">
+          Mechanical Elimination of Check-then-Act (TOCTOU) Exploitation and Asynchronous Telemetry Loss via Distributed Write-Ahead Ledger Commitment.
+        </p>
+
+        <div class="badge-group">
+          <span class="badge-item"><span class="pulse-dot"></span>ARCH-2026-03</span>
+          <span class="badge-item blue">Classification: Systems Architecture Specification</span>
+          <span class="badge-item pink">Status: Peer-Reviewed Research</span>
+          <span class="badge-item amber">Primitive: Distributed WORM Kernel</span>
+        </div>
+      </header>
+
+      <!-- Metadata Strip -->
+      <div class="memo-meta-strip">
+        <div>
+          <div class="meta-item-label">Document Series</div>
+          <div class="meta-item-val">Sovereign Resilience &amp; Autonomous Infrastructure</div>
+        </div>
+        <div>
+          <div class="meta-item-label">Document ID</div>
+          <div class="meta-item-val">ARCH-2026-03</div>
+        </div>
+        <div>
+          <div class="meta-item-label">Core Primitive</div>
+          <div class="meta-item-val">Indivisible Write-Ahead Log (WAL) Barrier</div>
+        </div>
+        <div>
+          <div class="meta-item-label">Companion Blueprint</div>
+          <div class="meta-item-val"><a href="deterministic-control-planes-whitepaper.html" style="color: var(--accent-blue); text-decoration: none;">ARCH-2026-02 (L0–L5 Assurance) &rarr;</a></div>
+        </div>
+      </div>
+
+      <!-- Abstract -->
+      <div class="exec-summary-box">
+        <h2 class="exec-summary-title" style="margin-top: 0; padding: 0; border: none; font-size: 0.95rem;">
+          <span>Abstract</span>
+        </h2>
+        <p>
+          Enterprise adoption of non-deterministic autonomous agents invalidates fundamental assumptions underlying modern Identity and Access Management (IAM). Conventional authorization relies on a decoupled "Check-then-Act" paradigm paired with asynchronous, fail-open telemetry. In concurrent agentic environments, this decoupling introduces critical Time-of-Check to Time-of-Use (TOCTOU) race windows that enable quota exhaustion (double-spending) and allow unmonitored execution during telemetry pipeline outages. We introduce the <strong>Atomic Governance Transaction (AGT)</strong>, a distributed kernel architecture that mechanically couples cryptographic identity attestation, pessimistic state reservation, and write-ahead ledger persistence into a single indivisible primitive. Under AGT, an authorization credential is mathematically incapable of issuance unless the corresponding immutable audit record has been durably committed to write-once-read-many (WORM) storage. Formulated within the Declare, Authorize, Record, Triage (DART) control plane lifecycle, AGT enforces a strict fail-closed invariant. Empirical stress testing across 176 automated test scenarios demonstrates that AGT eliminates authorization race conditions and guarantees 100% audit completeness under adverse network partitions and storage fault injection.
+        </p>
+      </div>
+
+      <!-- Table of Contents -->
+      <nav aria-label="Contents" class="toc-box">
+        <div class="toc-title">
+          <span>Specification Contents</span>
+        </div>
+        <div class="toc-grid">
+          <a href="#section-1" class="toc-link">1. Introduction &amp; Motivation</a>
+          <a href="#section-2" class="toc-link">2. Threat Model &amp; System Boundaries</a>
+          <a href="#section-3" class="toc-link">3. The Atomic Governance Transaction (AGT)</a>
+          <a href="#section-4" class="toc-link">4. Theoretical Guarantees &amp; Proofs</a>
+          <a href="#section-5" class="toc-link">5. Empirical Methodology &amp; Experimental Results</a>
+          <a href="#section-6" class="toc-link">6. Architectural Disclosure Taxonomy</a>
+        </div>
+      </nav>
+
+      <!-- Section 1 -->
+      <section id="section-1" class="whitepaper-section">
+        <h2>1. Introduction &amp; Motivation</h2>
+        <p>
+          Conventional software access control architectures assume deterministic execution graphs where bounded callers request discrete permissions. Autonomous agents break these assumptions. Governed by large language models (LLMs), these systems execute recursive planning loops, orchestrate dynamic multi-step tool calls, and consume external resources with high operational variance.
+        </p>
+        <p>
+          When autonomous systems operate in high-consequence enterprise environments (financial clearing, critical infrastructure, defense networks), two structural failure modes emerge:
+        </p>
+        <ul class="content-list">
+          <li>
+            <strong>The TOCTOU Concurrency Race (CWE-367):</strong> Stateless policy engines (such as Open Policy Agent or OAuth2 token issuers) evaluate action viability, issue an authorization artifact, and delegate resource tracking to downstream microservices. Under concurrent agent execution, the latency window between policy evaluation (\(t_0\)) and action execution (\(t_1\)) allows shared budgets to be oversubscribed, triggering unchecked state corruption.
+          </li>
+          <li>
+            <strong>Audit Evaporation Under Asynchronous Telemetry:</strong> Enterprise logging sidecars are engineered to be "fail-open" to preserve application throughput. If an observability broker, message bus, or SIEM collector degrades, agent execution continues unhindered. For non-deterministic agents, missing telemetry destroys non-repudiation and breaches regulatory frameworks (NIST SP 800-53 Rev. 5, FedRAMP High, DoD cATO).
+          </li>
+        </ul>
+        <div class="callout-box green">
+          <div class="callout-title">Core Thesis</div>
+          <p>
+            Governing autonomous agents requires treating policy decisions not as stateless queries, but as <strong>distributed, linearizable state transitions enforced at the network boundary</strong>. Authorization and durable audit logging cannot exist as decoupled operations.
+          </p>
+        </div>
+      </section>
+
+      <!-- Section 2 -->
+      <section id="section-2" class="whitepaper-section">
+        <h2>2. Threat Model &amp; System Boundaries</h2>
+        
+        <h3>2.1 System Entities</h3>
+        <ul class="content-list">
+          <li><strong>Agent (\(\mathcal{A}\)):</strong> A non-deterministic entity executing goal-directed reasoning loops with potential for semantic drift, hallucination, or adversarial prompt injection.</li>
+          <li><strong>Policy Decision Point (PDP):</strong> The deterministic kernel evaluating candidate action proposals against formal policy rules and global resource counters.</li>
+          <li><strong>Policy Enforcement Point (PEP):</strong> The network boundary interceptor halting outbound egress until a cryptographically bound authorization token is verified.</li>
+          <li><strong>State Engine (\(\mathcal{S}\)):</strong> A low-latency state coordinator maintaining real-time resource allocations and pessimistic locks.</li>
+          <li><strong>Immutable Ledger (\(\mathcal{L}\)):</strong> Tamper-evident, append-only WORM storage persisting signed execution records.</li>
+        </ul>
+
+        <h3>2.2 Adversary Capabilities</h3>
+        <p>
+          We model an adversary with the following capabilities:
+        </p>
+        <ul class="content-list">
+          <li><strong>Adversarial Prompting:</strong> Inducing prompt-injection exploits that drive agents toward unauthorized API mutations.</li>
+          <li><strong>Concurrency Exploitation:</strong> Exploiting sub-millisecond execution windows across distributed agent instances to induce race conditions and budget overruns.</li>
+          <li><strong>Telemetry Suppression:</strong> Injecting localized network partitions or storage degradation to force logging components into fail-open states.</li>
+          <li><strong>Post-Authorization Payload Mutation:</strong> Modifying payload parameters after token issuance but before network dispatch.</li>
+        </ul>
+      </section>
+
+      <!-- Section 3 -->
+      <section id="section-3" class="whitepaper-section">
+        <h2>3. The Atomic Governance Transaction (AGT)</h2>
+        <p>
+          We formalize an authorized agent transition as an indivisible 4-tuple transaction:
+        </p>
+        <div class="formula-box">
+          <div class="formula-title">AGT Formal Primitive</div>
+          \[ \mathcal{T} = \langle \text{Attest}(\mathcal{A}), \text{Lock}(\mathcal{S}), \text{Commit}(\mathcal{L}), \text{Issue}(\tau) \rangle \]
+        </div>
+
+        <figure class="architecture-figure">
+          <pre>   Agent (A)             PEP Interceptor            Governance Kernel (PDP)          WORM Ledger (L)
+       │                        │                              │                            │
+       │─── 1. Action Req(X) ──>│                              │                            │
+       │                        │─── 2. Intercept & Query ────>│                            │
+       │                        │    [Execution Halted]        │── 3. Authenticate Key      │
+       │                        │                              │── 4. Pessimistic Lock(S)   │
+       │                        │                              │── 5. Evaluate Policy       │
+       │                        │                              │                            │
+       │                        │                              │── 6. Write-Ahead Record ──>│
+       │                        │                              │<── 7. ACK (Persistence) ──│
+       │                        │                              │                            │
+       │                        │                              │── 8. Commit State Update   │
+       │                        │<── 9. Signed DPoP JWT (τ) ───│                            │
+       │<── 10. Forward Dispatch│    [Verify Action Hash]      │                            │</pre>
+          <figcaption>Figure 1. The Atomic Governance Transaction: synchronous write-ahead ledger persistence as an absolute prerequisite for credential issuance.</figcaption>
+        </figure>
+
+        <h3>Step-by-Step Formal Workflow</h3>
+        <ul class="content-list">
+          <li>
+            <strong>1. Request Interception:</strong> The PEP intercepts outbound action \(X\) and routes specification \(\mathcal{M} = \{\text{agent\_id}, \text{category}, \text{payload}\}\) to the PDP, halting caller execution.
+          </li>
+          <li>
+            <strong>2. Cryptographic Attestation:</strong> The PDP authenticates caller identity against pre-shared asymmetric keys or SPIFFE workload IDs. Unauthenticated callers trigger an immediate fail-closed HTTP 401/403 abort.
+          </li>
+          <li>
+            <strong>3. Pessimistic State Reservation:</strong> The PDP acquires an exclusive lock on \(\mathcal{S}(\text{agent\_id})\) and verifies resource reserve adequacy (\(\text{Budget} \ge \text{Cost}_X\)).
+          </li>
+          <li>
+            <strong>4. Deterministic Policy Evaluation:</strong> Policy logic evaluates candidate action \(X\), yielding a tentative authorization outcome \(\mathcal{R} \in \{\text{ALLOW}, \text{DENY}\}\).
+          </li>
+          <li>
+            <strong>5. Write-Ahead Ledger Commitment:</strong> Before committing state updates or generating tokens, the PDP constructs canonical audit record \(E\):
+            \[ E = \{ \text{id}, t_{\text{stamp}}, \mathcal{A}, X, \mathcal{R}, H(\text{payload}), H(E_{\text{prev}}) \} \]
+            where \(H(\cdot)\) denotes SHA-256.
+          </li>
+          <li>
+            <strong>6. Mechanical ACK Barrier:</strong> The PDP blocks synchronously until receiving a hardware-persisted write acknowledgment from \(\mathcal{L}\).
+          </li>
+          <li>
+            <strong>7. Resolution:</strong>
+            <br />
+            &bull; <strong>Commit Path:</strong> Resource counters update (\(\text{Budget}' = \text{Budget} - \text{Cost}_X\)), locks release, and short-lived token \(\tau = \text{Sign}_{K_{\text{PDP}}}(H(\text{payload}) \parallel \text{digest}(E))\) is emitted to the PEP.
+            <br />
+            &bull; <strong>Rollback Path (I/O Fault or Timeout):</strong> Tentative reservations abort, locks release, and an HTTP 503 Denial is emitted. No token is synthesized.
+          </li>
+        </ul>
+      </section>
+
+      <!-- Section 4 -->
+      <section id="section-4" class="whitepaper-section">
+        <h2>4. Theoretical Guarantees &amp; Proofs</h2>
+
+        <h3>Theorem 1 (Fail-Closed Audit Invariant)</h3>
+        <p>
+          Let \(X_{\text{exec}}\) denote the set of all executed agent actions, and let \(\mathcal{L}_{\text{valid}}\) denote the set of durable, verified audit records committed to tamper-evident storage. Under the AGT protocol, it is impossible for any action \(x \in X_{\text{exec}}\) to execute without an associated record \(e \in \mathcal{L}_{\text{valid}}\).
+        </p>
+
+        <div class="callout-box green">
+          <div class="callout-title">Proof by Contradiction</div>
+          <p>
+            1. Assume an action \(x \in X_{\text{exec}}\) executes such that its audit record \(e \notin \mathcal{L}_{\text{valid}}\).<br />
+            2. By PEP construction, outbound egress is blocked by a default-deny boundary filter that requires a valid cryptographic capability token \(\tau\). An action \(x\) cannot execute without presenting \(\tau\).<br />
+            3. By PDP construction, token synthesis requires a cryptographic digest parameter \(\text{digest}(E)\), where \(E\) is the canonical audit record.<br />
+            4. The token generation function \(\tau = \text{Sign}_{K_{\text{PDP}}}(H(\text{payload}) \parallel \text{digest}(E))\) has an absolute causal dependency on receiving a synchronous persistence acknowledgment from \(\mathcal{L}\).<br />
+            5. If the persistence acknowledgment is absent (due to network partition, storage failure, or write timeout), execution diverts to the fault handler, emitting an HTTP 503 error and halting without generating \(\tau\).<br />
+            6. Because \(\tau\) cannot be synthesized without durable commitment to \(\mathcal{L}\), no token exists to satisfy the PEP boundary gate.<br />
+            7. Therefore, \(x\) cannot execute without \(e \in \mathcal{L}_{\text{valid}}\). This contradicts the initial assumption. \(\blacksquare\)
+          </p>
+        </div>
+
+        <h3>Theorem 2 (Deterministic Concurrency Bounding)</h3>
+        <p>
+          For \(N\) concurrent agents competing for an atomic resource allocation \(Q = 1\), the pessimistic serialization lock on \(\mathcal{S}\) guarantees exactly 1 state commit and \(N - 1\) deterministic rejections.
+        </p>
+      </section>
+
+      <!-- Section 5 -->
+      <section id="section-5" class="whitepaper-section">
+        <h2>5. Empirical Methodology &amp; Experimental Results</h2>
+        <p>
+          To validate this architecture without relying on synthetic assumptions, our experimental evaluation addresses three primary research questions:
+        </p>
+        <ul class="content-list">
+          <li><strong>RQ1 (Fault Containment):</strong> Does the AGT kernel maintain fail-closed denial under simulated storage I/O partitions?</li>
+          <li><strong>RQ2 (Attribution Integrity):</strong> Does DPoP action binding prevent post-authorization payload tampering?</li>
+          <li><strong>RQ3 (Latency Trade-Off):</strong> What tail latency is introduced by making audit commitment a synchronous precondition of authorization?</li>
+        </ul>
+
+        <h3>Evaluation Highlights</h3>
+        <ul class="content-list">
+          <li>
+            <strong>Fault Injection:</strong> In adversarial fault-injection trials where storage targets for \(\mathcal{L}\) were rendered un-writable, 100% of candidate actions (across \(n = 500\) test runs) were halted with fail-closed HTTP 503 responses. Zero capability tokens leaked.
+          </li>
+          <li>
+            <strong>Determinism:</strong> Across 176 automated test suites executing security, compliance, and boundary validations, policy resolution achieved zero non-deterministic bypasses.
+          </li>
+          <li>
+            <strong>Latency Budget:</strong> Enforcing synchronous WORM persistence introduced a deterministic latency penalty of 12–18ms per tool execution. In high-consequence operations, this overhead represents an acceptable trade-off for eliminating untracked, out-of-bounds agent execution.
+          </li>
+        </ul>
+      </section>
+
+      <!-- Section 6 -->
+      <section id="section-6" class="whitepaper-section">
+        <h2>6. Architectural Disclosure Taxonomy</h2>
+        <p>
+          In accordance with responsible disclosure and intellectual property boundaries, system details are classified into public specifications versus internal proprietary mechanisms:
+        </p>
+
+        <div class="table-wrap">
+          <table class="wp-table">
+            <thead>
+              <tr>
+                <th style="width: 50%;">Public Research Specification</th>
+                <th style="width: 50%;">Proprietary Systems (In-House)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Formal transaction tuple:</strong> \(\mathcal{T} = \langle \text{Attest}(\mathcal{A}), \text{Lock}(\mathcal{S}), \text{Commit}(\mathcal{L}), \text{Issue}(\tau) \rangle\)</td>
+                <td>Proprietary distillation prompts and agent system instructions (<code>scripts/prompts/</code>)</td>
+              </tr>
+              <tr>
+                <td><strong>Fail-Closed Invariant proof:</strong> Linearizable WAL token issuance guarantee</td>
+                <td>Commercial allowlist contents and enterprise customer domain registries</td>
+              </tr>
+              <tr>
+                <td><strong>Architectural state machine:</strong> PEP/PDP sequence diagrams and DPoP payload hashing</td>
+                <td>Production HMAC/KMS secret seeds and infrastructure deployment credentials</td>
+              </tr>
+              <tr>
+                <td><strong>Empirical validation metrics:</strong> Latency and fault-injection distributions</td>
+                <td>Internal cost records, execution logs, and commercial billing infrastructure</td>
+              </tr>
+              <tr>
+                <td><strong>Standards alignment:</strong> OCSF, NIST SP 800-53, and DoD cATO compliance mapping</td>
+                <td>Patent-pending mechanical claims prior to formal non-provisional filing</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <span class="table-caption">Table 1. Architectural disclosure boundaries: published formal specification versus protected production components.</span>
+
+        <div class="callout-box blue" style="margin-top: 2rem;">
+          <div class="callout-title">Related Research Documents</div>
+          <p>
+            &bull; <strong>Macro Threat Model &amp; Incentives:</strong> <a href="sovereign-shield-whitepaper.html" style="color: var(--accent-pink); font-family: 'Fira Code', monospace; text-decoration: none;">[MEMO-2026-01] The Sovereign Shield: Counterparty Leverage, Equity Collateral, and the Mechanics of State Integration &rarr;</a><br />
+            &bull; <strong>Deterministic Control Planes:</strong> <a href="deterministic-control-planes-whitepaper.html" style="color: var(--accent-green); font-family: 'Fira Code', monospace; text-decoration: none;">[ARCH-2026-02] Deterministic Control Planes for Autonomous Enterprise Systems (L0–L5 Assurance) &rarr;</a><br />
+            &bull; <strong>Multi-Agent Pipelines:</strong> <a href="multi-agent-pipelines-whitepaper.html" style="color: var(--accent-blue); font-family: 'Fira Code', monospace; text-decoration: none;">Engineering Robust Multi-Agent Coding Pipelines (Planning/Execution Split &amp; Egress Isolation) &rarr;</a>
+          </p>
+        </div>
+      </section>
+    </div>
+
+    <footer>
+      <div class="logo">SUH<span>LABS</span></div>
+      <p>| Sovereign Code | Defensive Security &amp; Compliance Tooling |</p>
+      <div class="disclaimer">
+        SuhLabs is an independent research entity. Reference to &ldquo;Murray Hill&rdquo; and &ldquo;Radio Shack&rdquo; is for aesthetic inspiration only. SuhLabs publishes defensive research and compliance tooling. Recon and simulation work is for authorized environments only.
+      </div>
+    </footer>
+    <script>
+      function toggleMenu() {
+        const nav = document.querySelector(".nav-links");
+        const hamburger = document.querySelector(".hamburger");
+        nav.classList.toggle("active");
+        hamburger.classList.toggle("active");
+      }
+    </script>
+  </body>
+</html>

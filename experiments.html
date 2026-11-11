@@ -152,6 +152,63 @@
         </div>
       </div>
 
+      <!-- Paper 3: Atomic Governance Transactions -->
+      <div
+        class="wing-card"
+        style="border-left: 4px solid var(--accent-green); margin-bottom: 2rem"
+      >
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
+          <h3 style="margin: 0; color: var(--accent-green);">Atomic Governance Transactions (AGT Kernel Specification)</h3>
+          <span style="font-family: 'Fira Code', monospace; font-size: 0.75rem; color: var(--accent-green); background: rgba(96, 171, 49, 0.1); padding: 0.2rem 0.5rem; border-radius: 3px;"><span class="pulse-dot" style="background-color: var(--accent-green); box-shadow: 0 0 8px var(--accent-green);"></span>ARCH-2026-03 SPEC</span>
+        </div>
+        <p>
+          Fail-closed concurrency control and verifiable accountability for non-deterministic autonomous systems. Mechanically couples cryptographic attestation, pessimistic state reservation, and write-ahead ledger persistence into an indivisible atomic primitive to eliminate TOCTOU race conditions and telemetry evaporation.
+        </p>
+        <div class="terminal">
+          <div style="color: var(--accent-green)">// AGT_KERNEL_TRANSACTION_BUS</div>
+          <div>$ agt-kernel-verify --run-scenarios 176</div>
+          <div>> Invariant Barrier:      <span style="color: var(--accent-green)">[FAIL_CLOSED_CONFIRMED]</span></div>
+          <div>> TOCTOU Race Rejections: <span style="color: var(--accent-green)">[100%_DETERMINISTIC]</span></div>
+          <div>> WORM Audit Persistence: <span style="color: var(--accent-blue)">[SYNC_WAL_ACK_REQUIRED]</span></div>
+        </div>
+        <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 1rem">
+          <a
+            href="atomic-governance-whitepaper.html"
+            style="
+              color: var(--accent-green);
+              text-decoration: none;
+              font-family: 'Fira Code', monospace;
+              font-size: 0.8rem;
+              border: 1px solid var(--accent-green);
+              padding: 0.5rem 1rem;
+              border-radius: 4px;
+              display: inline-block;
+              transition: all 0.2s;
+            "
+            onmouseover="this.style.background='rgba(96, 171, 49, 0.1)'"
+            onmouseout="this.style.background='transparent'"
+            >READ SPECIFICATION_ &rarr;</a
+          >
+          <a
+            href="deterministic-control-planes-whitepaper.html"
+            style="
+              color: var(--text-main);
+              text-decoration: none;
+              font-family: 'Fira Code', monospace;
+              font-size: 0.8rem;
+              border: 1px solid var(--border-color);
+              padding: 0.5rem 1rem;
+              border-radius: 4px;
+              display: inline-block;
+              transition: all 0.2s;
+            "
+            onmouseover="this.style.borderColor='var(--accent-green)'"
+            onmouseout="this.style.borderColor='var(--border-color)'"
+            >CONTROL PLANES (ARCH-2026-02) &rarr;</a
+          >
+        </div>
+      </div>
+
       <!-- Experiment 0: Multi-Agent Pipelines Whitepaper -->
       <div
         class="wing-card"
@@ -343,14 +400,6 @@
       <!-- Exploratory Concepts Section -->
       <div style="margin-top: 3.5rem; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">
         <h2 style="font-family: 'Fira Code', monospace; font-size: 1.15rem; color: var(--accent-green); margin: 0;">// EXPLORATORY_CONCEPT_SPECIFICATIONS</h2>
-      </div>
-
-      <div class="wing-card" style="border-left: 4px solid var(--accent-green); margin-bottom: 2rem;">
-        <div class="badge" style="font-family: 'Fira Code', monospace; font-size: 0.75rem; color: var(--accent-green); margin-bottom: 0.5rem;">SPECIFICATION · SUBSTRATE RESEARCH</div>
-        <h3 style="color: var(--text-main);">Atomic Governance (AGT Kernel Concept)</h3>
-        <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.6;">
-          A fail-closed transaction architecture that mechanically couples policy evaluation with immutable ledger commitment before any tool call executes. Designed to eliminate race conditions in multi-agent environments.
-        </p>
       </div>
 
       <div class="wing-card" style="border-left: 4px solid var(--accent-pink); margin-bottom: 2rem;">
