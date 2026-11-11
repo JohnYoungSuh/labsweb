@@ -557,7 +557,7 @@
           <a href="#section-3" class="toc-link">3. Proposed AGT Protocol, State Machine &amp; Crash Recovery</a>
           <a href="#section-4" class="toc-link">4. Conditional Safety Properties &amp; Storage Semantics</a>
           <a href="#section-5" class="toc-link">5. Preliminary Prototype Observations &amp; Evaluation Design</a>
-          <a href="#section-6" class="toc-link">6. Disclosure Boundaries &amp; Related Work</a>
+          <a href="#section-6" class="toc-link">6. Related Work &amp; Disclosure Boundaries</a>
           <a href="#references" class="toc-link">References</a>
         </div>
       </nav>
@@ -774,32 +774,43 @@
       <section id="section-5" class="whitepaper-section">
         <h2>5. Preliminary Prototype Observations &amp; Evaluation Design</h2>
         <p>
-          Initial validation of the AGT prototype was conducted against a local test harness comprising 176 automated policy/boundary test cases and targeted storage fault-injection runs (\(n = 500\) trials where \(\mathcal{L}\) write targets were mounted read-only or severed):
+          Initial prototype observations evaluated two distinct test populations in a local single-node harness: (1) a deterministic policy and boundary regression suite of <strong>176 automated test cases</strong>, and (2) <strong>\(n = 500\)</strong> storage fault-injection dispatch trials in which \(\mathcal{L}\) write targets were mounted read-only or severed:
         </p>
         <ul class="content-list">
           <li>
             <strong>Fault-Containment Observations:</strong> Across the \(n = 500\) unwritable-ledger injection trials, no unauthorized dispatches or missing preauthorization records were observed; all blocked calls returned fail-closed HTTP 503 errors with zero capability tokens emitted.
           </li>
           <li>
-            <strong>Preliminary Latency Overhead:</strong> Under local single-node benchmark conditions, synchronous write-ahead persistence introduced an observed prototype barrier overhead of <strong>12&ndash;18 ms</strong> per tool invocation. This is an observed local measurement, not a deterministic upper bound; production tail latency (p50/p95/p99) depends on distributed quorum round-trips, payload size, and shared lock contention.
+            <strong>Preliminary Latency Overhead:</strong> Under local single-node benchmark conditions, synchronous write-ahead persistence introduced an observed prototype barrier overhead of <strong>12&ndash;18 ms</strong> per tool invocation. This is an observed local measurement, not a deterministic upper bound; a complete production evaluation must report hardware topology, record sizes, baseline throughput without the barrier, lock-wait time, timeout rates, and p50/p95/p99 latency distributions under concurrent contention.
           </li>
         </ul>
 
         <h3>5.1 Required Verification Matrix for Full Reproducibility</h3>
         <p>
-          While the prototype validates the basic unwritable-ledger barrier, establishing full protocol correctness under production distributed faults requires evaluating these remaining hard edge cases against four implementation baselines (asynchronous logging, synchronous logging without reservation, atomic reservation without audit barrier, and full AGT):
+          While the prototype validates the basic unwritable-ledger barrier, establishing full protocol correctness under distributed faults requires evaluating these ten discriminating edge cases against four implementation baselines (asynchronous logging, synchronous logging without reservation, atomic reservation without audit barrier, and full AGT):
         </p>
         <ul class="content-list">
-          <li><strong>Lost ACK Recovery:</strong> Ledger commit succeeds, acknowledgment packet drops, caller retries with identical <code>tx_id</code>.</li>
-          <li><strong>Mid-Transaction Crashes:</strong> PDP fails after ledger commit but before \(\mathcal{S}\) state update, or after state commit before capability delivery.</li>
-          <li><strong>Cross-Agent Shared Quota Contention:</strong> Distinct principals (Agent A, Agent B) concurrently racing for the final unit of shared <code>quota_id</code>.</li>
-          <li><strong>Capability Replay &amp; Stale Leases:</strong> Resubmitting a redeemed <code>jti</code> before \(t_{\text{exp}}\), and stale lock-holder resumption rejected via fencing token \(f\).</li>
+          <li><strong>Lost ACK &amp; Mid-Transaction Crashes:</strong> Ledger commit succeeds with dropped ACK followed by retry (<code>tx_id</code>); PDP crash after ledger ACK before \(\mathcal{S}\) commit; PDP crash after \(\mathcal{S}\) commit before capability delivery.</li>
+          <li><strong>Failover &amp; Snapshot Recovery:</strong> PDP failover during an active reservation, and \(\mathcal{S}\) recovery from an older snapshot verifying committed debits are replayed and never resurrected.</li>
+          <li><strong>Concurrency, Replay &amp; Fencing:</strong> Distinct agents (Agent A, Agent B) concurrently racing for shared <code>quota_id</code>; duplicate <code>jti</code> capability redemption prior to \(t_{\text{exp}}\); stale lock-holder resumption rejected via monotonic fencing token \(f\).</li>
+          <li><strong>External Uncertainty &amp; Replica Divergence:</strong> Destination API succeeds but response packet is lost (<code>OUTCOME_UNKNOWN</code>); ledger replicas disagree across network partitions.</li>
         </ul>
       </section>
 
       <!-- Section 6 -->
       <section id="section-6" class="whitepaper-section">
-        <h2>6. Disclosure Boundaries &amp; Related Work</h2>
+        <h2>6. Related Work &amp; Disclosure Boundaries</h2>
+        <h3>6.1 Positioning Against Existing Mechanisms</h3>
+        <p>
+          AGT integrates established distributed-systems and security primitives rather than inventing isolated new cryptography:
+        </p>
+        <ul class="content-list">
+          <li><strong>Transaction Recovery &amp; Concurrency:</strong> Builds on Write-Ahead Logging (WAL) crash-recovery principles and monotonic fencing tokens (<a href="#ref-2" class="cite">Kleppmann, 2016</a>) to prevent stale distributed lease holders from mutating shared quota state.</li>
+          <li><strong>Capability Authorization &amp; Request Binding:</strong> Extends standard sender-constrained tokens (<a href="#ref-1" class="cite">RFC 9449 DPoP</a>, which binds method and URI) with application-defined full-request commitments (\(\mathcal{C}_{\text{req}}\)) and single-use <code>jti</code> redemption.</li>
+          <li><strong>Durable Audit Systems:</strong> Operationalizes organization-defined audit failure handling (<a href="#ref-3" class="cite">NIST SP 800-53 AU-5</a>) as a synchronous fail-closed boundary gate for high-consequence autonomous actions.</li>
+        </ul>
+
+        <h3>6.2 Protocol Transparency vs. Operational Secrets</h3>
         <p>
           To facilitate independent protocol verification while safeguarding operational secrets, architectural artifacts are partitioned as follows:
         </p>
