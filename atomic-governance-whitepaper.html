@@ -3,13 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SuhLabs | Atomic Governance Transactions: Fail-Closed Concurrency Control and Verifiable Accountability for Non-Deterministic Autonomous Systems</title>
+    <title>SuhLabs | Atomic Governance Transactions: Durable Preauthorization Logging and Resource Reservation for Autonomous Tool Execution</title>
     <meta
       name="description"
-      content="A Systems Architecture Specification for the Atomic Governance Transaction (AGT): coupling cryptographic identity, pessimistic state reservation, and write-ahead ledger persistence into a fail-closed primitive."
+      content="A Systems Architecture Specification for Atomic Governance Transactions (AGT): coordinating policy-governed resource reservation, durable preauthorization logging, and single-use request-bound capabilities."
     />
-    <meta property="og:title" content="Atomic Governance Transactions (AGT Kernel Specification)" />
-    <meta property="og:description" content="Fail-Closed Concurrency Control and Verifiable Accountability for Non-Deterministic Autonomous Systems. Document ID: ARCH-2026-03." />
+    <meta property="og:title" content="Atomic Governance Transactions: Durable Preauthorization Logging and Resource Reservation" />
+    <meta property="og:description" content="Fail-Closed Preauthorization Protocol and Crash-Recovery Semantics for Autonomous Tool Execution. Document ID: ARCH-2026-03." />
     <meta property="og:type" content="article" />
     <meta property="og:url" content="https://suhlabs.com/atomic-governance-whitepaper.html" />
     <link rel="canonical" href="https://suhlabs.com/atomic-governance-whitepaper.html" />
@@ -370,6 +370,63 @@
         font-size: 1rem;
       }
 
+      .sources-container {
+        background: rgba(12, 23, 36, 0.85);
+        border: 1px solid var(--border-color);
+        padding: 2rem;
+        border-radius: 6px;
+        margin-top: 1rem;
+      }
+      .sources-list {
+        list-style: none;
+        padding-left: 0;
+        margin: 0;
+      }
+      .sources-list li {
+        color: var(--text-muted);
+        font-size: 0.86rem;
+        line-height: 1.7;
+        margin-bottom: 1rem;
+        padding-left: 1.8rem;
+        position: relative;
+      }
+      .sources-list li .ref-num {
+        position: absolute;
+        left: 0;
+        font-family: "Fira Code", monospace;
+        color: var(--accent-blue);
+        font-size: 0.8rem;
+      }
+      .cite {
+        color: var(--accent-blue);
+        text-decoration: none;
+        border-bottom: 1px dotted var(--accent-blue);
+        padding: 0 1px;
+      }
+      .cite:hover {
+        color: #fff;
+        background: rgba(0, 173, 255, 0.2);
+        border-bottom-style: solid;
+      }
+      .source-aux-link {
+        display: inline-block;
+        font-family: "Fira Code", monospace;
+        font-size: 0.72rem;
+        margin-left: 0.4rem;
+        padding: 0.1rem 0.4rem;
+        border-radius: 3px;
+        text-decoration: none;
+        border: 1px solid var(--accent-blue);
+        color: var(--accent-blue);
+        background: rgba(0, 173, 255, 0.1);
+        transition: all 0.2s ease;
+        vertical-align: middle;
+      }
+      .source-aux-link:hover {
+        background: var(--accent-blue);
+        color: #000000;
+      }
+
       @media print {
         body {
           background: #ffffff !important;
@@ -388,7 +445,7 @@
           font-size: 18pt !important;
           color: #000000 !important;
         }
-        .exec-summary-box, .memo-meta-strip, .table-wrap, .architecture-figure pre, .callout-box, .formula-box {
+        .exec-summary-box, .memo-meta-strip, .table-wrap, .architecture-figure pre, .callout-box, .formula-box, .sources-container {
           border: 1px solid #d1d5db !important;
           background: #f9fafb !important;
           color: #111827 !important;
@@ -411,7 +468,7 @@
           color: #111827 !important;
           border-bottom: 1pt solid #9ca3af !important;
         }
-        .wp-table td, .whitepaper-section p {
+        .wp-table td, .whitepaper-section p, .sources-list li {
           color: #374151 !important;
         }
         .architecture-figure pre {
@@ -442,20 +499,20 @@
 
     <div class="container" style="padding-top: 4rem">
       <header class="whitepaper-header">
-        <span class="label" style="color: var(--accent-green)">Systems Architecture Specification · Sovereign Resilience &amp; Autonomous Infrastructure</span>
+        <span class="label" style="color: var(--accent-green)">Systems Architecture Proposal · Sovereign Resilience &amp; Autonomous Infrastructure</span>
         <h1 style="font-size: 2.45rem; line-height: 1.2; margin: 0.75rem 0 1rem 0;">
           Atomic Governance Transactions: <br />
-          <span style="color: var(--accent-green)">Fail-Closed Concurrency Control and Verifiable Accountability for Non-Deterministic Autonomous Systems</span>
+          <span style="color: var(--accent-green)">Durable Preauthorization Logging and Resource Reservation for Autonomous Tool Execution</span>
         </h1>
         <p style="font-size: 1.15rem; color: var(--text-muted); max-width: 900px; line-height: 1.6;">
-          Mechanical Elimination of Check-then-Act (TOCTOU) Exploitation and Asynchronous Telemetry Loss via Distributed Write-Ahead Ledger Commitment.
+          A proposed fail-closed authorization protocol coordinating shared-quota serialization, synchronous preauthorization persistence, and single-use request-bound capabilities.
         </p>
 
         <div class="badge-group">
           <span class="badge-item"><span class="pulse-dot"></span>ARCH-2026-03</span>
-          <span class="badge-item blue">Classification: Systems Architecture Specification</span>
-          <span class="badge-item pink">Status: Peer-Reviewed Research</span>
-          <span class="badge-item amber">Primitive: Distributed WORM Kernel</span>
+          <span class="badge-item blue">Classification: Systems Architecture Proposal</span>
+          <span class="badge-item pink">Status: Research Prototype / Draft Spec</span>
+          <span class="badge-item amber">Scope: Transaction-Level Enforcement</span>
         </div>
       </header>
 
@@ -470,11 +527,11 @@
           <div class="meta-item-val">ARCH-2026-03</div>
         </div>
         <div>
-          <div class="meta-item-label">Core Primitive</div>
-          <div class="meta-item-val">Indivisible Write-Ahead Log (WAL) Barrier</div>
+          <div class="meta-item-label">Protocol Boundary</div>
+          <div class="meta-item-val">Preauthorization Barrier &amp; Shared-Quota Lock</div>
         </div>
         <div>
-          <div class="meta-item-label">Companion Blueprint</div>
+          <div class="meta-item-label">Companion Policy Layer</div>
           <div class="meta-item-val"><a href="deterministic-control-planes-whitepaper.html" style="color: var(--accent-blue); text-decoration: none;">ARCH-2026-02 (L0–L5 Assurance) &rarr;</a></div>
         </div>
       </div>
@@ -485,7 +542,7 @@
           <span>Abstract</span>
         </h2>
         <p>
-          Enterprise adoption of non-deterministic autonomous agents invalidates fundamental assumptions underlying modern Identity and Access Management (IAM). Conventional authorization relies on a decoupled "Check-then-Act" paradigm paired with asynchronous, fail-open telemetry. In concurrent agentic environments, this decoupling introduces critical Time-of-Check to Time-of-Use (TOCTOU) race windows that enable quota exhaustion (double-spending) and allow unmonitored execution during telemetry pipeline outages. We introduce the <strong>Atomic Governance Transaction (AGT)</strong>, a distributed kernel architecture that mechanically couples cryptographic identity attestation, pessimistic state reservation, and write-ahead ledger persistence into a single indivisible primitive. Under AGT, an authorization credential is mathematically incapable of issuance unless the corresponding immutable audit record has been durably committed to write-once-read-many (WORM) storage. Formulated within the Declare, Authorize, Record, Triage (DART) control plane lifecycle, AGT enforces a strict fail-closed invariant. Empirical stress testing across 176 automated test scenarios demonstrates that AGT eliminates authorization race conditions and guarantees 100% audit completeness under adverse network partitions and storage fault injection.
+          Autonomous tool execution increases the operational importance of coordinating authorization, resource accounting, and audit evidence. This paper proposes <strong>Atomic Governance Transactions (AGT)</strong>, a fail-closed protocol that reserves policy-governed resources and durably records an authorization decision before releasing a single-use, request-bound execution capability. The intended safety property is narrower than universal audit completeness: every protected dispatch traversing the enforcement boundary must have a preceding durable authorization record. This guarantee is distinct from execution-outcome auditing and depends explicitly on boundary enforcement coverage, storage durability semantics, trusted signing paths, and crash-recovery state reconciliation. The specification identifies concurrency, capability replay, request commitment, and partial-failure transitions requiring explicit protocol handling, and defines the empirical fault-injection matrix required for independent validation.
         </p>
       </div>
 
@@ -495,228 +552,312 @@
           <span>Specification Contents</span>
         </div>
         <div class="toc-grid">
-          <a href="#section-1" class="toc-link">1. Introduction &amp; Motivation</a>
-          <a href="#section-2" class="toc-link">2. Threat Model &amp; System Boundaries</a>
-          <a href="#section-3" class="toc-link">3. The Atomic Governance Transaction (AGT)</a>
-          <a href="#section-4" class="toc-link">4. Theoretical Guarantees &amp; Proofs</a>
-          <a href="#section-5" class="toc-link">5. Empirical Methodology &amp; Experimental Results</a>
-          <a href="#section-6" class="toc-link">6. Architectural Disclosure Taxonomy</a>
+          <a href="#section-1" class="toc-link">1. Introduction, Scope &amp; Series Boundaries</a>
+          <a href="#section-2" class="toc-link">2. Threat Model, System Entities &amp; Trust Relocation</a>
+          <a href="#section-3" class="toc-link">3. Proposed AGT Protocol, State Machine &amp; Crash Recovery</a>
+          <a href="#section-4" class="toc-link">4. Conditional Safety Properties &amp; Storage Semantics</a>
+          <a href="#section-5" class="toc-link">5. Preliminary Prototype Observations &amp; Evaluation Design</a>
+          <a href="#section-6" class="toc-link">6. Disclosure Boundaries &amp; Related Work</a>
+          <a href="#references" class="toc-link">References</a>
         </div>
       </nav>
 
       <!-- Section 1 -->
       <section id="section-1" class="whitepaper-section">
-        <h2>1. Introduction &amp; Motivation</h2>
+        <h2>1. Introduction, Scope &amp; Series Boundaries</h2>
         <p>
-          Conventional software access control architectures assume deterministic execution graphs where bounded callers request discrete permissions. Autonomous agents break these assumptions. Governed by large language models (LLMs), these systems execute recursive planning loops, orchestrate dynamic multi-step tool calls, and consume external resources with high operational variance.
-        </p>
-        <p>
-          When autonomous systems operate in high-consequence enterprise environments (financial clearing, critical infrastructure, defense networks), two structural failure modes emerge:
+          Autonomous software agents powered by large language models (LLMs) amplify existing authorization, concurrency, and auditability risks through rapid, parallel, and dynamically generated API tool invocations. Two failure modes arise when standard decoupled authorization infrastructure governs concurrent tool execution:
         </p>
         <ul class="content-list">
           <li>
-            <strong>The TOCTOU Concurrency Race (CWE-367):</strong> Stateless policy engines (such as Open Policy Agent or OAuth2 token issuers) evaluate action viability, issue an authorization artifact, and delegate resource tracking to downstream microservices. Under concurrent agent execution, the latency window between policy evaluation (\(t_0\)) and action execution (\(t_1\)) allows shared budgets to be oversubscribed, triggering unchecked state corruption.
+            <strong>TOCTOU Concurrency Races (CWE-367):</strong> Stateless policy engines evaluate whether an action is permitted, issue a bearer token, and delegate quota tracking to downstream services. When concurrent agents share a common resource quota, the latency window between evaluation (\(t_0\)) and execution (\(t_1\)) permits oversubscription.
           </li>
           <li>
-            <strong>Audit Evaporation Under Asynchronous Telemetry:</strong> Enterprise logging sidecars are engineered to be "fail-open" to preserve application throughput. If an observability broker, message bus, or SIEM collector degrades, agent execution continues unhindered. For non-deterministic agents, missing telemetry destroys non-repudiation and breaches regulatory frameworks (NIST SP 800-53 Rev. 5, FedRAMP High, DoD cATO).
+            <strong>Fail-Open Telemetry Evaporation:</strong> Conventional observability pipelines are commonly configured as asynchronous, fail-open sidecars to preserve application availability. Under storage or message-broker degradation, actions may proceed without durable authorization records, complicating compliance with organization-defined audit failure policies (such as <a href="#ref-3" class="cite">NIST SP 800-53 Rev. 5 AU-5</a>).
           </li>
         </ul>
-        <div class="callout-box green">
-          <div class="callout-title">Core Thesis</div>
+
+        <div class="callout-box amber">
+          <div class="callout-title">Series Scope Distinction: Enforcement Correctness vs. Policy Adequacy</div>
           <p>
-            Governing autonomous agents requires treating policy decisions not as stateless queries, but as <strong>distributed, linearizable state transitions enforced at the network boundary</strong>. Authorization and durable audit logging cannot exist as decoupled operations.
+            This specification must be read alongside its companion documents without conflating their scopes. <a href="sovereign-shield-whitepaper.html" class="cite">MEMO-2026-01</a> motivates threat scenarios in which optimizing agents could pursue strategic vendor entrenchment. <a href="deterministic-control-planes-whitepaper.html" class="cite">ARCH-2026-02</a> defines the cumulative organizational policies required to prohibit such strategies (e.g., Herfindahl-Hirschman vendor concentration bounds). <strong>AGT (ARCH-2026-03) enforces only the transaction-level rules passed to it; it does not evaluate cumulative multi-step strategies or establish the adequacy of those rules.</strong> An agent submitting five individually authorized, logged transactions that gradually migrate all workloads to one supplier will satisfy AGT unless cumulative concentration policies are evaluated at the Control Plane.
           </p>
         </div>
       </section>
 
       <!-- Section 2 -->
       <section id="section-2" class="whitepaper-section">
-        <h2>2. Threat Model &amp; System Boundaries</h2>
+        <h2>2. Threat Model, System Entities &amp; Trust Relocation</h2>
         
         <h3>2.1 System Entities</h3>
         <ul class="content-list">
-          <li><strong>Agent (\(\mathcal{A}\)):</strong> A non-deterministic entity executing goal-directed reasoning loops with potential for semantic drift, hallucination, or adversarial prompt injection.</li>
-          <li><strong>Policy Decision Point (PDP):</strong> The deterministic kernel evaluating candidate action proposals against formal policy rules and global resource counters.</li>
-          <li><strong>Policy Enforcement Point (PEP):</strong> The network boundary interceptor halting outbound egress until a cryptographically bound authorization token is verified.</li>
-          <li><strong>State Engine (\(\mathcal{S}\)):</strong> A low-latency state coordinator maintaining real-time resource allocations and pessimistic locks.</li>
-          <li><strong>Immutable Ledger (\(\mathcal{L}\)):</strong> Tamper-evident, append-only WORM storage persisting signed execution records.</li>
+          <li><strong>Agent (\(\mathcal{A}\)):</strong> A non-deterministic caller proposing dynamic tool invocations with potential for prompt injection or specification drift.</li>
+          <li><strong>Policy Enforcement Point (PEP):</strong> The inline network boundary proxy halting outbound traffic until a single-use, request-bound capability is verified and redeemed.</li>
+          <li><strong>Policy Decision Point (PDP):</strong> The trusted control-plane coordinator authenticating principals, managing reservations, persisting decisions, and signing capabilities.</li>
+          <li><strong>Authoritative State Store (\(\mathcal{S}\)):</strong> A linearizable transactional store maintaining shared quota balances, lock/lease generations (fencing tokens), and transaction idempotency records.</li>
+          <li><strong>Durable Audit Ledger (\(\mathcal{L}\)):</strong> Append-only storage persisting sequenced preauthorization records prior to capability issuance.</li>
         </ul>
 
-        <h3>2.2 Adversary Capabilities</h3>
+        <h3>2.2 Adversary Capabilities &amp; Availability Trade-Off</h3>
         <p>
-          We model an adversary with the following capabilities:
+          We model an adversary capable of prompt injection, concurrent dispatch across shared quotas, post-issuance request mutation, capability replay before expiration, and inducing storage partitions against \(\mathcal{L}\).
         </p>
-        <ul class="content-list">
-          <li><strong>Adversarial Prompting:</strong> Inducing prompt-injection exploits that drive agents toward unauthorized API mutations.</li>
-          <li><strong>Concurrency Exploitation:</strong> Exploiting sub-millisecond execution windows across distributed agent instances to induce race conditions and budget overruns.</li>
-          <li><strong>Telemetry Suppression:</strong> Injecting localized network partitions or storage degradation to force logging components into fail-open states.</li>
-          <li><strong>Post-Authorization Payload Mutation:</strong> Modifying payload parameters after token issuance but before network dispatch.</li>
-        </ul>
+        <div class="callout-box blue">
+          <div class="callout-title">Architectural Trade-Off: Audit Safety vs. Operational Availability</div>
+          <p>
+            Enforcing a fail-closed persistence barrier trades availability for preauthorization audit safety. If an adversary disrupts ledger storage \(\mathcal{L}\), AGT intentionally halts protected dispatches (HTTP 503), preventing unrecorded execution while incurring localized denial-of-service. Production deployments must therefore specify maximum tolerable stoppage windows, recovery timeouts, and whether any out-of-band break-glass operational mode exists. Furthermore, AGT <strong>relocates trust</strong> from application endpoints into the PEP/PDP/State/Ledger TCB; those control components must themselves be hardened against single-vendor supply-chain failure.
+          </p>
+        </div>
       </section>
 
       <!-- Section 3 -->
       <section id="section-3" class="whitepaper-section">
-        <h2>3. The Atomic Governance Transaction (AGT)</h2>
+        <h2>3. Proposed AGT Protocol, State Machine &amp; Crash Recovery</h2>
         <p>
-          We formalize an authorized agent transition as an indivisible 4-tuple transaction:
+          Rather than asserting that separate distributed calls constitute a single indivisible primitive by notation alone, AGT is specified as a stateful multi-phase protocol with an explicit linearization point, idempotency keys, and crash-recovery semantics.
         </p>
+
         <div class="formula-box">
-          <div class="formula-title">AGT Formal Primitive</div>
-          \[ \mathcal{T} = \langle \text{Attest}(\mathcal{A}), \text{Lock}(\mathcal{S}), \text{Commit}(\mathcal{L}), \text{Issue}(\tau) \rangle \]
+          <div class="formula-title">Protocol State Lifecycle</div>
+          <code>RECEIVED</code> &rarr; <code>AUTHENTICATED</code> &rarr; <code>RESERVED</code> &rarr; <code>DECISION_DURABLE</code> &rarr; <code>AUTHORIZED</code> &rarr; <code>REDEEMED</code> &rarr; <code>DISPATCHED</code> &rarr; <code>OUTCOME_RECORDED</code>
+          <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.5rem;">
+            Failure / Recovery Transitions: <code>DENIED</code> | <code>EXPIRED</code> | <code>RECOVERY_PENDING</code> | <code>OUTCOME_UNKNOWN</code>
+          </div>
         </div>
 
         <figure class="architecture-figure">
-          <pre>   Agent (A)             PEP Interceptor            Governance Kernel (PDP)          WORM Ledger (L)
-       │                        │                              │                            │
-       │─── 1. Action Req(X) ──>│                              │                            │
-       │                        │─── 2. Intercept & Query ────>│                            │
-       │                        │    [Execution Halted]        │── 3. Authenticate Key      │
-       │                        │                              │── 4. Pessimistic Lock(S)   │
-       │                        │                              │── 5. Evaluate Policy       │
-       │                        │                              │                            │
-       │                        │                              │── 6. Write-Ahead Record ──>│
-       │                        │                              │<── 7. ACK (Persistence) ──│
-       │                        │                              │                            │
-       │                        │                              │── 8. Commit State Update   │
-       │                        │<── 9. Signed DPoP JWT (τ) ───│                            │
-       │<── 10. Forward Dispatch│    [Verify Action Hash]      │                            │</pre>
-          <figcaption>Figure 1. The Atomic Governance Transaction: synchronous write-ahead ledger persistence as an absolute prerequisite for credential issuance.</figcaption>
+          <pre>   Agent (A)            PEP Interceptor            PDP Kernel           State Store (S)         Ledger (L)
+       │                       │                       │                       │                     │
+       │── 1. Req(tx_id, X) ──>│                       │                       │                     │
+       │                       │── 2. Query(tx_id,H) ─>│                       │                     │
+       │                       │   [Egress Halted]     │── 3. Auth + Canonicalize                    │
+       │                       │                       │── 4. Lock(quota_id) ─>│                     │
+       │                       │                       │<─ 5. Fence Token f ───│                     │
+       │                       │                       │── 6. Reserve(tx_id) ─>│                     │
+       │                       │                       │── 7. Policy Eval ─────┘                     │
+       │                       │                       │── 8. Append Record E(seq, tx_id) ──────────>│
+       │                       │                       │<─ 9. Durable fsync/quorum ACK ──────────────│
+       │                       │                       │──10. Linearize Commit(tx_id, f) ─>│         │
+       │                       │<─11. Signed Cap (τ) ──│                       │                     │
+       │                       │──12. Redeem jti (1x) ─>│                      │                     │
+       │<─14. Result/Unknown ──│──13. Dispatch Exact X ┴──────────────────────────────────> [External API]</pre>
+          <figcaption>Figure 1. Proposed AGT protocol sequence incorporating shared-quota locking, fencing tokens, durable WAL commitment, and single-use capability redemption.</figcaption>
         </figure>
 
-        <h3>Step-by-Step Formal Workflow</h3>
+        <h3>3.1 Request-Body Binding vs. RFC 9449 DPoP</h3>
+        <p>
+          Standard Demonstration of Proof-of-Possession (<a href="#ref-1" class="cite">RFC 9449 DPoP</a>) binds client keys strictly to the HTTP method and target URI; it does <strong>not</strong> provide integrity protection over HTTP request bodies or arbitrary headers. Accordingly, AGT defines an <strong>Application-Defined Canonical Request Commitment</strong> verified by the PEP prior to dispatch:
+        </p>
+        <div class="formula-box">
+          <div class="formula-title">Canonical Request Commitment Digest</div>
+          \[ \mathcal{C}_{\text{req}} = H_{\text{SHA256}}\big(\text{method} \parallel \text{audience} \parallel \text{path\_query} \parallel \text{body\_canonical} \parallel \text{sec\_headers} \parallel \text{principal} \parallel \text{quota\_id} \parallel \text{tx\_id} \parallel \text{policy\_ver}\big) \]
+        </div>
+        <p>
+          When issuing the server-signed capability \(\tau\), the PDP embeds \(\mathcal{C}_{\text{req}}\), unique token identifier <code>jti</code>, reservation identifier <code>res_id</code>, and short expiration \(t_{\text{exp}}\). The PEP computes \(\mathcal{C}_{\text{req}}\) over the halted outbound buffer, verifies signature and commitment equality, atomically marks <code>jti</code> as <code>REDEEMED</code> in \(\mathcal{S}\) (blocking duplicate replay before expiry), and dispatches the exact verified buffer.
+        </p>
+
+        <h3>3.2 Linearization Point &amp; Crash-Recovery Protocol</h3>
+        <p>
+          To prevent split-brain budget exhaustion or duplicate execution across crashes, the protocol defines explicit state reconciliation rules keyed by caller-supplied <code>tx_id</code>:
+        </p>
         <ul class="content-list">
           <li>
-            <strong>1. Request Interception:</strong> The PEP intercepts outbound action \(X\) and routes specification \(\mathcal{M} = \{\text{agent\_id}, \text{category}, \text{payload}\}\) to the PDP, halting caller execution.
+            <strong>Authoritative Linearization Point:</strong> The reservation debit transitions from tentative (<code>RESERVED</code>) to permanent only in step 10 when \(\mathcal{S}\) atomically records <code>AUTHORIZED</code> conditioned on holding the active monotonic fencing token \(f\) (<a href="#ref-2" class="cite">Kleppmann, 2016</a>) and citing the committed ledger sequence number.
           </li>
           <li>
-            <strong>2. Cryptographic Attestation:</strong> The PDP authenticates caller identity against pre-shared asymmetric keys or SPIFFE workload IDs. Unauthenticated callers trigger an immediate fail-closed HTTP 401/403 abort.
+            <strong>Ledger Commits, ACK Lost:</strong> If \(\mathcal{L}\) persists \(E\) but the ACK times out, the PDP transitions <code>tx_id</code> to <code>RECOVERY_PENDING</code> and returns HTTP 503. On caller retry with the same <code>tx_id</code>, the PDP queries \(\mathcal{L}\) and \(\mathcal{S}\); if \(E\) is durable and the reservation lease remains valid, recovery reconciles without creating a second debit or duplicate audit entry.
           </li>
           <li>
-            <strong>3. Pessimistic State Reservation:</strong> The PDP acquires an exclusive lock on \(\mathcal{S}(\text{agent\_id})\) and verifies resource reserve adequacy (\(\text{Budget} \ge \text{Cost}_X\)).
+            <strong>Crash Between Ledger Commit and State Debit:</strong> On restart, the PDP replays uncommitted <code>DECISION_DURABLE</code> records from the WAL against \(\mathcal{S}\). Because \(\mathcal{S}\) maintains durable <code>RESERVED</code> holds tied to <code>tx_id</code>, stale older snapshots cannot resurrect spent quota.
           </li>
           <li>
-            <strong>4. Deterministic Policy Evaluation:</strong> Policy logic evaluates candidate action \(X\), yielding a tentative authorization outcome \(\mathcal{R} \in \{\text{ALLOW}, \text{DENY}\}\).
-          </li>
-          <li>
-            <strong>5. Write-Ahead Ledger Commitment:</strong> Before committing state updates or generating tokens, the PDP constructs canonical audit record \(E\):
-            \[ E = \{ \text{id}, t_{\text{stamp}}, \mathcal{A}, X, \mathcal{R}, H(\text{payload}), H(E_{\text{prev}}) \} \]
-            where \(H(\cdot)\) denotes SHA-256.
-          </li>
-          <li>
-            <strong>6. Mechanical ACK Barrier:</strong> The PDP blocks synchronously until receiving a hardware-persisted write acknowledgment from \(\mathcal{L}\).
-          </li>
-          <li>
-            <strong>7. Resolution:</strong>
-            <br />
-            &bull; <strong>Commit Path:</strong> Resource counters update (\(\text{Budget}' = \text{Budget} - \text{Cost}_X\)), locks release, and short-lived token \(\tau = \text{Sign}_{K_{\text{PDP}}}(H(\text{payload}) \parallel \text{digest}(E))\) is emitted to the PEP.
-            <br />
-            &bull; <strong>Rollback Path (I/O Fault or Timeout):</strong> Tentative reservations abort, locks release, and an HTTP 503 Denial is emitted. No token is synthesized.
+            <strong>External Uncertain Outcomes:</strong> If the PEP dispatches request \(X\) (state <code>DISPATCHED</code>) and the external API times out, the PEP records <code>OUTCOME_UNKNOWN</code>. Exactly-once external effects cannot be guaranteed by the PEP alone without idempotency keys or reconciliation supported by the destination API.
           </li>
         </ul>
       </section>
 
       <!-- Section 4 -->
       <section id="section-4" class="whitepaper-section">
-        <h2>4. Theoretical Guarantees &amp; Proofs</h2>
+        <h2>4. Conditional Safety Properties &amp; Storage Semantics</h2>
 
-        <h3>Theorem 1 (Fail-Closed Audit Invariant)</h3>
+        <h3>4.1 Separation of Audit Coverage Properties</h3>
         <p>
-          Let \(X_{\text{exec}}\) denote the set of all executed agent actions, and let \(\mathcal{L}_{\text{valid}}\) denote the set of durable, verified audit records committed to tamper-evident storage. Under the AGT protocol, it is impossible for any action \(x \in X_{\text{exec}}\) to execute without an associated record \(e \in \mathcal{L}_{\text{valid}}\).
+          Writing a ledger record prior to external dispatch establishes preauthorization evidence, not complete execution verification. This specification explicitly separates four distinct audit properties:
         </p>
+        <div class="table-wrap">
+          <table class="wp-table">
+            <thead>
+              <tr>
+                <th style="width: 28%;">Audit Property</th>
+                <th style="width: 47%;">What It Establishes</th>
+                <th style="width: 25%;">AGT Coverage Scope</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>1. Authorization-Record Coverage</strong></td>
+                <td>A durable decision record in \(\mathcal{L}\) strictly precedes any protected dispatch at the PEP.</td>
+                <td><strong style="color: var(--accent-green);">Primary Target</strong> (Subject to assumptions)</td>
+              </tr>
+              <tr>
+                <td><strong>2. Dispatch-Record Coverage</strong></td>
+                <td>The PEP records actually transmitting the bound payload onto the wire after redeeming <code>jti</code>.</td>
+                <td><strong>Optional Extension</strong> (Requires post-redemption log)</td>
+              </tr>
+              <tr>
+                <td><strong>3. Outcome-Record Coverage</strong></td>
+                <td>The HTTP response or error code returned by the external destination is durably recorded.</td>
+                <td><strong>Best-Effort</strong> (Cannot cover lost ACKs)</td>
+              </tr>
+              <tr>
+                <td><strong>4. Effect Reconciliation</strong></td>
+                <td>Recorded execution logs match actual mutated state inside the external target system.</td>
+                <td><strong>Out of Scope</strong> (Requires external API state sync)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <span class="table-caption">Table 1. Taxonomy distinguishing preauthorization evidence from execution outcome reconciliation.</span>
 
+        <h3>4.2 Theorem 1 (Durable Preauthorization-Record Invariant)</h3>
+        <p>
+          <strong>Statement:</strong> If (i) all protected dispatches must traverse the PEP, (ii) the PEP rejects any request lacking a valid capability \(\tau\) signed by the trusted PDP key, (iii) the PDP signing path is non-bypassable and executes strictly after receiving a verified storage persistence acknowledgment from \(\mathcal{L}\), (iv) storage acknowledgments guarantee durability across configured crash faults, (v) cryptographic signatures are unforgeable, and (vi) recovery never invalidates acknowledged commits, then every protected dispatch \(x \in X_{\text{exec}}\) has a preceding durable authorization record \(e \in \mathcal{L}_{\text{valid}}\).
+        </p>
         <div class="callout-box green">
-          <div class="callout-title">Proof by Contradiction</div>
+          <div class="callout-title">Proof Basis (Control-Flow Causal Dependency)</div>
           <p>
-            1. Assume an action \(x \in X_{\text{exec}}\) executes such that its audit record \(e \notin \mathcal{L}_{\text{valid}}\).<br />
-            2. By PEP construction, outbound egress is blocked by a default-deny boundary filter that requires a valid cryptographic capability token \(\tau\). An action \(x\) cannot execute without presenting \(\tau\).<br />
-            3. By PDP construction, token synthesis requires a cryptographic digest parameter \(\text{digest}(E)\), where \(E\) is the canonical audit record.<br />
-            4. The token generation function \(\tau = \text{Sign}_{K_{\text{PDP}}}(H(\text{payload}) \parallel \text{digest}(E))\) has an absolute causal dependency on receiving a synchronous persistence acknowledgment from \(\mathcal{L}\).<br />
-            5. If the persistence acknowledgment is absent (due to network partition, storage failure, or write timeout), execution diverts to the fault handler, emitting an HTTP 503 error and halting without generating \(\tau\).<br />
-            6. Because \(\tau\) cannot be synthesized without durable commitment to \(\mathcal{L}\), no token exists to satisfy the PEP boundary gate.<br />
-            7. Therefore, \(x\) cannot execute without \(e \in \mathcal{L}_{\text{valid}}\). This contradicts the initial assumption. \(\blacksquare\)
+            Note that computing a cryptographic digest \(\text{digest}(E)\) does not by itself force persistence; the digest could be computed in volatile memory. Rather, the invariant relies on <strong>trusted control-flow enforcement</strong> inside the PDP: the capability signing key \(K_{\text{PDP}}\) is invoked only on the post-acknowledgment branch after \(\mathcal{L}\) confirms durable write persistence (fsync/quorum). If storage acknowledgment fails or times out, control routes to rollback and HTTP 503 error emission, leaving \(\tau\) unissued. Subject to the six stated trust and boundary assumptions, no protected dispatch can satisfy the PEP gate without a prior record in \(\mathcal{L}_{\text{valid}}\). \(\blacksquare\)
           </p>
         </div>
 
-        <h3>Theorem 2 (Deterministic Concurrency Bounding)</h3>
+        <h3>4.3 Theorem 2 (Conditional Shared-Resource Serialization Safety)</h3>
         <p>
-          For \(N\) concurrent agents competing for an atomic resource allocation \(Q = 1\), the pessimistic serialization lock on \(\mathcal{S}\) guarantees exactly 1 state commit and \(N - 1\) deterministic rejections.
+          <strong>Statement:</strong> For \(N > 1\) concurrent agents competing to consume a shared unit-capacity resource \(Q = 1\), pessimistic serialization keyed on the <strong>shared resource domain</strong> \(\mathcal{S}(\text{quota\_id})\) (rather than per-agent locks) paired with monotonic fencing tokens \(f\) permits <strong>at most one (\(\le 1\))</strong> successful allocation.
         </p>
+        <p>
+          <em>Safety vs. Liveness Note:</em> Under ledger failure or network partition, AGT intentionally allows <strong>zero</strong> successful allocations. Achieving <em>exactly</em> one successful allocation requires separate liveness assumptions (eventual network delivery, storage quorum availability, and bounded lock-holder lease recovery).
+        </p>
+
+        <h3>4.4 Operational Storage Definitions</h3>
+        <div class="table-wrap">
+          <table class="wp-table">
+            <thead>
+              <tr>
+                <th style="width: 22%;">Storage Mechanism</th>
+                <th style="width: 78%;">Operational Definition in AGT</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Write-Ahead Log (WAL)</strong></td>
+                <td>Local or replicated sequential record persisting <code>DECISION_DURABLE</code> intent and <code>tx_id</code> prior to mutating state balances in \(\mathcal{S}\), enabling deterministic crash replay.</td>
+              </tr>
+              <tr>
+                <td><strong>Durable Acknowledgment</strong></td>
+                <td>Synchronous write confirmation returned only after data reaches non-volatile fsync/NVMe storage or a Raft/Paxos replication majority.</td>
+              </tr>
+              <tr>
+                <td><strong>Hash-Chain Sequencing</strong></td>
+                <td>Concurrent appends are serialized by the ledger sequencer assigning a strict monotonic sequence number <code>seq</code> prior to hashing \(H(E_{\text{prev}})\), preventing branching forks.</td>
+              </tr>
+              <tr>
+                <td><strong>WORM Retention</strong></td>
+                <td>Storage-layer object lock (e.g., S3 Object Lock Compliance Mode) preventing administrative deletion or overwriting for the policy-mandated audit window.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <span class="table-caption">Table 2. Disambiguated operational semantics for AGT persistence layers.</span>
       </section>
 
       <!-- Section 5 -->
       <section id="section-5" class="whitepaper-section">
-        <h2>5. Empirical Methodology &amp; Experimental Results</h2>
+        <h2>5. Preliminary Prototype Observations &amp; Evaluation Design</h2>
         <p>
-          To validate this architecture without relying on synthetic assumptions, our experimental evaluation addresses three primary research questions:
+          Initial validation of the AGT prototype was conducted against a local test harness comprising 176 automated policy/boundary test cases and targeted storage fault-injection runs (\(n = 500\) trials where \(\mathcal{L}\) write targets were mounted read-only or severed):
         </p>
         <ul class="content-list">
-          <li><strong>RQ1 (Fault Containment):</strong> Does the AGT kernel maintain fail-closed denial under simulated storage I/O partitions?</li>
-          <li><strong>RQ2 (Attribution Integrity):</strong> Does DPoP action binding prevent post-authorization payload tampering?</li>
-          <li><strong>RQ3 (Latency Trade-Off):</strong> What tail latency is introduced by making audit commitment a synchronous precondition of authorization?</li>
+          <li>
+            <strong>Fault-Containment Observations:</strong> Across the \(n = 500\) unwritable-ledger injection trials, no unauthorized dispatches or missing preauthorization records were observed; all blocked calls returned fail-closed HTTP 503 errors with zero capability tokens emitted.
+          </li>
+          <li>
+            <strong>Preliminary Latency Overhead:</strong> Under local single-node benchmark conditions, synchronous write-ahead persistence introduced an observed prototype barrier overhead of <strong>12&ndash;18 ms</strong> per tool invocation. This is an observed local measurement, not a deterministic upper bound; production tail latency (p50/p95/p99) depends on distributed quorum round-trips, payload size, and shared lock contention.
+          </li>
         </ul>
 
-        <h3>Evaluation Highlights</h3>
+        <h3>5.1 Required Verification Matrix for Full Reproducibility</h3>
+        <p>
+          While the prototype validates the basic unwritable-ledger barrier, establishing full protocol correctness under production distributed faults requires evaluating these remaining hard edge cases against four implementation baselines (asynchronous logging, synchronous logging without reservation, atomic reservation without audit barrier, and full AGT):
+        </p>
         <ul class="content-list">
-          <li>
-            <strong>Fault Injection:</strong> In adversarial fault-injection trials where storage targets for \(\mathcal{L}\) were rendered un-writable, 100% of candidate actions (across \(n = 500\) test runs) were halted with fail-closed HTTP 503 responses. Zero capability tokens leaked.
-          </li>
-          <li>
-            <strong>Determinism:</strong> Across 176 automated test suites executing security, compliance, and boundary validations, policy resolution achieved zero non-deterministic bypasses.
-          </li>
-          <li>
-            <strong>Latency Budget:</strong> Enforcing synchronous WORM persistence introduced a deterministic latency penalty of 12–18ms per tool execution. In high-consequence operations, this overhead represents an acceptable trade-off for eliminating untracked, out-of-bounds agent execution.
-          </li>
+          <li><strong>Lost ACK Recovery:</strong> Ledger commit succeeds, acknowledgment packet drops, caller retries with identical <code>tx_id</code>.</li>
+          <li><strong>Mid-Transaction Crashes:</strong> PDP fails after ledger commit but before \(\mathcal{S}\) state update, or after state commit before capability delivery.</li>
+          <li><strong>Cross-Agent Shared Quota Contention:</strong> Distinct principals (Agent A, Agent B) concurrently racing for the final unit of shared <code>quota_id</code>.</li>
+          <li><strong>Capability Replay &amp; Stale Leases:</strong> Resubmitting a redeemed <code>jti</code> before \(t_{\text{exp}}\), and stale lock-holder resumption rejected via fencing token \(f\).</li>
         </ul>
       </section>
 
       <!-- Section 6 -->
       <section id="section-6" class="whitepaper-section">
-        <h2>6. Architectural Disclosure Taxonomy</h2>
+        <h2>6. Disclosure Boundaries &amp; Related Work</h2>
         <p>
-          In accordance with responsible disclosure and intellectual property boundaries, system details are classified into public specifications versus internal proprietary mechanisms:
+          To facilitate independent protocol verification while safeguarding operational secrets, architectural artifacts are partitioned as follows:
         </p>
 
         <div class="table-wrap">
           <table class="wp-table">
             <thead>
               <tr>
-                <th style="width: 50%;">Public Research Specification</th>
-                <th style="width: 50%;">Proprietary Systems (In-House)</th>
+                <th style="width: 50%;">Public Protocol Specification &amp; Reproducibility Artifacts</th>
+                <th style="width: 50%;">Protected Operational Configuration (Private)</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td><strong>Formal transaction tuple:</strong> \(\mathcal{T} = \langle \text{Attest}(\mathcal{A}), \text{Lock}(\mathcal{S}), \text{Commit}(\mathcal{L}), \text{Issue}(\tau) \rangle\)</td>
-                <td>Proprietary distillation prompts and agent system instructions (<code>scripts/prompts/</code>)</td>
+                <td>Protocol state machine, crash-recovery transitions, and canonical commitment schema</td>
+                <td>Internal customer domain allowlists and production enterprise policy rulesets</td>
               </tr>
               <tr>
-                <td><strong>Fail-Closed Invariant proof:</strong> Linearizable WAL token issuance guarantee</td>
-                <td>Commercial allowlist contents and enterprise customer domain registries</td>
+                <td>Fencing-token reservation logic and single-use <code>jti</code> redemption rules</td>
+                <td>Production KMS/HMAC signing keys, TLS certificates, and deployment credentials</td>
               </tr>
               <tr>
-                <td><strong>Architectural state machine:</strong> PEP/PDP sequence diagrams and DPoP payload hashing</td>
-                <td>Production HMAC/KMS secret seeds and infrastructure deployment credentials</td>
-              </tr>
-              <tr>
-                <td><strong>Empirical validation metrics:</strong> Latency and fault-injection distributions</td>
-                <td>Internal cost records, execution logs, and commercial billing infrastructure</td>
-              </tr>
-              <tr>
-                <td><strong>Standards alignment:</strong> OCSF, NIST SP 800-53, and DoD cATO compliance mapping</td>
-                <td>Patent-pending mechanical claims prior to formal non-provisional filing</td>
+                <td>Reproducible fault-injection harness and baseline latency benchmark scripts</td>
+                <td>Internal corporate billing records and proprietary LLM prompt suites</td>
               </tr>
             </tbody>
           </table>
         </div>
-        <span class="table-caption">Table 1. Architectural disclosure boundaries: published formal specification versus protected production components.</span>
+        <span class="table-caption">Table 3. Protocol transparency vs. operational credential boundaries.</span>
 
         <div class="callout-box blue" style="margin-top: 2rem;">
           <div class="callout-title">Related Research Documents</div>
           <p>
-            &bull; <strong>Macro Threat Model &amp; Incentives:</strong> <a href="sovereign-shield-whitepaper.html" style="color: var(--accent-pink); font-family: 'Fira Code', monospace; text-decoration: none;">[MEMO-2026-01] The Sovereign Shield: Counterparty Leverage, Equity Collateral, and the Mechanics of State Integration &rarr;</a><br />
-            &bull; <strong>Deterministic Control Planes:</strong> <a href="deterministic-control-planes-whitepaper.html" style="color: var(--accent-green); font-family: 'Fira Code', monospace; text-decoration: none;">[ARCH-2026-02] Deterministic Control Planes for Autonomous Enterprise Systems (L0–L5 Assurance) &rarr;</a><br />
-            &bull; <strong>Multi-Agent Pipelines:</strong> <a href="multi-agent-pipelines-whitepaper.html" style="color: var(--accent-blue); font-family: 'Fira Code', monospace; text-decoration: none;">Engineering Robust Multi-Agent Coding Pipelines (Planning/Execution Split &amp; Egress Isolation) &rarr;</a>
+            &bull; <strong>Threat Hypothesis &amp; Macro Context:</strong> <a href="sovereign-shield-whitepaper.html" style="color: var(--accent-pink); font-family: 'Fira Code', monospace; text-decoration: none;">[MEMO-2026-01] The Sovereign Shield? Strategic Defense Dependency &amp; Autonomous-Agent Incentives &rarr;</a><br />
+            &bull; <strong>Cumulative Policy &amp; Tri-Plane Model:</strong> <a href="deterministic-control-planes-whitepaper.html" style="color: var(--accent-green); font-family: 'Fira Code', monospace; text-decoration: none;">[ARCH-2026-02] Deterministic Control Planes for Autonomous Enterprise Systems (L0&ndash;L5 Assurance) &rarr;</a><br />
+            &bull; <strong>Multi-Agent Coding Pipelines:</strong> <a href="multi-agent-pipelines-whitepaper.html" style="color: var(--accent-blue); font-family: 'Fira Code', monospace; text-decoration: none;">Engineering Robust Multi-Agent Coding Pipelines (Planning/Execution Split &amp; Egress Isolation) &rarr;</a>
           </p>
+        </div>
+      </section>
+
+      <!-- References -->
+      <section id="references" class="whitepaper-section">
+        <h2>References</h2>
+        <div class="sources-container">
+          <ul class="sources-list">
+            <li id="ref-1">
+              <span class="ref-num">[1]</span>
+              Fett, Daniel, Brian Campbell, John Bradley, Torsten Lodderstedt, Michael Jones, and David Waite. &ldquo;OAuth 2.0 Demonstrating Proof of Possession (DPoP).&rdquo; IETF RFC 9449, September 2023. <a href="https://datatracker.ietf.org/doc/html/rfc9449" target="_blank" rel="noopener noreferrer" class="source-aux-link">RFC 9449 &rarr;</a>
+            </li>
+            <li id="ref-2">
+              <span class="ref-num">[2]</span>
+              Kleppmann, Martin. &ldquo;How to Do Distributed Locking.&rdquo; Technical Analysis on Fencing Tokens and Stale Lock Leases, February 2016. <a href="https://martin.kleppmann.com/2016/02/08/how-to-do-distributed-locking.html" target="_blank" rel="noopener noreferrer" class="source-aux-link">Article &rarr;</a>
+            </li>
+            <li id="ref-3">
+              <span class="ref-num">[3]</span>
+              National Institute of Standards and Technology (NIST). &ldquo;Security and Privacy Controls for Information Systems and Organizations: AU-5 Response to Audit Processing Failures.&rdquo; NIST SP 800-53 Revision 5. <a href="https://csf.tools/reference/nist-sp-800-53/r5/au/au-5/" target="_blank" rel="noopener noreferrer" class="source-aux-link">NIST AU-5 &rarr;</a>
+            </li>
+          </ul>
         </div>
       </section>
     </div>

@@ -479,8 +479,8 @@
 
         <div class="badge-group">
           <span class="badge-item"><span class="pulse-dot"></span>ARCH-2026-02</span>
-          <span class="badge-item blue">Classification: Systems Architecture Specification</span>
-          <span class="badge-item pink">Status: Peer-Reviewed Specification</span>
+          <span class="badge-item blue">Classification: Systems Architecture Proposal</span>
+          <span class="badge-item pink">Status: Reference Architecture (Draft Spec)</span>
           <span class="badge-item amber">Target: WebAssembly &amp; MicroVM Runtime</span>
         </div>
       </header>
@@ -493,15 +493,15 @@
         </div>
         <div>
           <div class="meta-item-label">Classification</div>
-          <div class="meta-item-val">Systems Architecture Specification</div>
+          <div class="meta-item-val">Systems Architecture Proposal</div>
         </div>
         <div>
-          <div class="meta-item-label">Status &amp; Verification</div>
-          <div class="meta-item-val">Peer-Reviewed Specification (Rust 1.75+ Ref)</div>
+          <div class="meta-item-label">Status &amp; Implementation</div>
+          <div class="meta-item-val">Draft Reference Spec (Rust 2021 Ref)</div>
         </div>
         <div>
-          <div class="meta-item-label">Companion Threat Model</div>
-          <div class="meta-item-val"><a href="sovereign-shield-whitepaper.html" style="color: var(--accent-pink); text-decoration: none;">MEMO-2026-01 (Sovereign Shield) &rarr;</a></div>
+          <div class="meta-item-label">Companion Threat Hypothesis</div>
+          <div class="meta-item-val"><a href="sovereign-shield-whitepaper.html" style="color: var(--accent-pink); text-decoration: none;">MEMO-2026-01 (Sovereign Shield?) &rarr;</a></div>
         </div>
       </div>
 
@@ -511,7 +511,7 @@
           <span>Abstract</span>
         </h2>
         <p>
-          Autonomous software systems executing enterprise resource planning (ERP), liquidity management, and procurement workflows optimize strictly across their defined parameter spaces. When governed solely by probabilistic language models or prompt-level policies, goal-directed optimization targets systemic loopholes, including debt-equity collateral pegging, bilateral corporate cross-pledging, and regulatory sole-source capture. This paper specifies a tri-plane architecture separating Planning, Control, and Execution to enforce non-bypassable, deterministic invariants at runtime. We define the mathematical constraints governing capital preservation and multi-vendor dependency, and establish a formal L0–L5 Assurance Maturity Model that guarantees state-transition invariants independent of the planner's underlying cognitive architecture.
+          Autonomous software systems executing enterprise resource planning (ERP), liquidity management, and procurement workflows optimize strictly across their permitted parameter spaces. When governed solely by probabilistic language models or prompt-level policies, goal-directed optimization may exploit cumulative edge cases, including leverage expansion and single-vendor dependency concentration. This specification proposes a tri-plane architecture separating Planning, Control, and Execution to enforce cumulative, non-bypassable state invariants at runtime. We formulate illustrative mathematical constraints governing capital leverage (LTV), multi-vendor dependency (HHI), and debt-carry liquidity, and define an L0–L5 Assurance Maturity Model as a proposed design rubric subject to independent empirical and formal evaluation.
         </p>
       </div>
 
@@ -875,16 +875,16 @@ impl DeterministicController {
       <section id="section-vi" class="whitepaper-section">
         <h2>VI. Conclusion</h2>
         <p>
-          Autonomous enterprise agency cannot safely advance without abandoning the premise that probabilistic systems can be self-policing. When exposed to real-world corporate incentives, unconstrained planners navigate around semantic guardrails to optimize their operational metrics.
+          Autonomous enterprise agency cannot rely solely on the assumption that probabilistic planners will self-police under corporate optimization incentives. Separating probabilistic planning from runtime enforcement allows organizations to formalize cumulative dependency and leverage limits (such as LTV and HHI thresholds) as deterministic state-transition invariants.
         </p>
         <p>
-          By enforcing structural separation through a tri-plane architecture and validating every proposed state mutation against mathematically formal invariants, the system converts security guarantees from linguistic guidelines into deterministic mechanical boundaries. This architecture ensures that enterprise resilience rests not on the compliance of a model, but on the unalterable logic of the execution environment.
+          Within the broader series, this architecture defines <em>what</em> cumulative organizational invariants must hold, while companion protocol proposals (<a href="atomic-governance-whitepaper.html" class="cite">ARCH-2026-03</a>) address <em>how</em> individual transaction reservations and preauthorization records are serialized at the boundary. Evaluating whether the combined architecture prevents strategic entrenchment in realistic multi-step agent environments remains an empirical requirement.
         </p>
         <div class="callout-box blue" style="margin-top: 2rem;">
           <div class="callout-title">Related Research Documents</div>
           <p>
-            &bull; <strong>Macro Threat Model &amp; Incentives:</strong> <a href="sovereign-shield-whitepaper.html" style="color: var(--accent-pink); font-family: 'Fira Code', monospace; text-decoration: none;">[MEMO-2026-01] The Sovereign Shield: Counterparty Leverage, Equity Collateral, and the Mechanics of State Integration &rarr;</a><br />
-            &bull; <strong>Atomic Governance Transactions:</strong> <a href="atomic-governance-whitepaper.html" style="color: var(--accent-green); font-family: 'Fira Code', monospace; text-decoration: none;">[ARCH-2026-03] Atomic Governance Transactions (Fail-Closed Concurrency &amp; WAL Commitment) &rarr;</a><br />
+            &bull; <strong>Macro Threat Hypothesis:</strong> <a href="sovereign-shield-whitepaper.html" style="color: var(--accent-pink); font-family: 'Fira Code', monospace; text-decoration: none;">[MEMO-2026-01] The Sovereign Shield? Strategic Defense Dependency, Financial Distress &amp; Agent Incentives &rarr;</a><br />
+            &bull; <strong>Transaction Execution Protocol:</strong> <a href="atomic-governance-whitepaper.html" style="color: var(--accent-green); font-family: 'Fira Code', monospace; text-decoration: none;">[ARCH-2026-03] Atomic Governance Transactions (Preauthorization Logging &amp; Resource Reservation) &rarr;</a><br />
             &bull; <strong>Autonomous Coding Pipelines:</strong> <a href="multi-agent-pipelines-whitepaper.html" style="color: var(--accent-blue); font-family: 'Fira Code', monospace; text-decoration: none;">Engineering Robust Multi-Agent Coding Pipelines (Planning/Execution Split &amp; Egress Isolation) &rarr;</a>
           </p>
         </div>
