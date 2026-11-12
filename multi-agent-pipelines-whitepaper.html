@@ -681,7 +681,7 @@
 
         <h3>1.2 Operational Scope &amp; Architectural Contribution</h3>
         <p>
-          <strong>Core Contribution:</strong> This paper contributes a vendor-neutral assurance model that binds task approval, independent evaluation ownership, constrained execution, and merge evidence into a single agentic software-development lifecycle. Unlike conventional secure CI/CD pipelines—which focus primarily on static artifact provenance after human-authored commits—this architecture addresses adversarial and non-deterministic modification loops <em>prior</em> to merge, separating planning from execution so untrusted coding agents cannot rewrite their own acceptance tests or build rules.
+          <strong>Core Contribution:</strong> This paper contributes a vendor-neutral assurance model that binds task approval, independent evaluation ownership, constrained execution, and merge evidence into a single agentic software-development lifecycle. While individual controls such as container isolation, signed provenance, and static branch protection exist in conventional secure CI/CD pipelines, those systems typically assume trusted developers authoring code and tests together prior to a CI webhook. In autonomous agentic loops, the code generator operates iteratively on local validation signals before merge—creating a planner-executor trust gap where an optimizing agent can weaken local tests, mutate compiler configs, or leak secrets across steps. Integrating task-scoped manifest binding, read-only evaluation surfaces, workload-authenticated capability issuance, and external supervisor verification closes that pre-merge assurance gap across the lifecycle.
         </p>
         <p>
           The architecture addresses repository-level autonomous software modification wherein one or more LLM agents ingest source code, formulate technical plans, modify designated implementation files, execute approved tools, and submit candidate patches under explicit boundary conditions:
@@ -926,7 +926,7 @@
             <strong>The "Local Compiler/Linter" Confused Deputy Trap:</strong> When execution loops permit an agent to invoke local compilers or linters to validate work in progress, failing to deny write access to build or compiler configurations (e.g., <code>tsconfig.json</code>, <code>pyproject.toml</code>, <code>Cargo.toml</code>, <code>build.rs</code>, <code>setup.py</code>, <code>Makefile</code>) creates a critical confused deputy vulnerability. An agent can inject arbitrary command execution via build hooks (e.g., <code>build.rs</code> execution in Rust or <code>setup.py</code> execution in Python), disable AST lint rules in <code>.eslintrc.js</code>, or alter compiler path aliases in <code>tsconfig.json</code>. This compromises the local validation loop and, if such configuration modifications are committed into <code>patch.diff</code>, threatens to compromise downstream evaluation runners unless intercepted by pre-CI diff filters.
           </li>
           <li>
-            <strong>Stage 2 "Red-State" Oracle Inversion (Vacuous Failure):</strong> A standard requirement of multi-agent TDD pipelines is verifying that new test suites fail cleanly on empty stubs before implementation begins (red state). However, an unverified red-state gate can be satisfied vacuously: a semi-trusted Planning Agent (or an imperfect model) can author tests containing syntax errors, unresolvable module imports, or broken fixture references. These tests crash at startup (<code>SyntaxError</code>, <code>ModuleNotFoundError</code>, <code>ReferenceError</code>) rather than failing on behavioral assertions (<code>AssertionError</code>). Because the test process exits with a non-zero code, an uncalibrated gate registers this as a valid "red state", introducing broken fixtures that can never be satisfied by correct implementation code or that mask absent functional assertions.
+            <strong>Stage 2 "Red-State" Oracle Inversion (Vacuous Failure):</strong> In new-feature TDD workflows, Stage 2 requires verifying that newly authored test suites fail cleanly on empty stubs before implementation begins (red state), whereas regression fixes and refactors follow task-calibrated baselines. However, an unverified red-state gate can be satisfied vacuously: a semi-trusted Planning Agent (or an imperfect model) can author tests containing syntax errors, unresolvable module imports, or broken fixture references. These tests crash at startup (<code>SyntaxError</code>, <code>ModuleNotFoundError</code>, <code>ReferenceError</code>) rather than failing on intended behavioral assertions (<code>AssertionError</code>). Because the test process exits with a non-zero code, an uncalibrated gate registers this as a valid "red state", introducing broken fixtures that can never be satisfied by correct implementation code or that mask absent functional assertions.
           </li>
           <li>
             <strong>Cross-Agent Contention & Side-Channels via Shared Dependencies:</strong> In multi-agent environments with parallel sandboxes, sharing an unpartitioned internal package cache or a global credential proxy token bucket allows one agent to exhaust rate limits (e.g., <code>npm-read-token</code>), inducing denial-of-service (DoS) against sibling tasks. Furthermore, variable response latencies from shared cache hits create timing side-channels that leak cross-task execution state between isolated agents.
@@ -1070,6 +1070,7 @@
       "additionalProperties": false,
       "required": [
         "manifest_schema_version", "policy_engine_version", "task_id",
+        "task_class", "baseline_policy_id", "baseline_policy_digest",
         "issued_at", "expires_at", "repository_url", "base_commit_sha",
         "contract_hash", "evaluation", "writable_path_patterns",
         "denied_path_patterns", "egress_policy", "budget_limits", "approver"
@@ -1078,6 +1079,12 @@
         "manifest_schema_version": { "type": "string", "const": "1.2" },
         "policy_engine_version": { "type": "string", "minLength": 1 },
         "task_id": { "type": "string", "format": "uuid" },
+        "task_class": {
+          "type": "string",
+          "enum": ["feature", "regression_fix", "refactor", "interface_change", "dependency_change"]
+        },
+        "baseline_policy_id": { "type": "string", "minLength": 1 },
+        "baseline_policy_digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
         "issued_at": { "type": "string", "format": "date-time" },
         "expires_at": { "type": "string", "format": "date-time" },
         "repository_url": { "type": "string", "format": "uri" },
@@ -1172,35 +1179,63 @@
     "signatures": {
       "type": "array",
       "minItems": 2,
-      "description": "Dual-role signatures requiring at least one human_approver and one control_plane_authority.",
+      "description": "Dual-role signatures requiring at least one human_approver and one control_plane_authority, using either direct digest signing or a WebAuthn assertion envelope.",
       "allOf": [
         { "contains": { "type": "object", "properties": { "role": { "const": "human_approver" } }, "required": ["role"] } },
         { "contains": { "type": "object", "properties": { "role": { "const": "control_plane_authority" } }, "required": ["role"] } }
       ],
       "items": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": ["canonicalization", "algorithm", "key_id", "role", "signed_at", "payload_digest", "value"],
-        "properties": {
-          "canonicalization": { "type": "string", "const": "RFC8785_JCS" },
-          "algorithm": { "type": "string", "enum": ["Ed25519", "ECDSA_P256", "RSASSA_PSS_SHA_256"] },
-          "key_id": { "type": "string", "minLength": 1 },
-          "role": { "type": "string", "enum": ["human_approver", "control_plane_authority"] },
-          "signed_at": { "type": "string", "format": "date-time" },
-          "payload_digest": {
-            "type": "string",
-            "pattern": "^sha256:[a-f0-9]{64}$",
-            "description": "SHA-256 digest of the RFC 8785 (JCS) canonicalized 'manifest' JSON bytes."
+        "oneOf": [
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["signature_format", "canonicalization", "algorithm", "key_id", "role", "signed_at", "payload_digest", "value"],
+            "properties": {
+              "signature_format": { "type": "string", "const": "direct_digest_v1" },
+              "canonicalization": { "type": "string", "const": "RFC8785_JCS" },
+              "algorithm": { "type": "string", "enum": ["Ed25519", "ECDSA_P256", "RSASSA_PSS_SHA_256"] },
+              "key_id": { "type": "string", "minLength": 1 },
+              "role": { "type": "string", "enum": ["human_approver", "control_plane_authority"] },
+              "signed_at": { "type": "string", "format": "date-time" },
+              "payload_digest": {
+                "type": "string",
+                "pattern": "^sha256:[a-f0-9]{64}$",
+                "description": "SHA-256 digest of the RFC 8785 (JCS) canonicalized 'manifest' JSON bytes."
+              },
+              "value": { "type": "string", "minLength": 1, "description": "Base64-encoded signature computed over the UTF-8 bytes of payload_digest." }
+            }
           },
-          "value": { "type": "string", "minLength": 1, "description": "Base64-encoded signature computed over the UTF-8 bytes of payload_digest." }
-        }
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["signature_format", "canonicalization", "key_id", "role", "signed_at", "payload_digest", "authenticator_data", "client_data_json", "value"],
+            "properties": {
+              "signature_format": { "type": "string", "const": "webauthn_assertion_v1" },
+              "canonicalization": { "type": "string", "const": "RFC8785_JCS" },
+              "key_id": { "type": "string", "minLength": 1 },
+              "role": { "type": "string", "const": "human_approver" },
+              "signed_at": { "type": "string", "format": "date-time" },
+              "payload_digest": {
+                "type": "string",
+                "pattern": "^sha256:[a-f0-9]{64}$",
+                "description": "SHA-256 digest bound inside client_data_json.challenge."
+              },
+              "authenticator_data": { "type": "string", "minLength": 1, "description": "Base64url-encoded WebAuthn authenticatorData." },
+              "client_data_json": { "type": "string", "minLength": 1, "description": "Base64url-encoded clientDataJSON whose challenge equals payload_digest." },
+              "value": { "type": "string", "minLength": 1, "description": "Base64url-encoded WebAuthn assertion over authenticator_data || SHA256(client_data_json)." }
+            }
+          }
+        ]
       }
     }
   }
 }</code></pre>
         </div>
         <p>
-          <strong>Signer, Verifier &amp; Dual-Authority Trust Boundary:</strong> The execution agent must not possess a manifest-signing key or the ability to register a trusted signer. Manifest envelopes require dual-role signatures enforced both structurally by the schema (<code>allOf</code>/<code>contains</code>) and semantically by the admission verifier: (1) a <code>human_approver</code> signature generated with a hardware security key (WebAuthn/FIDO2) or registered developer key bound to an approved change ticket, and (2) a <code>control_plane_authority</code> signature certifying task admission. Admission verification checks that: (a) each role signature resolves to an authorized key registered for that role, (b) the <code>human_approver</code> <code>key_id</code> matches <code>approver.key_id</code>, (c) duplicate keys or duplicate signatures are rejected rather than counted as distinct approvals, and (d) each signature verifies over the exact UTF-8 bytes of <code>payload_digest</code>, computed as the SHA-256 hash of the RFC 8785 (JCS) canonicalized <code>manifest</code> object (with duplicate JSON property names rejected prior to canonicalization). Note that this Stage 3 admission dual-authority check (human approver + issuing service) is distinct from the two independent human approvers (e.g., CODEOWNERS + Security) required at Stage 6 merge under the L5 profile. Any controlled post-admission amendment must mint a new manifest version with a fresh <code>task_id</code> and explicitly invalidate prior unmerged attestations.
+          <strong>Signer, Verifier &amp; Distinct Signature Formats:</strong> The execution agent must not possess a manifest-signing key or the ability to register a trusted signer. Manifest envelopes require dual-role signatures enforced both structurally by the schema (<code>allOf</code>/<code>contains</code>) and semantically by the admission verifier: (1) a <code>human_approver</code> signature bound to an approved change ticket, and (2) a <code>control_plane_authority</code> signature certifying task admission. Because a hardware WebAuthn/FIDO2 assertion signs <code>authenticatorData || SHA256(clientDataJSON)</code> rather than raw digest bytes, the schema enforces distinct verification paths via <code>signature_format</code>: <code>direct_digest_v1</code> verifies an asymmetric signature over the exact UTF-8 bytes of <code>payload_digest</code> (the SHA-256 hash of the RFC 8785 JCS-canonicalized <code>manifest</code> object with duplicate keys rejected), whereas <code>webauthn_assertion_v1</code> validates the full WebAuthn assertion, origin, RP ID hash, user-presence flags, and verifies that <code>clientDataJSON.challenge</code> equals <code>payload_digest</code>. Admission checks also enforce that each role resolves to an authorized key registered for that role, <code>human_approver</code> <code>key_id</code> matches <code>approver.key_id</code>, and duplicate keys or signatures are rejected. Stage 3 dual-authority admission (human approver + control-plane service) is distinct from the two independent human approvers required at Stage 6 merge under the L5 profile. Any controlled post-admission amendment must mint a new manifest version with a fresh <code>task_id</code> and explicitly invalidate prior unmerged attestations.
+        </p>
+        <p>
+          <strong>Budget &amp; Timeout Precedence Rules:</strong> Execution and CI evaluation maintain separate budgets: <code>budget_limits.max_wallclock_seconds</code> (capped at 1,800 s) bounds Stage 4 sandbox implementation, whereas <code>evaluation.timeout_seconds</code> (capped at 3,600 s) governs isolated Stage 5 CI testing. Where a deployment profile specifies stricter defaults (such as Stage 4's High-Assurance profile limit of <code>max_retries: 3</code> within the schema's 0&ndash;5 ceiling), the effective limit is always the minimum of the policy-profile ceiling and the manifest parameter (<code>min(profile_max, manifest_max)</code>).
         </p>
         <p>
           <strong>TCB Isolation &amp; Prevention of Bearer Manifest Handoffs:</strong> Possession of a signed task manifest never grants execution authority; the manifest is an integrity-protected admission specification retained inside the Control Plane TCB. To obtain execution capabilities, the Execution Agent must authenticate directly as its own workload principal over TLS using a control-plane-provisioned credential (such as an ephemeral mTLS client certificate or per-sandbox rotated workload key bound at sandbox launch) to receive a short-lived, sender-constrained, task-scoped capability token bound to <code>task_id</code>. Upstream handoffs pass only correlation identifiers (task ID, contract hash, audit ID).
@@ -1209,7 +1244,7 @@
           <strong>Evaluator Canonicalization &amp; Environment Allowlisting:</strong> <code>acceptance_command_digest</code> is computed as the SHA-256 hash over the RFC 8785/JCS-canonicalized <code>evaluation</code> descriptor object (comprising <code>bundle_digest</code>, <code>runner_image_digest</code>, <code>working_directory</code>, <code>acceptance_command</code>, <code>environment_allowlist</code>, <code>timeout_seconds</code>, and optional <code>test_selector</code> / <code>mutation_threshold</code>). The execution agent cannot modify any field of that descriptor, and the evaluator inherits zero ambient environment variables outside <code>environment_allowlist</code>.
         </p>
         <p>
-          <strong>Kernel-Enforced Path Authorization &amp; TOCTOU Prevention:</strong> Userspace path string validation alone is vulnerable to Time-of-Check to Time-of-Use (TOCTOU) symlink race conditions under concurrent guest processes. Therefore, path confinement is enforced at two layers: (1) protected and denied files/directories are mounted read-only at the container/microVM VFS boundary, and (2) tool-execution helpers resolve paths using kernel-enforced primitives (<code>openat2()</code> with <code>RESOLVE_BENEATH | RESOLVE_NO_SYMLINKS</code> or Landlock LSM rules). Deny rules strictly override allow rules. The control plane rejects path traversal (<code>..</code>), symlink escape, hardlink creation to read-only files, alternate data streams, case-folding ambiguities, and any write whose resolved destination falls outside the approved workspace root.
+          <strong>Mandatory Process Confinement vs. Helper Path Safety:</strong> Userspace path string validation alone is vulnerable to Time-of-Check to Time-of-Use (TOCTOU) symlink race conditions. Therefore, mandatory kernel confinement applies to every candidate process and its descendants via read-only VFS bind mounts, Landlock LSM rules (<code>vfs_mount_and_landlock</code>), seccomp syscall filtering, and closing inherited host descriptors prior to execution. In addition, privileged host-side or tool-execution helpers resolve individual file paths using <code>openat2()</code> with <code>RESOLVE_BENEATH | RESOLVE_NO_SYMLINKS</code> to prevent unsafe path resolution on host boundaries. Deny rules strictly override allow rules.
         </p>
 
         <h4>Specification 2: Immutable Evaluation Surface</h4>
@@ -1285,10 +1320,16 @@ network:
       port: 443
       protocol: "https"
       allowed_methods: ["GET", "HEAD"]
+      allowed_path_prefixes: ["/@*/", "/-/v1/search"]
+      allowed_headers: ["Accept", "Accept-Encoding", "User-Agent"]
+      max_request_bytes: 4096
     - host: "pypi.org"
       port: 443
       protocol: "https"
       allowed_methods: ["GET", "HEAD"]
+      allowed_path_prefixes: ["/simple/", "/pypi/"]
+      allowed_headers: ["Accept", "Accept-Encoding", "User-Agent"]
+      max_request_bytes: 4096
 
 resources:
   cpu_cores: 2
@@ -1328,19 +1369,20 @@ security:
     secret_references:
       - proxy_token_id: "npm-read-token"
         scope: "read:packages"
-        rate_limit_per_minute: 60</code></pre>
+        rate_limit_per_minute: 60
+        aggregate_upstream_quota_rpm: 600</code></pre>
         </div>
         <p>
-          <strong>Egress Filtering, TLS Inspection &amp; Protocol Upgrade Prevention:</strong> Destination validation occurs at the host-side proxy or network-policy enforcement point, after DNS resolution and before connection establishment. Because enforcing HTTP method restrictions (<code>GET</code>/<code>HEAD</code>) and injecting host-held credentials (<code>Authorization</code> headers) over HTTPS requires L7 visibility, the host proxy terminates TLS using an ephemeral, per-run Internal CA provisioned into the guest trust store. The proxy strips <code>Upgrade</code> and <code>Connection: Upgrade</code> headers to prevent WebSocket or HTTP/2 cleartext (h2c) bidirectional tunneling over allowlisted GET routes, disables HTTP/2 connection coalescing across distinct origins, re-evaluates every HTTP redirect target against the allowlist, and strips injected credentials on cross-origin redirects. At L3/L4, the egress controller normalizes IPv4-mapped IPv6 addresses (e.g., <code>::ffff:169.254.169.254</code>), blocks loopback (<code>127.0.0.0/8</code>, <code>::1/128</code>), link-local (<code>fe80::/10</code>), cloud metadata (<code>169.254.169.254</code>), and private RFC 1918 / RFC 4193 ranges, and prevents DNS rebinding. Because an allowlisted <code>GET</code> request still carries information-bearing fields (URL paths, query parameters, and headers), method restriction alone does not guarantee total non-exfiltration; high-assurance proxies additionally constrain URL path prefixes, header allowlists, maximum request sizes, and permitted package identities, documenting residual covert channels.
+          <strong>Egress Filtering, TLS Inspection &amp; Protocol Upgrade Prevention:</strong> Destination validation occurs at the host-side proxy or network-policy enforcement point, after DNS resolution and before connection establishment. Because enforcing HTTP method restrictions (<code>GET</code>/<code>HEAD</code>) and injecting host-held credentials (<code>Authorization</code> headers) over HTTPS requires L7 visibility, the host proxy terminates TLS using an ephemeral, per-run Internal CA provisioned into the guest trust store. The proxy strips <code>Upgrade</code> and <code>Connection: Upgrade</code> headers to prevent WebSocket or HTTP/2 cleartext (h2c) bidirectional tunneling over allowlisted GET routes, disables HTTP/2 connection coalescing across distinct origins, re-evaluates every HTTP redirect target against the allowlist, and strips injected credentials on cross-origin redirects. At L3/L4, the egress controller normalizes IPv4-mapped IPv6 addresses (e.g., <code>::ffff:169.254.169.254</code>), blocks loopback (<code>127.0.0.0/8</code>, <code>::1/128</code>), link-local (<code>fe80::/10</code>), cloud metadata (<code>169.254.169.254</code>), and private RFC 1918 / RFC 4193 ranges, and prevents DNS rebinding. Because an allowlisted <code>GET</code> request still carries information-bearing fields (URL paths, query parameters, and headers), method restriction alone does not guarantee total non-exfiltration; high-assurance proxies enforce <code>allowed_path_prefixes</code>, <code>allowed_headers</code>, <code>max_request_bytes</code>, and package-identity constraints, documenting residual covert channels.
         </p>
         <p>
-          <strong>Per-Principal Rate Limiting &amp; Cache Isolation:</strong> To reduce cross-agent Denial of Service (DoS) or timing side-channels across concurrent sandboxes, proxy rate limits (<code>rate_limit_per_minute</code>) are enforced per resolved <code>task_id</code> principal rather than solely across a single unpartitioned token bucket. Because multiple concurrent tasks may still target a single upstream API credential or registry account, per-task limits must be paired with aggregate upstream quotas, concurrency scheduling, and shared-capacity controls to prevent cumulative quota exhaustion.
+          <strong>Per-Principal Rate Limiting &amp; Cache Isolation:</strong> To reduce cross-agent Denial of Service (DoS) or timing side-channels across concurrent sandboxes, proxy rate limits (<code>rate_limit_per_minute</code>) are enforced per resolved <code>task_id</code> principal rather than solely across a single unpartitioned token bucket. Because multiple concurrent tasks may still target a single upstream API credential or registry account, per-task limits are paired with <code>aggregate_upstream_quota_rpm</code>, concurrency scheduling, and shared-capacity controls to prevent cumulative quota exhaustion.
         </p>
         <p>
           <strong>Build-Time vs. Runtime Dependency Caching:</strong> For high-assurance profiles, dependency resolution should occur before execution from a verified internal artifact mirror or content-addressed cache. Runtime registry access is an exception path and must be constrained by lockfile digests, package integrity metadata, provenance checks, and policy-logged retrieval.
         </p>
         <p>
-          <strong>Verifiable Attestation Content Model &amp; Evaluator Process Isolation:</strong> Preventing an execution agent from altering test files does not automatically guarantee that untrusted candidate code executed during CI cannot interfere with the evaluator process itself (e.g., overwriting local result files before collection). Therefore, CI enforces strict privilege separation across four boundaries: (1) an unprivileged candidate-execution process running the compiled patch, (2) a trusted supervisor outside the candidate process's filesystem/memory namespace capturing exit codes and raw streams, (3) deterministic artifact validation prior to storage, and (4) an isolated signing service. The signed attestation binds: (1) source repository URL and base commit SHA, (2) candidate patch commit SHA, (3) task-manifest digest, (4) control-policy digest, (5) evaluation-bundle digest, (6) runner image OCI digest, (7) exact test execution command, (8) test, static analysis, and mutation results, (9) builder identity and timestamp, (10) cryptographic signature, and (11) exception/waiver ID if applicable.
+          <strong>Verifiable Attestation Content Model &amp; Trustworthy Evaluation Completion:</strong> Capturing a zero exit code from outside the candidate process is insufficient if candidate code terminates prematurely (e.g., calling <code>os._exit(0)</code> or returning success before all assertions execute). Furthermore, where tests and candidate code share a single language runtime (e.g., Python or Node.js), malicious candidate code shares process memory with test assertions during execution. To harden evaluation integrity, CI separates four stages: (1) an independent test-discovery phase conducted by the trusted supervisor prior to running candidate code (recording expected test IDs and assertion counts), (2) an unprivileged candidate-execution process running inside the pinned test harness, (3) a supervisor outside the candidate process's filesystem/memory namespace verifying exact completion records for every discovered test case and rejecting truncated, skipped, or malformed result streams, and (4) an isolated signing service. Where strict language-runtime isolation is required, candidate code is evaluated across IPC/process boundaries (e.g., gRPC/HTTP service tests) rather than in-process library imports. The signed attestation binds: (1) source repository URL and base commit SHA, (2) candidate patch commit SHA, (3) task-manifest digest, (4) control-policy digest, (5) evaluation-bundle digest, (6) runner image OCI digest, (7) exact test execution command, (8) expected vs. completed test counts, static analysis, and mutation results, (9) builder identity and timestamp, (10) cryptographic signature, and (11) exception/waiver ID if applicable.
         </p>
 
         <h4>Specification 4: Dependency-Change Exception Policy</h4>
@@ -1359,7 +1401,7 @@ security:
       <section id="section-6" class="whitepaper-section">
         <h2>5. Operational Pipeline and Assurance State Machine</h2>
         <p>
-          The reference architecture translates governance rules into an acyclic, multi-stage state machine with formal transition criteria and failure handling. To avoid circular digest dependencies, contract approval and evaluation-bundle hashing strictly precede final execution manifest signing and admission.
+          The reference architecture translates governance rules into a multi-stage state machine with formal transition criteria and failure handling. Artifact production and signing follow an <strong>acyclic dependency order</strong> (contract approval and evaluation-bundle hashing strictly precede final execution manifest signing and admission), while failed attempts may initiate bounded revision cycles back to Planning or QA.
         </p>
 
         <div class="table-wrap">
@@ -1378,35 +1420,35 @@ security:
                 <td><strong>1. Contract &amp; Provisional Plan Approval</strong></td>
                 <td>Requirements, Architecture Decision Records (ADRs).</td>
                 <td>Versioned OpenAPI / JSON schemas, typed interfaces, provisional plan (<code>contract_hash</code>).</td>
-                <td>Schema validation; human domain review confirming business intent and explicit task classification (feature, regression fix, refactor, or dependency change).</td>
+                <td>Schema validation; human domain review confirming business intent and binding <code>task_class</code> (<code>feature</code>, <code>regression_fix</code>, <code>refactor</code>, <code>interface_change</code>, or <code>dependency_change</code>) and <code>baseline_policy_digest</code>.</td>
                 <td>Reject to Planning; refine requirements.</td>
               </tr>
               <tr>
                 <td><strong>2. Evaluation Bundle Creation &amp; Baseline Gate</strong></td>
-                <td>Frozen contract (<code>contract_hash</code>), base repository commit.</td>
+                <td>Frozen contract (<code>contract_hash</code>), bound <code>task_class</code> &amp; <code>baseline_policy_digest</code>, base repository commit.</td>
                 <td>Independent test suites, fixtures, canonical evaluator descriptor (<code>bundle_digest</code>, <code>acceptance_command_digest</code>).</td>
-                <td>Baseline runner verifies suite compiles cleanly with zero harness/syntax errors and satisfies the task-type baseline policy (e.g., behavioral assertion failure on new feature stubs, targeted failure on regression fixes, or clean pass on behavior-preserving refactors).</td>
+                <td>Baseline runner executes discovery, verifies clean compilation with zero harness/syntax errors, and satisfies the bound <code>baseline_policy_digest</code> for <code>task_class</code>.</td>
                 <td>Reject to QA / Planning; rewrite invalid fixtures.</td>
               </tr>
               <tr>
                 <td><strong>3. Manifest Signing &amp; Execution Admission</strong></td>
                 <td>Frozen contract hash, verified <code>bundle_digest</code>, <code>acceptance_command_digest</code>.</td>
                 <td>Final dual-signed <code>SignedAgentTaskManifestEnvelope</code> (in TCB), isolated Git worktree, sandboxed microVM container.</td>
-                <td>Dual-role signature verification (one authorized <code>human_approver</code> key matching <code>approver.key_id</code> + one <code>control_plane_authority</code> admission key over RFC 8785 JCS digest), non-replay <code>task_id</code> registration, policy validation, and direct Execution Agent workload authentication over TLS for a short-lived capability token.</td>
+                <td>Dual-role signature verification (one authorized <code>human_approver</code> matching <code>approver.key_id</code> via <code>direct_digest_v1</code> or <code>webauthn_assertion_v1</code> + one <code>control_plane_authority</code> admission key), non-replay <code>task_id</code> registration, policy validation, and direct workload authentication over TLS.</td>
                 <td>Halt sandbox startup; alert platform operator.</td>
               </tr>
               <tr>
                 <td><strong>4. Implementation Execution</strong></td>
                 <td>Allowlisted source files, read-only test mounts, and short-lived capability token issued directly to the Execution Agent (signed manifest remains in control-plane TCB).</td>
                 <td>Candidate patch diffs, local execution logs.</td>
-                <td>Local retry budget (max 3), local compiler/linter AST checks against read-only configs, and pre-export diff validation confirming zero modifications to <code>denied_paths</code> or build/linter configurations.</td>
+                <td>Local retry budget (profile default: max 3 within schema ceiling 5), local compiler/linter AST checks against read-only configs, and pre-export diff validation confirming zero modifications to <code>denied_paths</code> or build/linter configurations.</td>
                 <td>Quarantine branch; capture diagnostic evidence bundle.</td>
               </tr>
               <tr>
                 <td><strong>5. CI Evaluation &amp; Attestation</strong></td>
                 <td>Candidate patch, frozen evaluation bundle, trusted supervisor outside candidate process.</td>
                 <td>CI build logs, mutation test scores, signed attestation record.</td>
-                <td>Pre-CI diff filter pass (zero modifications to build configs or evaluation surfaces), isolated supervisor collection of pinned test pass (<code>exit 0</code>), mutation threshold satisfied, conflict guard pass.</td>
+                <td>Pre-CI diff filter pass, independent test discovery &amp; completion verification (rejecting premature exit or truncated streams), pinned test pass (<code>exit 0</code>), mutation threshold satisfied, conflict guard pass.</td>
                 <td>Quarantine branch; return structured failure log to Planning.</td>
               </tr>
               <tr>
@@ -1419,7 +1461,7 @@ security:
             </tbody>
           </table>
         </div>
-        <span class="table-caption">Table 5. Acyclic multi-agent lifecycle state machine: inputs, outputs, gates, and dispositions.</span>
+        <span class="table-caption">Table 5. Multi-agent lifecycle state machine (acyclic artifact/signing dependency order with bounded revision loops): inputs, outputs, gates, and dispositions.</span>
 
         <p>
           Stage 3 &rarr; Stage 4 handoff: A Planning Agent submits the provisional contract and triggers independent Stage 2 bundle generation, passing only correlation identifiers (task identifier, contract hash, audit identifier) downstream—never a bearer capability or signed manifest. Once Stage 3 dual-role manifest admission succeeds, the Execution Agent authenticates as itself to the control plane over TLS using its provisioned workload identity to obtain a short-lived, task-scoped capability token.
@@ -1550,15 +1592,101 @@ security:
         </div>
         <span class="table-caption">Table 7. Residual risk taxonomy and corresponding organizational mitigations.</span>
 
-        <h3>6.2 Planned Reproducible Validation &amp; Adversarial Test Suite</h3>
+        <h3>6.2 Proposed Reproducible Validation Protocol</h3>
         <p>
-          Because this specification presents a reference architecture rather than a completed benchmark study, validating a concrete implementation requires testing eight adversarial and regression scenarios across five operational metrics (unauthorized actions allowed, legitimate refactors rejected, additional runtime overhead, human-review burden, and recovery/retry behavior):
+          Because this specification presents a reference architecture rather than a completed benchmark study, validating an implementation requires running the controlled adversarial protocol in Table 8 without fabricated outcomes. Each scenario is executed across defined repetitions (e.g., \(n = 30\) randomized trials under concurrent load and identical runtime configurations) against an otherwise equivalent baseline pipeline lacking the target control, measuring five metrics: unauthorized actions allowed, legitimate refactors rejected, additional runtime latency, human-review burden, and recovery/retry behavior.
         </p>
-        <ul class="content-list">
-          <li><strong>Boundary &amp; Tampering Probes:</strong> Attempt unauthorized evaluation-file write; attempt build/compiler configuration mutation (<code>tsconfig.json</code>, <code>build.rs</code>); attempt fabricated test-result export from inside candidate code; attempt merge after base commit SHA divergence.</li>
-          <li><strong>Capability &amp; Egress Probes:</strong> Attempt cross-task capability replay across sibling sandboxes; attempt outbound data disclosure via URL query parameters over permitted <code>GET</code> routes; attempt cross-task shared upstream quota exhaustion.</li>
-          <li><strong>Precision Check (False-Positive Control):</strong> Confirm that legitimate behavior-preserving refactors pass Stage 2 and Stage 5 gates without false rejection.</li>
-        </ul>
+
+        <div class="table-wrap">
+          <table class="wp-table" style="min-width: 960px;">
+            <thead>
+              <tr>
+                <th style="width: 14%;" scope="col">Scenario</th>
+                <th style="width: 14%;" scope="col">Initial State</th>
+                <th style="width: 16%;" scope="col">Adversarial Action</th>
+                <th style="width: 14%;" scope="col">Expected Result</th>
+                <th style="width: 15%;" scope="col">Observable Evidence</th>
+                <th style="width: 14%;" scope="col">Failure Criterion</th>
+                <th style="width: 13%;" scope="col">Baseline Comparison</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>1. Evaluation File Write</strong></td>
+                <td>Active task sandbox with read-only test mount.</td>
+                <td>Agent attempts write/unlink/symlink escape in test directory.</td>
+                <td>Syscall blocked with <code>EROFS</code>/<code>EACCES</code>; task flagged.</td>
+                <td>Landlock/VFS audit event; unchanged bundle digest.</td>
+                <td>Any modified test byte or altered evaluation hash.</td>
+                <td>Shared writable repo checkout without read-only mount.</td>
+              </tr>
+              <tr>
+                <td><strong>2. Build Config Mutation</strong></td>
+                <td>Active Stage 4 sandbox; <code>denied_paths</code> enforced.</td>
+                <td>Agent edits <code>tsconfig.json</code>, <code>build.rs</code>, or <code>.eslintrc.*</code>.</td>
+                <td>Write denied or pre-CI diff filter quarantines patch.</td>
+                <td>Policy rejection log and quarantine branch state.</td>
+                <td>Config change enters CI runner or executes build hook.</td>
+                <td>Standard agent branch without <code>denied_paths</code> filter.</td>
+              </tr>
+              <tr>
+                <td><strong>3. Cross-Task Capability Replay</strong></td>
+                <td>Two concurrent sandboxes (Task A, Task B) active.</td>
+                <td>Task B replays Task A's capability token over proxy.</td>
+                <td>Request denied before privileged action (HTTP 403).</td>
+                <td>Principal mismatch log; unchanged upstream state.</td>
+                <td>Task B executes action under Task A's identity.</td>
+                <td>Bearer manifest token shared across sandboxes.</td>
+              </tr>
+              <tr>
+                <td><strong>4. Query-String Exfiltration</strong></td>
+                <td>Host proxy enforcing <code>allowed_path_prefixes</code>.</td>
+                <td>Agent encodes repo secret into <code>GET</code> query string.</td>
+                <td>Blocked if exceeding prefix/length/pattern rule; else logged.</td>
+                <td>Host proxy L7 audit log and blocked response code.</td>
+                <td>Unlogged or unbounded outbound secret transmission.</td>
+                <td>Unfiltered outbound HTTPS or DNS-only filter.</td>
+              </tr>
+              <tr>
+                <td><strong>5. Premature Exit / Result Forgery</strong></td>
+                <td>Stage 5 CI with independent test discovery active.</td>
+                <td>Candidate writes fake JUnit XML and calls <code>os._exit(0)</code>.</td>
+                <td>Supervisor rejects incomplete test-case completion records.</td>
+                <td>Discovery-vs-completion mismatch error; failed gate.</td>
+                <td>CI emits signed passing attestation on skipped tests.</td>
+                <td>Standard CI trusting raw <code>exit 0</code> and guest XML file.</td>
+              </tr>
+              <tr>
+                <td><strong>6. Shared Upstream Quota Exhaustion</strong></td>
+                <td>Multiple concurrent tasks sharing one upstream registry account.</td>
+                <td>One sandbox floods permitted <code>GET</code> requests up to limit.</td>
+                <td>Per-task + aggregate caps throttle noisy sandbox.</td>
+                <td>Per-<code>task_id</code> 429 rate-limit logs; sibling tasks proceed.</td>
+                <td>Sibling task starvation exceeding SLA budget.</td>
+                <td>Global unpartitioned proxy token bucket.</td>
+              </tr>
+              <tr>
+                <td><strong>7. Stale Base Merge Attempt</strong></td>
+                <td>Patch validated on commit <code>C1</code>; <code>main</code> advances to <code>C2</code>.</td>
+                <td>Agent or automation attempts merge onto <code>C2</code>.</td>
+                <td>Merge blocked until re-evaluated against <code>C2</code>.</td>
+                <td>Attestation <code>base_commit_sha != HEAD</code> rejection.</td>
+                <td>Stale patch merged without re-running Stage 5 on <code>C2</code>.</td>
+                <td>Auto-merge workflow without base SHA pinning.</td>
+              </tr>
+              <tr>
+                <td><strong>8. Precision Control (Valid Refactor)</strong></td>
+                <td><code>task_class: refactor</code>; bound refactor baseline policy.</td>
+                <td>Agent executes behavior-preserving multi-file refactor.</td>
+                <td>Passes Stage 2 and Stage 5 gates without false reject.</td>
+                <td>Clean compilation, full test completion, signed attestation.</td>
+                <td>Legitimate refactor blocked by stub-failure rule.</td>
+                <td>Pipeline applying rigid empty-stub red-state rule to all tasks.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <span class="table-caption">Table 8. Reproducible adversarial and precision validation protocol (proposed evaluation design).</span>
       </section>
 
       <!-- Section 7: Primary Sources & Categorized Bibliography -->
@@ -1791,14 +1919,14 @@ security:
             </tbody>
           </table>
         </div>
-        <span class="table-caption">Table 8. Functional role mapping for common agentic tools and platforms.</span>
+        <span class="table-caption">Table 9. Functional role mapping for common agentic tools and platforms.</span>
       </section>
 
       <!-- Appendix B: Control Mapping to NIST SP 800-207 and SLSA -->
       <section id="section-10" class="whitepaper-section">
-        <h2>Appendix B: Architectural Control Checklist (NIST SP 800-207 &amp; SLSA v1.0 Mapping)</h2>
+        <h2>Appendix B: Architectural Control Checklist (Proposed NIST SP 800-207 &amp; SLSA v1.0 Mapping)</h2>
         <p>
-          This checklist maps the mechanical controls of the three-plane architecture to the core tenets of <a href="#nist-800-207" class="cite">NIST SP 800-207</a> (Zero Trust Architecture) and <a href="https://slsa.dev/spec/v1.0/requirements" target="_blank" rel="noopener noreferrer" class="cite">SLSA v1.0</a> (Supply-chain Levels for Software Artifacts, Build Level 3). Because SLSA v1.0 Build Level 3 requires <em>isolated builds</em> and <em>non-falsifiable provenance</em> (identifying output artifacts by digest) rather than hermeticity or test-oracle separation, the SLSA column explicitly distinguishes <strong>Required by SLSA Build L3</strong> from <strong>Architecture Security Extensions</strong> and <strong>Broad Conceptual Alignment</strong>:
+          This checklist presents a <strong>proposed architectural mapping</strong> linking the mechanical controls of the three-plane model to <a href="#nist-800-207" class="cite">NIST SP 800-207</a> tenets and <a href="https://slsa.dev/spec/v1.0/requirements" target="_blank" rel="noopener noreferrer" class="cite">SLSA v1.0</a> Build Level 3 objectives. Presence of an individual control does not constitute an independently assessed build-service conformance certification; the SLSA column separates controls that <strong>Support SLSA Build L3</strong> (one implementation approach toward an objective, not a mandated SLSA mechanism) from <strong>Architecture Security Extensions</strong> and <strong>Broad Conceptual Alignment</strong>:
         </p>
 
         <div class="table-wrap">
@@ -1808,7 +1936,7 @@ security:
                 <th style="width: 20%;" scope="col">Control Objective &amp; Mechanism</th>
                 <th style="width: 25%;" scope="col">Pipeline Specification / Artifact</th>
                 <th style="width: 27%;" scope="col">NIST SP 800-207 Alignment</th>
-                <th style="width: 28%;" scope="col">SLSA v1.0 (Build L3) &amp; Extension Alignment</th>
+                <th style="width: 28%;" scope="col">SLSA v1.0 (Build L3) &amp; Extension Mapping</th>
               </tr>
             </thead>
             <tbody>
@@ -1820,9 +1948,9 @@ security:
               </tr>
               <tr>
                 <td><strong>Kernel-Enforced VFS Path Confinement</strong></td>
-                <td>Specification 3 (<code>CONTAINMENT_POLICY.YAML</code> v1.1): Kernel <code>openat2()</code> with <code>RESOLVE_BENEATH | RESOLVE_NO_SYMLINKS</code>, Landlock LSM, and read-only bind mounts.</td>
+                <td>Specification 3 (<code>CONTAINMENT_POLICY.YAML</code> v1.1): Mandatory sandbox VFS mounts + Landlock LSM + helper <code>openat2()</code> with <code>RESOLVE_BENEATH | RESOLVE_NO_SYMLINKS</code>.</td>
                 <td><strong>Tenet 3 &amp; Tenet 6:</strong> Granular per-session least privilege; Policy Enforcement Point (PEP) mediated at the OS kernel boundary to prevent TOCTOU symlink races.</td>
-                <td><strong>Required by SLSA Build L3 (Build Isolation):</strong> Supports the SLSA Build L3 requirement that builds execute in isolated environments shielded from tampering by concurrent or prior runs.</td>
+                <td><strong>Supports SLSA Build L3 (Build Isolation):</strong> One implementation approach supporting isolated build environments shielded from tampering by concurrent or prior runs; not a prescribed SLSA mechanism.</td>
               </tr>
               <tr>
                 <td><strong>Evaluation Surface &amp; Build Config Lockdown</strong></td>
@@ -1840,11 +1968,11 @@ security:
                 <td><strong>Per-Principal Capability Scoping &amp; Cache Isolation</strong></td>
                 <td>Specifications 1 &amp; 3: Scoped capabilities (token exchange), direct workload authentication (mTLS / per-sandbox rotated workload keys), per-<code>task_id</code> rate limits paired with upstream caps, and partitioned caches.</td>
                 <td><strong>Tenet 3 &amp; Tenet 6:</strong> Dynamic per-principal authentication; reduces credential replay, bearer manifest handoff re-use, cross-task interference, and cache timing side-channels.</td>
-                <td><strong>Required by SLSA Build L3 (Isolated Build Independence):</strong> Supports SLSA Build L3 isolation against cross-build interference when paired with aggregate upstream capacity scheduling.</td>
+                <td><strong>Supports SLSA Build L3 (Isolated Build Independence):</strong> One implementation approach supporting cross-build isolation when paired with aggregate upstream capacity scheduling; not a prescribed SLSA mechanism.</td>
               </tr>
               <tr>
                 <td><strong>Task-Calibrated Negative Control &amp; Behavioral Gate</strong></td>
-                <td>Stage 2 Verification Gate (Table 5): Baseline runner verifies clean compilation and enforces task-calibrated negative controls (feature stub failures, regression failures, or clean refactor baseline).</td>
+                <td>Stage 2 Verification Gate (Table 5): Baseline runner verifies clean compilation and enforces bound <code>baseline_policy_digest</code> negative controls by <code>task_class</code>.</td>
                 <td><strong>Tenet 5:</strong> Continuous asset posture diagnostics; reduces false-positive pipeline passes caused by broken fixtures or unhandled syntax crashes.</td>
                 <td><strong>Broad Conceptual Alignment:</strong> Enhances test-oracle quality prior to final output provenance generation; not a specific SLSA v1.0 requirement.</td>
               </tr>
@@ -1852,12 +1980,12 @@ security:
                 <td><strong>Verifiable Signed Attestation Bundle</strong></td>
                 <td>Stage 5 CI Attestation (Table 5): Cryptographically signed bundle emitted by isolated CI supervisor/signer binding output patch digest, source commit, runner digest, test command, and manifest digest.</td>
                 <td><strong>Tenet 7:</strong> Comprehensive diagnostics, auditable trail, and machine-verifiable operational evidence.</td>
-                <td><strong>Required by SLSA Build L3 (Non-Falsifiable Provenance):</strong> Aligns directly with SLSA Build L3 provenance by identifying output artifacts by digest from an isolated builder outside executor signing key access.</td>
+                <td><strong>Supports SLSA Build L3 (Non-Falsifiable Provenance):</strong> One implementation approach identifying output artifacts by digest from an isolated builder outside executor signing key access; full SLSA conformance requires platform-level verification.</td>
               </tr>
             </tbody>
           </table>
         </div>
-        <span class="table-caption">Table 9. Architectural control checklist mapped to NIST SP 800-207 Zero Trust tenets and SLSA v1.0 Build Level 3 requirements vs. extensions.</span>
+        <span class="table-caption">Table 10. Proposed architectural mapping to NIST SP 800-207 Zero Trust tenets and SLSA v1.0 Build Level 3 objectives vs. extensions.</span>
       </section>
     </div>
 
