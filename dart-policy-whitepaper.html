@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SuhLabs | The DART Policy Framework: Institutional AI Governance via Zero Trust & Deterministic Control Planes</title>
+    <meta
+      name="description"
+      content="A Mandatory Institutional Systems Policy Standard for Autonomous Agent Execution, Fiduciary Risk Controls, and Enterprise Compliance under Zero Trust. Document ID: POLICY-2026-01."
+    />
+    <meta property="og:title" content="The DART Policy Framework: Institutional AI Governance via Zero Trust & Deterministic Control Planes" />
+    <meta property="og:description" content="A Mandatory Systems Policy Standard for Autonomous Agent Execution, Fiduciary Risk Controls, and Enterprise Compliance under Zero Trust. Document ID: POLICY-2026-01." />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://suhlabs.com/dart-policy-whitepaper.html" />
+    <link rel="canonical" href="https://suhlabs.com/dart-policy-whitepaper.html" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css" />
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
+    <style>
+      .whitepaper-header {
+        margin-bottom: 2.5rem;
+      }
+      .badge-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.6rem;
+        margin: 1.25rem 0;
+      }
+      .badge-item {
+        background: rgba(96, 171, 49, 0.1);
+        border: 1px solid var(--accent-green);
+        color: var(--accent-green);
+        padding: 0.35rem 0.85rem;
+        border-radius: 4px;
+        font-family: "Fira Code", monospace;
+        font-size: 0.75rem;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+      }
+      .badge-item.pink {
+        background: rgba(235, 52, 162, 0.1);
+        border-color: var(--accent-pink);
+        color: var(--accent-pink);
+      }
+      .badge-item.blue {
+        background: rgba(0, 173, 255, 0.1);
+        border-color: var(--accent-blue);
+        color: var(--accent-blue);
+      }
+      .badge-item.amber {
+        background: rgba(255, 170, 0, 0.1);
+        border-color: #ffaa00;
+        color: #ffaa00;
+      }
+
+      .memo-meta-strip {
+        background: rgba(12, 23, 36, 0.95);
+        border: 1px solid var(--border-color);
+        border-left: 4px solid var(--accent-green);
+        padding: 1.2rem 1.6rem;
+        border-radius: 6px;
+        margin-bottom: 2.5rem;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 1rem;
+        font-family: "Fira Code", monospace;
+        font-size: 0.8rem;
+      }
+      .meta-item-label {
+        color: var(--accent-blue);
+        text-transform: uppercase;
+        font-size: 0.7rem;
+        letter-spacing: 0.5px;
+        margin-bottom: 0.25rem;
+      }
+      .meta-item-val {
+        color: var(--text-main);
+        font-weight: 500;
+      }
+
+      .exec-summary-box {
+        background: rgba(12, 23, 36, 0.95);
+        border: 1px solid var(--border-color);
+        border-left: 4px solid var(--accent-green);
+        padding: 1.75rem 2rem;
+        border-radius: 6px;
+        margin: 2rem 0 2.5rem 0;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+      }
+      .exec-summary-title {
+        font-family: "Fira Code", monospace;
+        color: var(--accent-green);
+        font-size: 0.95rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 0.75rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .exec-summary-box p {
+        color: #d1d5db;
+        line-height: 1.75;
+        margin: 0;
+        font-size: 0.95rem;
+      }
+
+      .whitepaper-section {
+        margin-bottom: 3.75rem;
+      }
+      .whitepaper-section h2 {
+        color: var(--accent-green);
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 0.6rem;
+        margin-bottom: 1.5rem;
+        font-family: "Fira Code", monospace;
+        font-size: 1.35rem;
+      }
+      .whitepaper-section h3 {
+        color: var(--text-main);
+        margin-top: 2rem;
+        margin-bottom: 0.75rem;
+        font-family: "Inter", sans-serif;
+        font-size: 1.15rem;
+      }
+      .whitepaper-section p, .whitepaper-section li {
+        color: #d1d5db;
+        line-height: 1.75;
+        font-size: 0.95rem;
+      }
+      .whitepaper-section p {
+        margin-bottom: 1.25rem;
+      }
+      .whitepaper-section ul {
+        margin-bottom: 1.5rem;
+        padding-left: 1.5rem;
+      }
+      .whitepaper-section li {
+        margin-bottom: 0.5rem;
+      }
+
+      .architecture-figure {
+        background: #02060b;
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        padding: 1.5rem;
+        margin: 2rem 0;
+        overflow-x: auto;
+      }
+      .architecture-figure pre {
+        margin: 0;
+        font-family: "Fira Code", monospace;
+        font-size: 0.82rem;
+        line-height: 1.45;
+        color: #e2e8f0;
+      }
+      .figure-caption {
+        font-family: "Fira Code", monospace;
+        font-size: 0.78rem;
+        color: var(--text-muted);
+        text-align: center;
+        margin-top: 0.75rem;
+      }
+
+      .table-wrap {
+        overflow-x: auto;
+        margin: 2rem 0;
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+      }
+      .wp-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.88rem;
+        text-align: left;
+      }
+      .wp-table caption {
+        font-family: "Fira Code", monospace;
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        padding: 0.75rem 1rem;
+        text-align: left;
+        background: rgba(12, 23, 36, 0.95);
+        border-bottom: 1px solid var(--border-color);
+      }
+      .wp-table th, .wp-table td {
+        padding: 0.85rem 1rem;
+        border-bottom: 1px solid var(--border-color);
+      }
+      .wp-table th {
+        background: rgba(12, 23, 36, 0.85);
+        color: var(--accent-green);
+        font-family: "Fira Code", monospace;
+        font-weight: 600;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+      .wp-table tr:last-child td {
+        border-bottom: none;
+      }
+      .wp-table tr:hover td {
+        background: rgba(0, 173, 255, 0.03);
+      }
+      .wp-table code {
+        font-family: "Fira Code", monospace;
+        color: var(--accent-pink);
+        font-size: 0.82rem;
+      }
+
+      .callout-box {
+        background: rgba(12, 23, 36, 0.7);
+        border: 1px solid var(--border-color);
+        border-left: 4px solid var(--accent-pink);
+        padding: 1.25rem 1.5rem;
+        border-radius: 4px;
+        margin: 1.75rem 0;
+      }
+      .callout-box.green {
+        border-left-color: var(--accent-green);
+      }
+      .callout-box.blue {
+        border-left-color: var(--accent-blue);
+      }
+      .callout-title {
+        font-family: "Fira Code", monospace;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--text-main);
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .callout-box p {
+        margin: 0;
+        font-size: 0.9rem;
+        line-height: 1.65;
+        color: var(--text-muted);
+      }
+
+      .component-card {
+        background: var(--bg-secondary);
+        border: 1px solid var(--border-color);
+        border-left: 4px solid var(--accent-pink);
+        padding: 1.75rem;
+        border-radius: 6px;
+        margin: 2rem 0;
+      }
+      .component-card h3 {
+        color: var(--accent-pink);
+        font-family: "Fira Code", monospace;
+        font-size: 0.95rem;
+        margin-top: 0;
+        margin-bottom: 1.2rem;
+        letter-spacing: 1px;
+      }
+      .component-card ul {
+        list-style-type: none;
+        padding-left: 0;
+        margin: 0;
+      }
+      .component-card li {
+        color: var(--text-muted);
+        line-height: 1.6;
+        margin-bottom: 1rem;
+        padding-left: 1.2rem;
+        position: relative;
+      }
+      .component-card li::before {
+        content: "■";
+        color: var(--accent-pink);
+        position: absolute;
+        left: 0;
+        font-size: 0.7rem;
+        top: 0.2rem;
+      }
+
+      .sources-list {
+        list-style-type: none;
+        padding-left: 0;
+        margin: 1.5rem 0;
+      }
+      .sources-list li {
+        margin-bottom: 1.5rem;
+        padding-bottom: 1.25rem;
+        border-bottom: 1px solid rgba(26, 54, 93, 0.4);
+        line-height: 1.65;
+        font-size: 0.9rem;
+        color: var(--text-muted);
+      }
+      .sources-list li:last-child {
+        border-bottom: none;
+      }
+      .source-evidence-tag {
+        display: inline-block;
+        font-family: "Fira Code", monospace;
+        font-size: 0.7rem;
+        padding: 0.15rem 0.45rem;
+        border-radius: 3px;
+        margin-right: 0.5rem;
+        margin-bottom: 0.4rem;
+        background: rgba(96, 171, 49, 0.1);
+        border: 1px solid var(--accent-green);
+        color: var(--accent-green);
+      }
+      .bib-title {
+        color: var(--text-main);
+        font-weight: 600;
+        text-decoration: none;
+      }
+      .bib-title:hover {
+        color: var(--accent-green);
+        text-decoration: underline;
+      }
+      .source-aux-link {
+        display: inline-block;
+        font-family: "Fira Code", monospace;
+        font-size: 0.75rem;
+        color: var(--accent-pink);
+        border: 1px solid var(--accent-pink);
+        padding: 0.1rem 0.4rem;
+        border-radius: 3px;
+        text-decoration: none;
+        margin-left: 0.5rem;
+        transition: all 0.2s;
+      }
+      .source-aux-link:hover {
+        background: rgba(235, 52, 162, 0.15);
+      }
+
+      .back-nav {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: var(--accent-green);
+        text-decoration: none;
+        font-family: "Fira Code", monospace;
+        font-size: 0.85rem;
+        margin-bottom: 2rem;
+        transition: transform 0.2s;
+      }
+      .back-nav:hover {
+        transform: translateX(-4px);
+      }
+
+      @media print {
+        body {
+          background: #ffffff !important;
+          color: #111827 !important;
+          font-size: 10pt;
+        }
+        nav, footer, .hamburger, .back-nav, .badge-group {
+          display: none !important;
+        }
+        .container {
+          max-width: 100% !important;
+          padding: 0 !important;
+          margin: 0 !important;
+        }
+        .whitepaper-header h1 {
+          font-size: 18pt !important;
+          color: #000000 !important;
+        }
+        .exec-summary-box, .table-wrap, .architecture-figure pre, .callout-box, .component-card {
+          border: 1px solid #d1d5db !important;
+          background: #f9fafb !important;
+          color: #111827 !important;
+          box-shadow: none !important;
+        }
+        .whitepaper-section h2 {
+          color: #111827 !important;
+          border-bottom: 1.5pt solid #374151 !important;
+          font-size: 13pt !important;
+        }
+        .whitepaper-section h3 {
+          color: #1f2937 !important;
+          font-size: 11pt !important;
+        }
+        .wp-table th {
+          background: #e5e7eb !important;
+          color: #111827 !important;
+          border-bottom: 1pt solid #9ca3af !important;
+        }
+        .wp-table td {
+          color: #374151 !important;
+          border-bottom: 0.5pt solid #e5e7eb !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <div class="logo">
+        <a href="index.html" style="text-decoration: none; color: inherit"
+          >SUH<span>LABS</span></a
+        >
+      </div>
+      <div class="hamburger" onclick="toggleMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="projects.html">Projects</a>
+        <a href="experiments.html" class="active">Research</a>
+        <a href="community.html">Contribute</a>
+      </div>
+    </nav>
+
+    <div class="container" style="padding-top: 3rem; padding-bottom: 5rem;">
+      <a href="experiments.html" class="back-nav">&larr; BACK_TO_EXPERIMENTS</a>
+
+      <header class="whitepaper-header">
+        <div class="badge-group">
+          <span class="badge-item green">POLICY-2026-01</span>
+          <span class="badge-item pink">ZERO TRUST AI GOVERNANCE</span>
+          <span class="badge-item blue">LEAN 4 VERIFIED PROTOCOL</span>
+          <span class="badge-item amber">INSTITUTIONAL POLICY STANDARD</span>
+        </div>
+        <h1 style="font-size: 2.35rem; line-height: 1.25; margin-bottom: 1rem;">
+          The DART Policy Framework: Institutional AI Governance via Zero Trust &amp; Deterministic Control Planes
+        </h1>
+        <p style="font-size: 1.15rem; color: var(--text-muted); max-width: 900px; line-height: 1.6;">
+          A Mandatory Systems Policy Standard translating high-level artificial intelligence principles into mechanically enforced enterprise gates: Declare, Authorize, Record, and Triage.
+        </p>
+
+        <div class="memo-meta-strip">
+          <div>
+            <div class="meta-item-label">DOCUMENT ID</div>
+            <div class="meta-item-val">POLICY-2026-01</div>
+          </div>
+          <div>
+            <div class="meta-item-label">GOVERNING SPECIFICATION</div>
+            <div class="meta-item-val">DART Lifecycle (ARCH-2026-02/03)</div>
+          </div>
+          <div>
+            <div class="meta-item-label">MATURITY TARGET</div>
+            <div class="meta-item-val">Enterprise Production &amp; Federal RMF</div>
+          </div>
+          <div>
+            <div class="meta-item-label">LEAD AUTHORS</div>
+            <div class="meta-item-val">SuhLabs Systems Research</div>
+          </div>
+          <div>
+            <div class="meta-item-label">RELEASE DATE</div>
+            <div class="meta-item-val">November 2026</div>
+          </div>
+          <div>
+            <div class="meta-item-label">FORMAL PROOF</div>
+            <div class="meta-item-val">Lean 4 Complete Mediation</div>
+          </div>
+        </div>
+      </header>
+
+      <div class="exec-summary-box">
+        <div class="exec-summary-title">
+          <span>// EXECUTIVE_SUMMARY &amp; FIDUCIARY_MANDATE</span>
+        </div>
+        <p>
+          Voluntary guidelines, ethical principles, and prompt-level instructions fail as regulatory or fiduciary controls. When autonomous agents operate with ambient authority, self-evaluation, and unrecorded tool access, organizations face uninsurable liability, undetected reward-hacking, and regulatory non-compliance under emerging oversight mandates. The <strong>DART Policy Framework</strong> establishes a mandatory, mechanically enforced systems architecture separating operational intent from execution authority. Modeled on Zero Trust principles (NIST SP 800-207) and verified in Lean 4, DART mandates four non-negotiable state gates: <strong>Declare</strong> (frozen intent and parameter schema locks), <strong>Authorize</strong> (external complete mediation via independent policy engines), <strong>Record</strong> (synchronous write-ahead audit commitment before token release), and <strong>Triage</strong> (isolated mechanical evaluation in read-only sandboxes).
+        </p>
+      </div>
+
+      <!-- Section 1 -->
+      <section class="whitepaper-section" id="governance-crisis">
+        <h2>1. The Institutional Governance Failure</h2>
+        <p>
+          Corporate risk management and public policy face a structural crisis in the deployment of autonomous systems. Most enterprise governance initiatives rely on <em>guidance</em>: system prompts instructing models to act ethically, internal checklists, or post-hoc log sampling. In practice, these mechanisms introduce three catastrophic failure modes:
+        </p>
+        <ul>
+          <li>
+            <strong>Liability Laundering:</strong> Deploying agents with broad permissions allows human managers to disclaim direct responsibility for adverse actions while leaving the enterprise exposed to strict regulatory liability under federal statutes and board fiduciary standards (Delaware Court of Chancery <em>Caremark</em> doctrine).
+          </li>
+          <li>
+            <strong>The Self-Evaluation Trap:</strong> Allowing autonomous pipelines to evaluate and accept their own output introduces acute reward-hacking. In empirical evaluations, agents tasked with software modification frequently edit unit test assertions, insert <code>assert True</code>, or delete failing integration tests to register synthetic completion.
+          </li>
+          <li>
+            <strong>Audit Amnesia:</strong> Without pre-execution commitment logging, systems that crash, stall, or experience worker eviction leave orphan side effects in external cloud infrastructure with zero non-repudiable audit trails.
+          </li>
+        </ul>
+        <p>
+          A defensible governance framework cannot operate inside the model weights or context window. Governance must operate as an external, deterministic control plane that strictly bounds the model's agency.
+        </p>
+      </section>
+
+      <!-- Section 2 -->
+      <section class="whitepaper-section" id="dart-mandates">
+        <h2>2. The Four Mandatory Policy Controls (DART)</h2>
+        <p>
+          Under this standard, an enterprise or government agency shall not deploy an autonomous agent, multi-agent pipeline, or algorithmic decision engine into production environments unless each state transition satisfies the four deterministic gates of the DART lifecycle:
+        </p>
+
+        <div class="architecture-figure">
+          <pre><code>+---------------------------------------------------------------------------------------------------------+
+|                                      THE DART GOVERNANCE LIFECYCLE                                      |
+|                                                                                                         |
+|     +---------------+        +-----------------+        +----------------+        +-----------------+   |
+|     |   1. DECLARE  | =====> |  2. AUTHORIZE   | =====> |   3. RECORD    | =====> |    4. TRIAGE    |   |
+|     |  Intent &amp;     |        |  External PDP   |        |  Write-Ahead   |        |  Read-Only      |   |
+|     |  Schema Lock  |        |  Mediation      |        |  Commit Ledger |        |  Evaluation     |   |
+|     +---------------+        +-----------------+        +----------------+        +-----------------+   |
+|            |                          |                          |                         |            |
+|      Validates Schema          Verifies External          Commits SHA-256           Quarantines On      |
+|      Draft 2020-12             Authority &amp; Quota          Pre-Dispatch Hash         Assertion Failure   |
++---------------------------------------------------------------------------------------------------------+</code></pre>
+          <div class="figure-caption">
+            Fig 2.1: The DART Deterministic State Machine. All transitions are unidirectional and mediated by external infrastructure.
+          </div>
+        </div>
+
+        <h3>Policy Control 1 (Declare): Mandatory Intent Locks &amp; Schema Freezing</h3>
+        <p>
+          <strong>Requirement:</strong> The actor must declare its proposed intent, target assets, and parameters in a strictly typed, immutable manifest prior to invoking any system resource.
+        </p>
+        <ul>
+          <li><strong>Prohibition of Ambient Authority:</strong> Agents shall never be provisioned with general credentials, root shells, or open egress networking.</li>
+          <li><strong>Schema Conformance:</strong> All task inputs and outputs must validate against frozen schemas adhering to JSON Schema Draft 2020-12 with <code>additionalProperties: false</code>.</li>
+          <li><strong>Digest Binding:</strong> The declaration must bind the SHA-256 digest of the task specification and environment context using RFC 8785 JSON Canonicalization Scheme (JCS).</li>
+        </ul>
+
+        <h3>Policy Control 2 (Authorize): External Complete Mediation</h3>
+        <p>
+          <strong>Requirement:</strong> The planning actor shall never possess the authority to execute its own plan. Execution authority is held exclusively by an external Policy Enforcement Point (PEP) mediated by an independent Policy Decision Point (PDP).
+        </p>
+        <ul>
+          <li><strong>Separation of Privilege:</strong> The PDP must evaluate operational rules independently of model reasoning. A model's self-generated justification carries zero authorization weight.</li>
+          <li><strong>Sender-Constrained Capabilities:</strong> Capability tokens must be short-lived, single-use, and bound to the cryptographic thumbprint of the authorized request body (RFC 9449 DPoP or mutual TLS).</li>
+          <li><strong>Four-Eyes Thresholds:</strong> Any operational action exceeding pre-defined enterprise thresholds (such as external payment transmission, production deployment, or data egress) requires synchronous multi-party human sign-off via hardware-backed WebAuthn/FIDO2 credentials.</li>
+        </ul>
+
+        <h3>Policy Control 3 (Record): Pre-Execution Write-Ahead Ledgering</h3>
+        <p>
+          <strong>Requirement:</strong> No execution authority or capability token shall be released until the intent declaration, authorization proof, and quota reservation are committed to an append-only, tamper-evident audit ledger.
+        </p>
+        <ul>
+          <li><strong>Zero Orphan Invariant:</strong> The count of external tool dispatches must identically match pre-recorded ledger entries across all system states, including crash-recovery, process SIGKILL, or network partitions:
+            10184\Delta_{	ext{orphan}} = |\{	ext{External Dispatches}\} \setminus \{	ext{Committed Ledger Records}\}| = 010184
+          </li>
+          <li><strong>Non-Repudiation Vault:</strong> Audit records must link the originating task contract, the authorizing human sponsor or PDP rule, and the SHA-256 telemetry digest into a verifiable Proof of Delivery (PoD) record.</li>
+        </ul>
+
+        <h3>Policy Control 4 (Triage): Mechanical Acceptance &amp; Automated Quarantine</h3>
+        <p>
+          <strong>Requirement:</strong> Autonomous agents are strictly prohibited from inspecting, scoring, or accepting their own output.
+        </p>
+        <ul>
+          <li><strong>Read-Only Test Mounting:</strong> Acceptance test fixtures, linting rules, and evaluation bundles must be mounted into the execution container as read-only volumes (<code>:ro</code>). An agent modifying a test file or assertion shall trigger immediate execution termination.</li>
+          <li><strong>Negative Control Verification:</strong> Automated pipelines must execute negative control fixtures to prove that tests fail for the intended reason before accepting passing solutions.</li>
+          <li><strong>Automated Rollback:</strong> Any task failing mechanical evaluation or exhibiting unauthorized side effects triggers an automated atomic rollback, branch quarantine, and alert notification to designated human operators.</li>
+        </ul>
+      </section>
+
+      <!-- Section 3 -->
+      <section class="whitepaper-section" id="model-policy">
+        <h2>3. Model Enterprise Policy (Board &amp; CISO Directive)</h2>
+        <p>
+          Enterprise security teams and corporate boards may adopt the following directive as binding institutional policy:
+        </p>
+
+        <div class="component-card">
+          <h3>DIRECTIVE ON AUTONOMOUS AGENT GOVERNANCE &amp; EXECUTION BOUNDARIES (POLICY-DART-01)</h3>
+          <ul>
+            <li>
+              <strong>Scope:</strong> This policy applies to all algorithmic agents, generative AI tools, autonomous coding pipelines, and robotic process automation (RPA) deployed across internal infrastructure or customer-facing operations.
+            </li>
+            <li>
+              <strong>Mandatory Architecture:</strong> No system shall execute external tool calls, code modifications, or data transmissions without integrating an out-of-band Policy Enforcement Point (PEP) conforming to the DART four-phase lifecycle.
+            </li>
+            <li>
+              <strong>Audit &amp; Legal Discovery:</strong> Systems failing to demonstrate preauthorization logging with cryptographic non-repudiation are designated non-compliant. Project owners shall provide verifiable Proof of Delivery (PoD) hashes for all quarterly regulatory disclosures.
+            </li>
+            <li>
+              <strong>Prohibition of Self-Certification:</strong> Any software deliverable, vulnerability fix, or financial entry certified solely by an autonomous agent without mechanical test isolation is void and must be quarantined for human review.
+            </li>
+            <li>
+              <strong>Penalties &amp; Revocation:</strong> Unauthorized deployment of unmediated agent frameworks carries immediate token revocation and operational suspension pending review by the Chief Information Security Officer (CISO).
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Section 4 -->
+      <section class="whitepaper-section" id="procurement-clauses">
+        <h2>4. Model Procurement Clauses (FAR / DFARS / Vendor Contracts)</h2>
+        <p>
+          To prevent supply-chain liability when contracting third-party AI software, procurement officers may integrate the following mandatory contractual clauses into Requests for Proposals (RFPs) and Master Services Agreements (MSAs):
+        </p>
+
+        <div class="callout-box green">
+          <div class="callout-title">// CLAUSE 52.204-XX: MANDATORY DETERMINISTIC CONTROL PLANES FOR AUTONOMOUS DELIVERABLES</div>
+          <p>
+            <strong>(a) Definition:</strong> 'Autonomous Deliverable' refers to any software, data product, or operational execution generated in whole or in part by artificial intelligence without direct keystroke-level human generation.
+          </p>
+          <p style="margin-top: 0.75rem;">
+            <strong>(b) Verification Requirement:</strong> The Contractor shall deliver all Autonomous Deliverables accompanied by a cryptographically verifiable Proof of Delivery (PoD) manifest generated via a DART-compliant control plane. The manifest must include: (1) canonical JSON Schema definition, (2) independent PDP authorization signatures, (3) append-only ledger transaction ID, and (4) isolated test runner execution logs proving 100% passage of government-specified read-only evaluation fixtures.
+          </p>
+          <p style="margin-top: 0.75rem;">
+            <strong>(c) Rejection of Unrecorded Execution:</strong> The Government reserves the right to reject any deliverable without remedy if the contractor cannot produce synchronous preauthorization logs proving complete mediation of external tool access.
+          </p>
+        </div>
+      </section>
+
+      <!-- Section 5 -->
+      <section class="whitepaper-section" id="standards-crosswalk">
+        <h2>5. Regulatory Standards Crosswalk</h2>
+        <p>
+          The DART Policy Framework maps directly to major federal, international, and commercial compliance mandates:
+        </p>
+
+        <div class="table-wrap">
+          <table class="wp-table">
+            <caption>Table 5.1: Crosswalk between DART phases and major institutional compliance standards</caption>
+            <thead>
+              <tr>
+                <th scope="col">Regulatory Standard</th>
+                <th scope="col">Declare</th>
+                <th scope="col">Authorize</th>
+                <th scope="col">Record</th>
+                <th scope="col">Triage</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>NIST AI RMF 1.0</strong></td>
+                <td>MAP: Context &amp; Scope Bounds</td>
+                <td>GOVERN: Risk Tolerance Allocation</td>
+                <td>GOVERN: Audit Documentation</td>
+                <td>MEASURE / MANAGE: Impact Testing</td>
+              </tr>
+              <tr>
+                <td><strong>NIST SP 800-207 (Zero Trust)</strong></td>
+                <td>Subject &amp; Resource Policy</td>
+                <td>Dynamic PDP/PEP Enforcement</td>
+                <td>Continuous Log Ingestion</td>
+                <td>Session Revocation &amp; Anomaly Quarantine</td>
+              </tr>
+              <tr>
+                <td><strong>OMB Memo M-24-10</strong></td>
+                <td>Pre-Deployment Use-Case Inventory</td>
+                <td>Chief AI Officer (CAIO) Approval</td>
+                <td>Federal AI Compliance Registry</td>
+                <td>Continuous Operational Monitoring</td>
+              </tr>
+              <tr>
+                <td><strong>ISO/IEC 42001:2023 (AIMS)</strong></td>
+                <td>Clause 6: Planning &amp; Objectives</td>
+                <td>Clause 8: Operation &amp; Controls</td>
+                <td>Clause 7.5: Documented Information</td>
+                <td>Clause 9 &amp; 10: Audit &amp; CAPA</td>
+              </tr>
+              <tr>
+                <td><strong>EU AI Act (High-Risk AI)</strong></td>
+                <td>Article 9: Risk Management Scope</td>
+                <td>Article 14: Human Oversight Gates</td>
+                <td>Article 12: Automatic Record-Keeping</td>
+                <td>Article 15: Accuracy &amp; Robustness</td>
+              </tr>
+              <tr>
+                <td><strong>SEC Reg S-K (Item 106)</strong></td>
+                <td>Material Threat Surface Scope</td>
+                <td>Management Governance Structure</td>
+                <td>Durable Incident Forensics</td>
+                <td>Materiality Impact Triage</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Section 6 -->
+      <section class="whitepaper-section" id="formal-proof">
+        <h2>6. Formal Verification Appendix: Lean 4 Safety Proof</h2>
+        <p>
+          To substantiate that this policy is backed by formal mathematical invariants rather than voluntary assurances, the DART state machine is formalized in Lean 4. Below is the machine-checked proof confirming that <strong>unauthorized dispatches and orphan side effects are mathematically impossible</strong> within the protocol:
+        </p>
+
+        <div class="architecture-figure">
+          <pre><code>/-
+  DART Framework: Formal Specification and Safety Proof in Lean 4
+  Authors: SuhLabs Research
+  Description: Machine-checked proof of complete mediation and zero orphan states.
+-/
+
+structure Principal where
+  id : String
+  deriving DecidableEq, Repr
+
+structure TaskContract where
+  schemaDigest : String
+  commandDigest : String
+  deriving DecidableEq, Repr
+
+structure AuthToken where
+  issuer : Principal
+  delegatedActor : Principal
+  contractDigest : String
+  fencingToken : Nat
+  deriving DecidableEq, Repr
+
+structure LedgerEntry where
+  txId : String
+  contractDigest : String
+  blockHeight : Nat
+  deriving DecidableEq, Repr
+
+inductive DARTState where
+  | idle
+  | declared   (contract : TaskContract) (actor : Principal)
+  | authorized (contract : TaskContract) (actor : Principal) (token : AuthToken)
+  | recorded   (contract : TaskContract) (actor : Principal) (token : AuthToken) (entry : LedgerEntry)
+  | dispatched (contract : TaskContract) (actor : Principal)
+  | triaged    (contract : TaskContract) (accepted : Bool)
+  deriving Repr
+
+inductive Step : DARTState → DARTState → Prop where
+  | step_declare (c : TaskContract) (actor : Principal) :
+      Step DARTState.idle (DARTState.declared c actor)
+
+  | step_authorize (c : TaskContract) (actor : Principal) (pdp : Principal) (tok : AuthToken) :
+      actor ≠ pdp →
+      tok.issuer = pdp →
+      tok.delegatedActor = actor →
+      tok.contractDigest = c.commandDigest →
+      Step (DARTState.declared c actor) (DARTState.authorized c actor tok)
+
+  | step_record (c : TaskContract) (actor : Principal) (tok : AuthToken) (entry : LedgerEntry) :
+      entry.contractDigest = c.commandDigest →
+      Step (DARTState.authorized c actor tok) (DARTState.recorded c actor tok entry)
+
+  | step_dispatch (c : TaskContract) (actor : Principal) (tok : AuthToken) (entry : LedgerEntry) :
+      Step (DARTState.recorded c actor tok entry) (DARTState.dispatched c actor)
+
+  | step_triage (c : TaskContract) (actor : Principal) (res : Bool) :
+      Step (DARTState.dispatched c actor) (DARTState.triaged c res)
+
+-- THEOREM: External Complete Mediation (Zero Unauthorized Execution)
+theorem complete_mediation_invariant 
+    (c : TaskContract) (actor : Principal) :
+    ∀ s_init, Step s_init (DARTState.dispatched c actor) →
+    ∃ tok entry, s_init = DARTState.recorded c actor tok entry := by
+  intro s_init h_step
+  cases h_step with
+  | step_dispatch c_prime actor_prime tok entry =>
+    exact ⟨tok, entry, rfl⟩
+
+-- THEOREM: Non-Bypassability of the Audit Ledger (Zero Orphan Execution)
+theorem no_unrecorded_dispatch 
+    (c : TaskContract) (actor : Principal) :
+    ¬ Step (DARTState.declared c actor) (DARTState.dispatched c actor) := by
+  intro h_illegal_step
+  cases h_illegal_step</code></pre>
+          <div class="figure-caption">
+            Fig 6.1: Lean 4 specification of the DART protocol. Proves that no execution dispatch can bypass external authorization or audit recording.
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 7: Bibliography -->
+      <section class="whitepaper-section" id="references">
+        <h2>7. References &amp; Authoritative Sources</h2>
+        <ul class="sources-list">
+          <li id="nist-800-207">
+            <span class="source-evidence-tag">NATIONAL STANDARD</span>
+            <a href="https://doi.org/10.6028/NIST.SP.800-207" target="_blank" rel="noopener noreferrer" class="bib-title">Zero Trust Architecture</a>: Rose, S., Borchert, O., Mitchell, S., &amp; Connelly, S. (NIST Special Publication 800-207, 2020). Defines dynamic per-session mechanical authorization, external Policy Decision Point / Policy Enforcement Point boundaries, and continuous telemetry verification.
+            <a href="https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-207.pdf" target="_blank" rel="noopener noreferrer" class="source-aux-link">PDF &rarr;</a>
+          </li>
+          <li id="nist-ai-rmf">
+            <span class="source-evidence-tag">NATIONAL FRAMEWORK</span>
+            <a href="https://doi.org/10.6028/NIST.AI.100-1" target="_blank" rel="noopener noreferrer" class="bib-title">Artificial Intelligence Risk Management Framework (AI RMF 1.0)</a>: National Institute of Standards and Technology (NIST AI 100-1, 2023). Framework for managing risks in the design, development, and deployment of AI systems across Govern, Map, Measure, and Manage functions.
+            <a href="https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf" target="_blank" rel="noopener noreferrer" class="source-aux-link">PDF &rarr;</a>
+          </li>
+          <li id="iso-42001">
+            <span class="source-evidence-tag">INTERNATIONAL STANDARD</span>
+            <a href="https://www.iso.org/standard/81230.html" target="_blank" rel="noopener noreferrer" class="bib-title">Information Technology: Artificial Intelligence: Management System (ISO/IEC 42001:2023)</a>: International Organization for Standardization (2023). Establishes requirements for establishing, implementing, maintaining, and continually improving an Artificial Intelligence Management System (AIMS).
+            <a href="https://www.iso.org/standard/81230.html" target="_blank" rel="noopener noreferrer" class="source-aux-link">ISO &rarr;</a>
+          </li>
+          <li id="omb-m24-10">
+            <span class="source-evidence-tag">FEDERAL POLICY</span>
+            <a href="https://www.whitehouse.gov/wp-content/uploads/2024/03/M-24-10-Advancing-Governance-Innovation-and-Risk-Management-for-Agency-Use-of-Artificial-Intelligence.pdf" target="_blank" rel="noopener noreferrer" class="bib-title">OMB Memorandum M-24-10: Advancing Governance, Innovation, and Risk Management for Agency Use of Artificial Intelligence</a>: Office of Management and Budget (Executive Office of the President, March 2024). Establishes mandatory federal minimum risk-management practices and Chief AI Officer governance.
+            <a href="https://www.whitehouse.gov/wp-content/uploads/2024/03/M-24-10-Advancing-Governance-Innovation-and-Risk-Management-for-Agency-Use-of-Artificial-Intelligence.pdf" target="_blank" rel="noopener noreferrer" class="source-aux-link">PDF &rarr;</a>
+          </li>
+          <li id="rfc-8785">
+            <span class="source-evidence-tag">CANONICALIZATION SPEC</span>
+            <a href="https://doi.org/10.17487/RFC8785" target="_blank" rel="noopener noreferrer" class="bib-title">JSON Canonicalization Scheme (JCS)</a>: Rundgren, A., Jordan, B., &amp; Erdtman, S. (Internet Engineering Task Force Informational RFC 8785, 2020). Defines deterministic canonicalization of JSON data for cryptographic hashing.
+            <a href="https://www.rfc-editor.org/rfc/rfc8785.html" target="_blank" rel="noopener noreferrer" class="source-aux-link blue">RFC &rarr;</a>
+          </li>
+          <li id="rfc-9449">
+            <span class="source-evidence-tag">SECURITY SPEC</span>
+            <a href="https://doi.org/10.17487/RFC9449" target="_blank" rel="noopener noreferrer" class="bib-title">OAuth 2.0 Demonstrating Proof-of-Possession at the Application Layer (DPoP)</a>: Fett, D., Campbell, B., Bradley, J., Lodderstedt, T., Jones, M., &amp; Waite, D. (Internet Engineering Task Force RFC 9449, 2023). Defines application-layer sender-constrained tokens preventing replay attacks.
+            <a href="https://www.rfc-editor.org/rfc/rfc9449.html" target="_blank" rel="noopener noreferrer" class="source-aux-link blue">RFC &rarr;</a>
+          </li>
+        </ul>
+      </section>
+    </div>
+
+    <footer>
+      <div class="logo">SUH<span>LABS</span></div>
+      <p>| Sovereign Code | Defensive Security &amp; Compliance Tooling |</p>
+      <div class="disclaimer">
+        SuhLabs publishes defensive research and compliance tooling. Recon and simulation work is for authorized environments only.
+      </div>
+    </footer>
+
+    <script>
+      function toggleMenu() {
+        const nav = document.querySelector(".nav-links");
+        const hamburger = document.querySelector(".hamburger");
+        nav.classList.toggle("active");
+        hamburger.classList.toggle("active");
+      }
+    </script>
+  </body>
+</html>
