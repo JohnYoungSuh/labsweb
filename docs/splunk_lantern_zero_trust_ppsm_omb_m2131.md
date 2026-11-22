@@ -37,6 +37,7 @@ This article provides a prescriptive AWS deployment architecture that ingests VP
 * **Splunk Common Information Model (CIM):** Version 5.x or later (specifically the `Network_Traffic` data model).
 * **Splunk Add-on for Amazon Web Services (AWS):** Used for CloudWatch VPC flow ingestion.
 * **Splunk App for Zero Trust Compliance (Splunkbase #9582):** Provides persistent KV Store collections for DoD COA activities and the cryptographic Proof of Delivery (PoD) vault.
+* **Splunk Lookup File Editor (Splunkbase #1724):** Recommended tool for easily importing, editing, and managing CAL, CSAL, and PPSM lookup tables directly within the Splunk Web UI.
 * **AWS-DFD-Visualizer (Splunkbase #8628):** Renders cloud asset topology, security groups, and data flows onto NIST SP 800-207 Three-Plane swimlanes.
 * **TA-suhlabs-eMASS (Splunkbase #8253):** Provides automated export of non-compliant findings into eMASS POA&M milestone records.
 
@@ -132,13 +133,15 @@ Upload this file to Splunk via **Settings > Lookups > Lookup table files** and c
 
 #### Practitioner Reality: Extracting CAL and CSAL Baselines from Excel via VBA
 
-In operational federal environments, program offices rarely deliver CAL (Connection Approval List) and CSAL (Cybersecurity Software Authorization List) baselines as ready-to-ingest CSV files. Instead, they are typically delivered as complex, multi-tab Excel workbooks (`.xlsx` or `.xlsm`) containing merged header rows and formula formatting.
+In operational federal environments, program offices rarely deliver CAL (Connection Approval List) and CSAL (Cybersecurity Software Authorization List) baselines as ready-to-ingest CSV files. Instead, they are typically delivered as complex, multi-tab Excel workbooks (`.xlsx` or `.xlsm`) containing merged header rows, formula formatting, and program-specific metadata.
 
-To bridge this operational gap, security engineers write lightweight VBA (Visual Basic for Applications) extraction macros inside the master workbook. The macro crawls the program rows, sanitizes cell data, and exports clean, standardized CSV lookups (`zt_cal_boundary.csv` and `zt_csal_manifest.csv`) for direct Splunk upload:
+To bridge this operational gap, security engineers write custom VBA (Visual Basic for Applications) extraction macros inside the master workbook. 
+
+*(Important Implementation Note: The VBA script below is an illustrative reference pattern. Because every program office, command, and customer maintains its CAL and CSAL workbooks with unique sheet structures, tab names, and column orders, the implementer must write or adapt a macro tailored to their specific spreadsheet layout. The goal is simply to extract clean, unmerged rows that can be imported directly into Splunk using the **Splunk Lookup File Editor** app (Splunkbase #1724) or via **Settings > Lookups**).*
 
 ```vba
-' VBA Macro: Export_CAL_CSAL_To_Splunk_CSV
-' Runs in Microsoft Excel to extract sanitized CAL boundary lookups for Splunk
+' Example VBA Macro: Export_CAL_CSAL_To_Splunk_CSV
+' Illustrative pattern: Implementers should adapt column indexes and sheet names to match their workbook layout
 Sub ExportCALToSplunkCSV()
     Dim ws As Worksheet
     Dim csvFile As String
@@ -178,7 +181,7 @@ ErrorHandler:
 End Sub
 ```
 
-Running this macro produces clean lookup files ready to be uploaded to Splunk KV Store collections or standard CSV lookup definitions without manual re-formatting.
+Running an adapted macro produces clean lookup files ready to be imported directly via the **Splunk Lookup File Editor** into Splunk KV Store collections or standard CSV lookup definitions without manual copy-pasting.
 
 ### Step 4: Run the Accelerated Data Flow Validation Search on the Summary Index
 
@@ -299,6 +302,7 @@ The following public crosswalk maps the operational telemetry ingested in this g
 
 * **Splunkbase Apps:**
   * [Splunk App for Zero Trust Compliance (Splunkbase #9582)](https://splunkbase.splunk.com/app/9582)
+  * [Splunk Lookup File Editor (Splunkbase #1724)](https://splunkbase.splunk.com/app/1724)
   * [AWS-DFD-Visualizer (Splunkbase #8628)](https://splunkbase.splunk.com/app/8628)
   * [TA-suhlabs-eMASS (Splunkbase #8253)](https://splunkbase.splunk.com/app/8253)
 * **Standards & Guidance (Public / Unclassified):**
