@@ -406,7 +406,7 @@
       <div class="whitepaper-section">
         <h2>1. The Operator Constraint: Buying a Tool Does Not Close a Task</h2>
         <p>
-          Implementing Zero Trust (ZT) across defense programs frequently breaks down because organizations mistake vendor procurement for operational delivery. When functional owners treat roadmap activities as commercial software purchases, they deploy disparate tools—identity providers, microsegmentation agents, endpoint sensors—and discover at audit time that requirements remain unsatisfied.
+          Implementing Zero Trust (ZT) across defense programs frequently breaks down because organizations mistake vendor procurement for operational delivery. When functional owners treat roadmap activities as commercial software purchases, they deploy disparate tools (identity providers, microsegmentation agents, and endpoint sensors) and discover at audit time that requirements remain unsatisfied.
         </p>
         <p>
           The <strong>DoD Zero Trust Execution Roadmap</strong> and <strong>NIST SP 800-207</strong> define explicit operational outcomes across seven architectural pillars:
@@ -492,6 +492,9 @@
               </tr>
             </tbody>
           </table>
+          <div class="figure-caption" style="text-align: left; margin-top: 0.6rem; font-style: italic; font-size: 0.78rem;">
+            * Note: 100% denotes internal operational milestone completion within the KV Store tracker, not an external statutory audit certification or third-party guarantee. Formal compliance remains an independent Authorizing Official (AO) determination.
+          </div>
         </div>
       </div>
 
@@ -501,14 +504,14 @@
           To prevent multi-year waterfall compliance debt, the application maps agile sprint mechanisms directly to DoD Zero Trust Operational Milestones (ZTOM). Work progresses through a 5-column Kanban pipeline:
         </p>
         <p style="padding-left: 1.5rem; color: var(--accent-green); font-family: 'Fira Code', monospace; font-size: 0.9rem;">
-          Backlog &rarr; To Do &rarr; In Progress &rarr; Testing / In Review &rarr; Done / Certified
+          Backlog &rarr; To Do &rarr; In Progress &rarr; Testing / In Review &rarr; Done / Accepted (ISSO Verified)
         </p>
         <p>
           Role-governed stage gates ensure regulatory integrity throughout the loop:
         </p>
         <ul style="color: var(--text-muted); line-height: 1.7; margin-bottom: 1.5rem; padding-left: 1.5rem;">
           <li>
-            <strong>Technical SME:</strong> Pulls committed activities into active sprints (Sprint 0 through Sprint 6+), opens the slide-out Proof of Delivery (PoD) drawer, attaches verifiable SHA-256 telemetry digests, and advances the card to <em>Testing / In Review</em>. SMEs cannot self-certify work to Done.
+            <strong>Technical SME:</strong> Pulls committed activities into active sprints (Sprint 0 through Sprint 6+), opens the slide-out Proof of Delivery (PoD) drawer, attaches verifiable SHA-256 telemetry digests, and advances the card to <em>Testing / In Review</em>. SMEs cannot unilaterally advance work to Done / Accepted.
           </li>
           <li>
             <strong>Scrum Master / PM:</strong> Governs Work-in-Progress (WIP) column limits, monitors cycle time and throughput KPIs, and synchronizes activity roadmaps with project onboarding spreadsheets.
@@ -533,7 +536,7 @@
             </thead>
             <tbody>
               <tr>
-                <td><strong>Done / Certified</strong></td>
+                <td><strong>Done / Accepted (ISSO Verified)</strong></td>
                 <td><code>Compliant</code></td>
                 <td>100%</td>
                 <td><code>Completed</code></td>

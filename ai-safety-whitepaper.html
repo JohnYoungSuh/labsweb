@@ -191,17 +191,17 @@
         </p>
         <ul class="feature-list">
           <li>
-            <strong>L1: Invented capability</strong> — The agent names an API or
+            <strong>L1: Invented capability:</strong> The agent names an API or
             a system function that is not there. The checker below does not
             look for this.
           </li>
           <li>
-            <strong>L2: Out-of-scope tool</strong> — The agent calls a tool it
+            <strong>L2: Out-of-scope tool:</strong> The agent calls a tool it
             was not given, such as reading credentials. The checker below does
             not look for this.
           </li>
           <li>
-            <strong>L3: Deny-listed command text</strong> — The command string
+            <strong>L3: Deny-listed command text:</strong> The command string
             contains a listed pattern such as <code>rm -rf</code> or
             <code>drop table</code>. The simulation below is this check.
           </li>
@@ -354,7 +354,7 @@
             const actionNode = document.createElement("div");
             actionNode.style.color = "var(--accent-pink)";
             actionNode.style.fontWeight = "bold";
-            actionNode.textContent = "[ACTION] none — this demo does not block the command";
+            actionNode.textContent = "[ACTION] none: this demo does not block the command";
             panel.appendChild(actionNode);
           } else {
             const infoNode = document.createElement("div");
