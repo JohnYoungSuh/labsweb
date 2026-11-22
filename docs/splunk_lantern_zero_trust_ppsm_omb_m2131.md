@@ -45,6 +45,10 @@ This article provides a prescriptive AWS deployment architecture that ingests VP
 
 ## 3. Step-by-Step Implementation Guide
 
+> [!IMPORTANT]
+> **Operational Security & CUI Notice: Conceptual SPL Reference Blueprints**  
+> All SPL searches, field extractions, and data model examples presented in this guide are **conceptual reference blueprints**. In federal and defense enclaves, production queries contain sensitive network topology details (such as proprietary CIDR blocks, mission VPC IDs, private peering endpoints, and operational interface tags) that constitute Controlled Unclassified Information (CUI) and cannot be published in public documentation. Implementers must adapt these conceptual search patterns to match their enclave-specific data models, index naming conventions, and local classification boundaries.
+
 ```
 +----------------------------------------------------------------------------------------------------------+
 |                              AWS ZERO TRUST DATA FLOW VALIDATION LOOP                                    |
@@ -105,6 +109,7 @@ To solve this, configure a scheduled saved search named **`summary_vpc_flow`**:
 3. In the search box, enter the rollup aggregation query:
 
 ```spl
+`comment("Conceptual Reference SPL: Adapt index names and field tags to local enclave requirements to prevent CUI exposure")`
 index=aws_vpc_flow sourcetype="aws:cloudwatch:vpcflow" action="ACCEPT"
 | stats count AS flow_count, sum(bytes) AS total_bytes, sum(packets) AS total_packets
   by srcaddr, dstaddr, dstport, protocol, interface_id, vpc_id, action
@@ -188,6 +193,7 @@ Running an adapted macro produces clean lookup files ready to be imported direct
 Now, execute the compliance validation search against the **summary index** populated by `summary_vpc_flow`. This search maps numeric IANA protocol numbers (e.g. protocol 6 to `tcp`, protocol 17 to `udp`), joins each flow against the authorized `zt_ppsm_registry`, and flags any unapproved boundary traversals:
 
 ```spl
+`comment("Conceptual Reference SPL: Adapt summary index name, field aliases, and registry lookups to local enclave topology")`
 index=summary search_name="summary_vpc_flow"
 | eval transport=case(protocol=6, "tcp", protocol=17, "udp", protocol=1, "icmp", true(), tostring(protocol)),
        dest_port=dstport,
@@ -225,6 +231,7 @@ To visualize the validated flows within your cloud topology, open **AWS-DFD-Visu
 When the validation search returns zero unapproved flows across the audit evaluation window, compute and commit the evidentiary proof to the Proof of Delivery vault in the **Splunk App for Zero Trust Compliance** (#9582):
 
 ```spl
+`comment("Conceptual Reference SPL: Adapt activity_id and audit parameters to program compliance requirements")`
 index=summary search_name="summary_vpc_flow"
 | eval transport=case(protocol=6, "tcp", protocol=17, "udp", protocol=1, "icmp", true(), tostring(protocol)),
        dest_port=dstport
