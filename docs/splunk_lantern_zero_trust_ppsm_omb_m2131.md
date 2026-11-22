@@ -253,15 +253,60 @@ To verify that this use case is operating correctly in your environment:
 
 ---
 
-## 5. Next Steps & Recommended Resources
+## 5. RMF & NIST SP 800-53 Rev. 5 Control Crosswalk (Zero CUI)
+
+Federal agencies and defense programs executing the Risk Management Framework (RMF under NIST SP 800-37 Rev. 2) must demonstrate continuous control assessment (NIST SP 800-53A) without exposing Controlled Unclassified Information (CUI). 
+
+The following public crosswalk maps the operational telemetry ingested in this guide directly to NIST SP 800-53 Rev. 5 security controls and public DoD policy directives:
+
+| Operational Requirement | Primary NIST SP 800-53 Rev. 5 Controls | Public Policy Authority (Non-CUI) | Control Intent & Evidentiary Proof |
+| :--- | :--- | :--- | :--- |
+| **PPSM** *(Ports, Protocols & Services)* | **CM-7** *(Least Functionality)*<br>**CM-7(1)** *(Periodic Review)*<br>**SC-7** *(Boundary Protection)*<br>**SC-7(5)** *(Deny by Default)* | **DoD Instruction 8551.01** (*Ports, Protocols, and Services Management*) | Enforces that only registered, mission-essential ports and protocols traverse boundary firewalls. Accelerated summary searches prove zero unauthorized flows. |
+| **CAL** *(Connection Approval List)* | **CA-3** *(Information Exchange)*<br>**CA-3(1)** *(Interconnection Agreements)*<br>**SC-7(3)** *(Access Points)*<br>**SC-7(4)** *(External Telecom)* | **DoD Instruction 8500.01** (*Cybersecurity*) & DISA Connection Process Guide (CPG) | Validates that Cloud Access Points (CAP) and VPC peering connections possess active Authority to Connect (ATC) dates prior to routing cross-boundary packets. |
+| **CSAL** *(Software Authorization List)* | **CM-7(4)** *(Authorized Software / Allowlisting)*<br>**CM-10** *(Software Usage Restrictions)*<br>**SI-7(1)** *(Integrity Verification)* | **NIST SP 800-218** (*Secure Software Development Framework*) & OMB M-22-18 | Requires maintaining an approved software baseline. Prevents unauthorized binary execution by verifying process execution against cryptographic SHA-256 digests. |
+| **OMB M-21-31** *(Event Logging)* | **AU-2** *(Event Logging)*<br>**AU-3** *(Content of Audit Records)*<br>**AU-6** *(Audit Review & Analysis)*<br>**AU-12** *(Data Retention)* | **OMB Memorandum M-21-31** (*Improving Federal Incident Capabilities*) | Establishes EL0 to EL3 logging maturity, requiring comprehensive network flow metadata ingestion, time-synchronized retention, and automated audit analysis. |
+
+### RMF System Life Cycle Integration (NIST SP 800-37 Rev. 2)
+
+```
++----------------------------------------------------------------------------------------------------------+
+|                             RMF LIFECYCLE WITH DART & SPLUNK EVIDENCE                                    |
+|                                                                                                          |
+|  RMF STEP 2: SELECT (NIST SP 800-53 Rev. 5 Controls)                                                     |
+|  - Select CA-3 (CAL), CM-7 / SC-7 (PPSM), CM-7(4) (CSAL), and AU-2/3/6 (OMB M-21-31).                   |
+|                                     |                                                                    |
+|  RMF STEP 3: IMPLEMENT (DART "Declare" & "Authorize" Phases)                                             |
+|  - Ingest aws:config:json crawler (Pillar 3) and AWS CloudWatch VPC Flow Logs (Pillar 5).                |
+|  - Schedule summary_vpc_flow rollup search into designated summary index.                                |
+|  - Establish zt_ppsm_registry and zt_cal_boundary lookups (extracted from Excel via VBA).                |
+|                                     |                                                                    |
+|  RMF STEP 4: ASSESS (NIST SP 800-53A Rev. 5 / DART "Record" Phase)                                       |
+|  - Execute accelerated summary query: cross-reference live flows against authorized lookups.             |
+|  - Compute cryptographic SHA-256 evidence digest binding query results to zt_evidence_pod.              |
+|                                     |                                                                    |
+|  RMF STEP 5: AUTHORIZE (DART Stage-Gate Acceptance)                                                      |
+|  - Authorizing Official (AO) reviews tamper-evident Proof of Delivery vault for ATO / ATC decision.      |
+|                                     |                                                                    |
+|  RMF STEP 6: MONITOR (Continuous Monitoring / cATO & DART "Triage" Phase)                                |
+|  - Scheduled searches run continuously to detect unapproved ports, expired CAL links, or shadow software. |
+|  - Automated POA&M milestone updates exported directly to DoD eMASS via TA-suhlabs-eMASS (#8253).        |
++----------------------------------------------------------------------------------------------------------+
+```
+
+---
+
+## 6. Next Steps & Recommended Resources
 
 * **Splunkbase Apps:**
   * [Splunk App for Zero Trust Compliance (Splunkbase #9582)](https://splunkbase.splunk.com/app/9582)
   * [AWS-DFD-Visualizer (Splunkbase #8628)](https://splunkbase.splunk.com/app/8628)
   * [TA-suhlabs-eMASS (Splunkbase #8253)](https://splunkbase.splunk.com/app/8253)
-* **Standards & Guidance:**
+* **Standards & Guidance (Public / Unclassified):**
+  * **NIST SP 800-53 Rev. 5:** [Security and Privacy Controls for Information Systems and Organizations](https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final)
+  * **NIST SP 800-37 Rev. 2:** [Risk Management Framework for Information Systems and Organizations](https://csrc.nist.gov/publications/detail/sp/800-37/rev-2/final)
+  * **NIST SP 800-207:** [Zero Trust Architecture](https://csrc.nist.gov/publications/detail/sp/800-207/final)
+  * **NIST SP 800-218:** [Secure Software Development Framework (SSDF)](https://csrc.nist.gov/publications/detail/sp/800-218/final)
   * **OMB M-21-31:** *Improving the Federal Government's Investigative and Remediation Capabilities Related to Cybersecurity Incidents*
   * **DoD Instruction 8551.01:** *Ports, Protocols, and Services Management (PPSM)*
-  * **NIST SP 800-207:** *Zero Trust Architecture*
 * **Reference Architecture & Engineering Whitepaper:**
   * [Zero Trust Architecture: Implementation Reality & Evidentiary Proof (SuhLabs)](https://suhlabs.com/zero-trust-whitepaper.html)
