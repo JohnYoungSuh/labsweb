@@ -45,10 +45,6 @@ This article provides a prescriptive AWS deployment architecture that ingests VP
 
 ## 3. Step-by-Step Implementation Guide
 
-> [!IMPORTANT]
-> **Operational Security & CUI Notice: Conceptual SPL Reference Blueprints**  
-> All SPL searches, field extractions, and data model examples presented in this guide are **conceptual reference blueprints**. In federal and defense enclaves, production queries contain sensitive network topology details (such as proprietary CIDR blocks, mission VPC IDs, private peering endpoints, and operational interface tags) that constitute Controlled Unclassified Information (CUI) and cannot be published in public documentation. Implementers must adapt these conceptual search patterns to match their enclave-specific data models, index naming conventions, and local classification boundaries.
-
 ```
 +----------------------------------------------------------------------------------------------------------+
 |                              AWS ZERO TRUST DATA FLOW VALIDATION LOOP                                    |
@@ -109,7 +105,7 @@ To solve this, configure a scheduled saved search named **`summary_vpc_flow`**:
 3. In the search box, enter the rollup aggregation query:
 
 ```spl
-`comment("Conceptual Reference SPL: Adapt index names and field tags to local enclave requirements to prevent CUI exposure")`
+`comment("Conceptual Reference SPL: Adapt index names and field tags to local enclave requirements")`
 index=aws_vpc_flow sourcetype="aws:cloudwatch:vpcflow" action="ACCEPT"
 | stats count AS flow_count, sum(bytes) AS total_bytes, sum(packets) AS total_packets
   by srcaddr, dstaddr, dstport, protocol, interface_id, vpc_id, action
