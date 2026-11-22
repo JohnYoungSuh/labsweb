@@ -94,5 +94,5 @@ Zero Trust compliance involves complex inter-activity dependencies. The native s
 * **Splunkbase App #9582:** [Splunk App for Zero Trust Compliance](https://splunkbase.splunk.com/app/9582)
 * **Splunkbase App #8628:** [AWS-DFD-Visualizer](https://splunkbase.splunk.com/app/8628)
 * **Splunkbase App #8253:** [TA-suhlabs-eMASS](https://splunkbase.splunk.com/app/8253)
-* **GitHub Repository:** [JohnYoungSuh/Zero_Trust_Compliance](https://github.com/JohnYoungSuh/Zero_Trust_Compliance)
+* **GitHub Profile & Defense Projects:** [JohnYoungSuh on GitHub](https://github.com/JohnYoungSuh)
 * **Technical Whitepaper:** [Zero Trust Architecture: Implementation Reality & Evidentiary Proof (SuhLabs)](https://suhlabs.com/zero-trust-whitepaper.html)

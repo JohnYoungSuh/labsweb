@@ -10,7 +10,7 @@
 
 ### Introduction: The Spreadsheet Bottleneck in Zero Trust
 
-Implementing Zero Trust (ZT) across defense programs frequently breaks down when teams treat the mandate as a vendor procurement exercise. In federal environments, programs are required to satisfy all **152 activities mandated by the DoD Zero Trust Execution Roadmap (Courses of Action 1–3)** across the 7 Zero Trust Pillars (User, Device, Applications & Workloads, Data, Network & Environment, Automation & Orchestration, Visibility & Analytics).
+Implementing Zero Trust (ZT) across defense programs frequently breaks down when teams treat the mandate as a vendor procurement exercise. In federal environments, programs are required to satisfy all **152 activities mandated by the DoD Zero Trust Execution Roadmap (Courses of Action 1 to 3)** across the 7 Zero Trust Pillars (User, Device, Applications & Workloads, Data, Network & Environment, Automation & Orchestration, Visibility & Analytics).
 
 In practice, most security teams attempt to track these 152 activities using disconnected CSV spreadsheets or static Jira tickets. When audit time arrives, there is an acute gap between the commercial tools deployed (EDR, identity providers, firewalls) and the defensible evidence required by an Authorizing Official (AO) or ISSO.
 
@@ -30,13 +30,13 @@ Work progresses through role-governed stage gates:
 1. **Backlog & To Do:** 152 pre-loaded DoD activities mapped to target maturity tiers.
 2. **In Progress:** Technical SMEs attach telemetry digests to active sprint cards.
 3. **Testing / In Review:** Gated queue where required preconditions must be met.
-4. **Done / Accepted (ISSO Verified):** Formal sign-off when verified telemetry proves the milestone outcome.
+4. **Done / Accepted (ISSO Verified):** Formal sign-off when verified telemetry proves the milestone outcome. *(Note: Milestone acceptance in the KV Store tracks technical verification; formal statutory accreditation remains the sole authority of the designated Authorizing Official).*
 
 ---
 
 ### The Core Architecture: The Proof of Delivery (PoD) Drawer
 
-The centerpiece of the application is the **Proof of Delivery (PoD)** slide-out drawer (`zt_pod_handler.py`). Instead of a simple checkbox, each activity card opens a structured 3-part record that documents the lifecycle of the requirement:
+At the core of the application is the **Proof of Delivery (PoD)** slide-out drawer (`zt_pod_handler.py`). Instead of a simple checkbox, each activity card opens a structured 3-part record that documents the lifecycle of the requirement:
 
 ```
 +---------------------------------------------------------------------------------------------------------+
@@ -104,7 +104,7 @@ Beyond identity and endpoint metrics, federal programs must satisfy strict perim
 | stats count AS unauthorized_ppsm_flows by All_Traffic.dest_port, All_Traffic.transport
 ```
 
-When this query returns zero unapproved flows over the verification evaluation window, the resulting dataset digest is hashed (SHA-256) and committed to the Proof of Delivery vault, providing the Authorizing Official (AO) with tamper-evident proof that PPSM compliance is actively enforced.
+When this query returns zero unapproved flows over the verification evaluation window, the resulting dataset digest is hashed (SHA-256) and committed to the Proof of Delivery vault, providing the Authorizing Official (AO) with tamper-evident evidentiary proof of PPSM compliance across observed boundary traffic. *(Note: Splunk provides evidentiary monitoring and audit telemetry; active packet dropping remains the responsibility of network enforcement points such as firewalls and microsegmentation gateways).*
 
 ---
 
@@ -128,10 +128,12 @@ Implemented in `bin/get_critical_path.py`, this command executes a server-side D
 
 Zero Trust compliance should not be an annual spreadsheet scramble. By tracking the 152 DoD COA activities directly in Splunk Enterprise and anchoring milestones to cryptographic Proof of Delivery records, security teams can bridge the gap between commercial tool telemetry and audit readiness.
 
-We invite the Splunk community to test the pilot application, inspect the KV Store schemas, and share feedback on GitHub:
+We invite the Splunk community to test the pilot application, inspect the KV Store schemas, and share feedback:
 
 * **Download on Splunkbase:** [Splunk App for Zero Trust Compliance (Splunkbase #9582)](https://splunkbase.splunk.com/app/9582)
-* **GitHub Repository:** [JohnYoungSuh/Zero_Trust_Compliance](https://github.com/JohnYoungSuh/Zero_Trust_Compliance)
+* **GitHub Profile & Open-Source Projects:** [JohnYoungSuh on GitHub](https://github.com/JohnYoungSuh)
 * **Companion Topology App:** [AWS-DFD-Visualizer (Splunkbase #8628)](https://splunkbase.splunk.com/app/8628)
+* **Companion RMF / POA&M App:** [TA-suhlabs-eMASS (Splunkbase #8253)](https://splunkbase.splunk.com/app/8253)
+* **Technical Reference Whitepaper:** [Zero Trust Architecture: Implementation Reality & Evidentiary Proof](https://suhlabs.com/zero-trust-whitepaper.html)
 
 *Do you track DoD Zero Trust roadmaps or NIST SP 800-207 milestones in Splunk? Drop your feedback, telemetry recipes, and search queries in the comments below!*
