@@ -600,14 +600,46 @@
 
       <div class="whitepaper-section">
         <h2>5. Proof of Delivery (PoD) Vault &amp; REST Endpoints</h2>
+        
+        <div class="callout-box blue" style="margin-top: 1rem; margin-bottom: 1.5rem;">
+          <div class="callout-title">// MATURITY_NOTICE: EARLY-STAGE PILOT &amp; PROOF OF CONCEPT (PoC)</div>
+          <p>
+            The Kanban planning pipeline and the prototype AI review agent (which inspects recorded index telemetry to draft Proof of Delivery records) are early-stage Proofs of Concept (PoCs). Released openly on Splunkbase (#9582) under open-source licensing, these modules are designed for defense community co-creation and operational feedback.
+          </p>
+        </div>
+
         <p>
-          Compliance is proven by cryptographically bound evidence, not spreadsheet checkboxes. The Proof of Delivery (PoD) vault (<code>zt_pod_handler.py</code>) links each roadmap activity to:
+          Compliance is proven by cryptographically bound evidence, not spreadsheet checkboxes. To satisfy a Zero Trust Operational Milestone (ZTOM) across the 152 activities of the DoD Zero Trust Execution Roadmap (COAs 1 to 3), each card in the planning pipeline opens a structured slide-out <strong>Proof of Delivery (PoD)</strong> drawer governed by <code>zt_pod_handler.py</code>. The drawer is organized into three distinct verification sections:
         </p>
+
+        <div class="architecture-figure">
+          <pre><code>+---------------------------------------------------------------------------------------------------------+
+|                                  PROOF OF DELIVERY (PoD) DRAWER SECTIONS                                |
+|                                                                                                         |
+|  [ SECTION 2: THE COA BASELINE ]                                                                        |
+|  - Mandatory DoD Activity ID (e.g. ZTOM-NET-01) &amp; Target Maturity Tier (Target vs. Advanced)            |
+|  - Architectural Pillar Alignment (User, Device, Apps, Data, Network, Automation, Visibility)          |
+|  - Predecessor Dependencies: Graph milestones that must close before this activity advances             |
+|                                                                                                         |
+|  [ SECTION 3: WORK IN PROGRESS &amp; OPERATIONAL GAPS ]                                                     |
+|  - Active Telemetry Sources: Deployed EDR, identity providers, and network sensors feeding Splunk      |
+|  - Operational Gaps: Explicit documentation of unmonitored subnets, legacy assets, or missing telemetry |
+|  - AI Review Agent (PoC): Scans raw index logs against COA requirements to draft gap summaries         |
+|                                                                                                         |
+|  [ SECTION 4: RECORDED &amp; TRIAGED EVIDENCE VAULT ]                                                       |
+|  - Live Splunk Common Information Model (CIM) search string and execution timestamp                     |
+|  - Cryptographic Evidence Digest: SHA-256 hash computed over search results and ACAS/VRAM scans         |
+|  - Attestation Metadata: Authenticated Splunk session user and timestamp in index=_internal             |
++---------------------------------------------------------------------------------------------------------+</code></pre>
+          <div class="figure-caption">
+            Fig 5.1: The Three-Part Proof of Delivery (PoD) Architecture for Satisfying DoD Zero Trust Milestones.
+          </div>
+        </div>
+
         <ul style="color: var(--text-muted); line-height: 1.7; padding-left: 1.5rem; margin-bottom: 1.5rem;">
-          <li>Cryptographic SHA-256 digests of live Splunk CIM queries, raw event counts, or ACAS/VRAM vulnerability scans.</li>
-          <li>Multi-framework governance cross-mappings (DoD ZTA, NIST SP 800-53 Rev 5, SOC 2, and FedRAMP High).</li>
-          <li>Digital attestation metadata recording the authenticated Splunk session user and timestamp.</li>
-          <li>Internal audit logging to <code>index=_internal sourcetype=zerotrust_audit</code>.</li>
+          <li><strong>Section 2 (COA Baseline):</strong> Establishes the authoritative DoD requirement, maturity tier, and DAG predecessor constraints.</li>
+          <li><strong>Section 3 (Work &amp; Gaps):</strong> Documents active engineering tasks, uncovered attack surfaces, and AI-assisted gap analysis.</li>
+          <li><strong>Section 4 (Record &amp; Triage Evidence):</strong> Contains the cryptographic SHA-256 evidence digests and Splunk CIM query proofs required for formal ISSO sign-off.</li>
         </ul>
 
         <div class="table-wrap">
