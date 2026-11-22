@@ -130,6 +130,56 @@ dest_port,transport,service_name,pps_category,disa_registry_id,approval_status,v
 
 Upload this file to Splunk via **Settings > Lookups > Lookup table files** and configure a Lookup Definition named `zt_ppsm_registry`.
 
+#### Practitioner Reality: Extracting CAL and CSAL Baselines from Excel via VBA
+
+In operational federal environments, program offices rarely deliver CAL (Connection Approval List) and CSAL (Cybersecurity Software Authorization List) baselines as ready-to-ingest CSV files. Instead, they are typically delivered as complex, multi-tab Excel workbooks (`.xlsx` or `.xlsm`) containing merged header rows and formula formatting.
+
+To bridge this operational gap, security engineers write lightweight VBA (Visual Basic for Applications) extraction macros inside the master workbook. The macro crawls the program rows, sanitizes cell data, and exports clean, standardized CSV lookups (`zt_cal_boundary.csv` and `zt_csal_manifest.csv`) for direct Splunk upload:
+
+```vba
+' VBA Macro: Export_CAL_CSAL_To_Splunk_CSV
+' Runs in Microsoft Excel to extract sanitized CAL boundary lookups for Splunk
+Sub ExportCALToSplunkCSV()
+    Dim ws As Worksheet
+    Dim csvFile As String
+    Dim rowNum As Long, lastRow As Long
+    Dim lineStr As String
+    Dim fileNum As Integer
+
+    On Error GoTo ErrorHandler
+    Set ws = ThisWorkbook.Sheets("CAL_Registry")
+    lastRow = ws.Cells(ws.Rows.Count, "A").End(xlUp).Row
+    csvFile = ThisWorkbook.Path & Application.PathSeparator & "zt_cal_boundary.csv"
+    fileNum = FreeFile
+
+    Open csvFile For Output As #fileNum
+    ' Write normalized Splunk header
+    Print #fileNum, "vpc_id,peering_id,approved_cidr,atc_expiration,disa_cal_id,approval_status"
+
+    For rowNum = 2 To lastRow
+        If Trim(ws.Cells(rowNum, 1).Value) <> "" Then
+            lineStr = ws.Cells(rowNum, 1).Value & "," & _
+                      ws.Cells(rowNum, 2).Value & "," & _
+                      ws.Cells(rowNum, 3).Value & "," & _
+                      Format(ws.Cells(rowNum, 4).Value, "YYYY-MM-DD") & "," & _
+                      ws.Cells(rowNum, 5).Value & "," & _
+                      ws.Cells(rowNum, 6).Value
+            Print #fileNum, lineStr
+        End If
+    Next rowNum
+
+    Close #fileNum
+    MsgBox "CAL lookup CSV exported successfully for Splunk: " & csvFile, vbInformation, "Splunk Lookup Export"
+    Exit Sub
+
+ErrorHandler:
+    If fileNum > 0 Then Close #fileNum
+    MsgBox "Error exporting CAL lookup: " & Err.Description, vbCritical, "Export Failure"
+End Sub
+```
+
+Running this macro produces clean lookup files ready to be uploaded to Splunk KV Store collections or standard CSV lookup definitions without manual re-formatting.
+
 ### Step 4: Run the Accelerated Data Flow Validation Search on the Summary Index
 
 Now, execute the compliance validation search against the **summary index** populated by `summary_vpc_flow`. This search maps numeric IANA protocol numbers (e.g. protocol 6 to `tcp`, protocol 17 to `udp`), joins each flow against the authorized `zt_ppsm_registry`, and flags any unapproved boundary traversals:
@@ -200,30 +250,6 @@ To verify that this use case is operating correctly in your environment:
 2. **Verify Configuration Ingestion:** Search `sourcetype="aws:config:json" | head 5` to confirm security group rules and VPC IDs are actively updating.
 3. **Simulate a Test Flow:** In a staging VPC, generate an unapproved port request (e.g. port 8088). Verify that the summary search flags it as `NON_COMPLIANT_UNREGISTERED`.
 4. **Inspect KV Store Audit Records:** Verify that passing audits append records to `zt_evidence_pod` containing the computed SHA-256 digest and execution timestamp.
-
----
-
-## 5. Next Steps & Recommended Resources
-
-* **Splunkbase Apps:**
-  * [Splunk App for Zero Trust Compliance (Splunkbase #9582)](https://splunkbase.splunk.com/app/9582)
-  * [AWS-DFD-Visualizer (Splunkbase #8628)](https://splunkbase.splunk.com/app/8628)
-  * [TA-suhlabs-eMASS (Splunkbase #8253)](https://splunkbase.splunk.com/app/8253)
-* **Standards & Guidance:**
-  * **OMB M-21-31:** *Improving the Federal Government's Investigative and Remediation Capabilities Related to Cybersecurity Incidents*
-  * **DoD Instruction 8551.01:** *Ports, Protocols, and Services Management (PPSM)*
-  * **NIST SP 800-207:** *Zero Trust Architecture*
-* **Reference Architecture & Engineering Whitepaper:**
-  * [Zero Trust Architecture: Implementation Reality & Evidentiary Proof (SuhLabs)](https://suhlabs.com/zero-trust-whitepaper.html)
-
----
-
-## 4. Validation & Verification
-
-To verify that this use case is operating correctly in your environment:
-1. **Simulate a Test Flow:** In a staging network, generate a single authorized request (e.g., HTTPS on port 443) and a single unregistered request (e.g., an unapproved port like 8088).
-2. **Execute the Validation Search:** Ensure that the unregistered port appears with `compliance_status="NON_COMPLIANT_UNREGISTERED"`, and the authorized port is excluded from the exception list.
-3. **Inspect KV Store Audit Records:** Verify that passing audits append records to `zt_evidence_pod` containing the computed SHA-256 digest and execution timestamp.
 
 ---
 
