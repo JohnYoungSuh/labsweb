@@ -605,7 +605,7 @@
         <div class="callout-box blue">
           <div class="callout-title">Architectural Trade-Off: Audit Safety vs. Operational Availability</div>
           <p>
-            Enforcing a fail-closed persistence barrier trades availability for preauthorization audit safety. If an adversary disrupts ledger storage \(\mathcal{L}\), AGT intentionally halts protected dispatches (HTTP 503), preventing unrecorded execution while incurring localized denial-of-service. Production deployments must therefore specify maximum tolerable stoppage windows, recovery timeouts, and whether any out-of-band break-glass operational mode exists. Furthermore, AGT <strong>relocates trust</strong> from application endpoints into the PEP/PDP/State/Ledger TCB; those control components must themselves be hardened against single-vendor supply-chain failure.
+            Enforcing a fail-closed persistence barrier trades availability for preauthorization audit safety. If an adversary disrupts ledger storage \(\mathcal{L}\), AGT intentionally halts protected dispatches (HTTP 503), preventing unrecorded execution while incurring localized denial-of-service. Production deployments must therefore specify maximum tolerable stoppage windows, recovery timeouts, and whether any out-of-band break-glass operational mode exists. In addition, AGT <strong>relocates trust</strong> from application endpoints into the PEP/PDP/State/Ledger TCB; those control components must themselves be hardened against single-vendor supply-chain failure.
           </p>
         </div>
       </section>
