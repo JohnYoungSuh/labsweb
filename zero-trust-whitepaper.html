@@ -637,9 +637,9 @@
         </div>
 
         <ul style="color: var(--text-muted); line-height: 1.7; padding-left: 1.5rem; margin-bottom: 1.5rem;">
-          <li><strong>Section 2 (COA Baseline):</strong> Establishes the authoritative DoD requirement, maturity tier, and DAG predecessor constraints.</li>
-          <li><strong>Section 3 (Work &amp; Gaps):</strong> Documents active engineering tasks, uncovered attack surfaces, and AI-assisted gap analysis.</li>
-          <li><strong>Section 4 (Record &amp; Triage Evidence):</strong> Contains the cryptographic SHA-256 evidence digests and Splunk CIM query proofs required for formal ISSO sign-off.</li>
+          <li><strong>Section 2 (COA Baseline &amp; Federal Registries):</strong> Establishes the authoritative DoD requirement, target maturity tier, and DAG predecessor constraints. For perimeter and software controls, this section links directly to statutory mandates including <strong>PPSM (DoDI 8551.01)</strong> Central Registry categories, <strong>CAL (Connection Approval List)</strong> authorization dates, and <strong>CSAL (Cybersecurity Software Authorization List)</strong> software baselines.</li>
+          <li><strong>Section 3 (Work in Progress &amp; Operational Gaps):</strong> Documents active engineering tasks, uncovered attack surfaces, and AI-assisted gap analysis. Explicitly flags unapproved ports, un-peered Cloud Access Point (CAP) subnets, and un-allowlisted binaries.</li>
+          <li><strong>Section 4 (Record &amp; Triage Evidence Vault):</strong> Contains the cryptographic SHA-256 evidence digests and Splunk CIM query proofs (such as <code>Network_Traffic</code> port validation and <code>Endpoint.Processes</code> binary hash matching) required for formal ISSO sign-off. Unresolved gaps and non-compliant flows automatically trigger POA&amp;M milestones formatted for <strong>TA-suhlabs-eMASS (#8253)</strong>.</li>
         </ul>
 
         <div class="table-wrap">
@@ -691,6 +691,9 @@
             </li>
             <li>
               <strong>PDP (Policy Decision Point), PE (Policy Engine), &amp; PA (Policy Administrator):</strong> Orchestrated control logic anchored by enterprise SIEM policies and automated playbooks.
+            </li>
+            <li>
+              <strong>Perimeter &amp; Host Boundaries (CAL, CSAL, PPSM):</strong> Topologies map Cloud Access Points (CAP) and peering gateways against active Connection Approval List (CAL) packages, cross-reference boundary firewall ACLs against DISA Ports, Protocols, and Services Management (PPSM under DoDI 8551.01) categories, and track host binary execution against Cybersecurity Software Authorization Lists (CSAL).
             </li>
           </ul>
         </div>
@@ -744,6 +747,11 @@
                 <td><strong>Discovery Telemetry</strong></td>
                 <td>Automated discovery scheduled searches populate observation state in the KV store.</td>
                 <td>Telemetry volume does not automatically mark an activity Compliant. A single passing hash confirms outcome proof; continuous authorization (cATO) requires recurring verification.</td>
+              </tr>
+              <tr>
+                <td><strong>CAL / CSAL / PPSM &amp; eMASS Sync</strong></td>
+                <td>Telemetry correlation against KV Store lookups (<code>zt_ppsm_registry</code>, <code>zt_csal_manifest</code>). Unapproved flows generate POA&amp;M milestones via <code>TA-suhlabs-eMASS (#8253)</code>.</td>
+                <td>Splunk detects and documents violations for AO review; Splunk does not inline drop packets at the wire without an external PDP/PEP firewall integration.</td>
               </tr>
             </tbody>
           </table>

@@ -16,7 +16,7 @@ In practice, most security teams attempt to track these 152 activities using dis
 
 To address this gap directly inside Splunk Enterprise, we built the open-source **Splunk App for Zero Trust Compliance (Splunkbase #9582)**. 
 
-*A quick note on maturity:* We want to be completely transparent with the community: this application is in its **early stages**, and parts of it—especially the integrated Kanban planning board and the prototype AI review agent that inspects telemetry data to draft delivery records—are currently an experimental **Proof of Concept (PoC)**. We are sharing it openly to co-create with the defense and Splunk practitioner community.
+*A quick note on maturity:* We want to be completely transparent with the community: this application is in its **early stages**, and parts of it (especially the integrated Kanban planning board and the prototype AI review agent that inspects telemetry data to draft delivery records) are currently an experimental **Proof of Concept (PoC)**. We are sharing it openly to co-create with the defense and Splunk practitioner community.
 
 ---
 
@@ -74,6 +74,37 @@ This is the immutable evidentiary record proving that the milestone outcome has 
 * **Splunk CIM Query String:** The exact SPL query executed across the Common Information Model (e.g. `tag=authentication action=success`).
 * **Cryptographic Evidence Digest:** A SHA-256 hash computed over the query results, binding the exact telemetry state to the record.
 * **Audit Trail:** Attestation metadata recording the authenticated Splunk user and timestamp, committed to `index=_internal sourcetype=zerotrust_audit`.
+
+---
+
+### Taking It Further: Operationalizing CAL, CSAL, and PPSM (DoDI 8551.01) via DART
+
+Beyond identity and endpoint metrics, federal programs must satisfy strict perimeter and software governance baselines. By integrating the **DART** framework (Declare, Authorize, Record, Triage) into the Proof of Delivery engine, we extend the Splunk workflow to cover:
+
+1. **PPSM (Ports, Protocols, and Services Management under DoDI 8551.01):**
+   * *Declare:* The program registers authorized ports, protocols, services, Vulnerability Assessment Categories (VAC), and DISA Central Registry tracking IDs in the `zt_ppsm_registry` KV Store collection.
+   * *Authorize:* Deterministic firewall and routing policies enforce that only declared services traverse enclave boundaries.
+   * *Record:* Inbound and outbound network logs (Palo Alto, Cisco ASA, AWS VPC Flow) are normalized into the Splunk CIM `Network_Traffic` data model.
+   * *Triage:* SPL scheduled searches automatically detect unmapped or unauthorized ports. Identified anomalies are exported directly into eMASS POA&M milestones via **TA-suhlabs-eMASS (Splunkbase #8253)**.
+
+2. **CAL (Connection Approval List & Cloud Access Layer):**
+   * *Declare:* Authorized boundary peering points, DISN inter-enclave connections, and Cloud Access Point (CAP) interfaces are tracked alongside their Authority to Connect (ATC) renewal dates.
+   * *Record & Triage:* Splunk monitors perimeter gateway routing telemetry. Connections traversing expired or unregistered CAL links generate immediate high-priority triage alerts.
+
+3. **CSAL (Cybersecurity Software Authorization List):**
+   * *Declare:* Approved endpoint software inventories and container images are registered with cryptographic SHA-256 binary digests in the `zt_csal_manifest` lookup.
+   * *Record & Triage:* Endpoint execution logs (Sysmon Event ID 1, CrowdStrike Falcon, Linux auditd) are mapped to Splunk CIM `Endpoint.Processes`. Any executed binary absent from the authorized CSAL triggers an automated violation record in the Proof of Delivery vault.
+
+```spl
+`comment("Example Splunk CIM query proving Zero Unregistered PPSM Ports across DISN Boundaries")`
+| tstats count from datamodel=Network_Traffic where nodename=All_Traffic.Traffic_By_Action
+  by All_Traffic.dest_port All_Traffic.transport All_Traffic.action
+| lookup zt_ppsm_registry dest_port AS All_Traffic.dest_port transport AS All_Traffic.transport OUTPUT pps_category, disa_registry_id, approval_status
+| where isnull(disa_registry_id) OR approval_status!="Approved"
+| stats count AS unauthorized_ppsm_flows by All_Traffic.dest_port, All_Traffic.transport
+```
+
+When this query returns zero unapproved flows over the verification evaluation window, the resulting dataset digest is hashed (SHA-256) and committed to the Proof of Delivery vault, providing the Authorizing Official (AO) with tamper-evident proof that PPSM compliance is actively enforced.
 
 ---
 
