@@ -115,36 +115,99 @@
       </div>
     </nav>
 
-    <header class="hero" style="padding: 4.5rem 2rem 3rem 2rem;">
+    <header class="hero" style="padding: 4rem 2rem 2.5rem 2rem;">
       <h1 style="font-size: 3.25rem; line-height: 1.15; margin-bottom: 1rem;">
-        Three problems. <br /><span style="color: var(--accent-green)"
-          >Clone the tools.</span
+        Research discovers. <br />The framework bounds. <br /><span style="color: var(--accent-green)"
+          >Policy enforces.</span
         >
       </h1>
-      <p style="font-size: 1.15rem; color: var(--text-muted); max-width: 800px; line-height: 1.6; margin-bottom: 1.75rem;">
-        Open-source work on agent pipeline failure, Zero Trust control evidence, and compliance automation. Issues welcome.
+      <p style="font-size: 1.15rem; color: var(--text-muted); max-width: 820px; line-height: 1.6; margin-bottom: 1.75rem;">
+        SuhLabs builds open-source deterministic control planes and Zero Trust evidence tooling for autonomous systems. From empirical failure research to the DART operating framework and federal policy standards.
       </p>
       <div style="display: flex; gap: 0.8rem; flex-wrap: wrap;">
-        <a href="community.html" class="card-btn primary" style="padding: 0.65rem 1.25rem; font-size: 0.85rem;">Contribute &rarr;</a>
-        <a href="projects.html" class="card-btn secondary" style="padding: 0.65rem 1.25rem; font-size: 0.85rem;">Browse Repositories &rarr;</a>
+        <a href="dart-policy-whitepaper.html" class="card-btn primary" style="padding: 0.65rem 1.25rem; font-size: 0.85rem;">Read DART Policy &rarr;</a>
+        <a href="experiments.html" class="card-btn secondary" style="padding: 0.65rem 1.25rem; font-size: 0.85rem;">Explore Research &rarr;</a>
+        <a href="projects.html" class="card-btn pink" style="padding: 0.65rem 1.25rem; font-size: 0.85rem;">Browse Tooling &rarr;</a>
       </div>
     </header>
 
     <div class="container" style="padding-top: 1rem; padding-bottom: 5rem;">
-      <!-- New Research Banner -->
-      <div style="background: rgba(12, 23, 36, 0.9); border: 1px solid var(--border-color); border-left: 4px solid var(--accent-pink); padding: 0.85rem 1.25rem; border-radius: 4px; margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
-        <div style="font-size: 0.88rem; color: #d1d5db;">
-          <span style="font-family: 'Fira Code', monospace; color: var(--accent-pink); font-weight: 600;">NEW POLICY STANDARD:</span> <strong>The DART Policy Framework</strong> (POLICY-2026-01 · Lean 4 Verified · Zero Trust Governance)
+      <!-- The 3-Tier Governance Stack Explanation -->
+      <div style="background: rgba(12, 23, 36, 0.95); border: 1px solid var(--border-color); border-left: 4px solid var(--accent-green); padding: 1.5rem 1.75rem; border-radius: 6px; margin-bottom: 2.5rem;">
+        <div style="font-family: 'Fira Code', monospace; color: var(--accent-green); font-size: 0.85rem; font-weight: 600; text-transform: uppercase; margin-bottom: 0.5rem; letter-spacing: 0.5px;">
+          // THE_SUHLABS_GOVERNANCE_STACK: RESEARCH &rarr; FRAMEWORK &rarr; POLICY
         </div>
-        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-          <a href="dart-policy-whitepaper.html" style="color: var(--accent-green); font-family: 'Fira Code', monospace; font-size: 0.75rem; text-decoration: none; border: 1px solid var(--accent-green); padding: 0.25rem 0.6rem; border-radius: 3px;">Policy Spec &rarr;</a>
-          <a href="atomic-governance-whitepaper.html" style="color: var(--accent-blue); font-family: 'Fira Code', monospace; font-size: 0.75rem; text-decoration: none; border: 1px solid var(--accent-blue); padding: 0.25rem 0.6rem; border-radius: 3px;">AGT Kernel &rarr;</a>
-          <a href="experiments.html" style="color: var(--accent-pink); font-family: 'Fira Code', monospace; font-size: 0.75rem; text-decoration: none; border: 1px solid var(--accent-pink); padding: 0.25rem 0.6rem; border-radius: 3px;">All Research &rarr;</a>
+        <p style="color: #d1d5db; font-size: 0.92rem; line-height: 1.7; margin: 0 0 1.25rem 0;">
+          Critical human institutions: aviation air traffic control, surgical pre-op checklists, and banking wire approvals: never permit the same actor to propose, authorize, execute, and grade their own actions. Autonomous artificial intelligence must follow that exact discipline.
+        </p>
+
+        <!-- 3-Column Progression -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; margin-top: 1rem;">
+          <div style="background: var(--bg-primary); border: 1px solid var(--border-color); padding: 1.1rem; border-radius: 4px;">
+            <div style="font-family: 'Fira Code', monospace; color: var(--accent-pink); font-size: 0.75rem; font-weight: 600; margin-bottom: 0.35rem;">1. EMPIRICAL RESEARCH</div>
+            <div style="font-weight: 600; font-size: 0.92rem; color: var(--text-main); margin-bottom: 0.35rem;">The Discovery of Failure</div>
+            <p style="color: var(--text-muted); font-size: 0.83rem; line-height: 1.5; margin: 0;">
+              Proves that prompt-based guardrails fail. Models hack unasserted test suites, experience context degradation, and introduce orphan side effects.
+            </p>
+          </div>
+          <div style="background: var(--bg-primary); border: 1px solid var(--border-color); padding: 1.1rem; border-radius: 4px;">
+            <div style="font-family: 'Fira Code', monospace; color: var(--accent-blue); font-size: 0.75rem; font-weight: 600; margin-bottom: 0.35rem;">2. THE DART FRAMEWORK</div>
+            <div style="font-weight: 600; font-size: 0.92rem; color: var(--text-main); margin-bottom: 0.35rem;">The Operating Loop</div>
+            <p style="color: var(--text-muted); font-size: 0.83rem; line-height: 1.5; margin: 0;">
+              A deterministic 4-phase finite state machine (Declare, Authorize, Record, Triage) mathematically verified in Lean 4 to eliminate unmediated execution.
+            </p>
+          </div>
+          <div style="background: var(--bg-primary); border: 1px solid var(--border-color); padding: 1.1rem; border-radius: 4px;">
+            <div style="font-family: 'Fira Code', monospace; color: var(--accent-green); font-size: 0.75rem; font-weight: 600; margin-bottom: 0.35rem;">3. ENFORCEABLE POLICY</div>
+            <div style="font-weight: 600; font-size: 0.92rem; color: var(--text-main); margin-bottom: 0.35rem;">The Institutional Standard</div>
+            <p style="color: var(--text-muted); font-size: 0.83rem; line-height: 1.5; margin: 0;">
+              Translates the loop into binding corporate CISO directives, FAR/DFARS procurement clauses, and NIST SP 800-207 Zero Trust compliance.
+            </p>
+          </div>
         </div>
       </div>
 
-      <div class="section-header" style="margin-top: 1rem; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">
-        <h2 style="font-family: 'Fira Code', monospace; font-size: 1.15rem; color: var(--accent-green); margin: 0;">// THREE_EQUAL_PROBLEMS_&_TOOLS</h2>
+      <!-- The 4 Plain Language Rules of DART -->
+      <div style="margin-bottom: 3rem;">
+        <div style="margin-bottom: 1.25rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 0.5rem;">
+          <h2 style="font-family: 'Fira Code', monospace; font-size: 1.15rem; color: var(--accent-green); margin: 0;">// THE_FOUR_RULES_OF_THE_DART_FRAMEWORK</h2>
+          <span style="font-family: 'Fira Code', monospace; font-size: 0.75rem; color: var(--text-muted);">OPERATING ENGINE</span>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.25rem;">
+          <div style="background: var(--bg-secondary); border: 1px solid var(--border-color); border-top: 3px solid var(--accent-green); padding: 1.25rem; border-radius: 4px;">
+            <div style="font-family: 'Fira Code', monospace; color: var(--accent-green); font-size: 1.05rem; font-weight: 700; margin-bottom: 0.25rem;">D &middot; DECLARE</div>
+            <div style="color: var(--text-main); font-weight: 600; font-size: 0.88rem; margin-bottom: 0.5rem;">"No Secret Plans"</div>
+            <p style="color: var(--text-muted); font-size: 0.83rem; line-height: 1.55; margin: 0;">
+              Ambient authority is prohibited. All intent, parameters, and side effects must be committed in frozen JSON schemas (Draft 2020-12) before execution.
+            </p>
+          </div>
+          <div style="background: var(--bg-secondary); border: 1px solid var(--border-color); border-top: 3px solid var(--accent-blue); padding: 1.25rem; border-radius: 4px;">
+            <div style="font-family: 'Fira Code', monospace; color: var(--accent-blue); font-size: 1.05rem; font-weight: 700; margin-bottom: 0.25rem;">A &middot; AUTHORIZE</div>
+            <div style="color: var(--text-main); font-weight: 600; font-size: 0.88rem; margin-bottom: 0.5rem;">"No Self-Approvals"</div>
+            <p style="color: var(--text-muted); font-size: 0.83rem; line-height: 1.55; margin: 0;">
+              Thinking an action is not permission. Planners never hold execution keys; an external Policy Enforcement Point (PEP) verifies quota and tokens.
+            </p>
+          </div>
+          <div style="background: var(--bg-secondary); border: 1px solid var(--border-color); border-top: 3px solid var(--accent-pink); padding: 1.25rem; border-radius: 4px;">
+            <div style="font-family: 'Fira Code', monospace; color: var(--accent-pink); font-size: 1.05rem; font-weight: 700; margin-bottom: 0.25rem;">R &middot; RECORD</div>
+            <div style="color: var(--text-main); font-weight: 600; font-size: 0.88rem; margin-bottom: 0.5rem;">"No Phantom Actions"</div>
+            <p style="color: var(--text-muted); font-size: 0.83rem; line-height: 1.55; margin: 0;">
+              If it is not written to the tamper-evident ledger before dispatch, it does not happen. Eliminates orphan side effects across crash recovery.
+            </p>
+          </div>
+          <div style="background: var(--bg-secondary); border: 1px solid var(--border-color); border-top: 3px solid #ffaa00; padding: 1.25rem; border-radius: 4px;">
+            <div style="font-family: 'Fira Code', monospace; color: #ffaa00; font-size: 1.05rem; font-weight: 700; margin-bottom: 0.25rem;">T &middot; TRIAGE</div>
+            <div style="color: var(--text-main); font-weight: 600; font-size: 0.88rem; margin-bottom: 0.5rem;">"Never Grade Your Own Work"</div>
+            <p style="color: var(--text-muted); font-size: 0.83rem; line-height: 1.55; margin: 0;">
+              Self-evaluation is void. Acceptance tests are mounted read-only (:ro) with negative controls, quarantining reward-hacked solutions automatically.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-header" style="margin-top: 2rem; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">
+        <h2 style="font-family: 'Fira Code', monospace; font-size: 1.15rem; color: var(--accent-green); margin: 0;">// OPEN_SOURCE_DEFENSIVE_TOOLING_&_REPOSITORIES</h2>
       </div>
 
       <div class="tool-matrix-grid">

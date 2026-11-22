@@ -38,7 +38,21 @@
         Experiments &amp; <span class="highlight-green">Whitepapers</span>
       </h1>
 
-            <!-- Paper 0: The DART Policy Framework -->
+            <!-- Methodology Stack Banner -->
+      <div style="background: rgba(12, 23, 36, 0.95); border: 1px solid var(--border-color); border-left: 4px solid var(--accent-green); padding: 1.25rem 1.6rem; border-radius: 6px; margin-bottom: 2.5rem;">
+        <div style="font-family: 'Fira Code', monospace; color: var(--accent-green); font-size: 0.85rem; font-weight: 600; text-transform: uppercase; margin-bottom: 0.4rem; letter-spacing: 0.5px;">
+          // THE_SUHLABS_STACK: RESEARCH &rarr; FRAMEWORK &rarr; POLICY
+        </div>
+        <p style="color: #d1d5db; font-size: 0.92rem; line-height: 1.65; margin: 0;">
+          Research is the empirical beginning: it uncovers real-world failure modes and protocol limits. The DART Framework arranges those findings into a deterministic operating loop. The Policy Standard translates that loop into legally binding enterprise and federal compliance.
+        </p>
+      </div>
+
+      <div style="margin-bottom: 1.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; display: flex; justify-content: space-between; align-items: flex-end;">
+        <h2 style="font-family: 'Fira Code', monospace; font-size: 1.15rem; color: var(--accent-green); margin: 0;">// TIER_1_INSTITUTIONAL_POLICY_&_STANDARDS</h2>
+        <span style="font-family: 'Fira Code', monospace; font-size: 0.75rem; color: var(--text-muted);">MANDATORY CONTROLS</span>
+      </div>
+<!-- Paper 0: The DART Policy Framework -->
       <div
         class="wing-card"
         style="border-left: 4px solid var(--accent-green); margin-bottom: 2rem"
@@ -95,42 +109,46 @@
         </div>
       </div>
 
-<!-- Paper 1: The Sovereign Shield -->
+      <div style="margin-top: 3.5rem; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; display: flex; justify-content: space-between; align-items: flex-end;">
+        <h2 style="font-family: 'Fira Code', monospace; font-size: 1.15rem; color: var(--accent-blue); margin: 0;">// TIER_2_SYSTEMS_ARCHITECTURE_&_KERNEL_SPECIFICATIONS</h2>
+        <span style="font-family: 'Fira Code', monospace; font-size: 0.75rem; color: var(--text-muted);">DART OPERATING ENGINE</span>
+      </div>
+<!-- Paper 3: Atomic Governance Transactions -->
       <div
         class="wing-card"
-        style="border-left: 4px solid var(--accent-pink); margin-bottom: 2rem"
+        style="border-left: 4px solid var(--accent-green); margin-bottom: 2rem"
       >
         <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
-          <h3 style="margin: 0; color: var(--accent-pink);">The Sovereign Shield? Strategic Defense Dependency &amp; Financial Distress</h3>
-          <span style="font-family: 'Fira Code', monospace; font-size: 0.75rem; color: var(--accent-pink); background: rgba(235, 52, 162, 0.1); padding: 0.2rem 0.5rem; border-radius: 3px;"><span class="pulse-dot" style="background-color: var(--accent-pink); box-shadow: 0 0 8px var(--accent-pink);"></span>MEMO-2026-01 (CONCEPTUAL)</span>
+          <h3 style="margin: 0; color: var(--accent-green);">Atomic Governance Transactions: Preauthorization Logging &amp; Reservation</h3>
+          <span style="font-family: 'Fira Code', monospace; font-size: 0.75rem; color: var(--accent-green); background: rgba(96, 171, 49, 0.1); padding: 0.2rem 0.5rem; border-radius: 3px;"><span class="pulse-dot" style="background-color: var(--accent-green); box-shadow: 0 0 8px var(--accent-green);"></span>ARCH-2026-03 DRAFT</span>
         </div>
         <p>
-          A conceptual framework examining how national-security supplier dependencies may alter financial-distress resolution and autonomous capital-allocation incentives. Distinguishes operational continuity from corporate equity and founder collateral protection across DPA Title III and NISPOM/FOCI statutory limits.
+          A proposed fail-closed protocol coordinating shared-quota serialization, fencing tokens, synchronous preauthorization persistence, and single-use request-bound capabilities. Includes state-machine crash-recovery transitions and preliminary prototype fault-injection observations.
         </p>
         <div class="terminal">
-          <div style="color: var(--accent-pink)">// DISTRESS_OUTCOME_DECOUPLING</div>
-          <div>$ finra-snapshot --period 2026-09</div>
-          <div>> Aggregate Margin Debits:     <span style="color: var(--accent-pink)">[$1,480.054B]</span></div>
-          <div>> Author Calc Balance Diff:    <span style="color: #ff6b6b;">[-$1,046.145B]</span></div>
-          <div>> DPA 50 U.S.C. 4531(d)(2):    <span style="color: #ffaa00;">[CONDITIONAL_PRES_CERT_REQ]</span></div>
+          <div style="color: var(--accent-green)">// AGT_PREAUTH_PROTOCOL_PROTOTYPE</div>
+          <div>$ agt-proto-verify --fault-trials 500</div>
+          <div>> Storage Partition Mode: <span style="color: var(--accent-green)">[FAIL_CLOSED_HTTP_503]</span></div>
+          <div>> Token Leakage Observed: <span style="color: var(--accent-green)">[0_OBSERVED_IN_TRIALS]</span></div>
+          <div>> Shared Quota Locking:   <span style="color: var(--accent-blue)">[QUOTA_ID_SERIALIZED]</span></div>
         </div>
         <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 1rem">
           <a
-            href="sovereign-shield-whitepaper.html"
+            href="atomic-governance-whitepaper.html"
             style="
-              color: var(--accent-pink);
+              color: var(--accent-green);
               text-decoration: none;
               font-family: 'Fira Code', monospace;
               font-size: 0.8rem;
-              border: 1px solid var(--accent-pink);
+              border: 1px solid var(--accent-green);
               padding: 0.5rem 1rem;
               border-radius: 4px;
               display: inline-block;
               transition: all 0.2s;
             "
-            onmouseover="this.style.background='rgba(235, 52, 162, 0.1)'"
+            onmouseover="this.style.background='rgba(96, 171, 49, 0.1)'"
             onmouseout="this.style.background='transparent'"
-            >READ ANALYTICAL MEMO_ &rarr;</a
+            >READ SPECIFICATION_ &rarr;</a
           >
           <a
             href="deterministic-control-planes-whitepaper.html"
@@ -145,9 +163,9 @@
               display: inline-block;
               transition: all 0.2s;
             "
-            onmouseover="this.style.borderColor='var(--accent-blue)'"
+            onmouseover="this.style.borderColor='var(--accent-green)'"
             onmouseout="this.style.borderColor='var(--border-color)'"
-            >COMPANION ARCHITECTURE (ARCH-2026-02) &rarr;</a
+            >CONTROL PLANES (ARCH-2026-02) &rarr;</a
           >
         </div>
       </div>
@@ -205,63 +223,6 @@
             onmouseover="this.style.borderColor='var(--accent-pink)'"
             onmouseout="this.style.borderColor='var(--border-color)'"
             >THREAT HYPOTHESIS (MEMO-2026-01) &rarr;</a
-          >
-        </div>
-      </div>
-
-      <!-- Paper 3: Atomic Governance Transactions -->
-      <div
-        class="wing-card"
-        style="border-left: 4px solid var(--accent-green); margin-bottom: 2rem"
-      >
-        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
-          <h3 style="margin: 0; color: var(--accent-green);">Atomic Governance Transactions: Preauthorization Logging &amp; Reservation</h3>
-          <span style="font-family: 'Fira Code', monospace; font-size: 0.75rem; color: var(--accent-green); background: rgba(96, 171, 49, 0.1); padding: 0.2rem 0.5rem; border-radius: 3px;"><span class="pulse-dot" style="background-color: var(--accent-green); box-shadow: 0 0 8px var(--accent-green);"></span>ARCH-2026-03 DRAFT</span>
-        </div>
-        <p>
-          A proposed fail-closed protocol coordinating shared-quota serialization, fencing tokens, synchronous preauthorization persistence, and single-use request-bound capabilities. Includes state-machine crash-recovery transitions and preliminary prototype fault-injection observations.
-        </p>
-        <div class="terminal">
-          <div style="color: var(--accent-green)">// AGT_PREAUTH_PROTOCOL_PROTOTYPE</div>
-          <div>$ agt-proto-verify --fault-trials 500</div>
-          <div>> Storage Partition Mode: <span style="color: var(--accent-green)">[FAIL_CLOSED_HTTP_503]</span></div>
-          <div>> Token Leakage Observed: <span style="color: var(--accent-green)">[0_OBSERVED_IN_TRIALS]</span></div>
-          <div>> Shared Quota Locking:   <span style="color: var(--accent-blue)">[QUOTA_ID_SERIALIZED]</span></div>
-        </div>
-        <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 1rem">
-          <a
-            href="atomic-governance-whitepaper.html"
-            style="
-              color: var(--accent-green);
-              text-decoration: none;
-              font-family: 'Fira Code', monospace;
-              font-size: 0.8rem;
-              border: 1px solid var(--accent-green);
-              padding: 0.5rem 1rem;
-              border-radius: 4px;
-              display: inline-block;
-              transition: all 0.2s;
-            "
-            onmouseover="this.style.background='rgba(96, 171, 49, 0.1)'"
-            onmouseout="this.style.background='transparent'"
-            >READ SPECIFICATION_ &rarr;</a
-          >
-          <a
-            href="deterministic-control-planes-whitepaper.html"
-            style="
-              color: var(--text-main);
-              text-decoration: none;
-              font-family: 'Fira Code', monospace;
-              font-size: 0.8rem;
-              border: 1px solid var(--border-color);
-              padding: 0.5rem 1rem;
-              border-radius: 4px;
-              display: inline-block;
-              transition: all 0.2s;
-            "
-            onmouseover="this.style.borderColor='var(--accent-green)'"
-            onmouseout="this.style.borderColor='var(--border-color)'"
-            >CONTROL PLANES (ARCH-2026-02) &rarr;</a
           >
         </div>
       </div>
@@ -387,6 +348,67 @@
             onmouseover="this.style.opacity='0.9'"
             onmouseout="this.style.opacity='1'"
             >SPLUNK COMMUNITY BLOG &rarr;</a
+          >
+        </div>
+      </div>
+
+            <div style="margin-top: 3.5rem; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; display: flex; justify-content: space-between; align-items: flex-end;">
+        <h2 style="font-family: 'Fira Code', monospace; font-size: 1.15rem; color: var(--accent-pink); margin: 0;">// TIER_3_FOUNDATIONAL_RESEARCH_&_EXPLORATORY_PHYSICS</h2>
+        <span style="font-family: 'Fira Code', monospace; font-size: 0.75rem; color: var(--text-muted);">EMPIRICAL DISCOVERY</span>
+      </div>
+<!-- Paper 1: The Sovereign Shield -->
+      <div
+        class="wing-card"
+        style="border-left: 4px solid var(--accent-pink); margin-bottom: 2rem"
+      >
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
+          <h3 style="margin: 0; color: var(--accent-pink);">The Sovereign Shield? Strategic Defense Dependency &amp; Financial Distress</h3>
+          <span style="font-family: 'Fira Code', monospace; font-size: 0.75rem; color: var(--accent-pink); background: rgba(235, 52, 162, 0.1); padding: 0.2rem 0.5rem; border-radius: 3px;"><span class="pulse-dot" style="background-color: var(--accent-pink); box-shadow: 0 0 8px var(--accent-pink);"></span>MEMO-2026-01 (CONCEPTUAL)</span>
+        </div>
+        <p>
+          A conceptual framework examining how national-security supplier dependencies may alter financial-distress resolution and autonomous capital-allocation incentives. Distinguishes operational continuity from corporate equity and founder collateral protection across DPA Title III and NISPOM/FOCI statutory limits.
+        </p>
+        <div class="terminal">
+          <div style="color: var(--accent-pink)">// DISTRESS_OUTCOME_DECOUPLING</div>
+          <div>$ finra-snapshot --period 2026-09</div>
+          <div>> Aggregate Margin Debits:     <span style="color: var(--accent-pink)">[$1,480.054B]</span></div>
+          <div>> Author Calc Balance Diff:    <span style="color: #ff6b6b;">[-$1,046.145B]</span></div>
+          <div>> DPA 50 U.S.C. 4531(d)(2):    <span style="color: #ffaa00;">[CONDITIONAL_PRES_CERT_REQ]</span></div>
+        </div>
+        <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 1rem">
+          <a
+            href="sovereign-shield-whitepaper.html"
+            style="
+              color: var(--accent-pink);
+              text-decoration: none;
+              font-family: 'Fira Code', monospace;
+              font-size: 0.8rem;
+              border: 1px solid var(--accent-pink);
+              padding: 0.5rem 1rem;
+              border-radius: 4px;
+              display: inline-block;
+              transition: all 0.2s;
+            "
+            onmouseover="this.style.background='rgba(235, 52, 162, 0.1)'"
+            onmouseout="this.style.background='transparent'"
+            >READ ANALYTICAL MEMO_ &rarr;</a
+          >
+          <a
+            href="deterministic-control-planes-whitepaper.html"
+            style="
+              color: var(--text-main);
+              text-decoration: none;
+              font-family: 'Fira Code', monospace;
+              font-size: 0.8rem;
+              border: 1px solid var(--border-color);
+              padding: 0.5rem 1rem;
+              border-radius: 4px;
+              display: inline-block;
+              transition: all 0.2s;
+            "
+            onmouseover="this.style.borderColor='var(--accent-blue)'"
+            onmouseout="this.style.borderColor='var(--border-color)'"
+            >COMPANION ARCHITECTURE (ARCH-2026-02) &rarr;</a
           >
         </div>
       </div>
