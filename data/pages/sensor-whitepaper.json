@@ -1,0 +1,21 @@
+{
+  "id": "sensor-whitepaper",
+  "file": "sensor-whitepaper.html",
+  "url": "https://suhlabs.com/sensor-whitepaper.html",
+  "title": "SuhLabs | Sensor Architecture Whitepaper",
+  "summary": "A rigorous look at quantum efficiency, photon transfer curves, and characterizing sensor performance in a home laboratory setting.",
+  "sections": [
+    "1. The Architecture of Modern Capture",
+    "2. The Photon Transfer Curve (PTC)",
+    "Reading the curve",
+    "3. Experiment: Generating Your Own PTC",
+    "Equipment Required",
+    "Procedure",
+    "Python Analysis Snippet",
+    "4. Interactive Simulations",
+    "Sim 1: Shot noise",
+    "Sim 2: Dynamic range"
+  ],
+  "claims_boundary": null,
+  "primary_citations": []
+}

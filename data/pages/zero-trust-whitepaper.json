@@ -1,0 +1,20 @@
+{
+  "id": "zero-trust-whitepaper",
+  "file": "zero-trust-whitepaper.html",
+  "url": "https://suhlabs.com/zero-trust-whitepaper.html",
+  "title": "SuhLabs | Zero Trust Compliance & IMS Splunk App",
+  "summary": "// EXECUTIVE_SUMMARY Zero Trust initiatives stall when treated as procurement exercises. Defense programs must satisfy all 152 activities mandated by the DoD Zero Trust Execution Roadmap (COAs 1\u20133) with full audit traceability to an Integrated Master Schedule (IMS). Commercial SIEM, EDR, and C2C tools generate telemetry, but they do not assemble cryptographic proof or manage project delivery. The ...",
+  "sections": [
+    "1. The Operator Constraint: Buying a Tool Does Not Close a Task",
+    "2. Platform Architecture: Planning Software on Splunk 10.4+",
+    "3. The Agile \u00d7 Zero Trust Operational Delivery Loop",
+    "4. Critical Path Engine & Integrated Master Schedule",
+    "5. Proof of Delivery (PoD) Vault & REST Endpoints",
+    "6. Architecture Topology: AWS-DFD-Visualizer (Splunkbase #8628)",
+    "POLICY COMPONENTS IDENTIFIED IN TOPOLOGY",
+    "7. System Boundaries & Operational Reality",
+    "8. Open-Source Ecosystem & Verification Hub"
+  ],
+  "claims_boundary": "// CLAIMS_BOUNDARY: OBSERVATION VS. ENFORCEMENT AWS-DFD-Visualizer detects CSP asset environments (AWS, Azure, GCP) and marks topology paths that miss an expected control, such as unapproved direct SSH (port 22) ingress. A marked path is an operational finding to review. It does not prove that a pol...",
+  "primary_citations": []
+}

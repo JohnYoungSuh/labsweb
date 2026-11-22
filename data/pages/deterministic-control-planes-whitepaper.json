@@ -1,0 +1,24 @@
+{
+  "id": "ARCH-2026-02",
+  "file": "deterministic-control-planes-whitepaper.html",
+  "url": "https://suhlabs.com/deterministic-control-planes-whitepaper.html",
+  "title": "SuhLabs | Deterministic Control Planes for Autonomous Enterprise Systems: Mechanical Containment Across the L0\u2013L5 Assurance Spectrum",
+  "summary": "Abstract Autonomous software systems executing enterprise resource planning (ERP), liquidity management, and procurement workflows optimize strictly across their permitted parameter spaces. When governed solely by probabilistic language models or prompt-level policies, goal-directed optimization may exploit cumulative edge cases, including leverage expansion and single-vendor dependency concentrat...",
+  "sections": [
+    "Abstract",
+    "I. Threat Model: Failure Modes of Probabilistic Governance",
+    "II. Tri-Plane System Architecture",
+    "1. The Planning Plane",
+    "2. The Control Plane",
+    "3. The Execution Plane",
+    "III. Formal Invariant Specifications",
+    "1. Capital Structure and Leverage Ceiling",
+    "2. Infrastructure Dependency (Herfindahl-Hirschman Limit)",
+    "3. Liquidity-to-Carry Ratio",
+    "IV. The L0\u2013L5 Assurance Maturity Framework",
+    "V. Reference Implementation: Policy Enforcement Engine",
+    "VI. Conclusion"
+  ],
+  "claims_boundary": null,
+  "primary_citations": []
+}

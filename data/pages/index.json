@@ -1,0 +1,14 @@
+{
+  "id": "index",
+  "file": "index.html",
+  "url": "https://suhlabs.com/index.html",
+  "title": "SuhLabs | Open-source tools for agent gates, Zero Trust evidence, Splunk compliance",
+  "summary": "Open-source work on agent pipeline failure, Zero Trust control evidence, and compliance automation. Issues welcome.",
+  "sections": [
+    "Agents Without Mechanical Gates",
+    "Zero Trust as Purchases, Not Control Proof",
+    "Manual Audit Overhead & POA&M Tracking"
+  ],
+  "claims_boundary": null,
+  "primary_citations": []
+}

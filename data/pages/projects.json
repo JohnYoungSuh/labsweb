@@ -1,0 +1,19 @@
+{
+  "id": "projects",
+  "file": "projects.html",
+  "url": "https://suhlabs.com/projects.html",
+  "title": "SuhLabs | Projects & Tooling",
+  "summary": "Open-source defensive security tools, compliance automation apps, and active engineering repositories by SuhLabs.",
+  "sections": [
+    "Zero Trust Compliance",
+    "AWS-DFD-Visualizer",
+    "TA-suhlabs-eMASS",
+    "Asset & Identity in Splunk ES",
+    "ai-agent-governance-framework",
+    "okta-recon-generator",
+    "purple-apt-cicd-recon",
+    "Cloud-AIDevSecOps-Templates"
+  ],
+  "claims_boundary": null,
+  "primary_citations": []
+}

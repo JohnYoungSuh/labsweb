@@ -1,0 +1,35 @@
+{
+  "id": "multi-agent-pipelines-whitepaper",
+  "file": "multi-agent-pipelines-whitepaper.html",
+  "url": "https://suhlabs.com/multi-agent-pipelines-whitepaper.html",
+  "title": "SuhLabs | Engineering Robust Multi-Agent Coding Pipelines",
+  "summary": "Executive Abstract Autonomous software agents can produce changes that appear credible, pass incomplete test suites, and still violate intended behavior, security constraints, or integration assumptions. These risks compound when multiple agents plan, implement, test, and merge changes across shared or partially isolated state. Prompt instructions, personas, and dynamically retrieved rulebooks rem...",
+  "sections": [
+    "Executive Abstract",
+    "1. Scope, Definitions, and Assurance Levels",
+    "1.1 Definition of Mechanical Controls",
+    "1.2 Operational Scope & Architectural Contribution",
+    "1.3 Actor and Trust Zone Model",
+    "1.4 Agentic Assurance Maturity Levels (Proposed Adoption Rubric)",
+    "2. Why Prompt Guidance Is Not Enforcement",
+    "2.1 Statistical and Contextual Limits of Prompts",
+    "2.2 The Three Orthogonal Pipeline Properties",
+    "3. Documented Empirical Failure Modes",
+    "4. Reference Architecture: The Three-Plane Model",
+    "4.1 Control-Objective Matrix",
+    "4.2 Control-Plane Specifications",
+    "5. Operational Pipeline and Assurance State Machine",
+    "5.1 The Four Mechanical Assurance Rules"
+  ],
+  "claims_boundary": null,
+  "primary_citations": [
+    "The Protection of Information in Computer Systems",
+    "Zero Trust Architecture",
+    "OAuth 2.0 Token Exchange",
+    "JSON Canonicalization Scheme (JCS)",
+    "Lost in the Middle: How Language Models Use Long Contexts",
+    "Control Illusion: The Failure of Instruction Hierarchies in Large Language Models",
+    "Auditing Reward Hackability in Code RL Training Environments",
+    "Why We No Longer Evaluate SWE-bench Verified"
+  ]
+}

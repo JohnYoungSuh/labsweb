@@ -1,0 +1,21 @@
+{
+  "id": "POLICY-2026-01",
+  "file": "experiments.html",
+  "url": "https://suhlabs.com/experiments.html",
+  "title": "SuhLabs | Research & Technical Whitepapers",
+  "summary": "Research is the empirical beginning: it uncovers real-world failure modes and protocol limits. The DART Framework arranges those findings into a deterministic operating loop. The Policy Standard translates that loop into legally binding enterprise and federal compliance.",
+  "sections": [
+    "The DART Policy Framework: Institutional AI Governance via Zero Trust & Deterministic Control Planes",
+    "Atomic Governance Transactions: Preauthorization Logging & Reservation",
+    "Deterministic Control Planes for Autonomous Enterprise Systems",
+    "Engineering Robust Multi-Agent Pipelines",
+    "Zero Trust Compliance & Evidence",
+    "The Sovereign Shield? Strategic Defense Dependency & Financial Distress",
+    "Agent Command Logging",
+    "Digital Sensor Characterization",
+    "V1.0 Shield (Physical Privacy Appliance Specs)",
+    "External Literature Search"
+  ],
+  "claims_boundary": null,
+  "primary_citations": []
+}

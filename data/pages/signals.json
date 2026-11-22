@@ -1,0 +1,14 @@
+{
+  "id": "signals",
+  "file": "signals.html",
+  "url": "https://suhlabs.com/signals.html",
+  "title": "SuhLabs | Signal Intercepts",
+  "summary": "Optical signal intercepts and perception research. Physical-layer hardware investigation into sensor metadata isolation. Research preview: not for commercial sale.",
+  "sections": [
+    "Uniform Flat Field Calibration",
+    "Transmission Step Tablet Wedge",
+    "Spatial Frequency Edge Target"
+  ],
+  "claims_boundary": null,
+  "primary_citations": []
+}

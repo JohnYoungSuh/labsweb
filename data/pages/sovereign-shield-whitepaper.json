@@ -1,0 +1,26 @@
+{
+  "id": "MEMO-2026-01",
+  "file": "sovereign-shield-whitepaper.html",
+  "url": "https://suhlabs.com/sovereign-shield-whitepaper.html",
+  "title": "SuhLabs | The Sovereign Shield? Strategic Defense Dependency, Financial Distress, and Autonomous-Agent Incentives",
+  "summary": "Executive Preface: Why Systems Architects Examine Capital Structure Enterprise security and systems engineering often treat external corporate infrastructure as a static boundary while focusing exclusively on internal code execution. We design cryptographic boundaries, zero-trust network access, and multi-layered identity perimeters, yet frequently overlook a critical external dependency governing...",
+  "sections": [
+    "Executive Preface: Why Systems Architects Examine Capital Structure",
+    "Abstract",
+    "I. Historical Context: Concentration in Leveraged Liquidity",
+    "II. Leverage Mechanics, Dataset Separation, and Sensitivity Math",
+    "2.1 Unified Brokerage Margin Indicators (September 2026)",
+    "2.2 Illustrative Collateral Drawdown Sensitivity Model",
+    "III. Causal Decoupling: Five Outcomes of Financial Distress",
+    "IV. Illustrative Industry Cases & Analytical Boundaries",
+    "1. Classified Enterprise Cloud Infrastructure",
+    "2. Proliferated Low-Earth-Orbit (pLEO) Infrastructure",
+    "3. Tactical Software and Autonomous Systems",
+    "V. Statutory Limits & Competing Mechanisms",
+    "5.1 Statutory & Regulatory Boundaries",
+    "5.2 Competing Hypotheses Requiring Empirical Testing",
+    "VI. Conclusion: A Testable Research Agenda"
+  ],
+  "claims_boundary": null,
+  "primary_citations": []
+}
