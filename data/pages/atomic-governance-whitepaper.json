@@ -16,10 +16,7 @@
     "4. Conditional Safety Properties & Storage Semantics",
     "4.1 Separation of Audit Coverage Properties",
     "4.2 Theorem 1 (Durable Preauthorization-Record Invariant)",
-    "4.3 Theorem 2 (Conditional Shared-Resource Serialization Safety)",
-    "4.4 Operational Storage Definitions",
-    "5. Preliminary Prototype Observations & Evaluation Design",
-    "5.1 Required Verification Matrix for Full Reproducibility"
+    "4.3 Theorem 2 (Conditional Shared-Resource Serialization Safety)"
   ],
   "claims_boundary": null,
   "primary_citations": []

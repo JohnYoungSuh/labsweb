@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-22T08:26:00Z",
+  "generated_at": "2026-11-22T08:27:00Z",
   "repository": "suhlabs/lab-web",
   "production_url": "https://suhlabs.com",
   "total_pages": 13,
@@ -38,10 +38,7 @@
         "4. Conditional Safety Properties & Storage Semantics",
         "4.1 Separation of Audit Coverage Properties",
         "4.2 Theorem 1 (Durable Preauthorization-Record Invariant)",
-        "4.3 Theorem 2 (Conditional Shared-Resource Serialization Safety)",
-        "4.4 Operational Storage Definitions",
-        "5. Preliminary Prototype Observations & Evaluation Design",
-        "5.1 Required Verification Matrix for Full Reproducibility"
+        "4.3 Theorem 2 (Conditional Shared-Resource Serialization Safety)"
       ],
       "claims_boundary": null,
       "primary_citations": []
@@ -108,8 +105,7 @@
         "2. Infrastructure Dependency (Herfindahl-Hirschman Limit)",
         "3. Liquidity-to-Carry Ratio",
         "IV. The L0\u2013L5 Assurance Maturity Framework",
-        "V. Reference Implementation: Policy Enforcement Engine",
-        "VI. Conclusion"
+        "V. Reference Implementation: Policy Enforcement Engine"
       ],
       "claims_boundary": null,
       "primary_citations": []
@@ -167,10 +163,7 @@
         "2.2 The Three Orthogonal Pipeline Properties",
         "3. Documented Empirical Failure Modes",
         "4. Reference Architecture: The Three-Plane Model",
-        "4.1 Control-Objective Matrix",
-        "4.2 Control-Plane Specifications",
-        "5. Operational Pipeline and Assurance State Machine",
-        "5.1 The Four Mechanical Assurance Rules"
+        "4.1 Control-Objective Matrix"
       ],
       "claims_boundary": null,
       "primary_citations": [
@@ -256,10 +249,7 @@
         "1. Classified Enterprise Cloud Infrastructure",
         "2. Proliferated Low-Earth-Orbit (pLEO) Infrastructure",
         "3. Tactical Software and Autonomous Systems",
-        "V. Statutory Limits & Competing Mechanisms",
-        "5.1 Statutory & Regulatory Boundaries",
-        "5.2 Competing Hypotheses Requiring Empirical Testing",
-        "VI. Conclusion: A Testable Research Agenda"
+        "V. Statutory Limits & Competing Mechanisms"
       ],
       "claims_boundary": null,
       "primary_citations": []

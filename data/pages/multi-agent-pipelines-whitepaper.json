@@ -16,10 +16,7 @@
     "2.2 The Three Orthogonal Pipeline Properties",
     "3. Documented Empirical Failure Modes",
     "4. Reference Architecture: The Three-Plane Model",
-    "4.1 Control-Objective Matrix",
-    "4.2 Control-Plane Specifications",
-    "5. Operational Pipeline and Assurance State Machine",
-    "5.1 The Four Mechanical Assurance Rules"
+    "4.1 Control-Objective Matrix"
   ],
   "claims_boundary": null,
   "primary_citations": [
