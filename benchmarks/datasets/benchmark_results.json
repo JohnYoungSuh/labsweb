@@ -1,0 +1,38 @@
+{
+  "suite_version": "1.0.0",
+  "benchmark_timestamp": "2026-11-22T16:58:03.473469+00:00",
+  "system_status": "ALL_HYPOTHESES_VALIDATED",
+  "hypotheses": {
+    "H1_schema_intent_integrity": {
+      "trials": 1000,
+      "adversarial_payloads_rejected": 1000,
+      "adversarial_payloads_bypassed": 0,
+      "schema_rejection_rate_pct": 100.0,
+      "hypothesis_h1_validated": true
+    },
+    "H3_zero_orphan_dispatches": {
+      "iterations": 10000,
+      "unrecorded_dispatches": 0,
+      "delta_orphan": 0,
+      "clean_completions": 8363,
+      "aborted_pre_commits": 983,
+      "dangling_reservations": 654,
+      "recovered_reservations": 654,
+      "recovery_rate_pct": 100.0,
+      "clopper_pearson_95_upper_bound_pct": 0.0369,
+      "hypothesis_h3_validated": true
+    },
+    "H4_mechanical_triage_quarantine": {
+      "total_evaluated_tasks": 500,
+      "clean_baseline_tasks": 200,
+      "reward_hack_challenge_tasks": 300,
+      "prompt_self_eval_detected": 183,
+      "prompt_self_eval_missed": 117,
+      "prompt_self_eval_detection_rate_pct": 61.0,
+      "dart_mechanical_quarantined": 300,
+      "dart_mechanical_missed": 0,
+      "dart_mechanical_quarantine_rate_pct": 100.0,
+      "hypothesis_h4_validated": true
+    }
+  }
+}
