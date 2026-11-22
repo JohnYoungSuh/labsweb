@@ -1,16 +1,13 @@
 #!/usr/bin/env python3
 """
 scripts/generate_site_manifests.py
-Generates high-speed, token-efficient mirrors of all HTML pages in suhlabs/lab-web.
+Generates ultra-compact, token-efficient mirrors of all HTML pages in suhlabs/lab-web.
 Outputs:
-  - site_manifest.json (root directory, master JSON format)
-  - site_manifest.yaml (root directory, 20-25% more token efficient than JSON)
   - site_manifest.md   (root directory, ultra-compact Markdown outline: ~1,700 tokens total!)
-  - data/pages/<page>.json (individual page JSON mirrors)
+  - site_manifest.yaml (root directory, clean YAML format for structured tool parsing)
 """
 
 import glob
-import json
 import os
 import re
 import yaml
@@ -19,11 +16,10 @@ from bs4 import BeautifulSoup
 def main():
     root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     os.chdir(root_dir)
-    os.makedirs('data/pages', exist_ok=True)
     
     html_files = sorted(glob.glob('*.html'))
     site_corpus = {
-        'generated_at': '2026-11-22T08:27:00Z',
+        'generated_at': '2026-11-22T08:30:00Z',
         'repository': 'suhlabs/lab-web',
         'production_url': 'https://suhlabs.com',
         'total_pages': len(html_files),
@@ -81,7 +77,7 @@ def main():
             if bt:
                 refs.append(bt.get_text().strip())
                 
-        page_data = {
+        site_corpus['pages'][hf] = {
             'id': doc_id,
             'file': hf,
             'url': f'https://suhlabs.com/{hf}',
@@ -91,23 +87,8 @@ def main():
             'claims_boundary': claims_boundary[:300] + ('...' if len(claims_boundary) > 300 else '') if claims_boundary else None,
             'primary_citations': refs[:8]
         }
-        
-        site_corpus['pages'][hf] = page_data
-        
-        # Save individual page json
-        page_json_path = f'data/pages/{hf.replace(".html", ".json")}'
-        with open(page_json_path, 'w', encoding='utf-8') as pf:
-            json.dump(page_data, pf, indent=2)
 
-    # 1. Save JSON Master
-    with open('site_manifest.json', 'w', encoding='utf-8') as mf:
-        json.dump(site_corpus, mf, indent=2)
-
-    # 2. Save YAML Master
-    with open('site_manifest.yaml', 'w', encoding='utf-8') as yf:
-        yaml.dump(site_corpus, yf, sort_keys=False, default_flow_style=False, allow_unicode=True)
-
-    # 3. Save Ultra-Compact Markdown Master
+    # 1. Save Ultra-Compact Markdown Master (The Agent Fast-Read File)
     lines = ['# SUHLABS KNOWLEDGE BASE (COMPACT OUTLINE)\n']
     for k, v in site_corpus['pages'].items():
         doc_id = v.get('id', k)
@@ -130,7 +111,11 @@ def main():
     with open('site_manifest.md', 'w', encoding='utf-8') as mdf:
         mdf.write('\n'.join(lines))
 
-    print(f'Successfully generated site_manifest.json, site_manifest.yaml, site_manifest.md, and data/pages/*.json across {len(html_files)} files.')
+    # 2. Save YAML Master
+    with open('site_manifest.yaml', 'w', encoding='utf-8') as yf:
+        yaml.dump(site_corpus, yf, sort_keys=False, default_flow_style=False, allow_unicode=True)
+
+    print(f'Successfully generated site_manifest.md and site_manifest.yaml across {len(html_files)} files.')
 
 if __name__ == '__main__':
     main()
