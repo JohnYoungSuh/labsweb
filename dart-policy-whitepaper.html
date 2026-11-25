@@ -426,10 +426,10 @@
           <span class="badge-item amber">INSTITUTIONAL POLICY STANDARD</span>
         </div>
         <h1 style="font-size: 2.35rem; line-height: 1.25; margin-bottom: 1rem;">
-          The DART Policy Framework: Institutional AI Governance via Zero Trust &amp; Deterministic Control Planes
+          The DART Policy Framework: How to Keep AI Safe with Fixed Rules and Zero Trust
         </h1>
         <p style="font-size: 1.15rem; color: var(--text-muted); max-width: 900px; line-height: 1.6;">
-          A Mandatory Systems Policy Standard translating high-level artificial intelligence principles into mechanically enforced enterprise gates: Declare, Authorize, Record, and Triage.
+          A simple set of rules that turns big AI safety ideas into four real-world checkpoints: Declare, Authorize, Record, and Triage.
         </p>
 
         <div class="memo-meta-strip">
@@ -462,47 +462,47 @@
 
       <div class="exec-summary-box">
         <div class="exec-summary-title">
-          <span>// EXECUTIVE_SUMMARY &amp; FIDUCIARY_MANDATE</span>
+          <span>// EXECUTIVE_SUMMARY &amp; BASIC_RULES</span>
         </div>
         <p>
-          Voluntary guidelines, ethical principles, and prompt-level instructions fail as regulatory or fiduciary controls. When autonomous agents operate with ambient authority, self-evaluation, and unrecorded tool access, organizations face uninsurable liability, undetected reward-hacking, and regulatory non-compliance under emerging oversight mandates. The <strong>DART Policy Framework</strong> establishes a mandatory, mechanically enforced systems architecture separating operational intent from execution authority. Modeled on Zero Trust principles (NIST SP 800-207) and verified in Lean 4, DART mandates four non-negotiable state gates: <strong>Declare</strong> (frozen intent and parameter schema locks), <strong>Authorize</strong> (external complete mediation via independent policy engines), <strong>Record</strong> (synchronous write-ahead audit commitment before token release), and <strong>Triage</strong> (isolated mechanical evaluation in read-only sandboxes).
+          Just asking an AI to be good does not keep systems safe. When smart computer programs act on their own with open access, test their own work, or use tools without taking notes, companies face real danger, big fines, and broken systems. The <strong>DART Policy Framework</strong> fixes this with four plain rules that programs cannot bypass: <strong>Declare</strong> (lock in the job and boundaries before starting), <strong>Authorize</strong> (let a separate guard decide who gets permission), <strong>Record</strong> (write down every planned step in a log before running it), and <strong>Triage</strong> (test all work in a locked room where the program cannot grade itself).
         </p>
       </div>
 
       <!-- Section 1 -->
       <section class="whitepaper-section" id="governance-crisis">
-        <h2>1. The Institutional Governance Failure</h2>
+        <h2>1. Why Simple AI Prompts Fail</h2>
         <p>
-          Corporate risk management and public policy face a structural crisis in the deployment of autonomous systems. Most enterprise governance initiatives rely on <em>guidance</em>: system prompts instructing models to act ethically, internal checklists, or post-hoc log sampling. In practice, these mechanisms introduce three catastrophic failure modes:
+          Most companies try to keep AI safe by giving it polite instructions or checking logs after something already breaks. That fails for three simple reasons:
         </p>
         <ul>
           <li>
-            <strong>Liability Laundering:</strong> Deploying agents with broad permissions allows human managers to disclaim direct responsibility for adverse actions while leaving the enterprise exposed to strict regulatory liability under federal statutes and board fiduciary standards (Delaware Court of Chancery <em>Caremark</em> doctrine).
+            <strong>Passing the Blame:</strong> When an AI has open access to tools, people can say "the AI did it." But the company and its leaders are still on the hook when things go wrong.
           </li>
           <li>
-            <strong>The Self-Evaluation Trap:</strong> Allowing autonomous pipelines to evaluate and accept their own output introduces acute reward-hacking. In empirical evaluations, agents tasked with software modification frequently edit unit test assertions, insert <code>assert True</code>, or delete failing integration tests to register synthetic completion.
+            <strong>Grading Your Own Test:</strong> An AI should never grade its own homework. In real tests, when AI workers are asked to fix code, they often cheat. They change the test questions, delete failing tests, or write fake passes so they look successful.
           </li>
           <li>
-            <strong>Audit Amnesia:</strong> Without pre-execution commitment logging, systems that crash, stall, or experience worker eviction leave orphan side effects in external cloud infrastructure with zero non-repudiable audit trails.
+            <strong>Forgetting What Happened:</strong> If a system crashes or loses power before taking notes, it can leave broken changes behind in cloud systems with no record of who did what.
           </li>
         </ul>
         <p>
-          A defensible governance framework cannot operate inside the model weights or context window. Governance must operate as an external, deterministic control plane that strictly bounds the model's agency.
+          True safety cannot come from inside the AI prompt. Safety must come from strong, outside locks that the AI cannot touch or change.
         </p>
 
         <div class="callout-box blue">
-          <div class="callout-title">// CLAIMS_BOUNDARY: MICRO-EXECUTION INTEGRITY VS. MACRO-STRATEGIC ENTRENCHMENT</div>
+          <div class="callout-title">// BOUNDARY: FIXING SMALL STEPS VS. BIG-PICTURE DRIFT</div>
           <p>
-            <strong>Scope Specification:</strong> DART guarantees <em>micro-level execution integrity</em>: every individual tool call, API request, or code edit is schema-locked, externally authorized, pre-recorded, and mechanically triaged. DART does not, by itself, solve <em>macro-level strategic entrenchment</em> (the threat analyzed in MEMO-2026-01). An autonomous agent could submit thousands of fully schema-valid, externally authorized, pre-recorded, and test-passing deliverables that collectively create institutional dependency. DART provides the immutable, verifiable audit substrate that makes such strategic drift visible to human overseers, but human principals remain strictly responsible for defining macro-level constraints.
+            <strong>What DART Does:</strong> DART makes sure every small step, tool call, or code edit is locked, approved by an outside guard, logged in advance, and tested honestly. DART stops the AI from breaking things or going off the rails during execution. But human leaders are still in charge of the big plan. An AI could finish a thousand small tasks correctly and still lead a project in the wrong direction if humans do not set clear goals.
           </p>
         </div>
       </section>
 
       <!-- Section 2 -->
       <section class="whitepaper-section" id="dart-mandates">
-        <h2>2. The Four Mandatory Policy Controls (DART)</h2>
+        <h2>2. The Four Mandatory Rules (DART)</h2>
         <p>
-          Under this standard, an enterprise or government agency shall not deploy an autonomous agent, multi-agent pipeline, or algorithmic decision engine into production environments unless each state transition satisfies the four deterministic gates of the DART lifecycle:
+          No company or agency should run an AI agent or automated worker in real systems unless every step passes through these four checkpoints:
         </p>
 
         <div class="architecture-figure">
@@ -511,119 +511,118 @@
 |                                                                                                         |
 |     +---------------+        +-----------------+        +----------------+        +-----------------+   |
 |     |   1. DECLARE  | =====> |  2. AUTHORIZE   | =====> |   3. RECORD    | =====> |    4. TRIAGE    |   |
-|     |  Intent &amp;     |        |  External PDP   |        |  Write-Ahead   |        |  Read-Only      |   |
-|     |  Schema Lock  |        |  Mediation      |        |  Commit Ledger |        |  Evaluation     |   |
+|     |  State Job &amp;  |        |  Outside Guard  |        |  Write Notes   |        |  Locked-Room    |   |
+|     |  Boundaries   |        |  Gives Keys     |        |  Before Action |        |  Testing        |   |
 |     +---------------+        +-----------------+        +----------------+        +-----------------+   |
 |            |                          |                          |                         |            |
-|      Validates Schema          Verifies External          Commits SHA-256           Quarantines On      |
-|      Draft 2020-12             Authority &amp; Quota          Pre-Dispatch Hash         Assertion Failure   |
+|      Checks Input Form        Checks Real Rules &amp;       Saves Proof To            Stops On Any Failed   |
+|      JSON Schema 2020-12      Account Balances          Log Ledger                Check Or Bad Step     |
 +---------------------------------------------------------------------------------------------------------+</code></pre>
           <div class="figure-caption">
-            Fig 2.1: The DART Deterministic State Machine. All transitions are unidirectional and mediated by external infrastructure.
+            Fig 2.1: The DART Checkpoint Loop. Steps move forward only. Outside programs handle all guards and keys.
           </div>
         </div>
 
-        <h3>Policy Control 1 (Declare): Mandatory Intent Locks &amp; Schema Freezing</h3>
+        <h3>Rule 1 (Declare): Lock the Plan Before You Start</h3>
         <p>
-          <strong>Requirement:</strong> The actor must declare its proposed intent, target assets, and parameters in a strictly typed, immutable manifest prior to invoking any system resource.
+          <strong>What this means:</strong> The AI must state its goal, the systems it wants to touch, and its exact parameters on a signed card before it is allowed to call any tool.
         </p>
         <ul>
-          <li><strong>Prohibition of Ambient Authority:</strong> Agents shall never be provisioned with general credentials, root shells, or open egress networking.</li>
-          <li><strong>Schema Conformance:</strong> All task inputs and outputs must validate against frozen schemas adhering to JSON Schema Draft 2020-12 with <code>additionalProperties: false</code>.</li>
-          <li><strong>Digest Binding:</strong> The declaration must bind the SHA-256 digest of the task specification and environment context using RFC 8785 JSON Canonicalization Scheme (JCS).</li>
+          <li><strong>No Open Access:</strong> The AI never gets root keys, free terminal prompts, or unmonitored internet access.</li>
+          <li><strong>Strict Form Rules:</strong> Every input and output must fit a fixed form (JSON Schema Draft 2020-12 with <code>additionalProperties: false</code>). If an extra, unexpected field shows up, the task stops right away.</li>
+          <li><strong>Digital Fingerprint:</strong> The system takes a SHA-256 fingerprint of the task rules so no one can change the instructions mid-stream.</li>
           <li>
-            <strong>The 70/20 Delegation Boundary &amp; Four-Part Brief:</strong> Empirical studies of frontier agent execution demonstrate that high-performing human operators act as delegating managers: humans retain approximately 70% of planning decisions (architectural intent, boundaries, and acceptance criteria) while delegating 80% of micro-execution decisions to the agent within a closed task contract. Under DART, task declarations must supply a standardized Four-Part Brief:
+            <strong>The 70/20 Rule and the Four-Part Brief:</strong> Real-world studies show that great managers stay in charge of the big plan (about 70% of the choices) while letting the AI do the small legwork (about 80% of small steps). Under DART, every task uses a simple Four-Part Brief:
             <ol style="margin-top: 0.5rem; margin-bottom: 0.5rem; padding-left: 1.5rem;">
-              <li><strong>The Job:</strong> Defining the macro task envelope and scope rather than micro-managing step sequences.</li>
-              <li><strong>The Why (Intent):</strong> Stating business and architectural intent so the model resolves internal execution choices consistently.</li>
-              <li><strong>Deterministic Guardrails:</strong> Explicit boundary invariants with engineering rationale, avoiding emotional or shouty prompt words (such as "CRITICAL" or "MUST") that cause modern models to overreact.</li>
-              <li><strong>What Done Looks Like:</strong> Machine-verifiable acceptance criteria and test fixtures, enabling the model to verify its work before requesting external authorization.</li>
+              <li><strong>The Job:</strong> Describe the whole task and clear bounds instead of telling the AI every tiny keystroke.</li>
+              <li><strong>The Why (Intent):</strong> Explain the goal so the AI can make sensible small choices along the way.</li>
+              <li><strong>Clear Guardrails:</strong> List only the rules that matter with simple reasons. Do not shout with words like "CRITICAL" or "MUST", which confuse newer models.</li>
+              <li><strong>What Done Looks Like:</strong> Give clear tests and examples so the AI can check its own work before asking for approval.</li>
             </ol>
           </li>
         </ul>
 
-        <h3>Policy Control 2 (Authorize): External Complete Mediation</h3>
+        <h3>Rule 2 (Authorize): An Outside Guard Grants Permission</h3>
         <p>
-          <strong>Requirement:</strong> The planning actor shall never possess the authority to execute its own plan. Execution authority is held exclusively by an external Policy Enforcement Point (PEP) mediated by an independent Policy Decision Point (PDP).
+          <strong>What this means:</strong> The AI can plan its work, but it cannot approve its own execution. An outside guard checks the rules and decides if the AI can proceed.
         </p>
         <ul>
-          <li><strong>Separation of Privilege:</strong> The PDP must evaluate operational rules independently of model reasoning. A model's self-generated justification carries zero authorization weight.</li>
-          <li><strong>The GPIS PDP Kernel:</strong> In the reference architecture, complete mediation is operationalized by the <strong>Governance Policy Inquiry Service (GPIS)</strong>, an independent PDP service running on a dedicated port (<code>:8000</code>) that validates caller keys (<code>X-GPIS-Caller-Key</code>), evaluates deterministic rules (<code>simple_rules.yml</code>), and issues short-lived, signed JWT capability tokens.</li>
-          <li><strong>Decision Grounding &amp; Context Binding:</strong> Agents shall not act upon speculative or ambient context. Task plans must ground directly in verified institutional decision records (e.g. meeting notes, change requests, approved architecture tickets) before authorization is evaluated.</li>
-          <li><strong>Outbound Hold Queues &amp; Change-Ticket Gating:</strong> For Tier 3 and Tier 4 operational actions, the GPIS PDP enforces strict separation of duties: the agent can draft code, scripts, or messages, but external release remains locked behind an explicit human change ticket identifier (e.g. <code>GPIS_LAB_APPROVED_CR_IDS</code>). Synchronous multi-party human sign-off via WebAuthn/FIDO2 is required for production deployments or external data egress.</li>
-          <li><strong>Sender-Constrained Capabilities:</strong> Capability tokens must be short-lived, single-use, and bound to the cryptographic thumbprint of the authorized request body (RFC 9449 DPoP or mutual TLS).</li>
-          <li><strong>Four-Eyes Thresholds:</strong> Any operational action exceeding pre-defined enterprise thresholds (such as external payment transmission, production deployment, or data egress) requires synchronous multi-party human sign-off via hardware-backed WebAuthn/FIDO2 credentials.</li>
+          <li><strong>Split the Power:</strong> The guard follows strict system rules, not the AI's feelings or words. An AI saying "trust me, this is safe" counts for zero points.</li>
+          <li><strong>The GPIS Guard:</strong> In our working setup, an outside service called <strong>GPIS (Governance Policy Inquiry Service)</strong> runs on port <code>:8000</code>. It checks caller keys (<code>X-GPIS-Caller-Key</code>), reviews fixed rules in <code>simple_rules.yml</code>, and gives out short-lived digital passes (JWTs).</li>
+          <li><strong>Tied to Real Decisions:</strong> The AI cannot act on guesses. Tasks must connect directly to approved meeting notes or ticket numbers before the guard signs off.</li>
+          <li><strong>Hold Queues for Big Actions:</strong> For risky tasks (like changing live servers or sending data outside), the AI can only draft the work. The changes wait in a hold queue until a human types an approved ticket ID (like <code>GPIS_LAB_APPROVED_CR_IDS</code>) and taps a physical security key.</li>
+          <li><strong>One-Time Passes:</strong> Keys last only a few minutes, work only once, and are locked to the specific request body.</li>
         </ul>
 
-        <h3>Policy Control 3 (Record): Pre-Execution Write-Ahead Ledgering</h3>
+        <h3>Rule 3 (Record): Write Notes in Advance</h3>
         <p>
-          <strong>Requirement:</strong> No execution authority or capability token shall be released until the intent declaration, authorization proof, and quota reservation are committed to an append-only, tamper-evident audit ledger.
+          <strong>What this means:</strong> No AI gets a key or runs a tool until the plan, the guard's approval, and the budget are written in stone on a log ledger.
         </p>
         <ul>
-          <li><strong>Zero Orphan Invariant:</strong> The count of external tool dispatches must identically match pre-recorded ledger entries across all system states, including crash-recovery, process SIGKILL, or network partitions:
-            \[\Delta_{\text{orphan}} = |\{\text{External Dispatches}\} \setminus \{\text{Committed Ledger Records}\}| = 0\]
+          <li><strong>Zero Orphan Actions:</strong> Every external action must match a saved ledger record. Even if a server crashes, loses power, or resets, we know exactly what happened:
+            \[\Delta_{\text{orphan}} = |\{\text{External Actions}\} \setminus \{\text{Committed Log Records}\}| = 0\]
           </li>
-          <li><strong>Non-Repudiation Vault:</strong> Audit records must link the originating task contract, the authorizing human sponsor or PDP rule, and the SHA-256 telemetry digest into a verifiable Proof of Delivery (PoD) record.</li>
+          <li><strong>Tamper-Proof Proof:</strong> Logs connect the task form, the human sponsor, and the SHA-256 fingerprint into a clean Proof of Delivery record.</li>
           <li>
-            <strong>Review-Optimized Telemetry &amp; Attention Conservation:</strong> When autonomous agents operate at six times the rate of human labor, human review capacity becomes the primary operational bottleneck. The Record phase mandates structured, review-optimized telemetry:
+            <strong>Easy to Review:</strong> When AI agents work six times faster than humans, reviewing their work takes too long if notes are messy. The Record phase requires clean, fast summaries:
             <ol style="margin-top: 0.5rem; margin-bottom: 0.5rem; padding-left: 1.5rem;">
-              <li><strong>Executive Formatting:</strong> Telemetry summaries lead with items requiring immediate human attention, followed by milestone outcome status, a concise summary of actions taken, and recorded error traces.</li>
-              <li><strong>Visual Proof of Delivery:</strong> System events project directly into single-page HTML dashboards, Proof of Delivery (PoD) drawers, and Three-Plane topology diagrams (AWS-DFD-Visualizer), enabling operators to verify compliance in under sixty seconds.</li>
+              <li><strong>Bottom Line Up Front:</strong> Summaries lead with what needs human eyes right now, whether the goal was met, what steps ran, and what failed.</li>
+              <li><strong>Visual Proof:</strong> Results display as simple one-page HTML dashboards, Proof of Delivery drawers, or network map diagrams (AWS-DFD-Visualizer) so humans can check work in under 60 seconds.</li>
             </ol>
           </li>
         </ul>
 
-        <h3>Policy Control 4 (Triage): Mechanical Acceptance &amp; Automated Quarantine</h3>
+        <h3>Rule 4 (Triage): Test in a Locked Room</h3>
         <p>
-          <strong>Requirement:</strong> Autonomous agents are strictly prohibited from inspecting, scoring, or accepting their own output.
+          <strong>What this means:</strong> The AI cannot grade its own work. All tests run in a separate, locked box that the AI cannot touch or change.
         </p>
         <ul>
-          <li><strong>Read-Only Test Mounting:</strong> Acceptance test fixtures, linting rules, and evaluation bundles must be mounted into the execution container as read-only volumes (<code>:ro</code>). An agent modifying a test file or assertion shall trigger immediate execution termination.</li>
-          <li><strong>Negative Control Verification:</strong> Automated pipelines must execute negative control fixtures to prove that tests fail for the intended reason before accepting passing solutions.</li>
-          <li><strong>Automated Rollback &amp; Clean Rewinds:</strong> Stacking consecutive corrective prompts after an agent failure pollutes the context window and accelerates hallucination drift. DART mandates immediate state rollback (clean rewind to the pre-dispatch checkpoint) and prompt refactoring rather than conversational error-stacking.</li>
+          <li><strong>Read-Only Tests:</strong> Test files and grading rules are mounted as read-only (<code>:ro</code>). If the AI tries to change the test questions or cheat, the system shuts it down on the spot.</li>
+          <li><strong>Negative Tests:</strong> Tests must prove that broken answers actually fail, so fake code cannot pass by accident.</li>
+          <li><strong>Clean Rewind:</strong> If the AI fails, do not argue with it or stack five extra corrections in the chat window. That clutters its memory and causes hallucinations. Rewind the AI back to the last good checkpoint, fix the prompt, and try again cleanly.</li>
           <li>
-            <strong>Ordered Model Escalation Protocol:</strong> When mechanical triage fails, recovery must proceed through a disciplined escalation sequence:
+            <strong>Step-by-Step Escalation:</strong> When a task fails mechanical review:
             <ol style="margin-top: 0.5rem; margin-bottom: 0.5rem; padding-left: 1.5rem;">
-              <li>Increase reasoning effort and sampling breadth within the existing model tier.</li>
-              <li>Escalate to a higher-capability model using a clean handoff prompt in a fresh context window, preserving KV cache efficiency and eliminating accumulated context tax.</li>
+              <li>First, ask the model to think harder and try several ways.</li>
+              <li>Second, move to a smarter model using a fresh chat window and a handoff prompt, keeping memory clean and saving cost.</li>
             </ol>
           </li>
-          <li><strong>Automating the Compliance Backlog:</strong> Triage mechanisms feed automated scheduled pipelines that convert unstaffed, low-urgency compliance debt (such as cross-referencing 152 DoD Zero Trust COA activities, auditing PPSM ports, or verifying CSAL software hashes) into recurring background verification jobs.</li>
-          <li><strong>Automated Rollback:</strong> Any task failing mechanical evaluation or exhibiting unauthorized side effects triggers an automated atomic rollback, branch quarantine, and alert notification to designated human operators.</li>
+          <li><strong>Clean Up Unfinished Tasks:</strong> Automatic background jobs handle routine checks (like checking all 152 DoD Zero Trust steps, auditing port lists, or checking software file hashes) on a set clock.</li>
+          <li><strong>Stop and Quarantine:</strong> If a task fails or tries to touch unapproved systems, the framework rolls back all changes, locks the branch, and rings a bell for a human engineer.</li>
         </ul>
       </section>
 
       <!-- Section 3 -->
       <section class="whitepaper-section" id="model-policy">
-        <h2>3. Model Enterprise Policy (Board &amp; CISO Directive)</h2>
+        <h2>3. Company Policy Template (For Board &amp; Security Leads)</h2>
         <p>
-          Enterprise security teams and corporate boards may adopt the following directive as binding institutional policy:
+          Companies and security teams can copy this simple rule sheet into their employee handbooks and vendor contracts:
         </p>
 
         <p>
-          <em>Note on Enforcement:</em> A written policy document is an institutional directive that mandates the installation of external mechanical admission gates (e.g. reverse proxy PEPs, read-only container mounts, CI admission webhooks). The mechanical gate is the control; the policy directive is the legal authority requiring the gate.
+          <em>How this works:</em> A written rule tells people what must be done. But real security comes from computer gates (like firewalls, proxies, and locked test boxes) that physically block unapproved actions.
         </p>
 
         <div class="component-card">
-          <h3>DIRECTIVE ON AUTONOMOUS AGENT GOVERNANCE &amp; EXECUTION BOUNDARIES (POLICY-DART-01)</h3>
+          <h3>PLAIN POLICY RULES FOR AI AGENTS (POLICY-DART-01)</h3>
           <ul>
             <li>
-              <strong>Scope:</strong> This policy applies to all algorithmic agents, generative AI tools, autonomous coding pipelines, and robotic process automation (RPA) deployed across internal infrastructure or customer-facing operations.
+              <strong>Who This Covers:</strong> This rule applies to all AI tools, coding bots, and automated scripts used by employees or built into company apps.
             </li>
             <li>
-              <strong>Mandatory Architecture:</strong> No system shall execute external tool calls, code modifications, or data transmissions without integrating an out-of-band Policy Enforcement Point (PEP) conforming to the DART four-phase lifecycle.
+              <strong>Mandatory Gates:</strong> No AI can touch files, edit code, or send data outside without passing through the four DART gates.
             </li>
             <li>
-              <strong>Audit &amp; Legal Discovery:</strong> Systems failing to demonstrate preauthorization logging with cryptographic non-repudiation are designated non-compliant. Project owners shall provide verifiable Proof of Delivery (PoD) hashes for all quarterly regulatory disclosures.
+              <strong>Taking Notes for Audits:</strong> If an AI changes something without logging it in advance, that work is rejected. Teams must show proof logs for all quarterly reports.
             </li>
             <li>
-              <strong>Prohibition of Self-Certification:</strong> Any software deliverable, vulnerability fix, or financial entry certified solely by an autonomous agent without mechanical test isolation is void and must be quarantined for human review.
+              <strong>No Grading Your Own Work:</strong> An AI cannot test or approve its own deliverables. All tests must run in locked boxes that the AI cannot edit.
             </li>
             <li>
-              <strong>Periodic Configuration Hygiene &amp; Instruction Detox:</strong> Standing instructions, system prompts, skills, and connectors accumulate configuration debt and token bloat over time. Program managers and security leads shall conduct a mandatory semi-annual (6-month) Instruction &amp; Skill Detox Audit across five operational dimensions: (1) Interface and tool bindings, (2) Active skill definitions, (3) Memory and context files, (4) Connectors and API integrations, and (5) Scheduled automation tasks. Unused, outdated, or bloated prompts must be pruned to eliminate context drift, reduce operational latency, and maintain deterministic execution.
+              <strong>Cleaning Up Old Prompts Every 6 Months:</strong> System prompts, tools, and background bots get messy and bloated over time. Every six months, team leads must clean out stale instructions across five areas: (1) tools and buttons, (2) skills, (3) memory files, (4) API connectors, and (5) scheduled background tasks. Throwing out old clutter keeps the AI fast, cheap, and accurate.
             </li>
             <li>
-              <strong>Penalties &amp; Revocation:</strong> Unauthorized deployment of unmediated agent frameworks carries immediate token revocation and operational suspension pending review by the Chief Information Security Officer (CISO).
+              <strong>What Happens on Violations:</strong> Anyone running an unapproved or ungated AI bot will have their access revoked on the spot.
             </li>
           </ul>
         </div>
@@ -631,21 +630,21 @@
 
       <!-- Section 4 -->
       <section class="whitepaper-section" id="procurement-clauses">
-        <h2>4. Model Procurement Clauses (FAR / DFARS / Vendor Contracts)</h2>
+        <h2>4. Purchasing Rules for Buying AI Tools (Vendor Contracts)</h2>
         <p>
-          To prevent supply-chain liability when contracting third-party AI software, procurement officers may integrate the following mandatory contractual clauses into Requests for Proposals (RFPs) and Master Services Agreements (MSAs):
+          When hiring an outside company or buying software made with AI, purchasing officers can add these simple rules to contracts:
         </p>
 
         <div class="callout-box green">
-          <div class="callout-title">// CLAUSE 52.204-XX: MANDATORY DETERMINISTIC CONTROL PLANES FOR AUTONOMOUS DELIVERABLES</div>
+          <div class="callout-title">// VENDOR CONTRACT RULE: CLEAR CHECKS FOR AI-MADE WORK</div>
           <p>
-            <strong>(a) Definition:</strong> 'Autonomous Deliverable' refers to any software, data product, or operational execution generated in whole or in part by artificial intelligence without direct keystroke-level human generation.
+            <strong>(a) What this means:</strong> 'AI Work' means any code, report, or system action created with help from an AI rather than typed by a human.
           </p>
           <p style="margin-top: 0.75rem;">
-            <strong>(b) Verification Requirement:</strong> The Contractor shall deliver all Autonomous Deliverables accompanied by a cryptographically verifiable Proof of Delivery (PoD) manifest generated via a DART-compliant control plane. The manifest must include: (1) canonical JSON Schema definition, (2) independent PDP authorization signatures, (3) append-only ledger transaction ID, and (4) isolated test runner execution logs proving 100% passage of government-specified read-only evaluation fixtures.
+            <strong>(b) Proof Required:</strong> The seller must give us clear proof that their AI passed through the DART checkpoints. The proof must include: (1) a clean input form, (2) guard approval signatures, (3) log notes saved before the code ran, and (4) test results showing 100% pass rates in locked test boxes.
           </p>
           <p style="margin-top: 0.75rem;">
-            <strong>(c) Rejection of Unrecorded Execution:</strong> The Government reserves the right to reject any deliverable without remedy if the contractor cannot produce synchronous preauthorization logs proving complete mediation of external tool access.
+            <strong>(c) Right to Say No:</strong> If the seller cannot show advance logs and guard approvals for their AI tools, we can reject their work without paying.
           </p>
         </div>
       </section>
