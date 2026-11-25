@@ -34,8 +34,8 @@
 ## [POLICY-2026-01] SuhLabs | Research & Technical Whitepapers
 - file: experiments.html
 - url: https://suhlabs.com/experiments.html
-- summary: Research is the empirical beginning: it uncovers real-world failure modes and protocol limits. The DART Framework arranges those findings into a deterministic operating loop. The Policy Standard translates that loop into legally binding enterprise and federal compliance.
-- sections: The DART Policy Framework: Institutional AI Governance via Zero Trust & Deterministic Control Planes | Atomic Governance Transactions: Preauthorization Logging & Reservation | Deterministic Control Planes for Autonomous Enterprise Systems | Engineering Robust Multi-Agent Pipelines | Zero Trust Compliance & Evidence | The Sovereign Shield? Strategic Defense Dependency & Financial Distress | Agent Command Logging | Digital Sensor Characterization
+- summary: We start with real tests to see where computer programs break or cheat. Next, we build tools that stop bad actions before they happen. Finally, we turn those tools into plain rules that companies and government agencies can actually follow.
+- sections: The DART Policy Framework: How to Keep AI Safe with Fixed Rules and Zero Trust | Atomic Governance Transactions: Writing Notes Before Taking Action | Fixed Guardrails for Autonomous Business Systems | Building Reliable Multi-Agent Coding Teams | Zero Trust Compliance & Proof of Delivery | The Sovereign Shield? Strategic Defense Dependency & Financial Distress | Agent Command Logging | Digital Sensor Characterization
 
 ## [index] SuhLabs | Open-source tools for agent gates, Zero Trust evidence, Splunk compliance
 - file: index.html
@@ -77,6 +77,6 @@
 ## [zero-trust-whitepaper] SuhLabs | Zero Trust Compliance & IMS Splunk App
 - file: zero-trust-whitepaper.html
 - url: https://suhlabs.com/zero-trust-whitepaper.html
-- summary: // EXECUTIVE_SUMMARY Zero Trust initiatives stall when treated as procurement exercises. Defense programs must satisfy all 152 activities mandated by the DoD Zero Trust Execution Roadmap (COAs 1–3) with full audit traceability to an Integrated Master Schedule (IMS). Commercial SIEM, EDR, and C2C tools generate telemetry, but they do not assemble cryptographic proof or manage project delivery. The ...
+- summary: // EXECUTIVE_SUMMARY Buying new security tools does not mean your network is safe. In defense projects, teams must finish all 152 tasks required by the DoD Zero Trust Roadmap and prove it on a real project schedule. Security scanners and log tools give you lots of data, but they do not assemble audit proof or track project tasks. The Splunk App for Zero Trust Compliance (Splunkbase #9582) runs rig...
 - boundary: // CLAIMS_BOUNDARY: OBSERVATION VS. ENFORCEMENT AWS-DFD-Visualizer detects CSP asset environments (AWS, Azure, GCP) and marks topology paths that miss an expected control, such as unapproved direct SSH (port 22) ingress. A marked path is an operational finding to review. It does not prove that a pol...
-- sections: 1. The Operator Constraint: Buying a Tool Does Not Close a Task | 2. Platform Architecture: Planning Software on Splunk 10.4+ | 3. The Agile × Zero Trust Operational Delivery Loop | 4. Critical Path Engine & Integrated Master Schedule | 5. Proof of Delivery (PoD) Vault & REST Endpoints | 6. Architecture Topology: AWS-DFD-Visualizer (Splunkbase #8628) | POLICY COMPONENTS IDENTIFIED IN TOPOLOGY | 7. System Boundaries & Operational Reality
+- sections: 1. The Problem: Buying a Tool Does Not Finish the Job | 2. How the Tool Works: Planning Inside Splunk | 3. How Work Gets Done: The 5-Step Delivery Board | 4. Critical Path Engine & Integrated Master Schedule | 5. Proof of Delivery (PoD) Vault & REST Endpoints | 6. Architecture Topology: AWS-DFD-Visualizer (Splunkbase #8628) | POLICY COMPONENTS IDENTIFIED IN TOPOLOGY | 7. System Boundaries & Operational Reality

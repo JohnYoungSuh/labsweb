@@ -360,10 +360,10 @@
       <header class="whitepaper-header">
         <span class="label">Technical Whitepaper · Defense Zero Trust Architecture</span>
         <h1 style="font-size: 2.8rem; margin-top: 0.5rem; margin-bottom: 1rem">
-          Rethinking Zero Trust: From Product Purchases to Logical Control Evidence
+          Rethinking Zero Trust: From Buying Tools to Showing Real Proof
         </h1>
         <p style="font-size: 1.05rem; color: var(--text-muted); max-width: 860px; line-height: 1.7">
-          Native Splunk planning software and critical path verification engine translating all 152 activities of the DoD Zero Trust Execution Roadmap (COAs 1–3) into cryptographically verified Proof of Delivery (PoD) and an Integrated Master Schedule (IMS).
+          A free Splunk planning tool that turns all 152 activities in the DoD Zero Trust Roadmap into clear project schedules and tamper-proof evidence for government auditors.
         </p>
 
         <div class="badge-group">
@@ -399,39 +399,39 @@
       <div class="exec-summary-box">
         <div class="exec-summary-title">// EXECUTIVE_SUMMARY</div>
         <p>
-          Zero Trust initiatives stall when treated as procurement exercises. Defense programs must satisfy all 152 activities mandated by the DoD Zero Trust Execution Roadmap (COAs 1–3) with full audit traceability to an Integrated Master Schedule (IMS). Commercial SIEM, EDR, and C2C tools generate telemetry, but they do not assemble cryptographic proof or manage project delivery. The <strong>Splunk App for Zero Trust Compliance (v1.1.7, Splunkbase #9582)</strong> runs natively inside Splunk Enterprise 10.4+, replacing CSV spreadsheets with a 5-column Kanban planning board, automated KV Store state projections, a DAG critical path method (CPM) search command (<code>| getcriticalpath</code>), and a cryptographic Proof of Delivery (PoD) vault.
+          Buying new security tools does not mean your network is safe. In defense projects, teams must finish all 152 tasks required by the DoD Zero Trust Roadmap and prove it on a real project schedule. Security scanners and log tools give you lots of data, but they do not assemble audit proof or track project tasks. The <strong>Splunk App for Zero Trust Compliance (Splunkbase #9582)</strong> runs right inside Splunk Enterprise 10.4+. It replaces messy Excel sheets with a simple 5-column planning board, automatic project tracking, a built-in schedule calculator (<code>| getcriticalpath</code>), and a locked vault for proof files.
         </p>
       </div>
 
       <div class="whitepaper-section">
-        <h2>1. The Operator Constraint: Buying a Tool Does Not Close a Task</h2>
+        <h2>1. The Problem: Buying a Tool Does Not Finish the Job</h2>
         <p>
-          Implementing Zero Trust (ZT) across defense programs frequently breaks down because organizations mistake vendor procurement for operational delivery. When functional owners treat roadmap activities as commercial software purchases, they deploy disparate tools (identity providers, microsegmentation agents, and endpoint sensors) and discover at audit time that requirements remain unsatisfied.
+          Setting up Zero Trust in defense programs usually gets stuck because teams think buying new tools solves the problem. Leaders buy lots of separate software (such as login portals, microsegmentation tools, and virus checkers). But when inspectors arrive for an audit, they find that many basic tasks were never actually done or proven.
         </p>
         <p>
-          The <strong>DoD Zero Trust Execution Roadmap</strong> and <strong>NIST SP 800-207</strong> define explicit operational outcomes across seven architectural pillars:
+          The <strong>DoD Zero Trust Roadmap</strong> and <strong>NIST SP 800-207</strong> demand clear results across seven core areas (pillars):
         </p>
         <p style="padding-left: 1.5rem; color: var(--text-main); font-family: 'Fira Code', monospace; font-size: 0.9rem; line-height: 1.8;">
-          1. User (Identity)<br />
-          2. Device<br />
-          3. Applications &amp; Workloads<br />
-          4. Data<br />
-          5. Network &amp; Environment<br />
-          6. Automation &amp; Orchestration<br />
-          7. Visibility &amp; Analytics
+          1. User (Who is logging in)<br />
+          2. Device (What phone or laptop is connecting)<br />
+          3. Applications &amp; Workloads (What programs are running)<br />
+          4. Data (What files are being opened)<br />
+          5. Network &amp; Environment (What network paths are open)<br />
+          6. Automation &amp; Orchestration (How computers run tasks without humans)<br />
+          7. Visibility &amp; Analytics (Seeing and understanding the logs)
         </p>
         <p>
-          Each of the 152 activities specifies target maturity tiers, execution phases, and prerequisite predecessor dependencies. Satisfying an activity outcome requires evaluating which control is in place, what telemetry it observes, and which cryptographic evidence proves delivery. A SIEM or an EDR provides raw logs; it does not produce the defensible record required for an Authorizing Official (AO) or ISSO sign-off.
+          Each of the 152 activities has strict rules: who must do it first, when it must finish, and what proof is needed. A log viewer gives you raw lines of text; it does not give the Authorizing Official (AO) the signed proof required to approve your system.
         </p>
       </div>
 
       <div class="whitepaper-section">
-        <h2>2. Platform Architecture: Planning Software on Splunk 10.4+</h2>
+        <h2>2. How the Tool Works: Planning Inside Splunk</h2>
         <p>
-          The open-source <strong>Splunk App for Zero Trust Compliance</strong> (<code>zero_trust_compliance</code>, v1.1.7 Build 1006) operates as native planning and verification software running directly on Splunk Enterprise 10.4+ using the default Python 3.13 runtime.
+          The free <strong>Splunk App for Zero Trust Compliance</strong> (<code>zero_trust_compliance</code>, Splunkbase #9582) runs right inside Splunk Enterprise 10.4+.
         </p>
         <p>
-          The application replaces legacy CSV lookups with four persistent <strong>Splunk KV Store (MongoDB)</strong> collections, establishing an operational write-through architecture:
+          Instead of keeping track of tasks on messy spreadsheets, the app saves everything into four organized data tables inside Splunk:
         </p>
 
         <figure class="architecture-figure">
@@ -499,25 +499,25 @@
       </div>
 
       <div class="whitepaper-section">
-        <h2>3. The Agile × Zero Trust Operational Delivery Loop</h2>
+        <h2>3. How Work Gets Done: The 5-Step Delivery Board</h2>
         <p>
-          To prevent multi-year waterfall compliance debt, the application maps agile sprint mechanisms directly to DoD Zero Trust Operational Milestones (ZTOM). Work progresses through a 5-column Kanban pipeline:
+          To stop projects from falling behind schedule, the app uses a simple 5-step board:
         </p>
         <p style="padding-left: 1.5rem; color: var(--accent-green); font-family: 'Fira Code', monospace; font-size: 0.9rem;">
-          Backlog &rarr; To Do &rarr; In Progress &rarr; Testing / In Review &rarr; Done / Accepted (ISSO Verified)
+          Backlog &rarr; To Do &rarr; In Progress &rarr; Testing / In Review &rarr; Done / Accepted (Verified by Security Officer)
         </p>
         <p>
-          Role-governed stage gates ensure regulatory integrity throughout the loop:
+          Clear roles ensure that work is checked properly:
         </p>
         <ul style="color: var(--text-muted); line-height: 1.7; margin-bottom: 1.5rem; padding-left: 1.5rem;">
           <li>
-            <strong>Technical SME:</strong> Pulls committed activities into active sprints (Sprint 0 through Sprint 6+), opens the slide-out Proof of Delivery (PoD) drawer, attaches verifiable SHA-256 telemetry digests, and advances the card to <em>Testing / In Review</em>. SMEs cannot unilaterally advance work to Done / Accepted.
+            <strong>Technical Worker:</strong> Picks tasks for the sprint, opens the proof drawer, attaches the digital fingerprint of the log files, and moves the card to <em>Testing / In Review</em>. Workers cannot mark their own cards as Done.
           </li>
           <li>
-            <strong>Scrum Master / PM:</strong> Governs Work-in-Progress (WIP) column limits, monitors cycle time and throughput KPIs, and synchronizes activity roadmaps with project onboarding spreadsheets.
+            <strong>Project Manager:</strong> Makes sure the team does not take on too many tasks at once and keeps the project on schedule.
           </li>
           <li>
-            <strong>ISSO / ISSM Gatekeeper:</strong> Inspects the Testing queue. Regulatory sign-off requires that the program is onboarded, the activity is in an owned pillar, and each required ZTOM outcome has a verified passing SIEM hash. Without this proof, status changes return HTTP 422 and the card remains blocked.
+            <strong>Security Officer (ISSO / ISSM):</strong> Checks the test results. A task can only be marked as Done if the program has a verified log record showing the security check passed. Without that proof, the system blocks the card.
           </li>
         </ul>
 

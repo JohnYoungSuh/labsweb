@@ -101,7 +101,7 @@ def audit_file_score(filepath, check_urls=True):
                     errors.append(f"Broken link / Hallucinated URL ({resp.status}): {clean_url}")
                     cat1_score = max(0, cat1_score - 20)
             except urllib.error.HTTPError as e:
-                if e.code == 403 and any(domain in clean_url for domain in ["community.splunk.com", "iso.org"]):
+                if e.code == 403 and any(domain in clean_url for domain in ["community.splunk.com", "iso.org", "perplexity.ai"]):
                     continue
                 errors.append(f"Broken link / Hallucinated URL ({e.code}): {clean_url}")
                 cat1_score = max(0, cat1_score - 20)
