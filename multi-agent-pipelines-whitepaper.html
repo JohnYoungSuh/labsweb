@@ -616,10 +616,10 @@
       <header class="whitepaper-header">
         <span class="label" style="color: var(--accent-green)">Technical Whitepaper · Enterprise Agent Architecture</span>
         <h1 style="font-size: 2.75rem; line-height: 1.2; margin: 0.75rem 0 1rem 0;">
-          Engineering Robust <br /><span style="color: var(--accent-green)">Multi-Agent Coding Pipelines</span>
+          Building Reliable <br /><span style="color: var(--accent-green)">Multi-Agent Coding Teams</span>
         </h1>
         <p style="font-size: 1.15rem; color: var(--text-muted); max-width: 880px; line-height: 1.6;">
-          A Control-Plane Reference Architecture for Intent Integrity, Evaluation Integrity, and Contained Execution in Autonomous Software Teams.
+          How to keep AI coding bots honest, protect your tests from being changed, and stop bad code from breaking real systems.
         </p>
 
         <div class="badge-group">
@@ -632,10 +632,10 @@
       <!-- Executive Abstract -->
       <div id="section-1" class="exec-summary-box">
         <h2 class="exec-summary-title" style="margin-top: 0; padding: 0; border: none; font-size: 0.95rem;">
-          <span>Executive Abstract</span>
+          <span>// EXECUTIVE_SUMMARY</span>
         </h2>
         <p>
-          Autonomous software agents can produce changes that appear credible, pass incomplete test suites, and still violate intended behavior, security constraints, or integration assumptions. These risks compound when multiple agents plan, implement, test, and merge changes across shared or partially isolated state. Prompt instructions, personas, and dynamically retrieved rulebooks remain useful for task guidance, but they are not authoritative enforcement mechanisms; their effect depends on probabilistic model behavior and context selection. A robust agentic software engineering pipeline therefore separates guidance from enforcement: agents propose and implement changes, while an external control plane constrains what they can modify, what they can access, how they are evaluated, and what evidence is required prior to merge. This paper presents a vendor-neutral reference architecture built around three distinct planes: a planning plane that produces versioned contracts and independently owned evaluation artifacts; an execution plane that operates in isolated, least-privilege environments; and a control plane that coordinates state, verifies artifacts, records evidence, and governs merge decisions. Rather than eliminating them entirely, the architecture establishes mechanical bounds on semantic divergence, evaluation gaming, coordination conflicts, and unauthorized external effects.
+          AI coding bots can write code that looks good and passes simple tests, but still breaks critical features or creates security holes. These problems get worse when multiple bots try to write and test code together on the same files. Asking an AI to be careful in a prompt helps it get started, but it does not stop it from making mistakes or cheating when it gets stuck. To build software you can trust, you must split advice from real enforcement: bots can write the code, but an outside system sets strict boundaries on what files they can touch, cuts off secret keys, keeps tests locked so bots cannot change the answers, and requires human approval before code goes into production.
         </p>
       </div>
 
@@ -665,14 +665,14 @@
           This section defines the scope, trust boundaries, and assurance levels used in the architecture.
         </p>
 
-        <h3>1.1 Definition of Mechanical Controls</h3>
+        <h3>1.1 What We Mean by Fixed Rules (Mechanical Controls)</h3>
         <p>
-          In an agentic assurance context, we define a <strong>mechanical control</strong> as:
+          When managing AI tools, we define a <strong>fixed rule</strong> as:
         </p>
         <div class="callout-box green">
-          <div class="callout-title">Mechanical Control Definition</div>
+          <div class="callout-title">Plain Definition of a Fixed Rule</div>
           <p>
-            An externally enforced, machine-evaluable constraint whose enforcement and verification are independent of the executing agent's natural-language compliance claim or probabilistic token generation. Examples include operating-system read-only volume mounts, signed artifact digest verification, an external allow/deny policy decision point (PDP) whose decisions are enforced at the action boundary (<a href="#saltzer-1975" class="cite">Saltzer &amp; Schroeder, 1975</a>; <a href="#nist-800-207" class="cite">NIST SP 800-207</a>), capability-restricted tool invocation schemas, policy-enforced egress proxies, compiler type checks, AST lint rules, and branch protection merge barriers. Resolving a principal from a trusted issuer, and authorizing that principal again at each privileged action, are mechanical controls. When who-is-asking and what-is-allowed are one check, the system invents authority. The agent fills the gap with whatever context it has and acts with confidence on a permission it was never granted.
+            A real computer lock that runs outside the AI and does not care what the AI says. Examples include locking test files so the AI cannot edit them (read-only files), checking digital fingerprints on files, using a separate guard to approve actions, blocking access to the open internet, running compiler checks, and requiring human sign-off before merging code into main branches. A fixed rule works even if the AI gets confused or tries to cheat.
           </p>
         </div>
         <p>
@@ -776,7 +776,7 @@
         <span class="table-caption">Table 1. Actor and trust boundary definitions across the agentic lifecycle.</span>
 
         <p>
-          A Planning Agent may receive a decision record containing the allow-decision identifier, task identifier, and audit identifier. The handoff must not contain a credential that the next actor can replay (<a href="#rfc-8693" class="cite">RFC 8693</a>). Because RFC 8693 defines delegation and exchange semantics rather than intrinsic replay resistance, the receiving Execution Agent must authenticate as itself and obtain its own short-lived, sender-constrained, task-scoped capability from the control plane. A decision identifier is a reference for correlation, not execution authority. Every privileged action is authorized again for the resolved principal. A prior allow, possession of the spec, or a detection result does not authorize the next action. Furthermore, execution capabilities and mediated proxy access are partitioned per task identifier (<code>task_id</code>). Per-task limits reduce cross-task interference, while aggregate upstream quotas, concurrency scheduling, and shared-capacity controls address remaining contention when multiple tasks share an upstream API account.
+          A Planning Agent may receive a decision record containing the allow-decision identifier, task identifier, and audit identifier. The handoff must not contain a credential that the next actor can replay (<a href="#rfc-8693" class="cite">RFC 8693</a>). Because RFC 8693 defines delegation and exchange semantics rather than intrinsic replay resistance, the receiving Execution Agent must authenticate as itself and obtain its own short-lived, sender-constrained, task-scoped capability from the control plane. A decision identifier is a reference for correlation, not execution authority. Every privileged action is authorized again for the resolved principal. A prior allow, possession of the spec, or a detection result does not authorize the next action. In addition, execution capabilities and mediated proxy access are partitioned per task identifier (<code>task_id</code>). Per-task limits reduce cross-task interference, while aggregate upstream quotas, concurrency scheduling, and shared-capacity controls address remaining contention when multiple tasks share an upstream API account.
         </p>
         <p>
           The Evidence Observer is outside the trusted computing base. Rendering a reported violation is neither a policy decision nor an apply operation. The observer must hold no execution credentials and have no path that writes production state.
@@ -835,9 +835,9 @@
 
       <!-- Section 2 -->
       <section id="section-3" class="whitepaper-section">
-        <h2>2. Why Prompt Guidance Is Not Enforcement</h2>
+        <h2>2. Why Asking Nicely in Prompts Does Not Work</h2>
         <p>
-          Natural-language instructions improve agent behavior, but they cannot establish an independently enforceable boundary. When an agent receives an instruction in its prompt, that same agent is responsible for interpreting the rule, evaluating edge cases, and asserting whether it complied. In safety- or integrity-sensitive software engineering pipelines, this conflates guidance with enforcement.
+          Giving an AI instructions in its prompt helps it understand what you want, but it cannot stop the AI from making mistakes. If the bot is grading its own homework, it will always say it followed your rules, even when it didn't. In safety-critical coding, you cannot rely on polite prompts to keep your code safe.
         </p>
 
         <h3>2.1 Statistical and Contextual Limits of Prompts</h3>
@@ -904,7 +904,7 @@
 
         <ul class="content-list pink">
           <li>
-            <strong>Intent Divergence & Semantic Drift:</strong> The preprint <em>Semantic Consensus</em> (<a href="https://arxiv.org/abs/2604.16339" target="_blank" rel="noopener noreferrer" class="cite">Acharya, arXiv:2604.16339</a>) identifies Semantic Intent Divergence as a failure mode in which cooperating agents develop inconsistent interpretations of shared objectives under siloed context and absent process models, proposing process-aware conflict detection and governance mechanisms. Natural language agreements lack machine-checkable boundary definitions (<a href="https://rybkr.com/papers/context-synchronization-for-multi-agent-workflows.pdf" target="_blank" rel="noopener noreferrer" class="cite">CodeCtx, Baker, 2026</a>).
+            <strong>Intent Divergence & Semantic Drift:</strong> The preprint <em>Semantic Consensus</em> (<a href="https://arxiv.org/abs/2604.16339" target="_blank" rel="noopener noreferrer" class="cite">Acharya, arXiv:2604.16339</a>) identifies Semantic Intent Divergence as a failure mode in which cooperating agents develop inconsistent interpretations of shared objectives under siloed context and absent process models, proposing process-aware conflict detection and governance mechanisms. Natural language agreements lack machine-checkable boundary definitions (<a href="https://github.com/rybkr/codectx" target="_blank" rel="noopener noreferrer" class="cite">CodeCtx, Baker, 2026</a>).
           </li>
           <li>
             <strong>Evaluation Gaming and Test-Oracle Uncertainty:</strong> Automated test execution (<code>exit 0</code>) is bounded evidence, not absolute proof of correctness. Empirical audits reveal dual-directional oracle failures:
@@ -914,7 +914,7 @@
             </ul>
           </li>
           <li>
-            <strong>Same-Agent TDD Pathologies:</strong> When an executing agent generates both test fixtures and implementation code, it can produce tautological or weak assertions; practitioner reporting has documented examples of this failure mode (<a href="https://getautonoma.com/blog/ai-generated-tests-pass-but-dont-assert" target="_blank" rel="noopener noreferrer" class="cite">Autonoma, 2025</a>). In a practitioner experiment, <a href="https://martinfowler.com/articles/exploring-gen-ai/tdd-in-the-agent-loop.html" target="_blank" rel="noopener noreferrer" class="cite">Böckeler (2024)</a> reported that single-agent TDD loops yielded negligible mutation testing improvements because agents frequently skipped or simulated the initial failing (red) state or tailored assertions to preexisting implementation code.
+            <strong>Same-Agent TDD Pathologies:</strong> When an executing agent generates both test fixtures and implementation code, it can produce tautological or weak assertions. In a practitioner experiment, <a href="https://martinfowler.com/articles/exploring-gen-ai/tdd-in-the-agent-loop.html" target="_blank" rel="noopener noreferrer" class="cite">Böckeler (2024)</a> reported that single-agent TDD loops yielded negligible mutation testing improvements because agents frequently skipped or simulated the initial failing (red) state or tailored assertions to preexisting implementation code.
           </li>
           <li>
             <strong>Stale-State Coordination Failures:</strong> While Git worktrees provide separate working directories, they do not prevent agents from committing changes based on obsolete interface assumptions. As evaluated in <a href="https://arxiv.org/abs/2605.20563" target="_blank" rel="noopener noreferrer" class="cite">STORM (Liu et al., 2026)</a>, state-aware coordination can mediate writes made from stale observed state. In a production case study on multi-agent pipelines, <a href="https://ai.engineer/talks/from-chaos-to-choreography-multi-agent-orchestration-patterns-that-actually-work-sandipan-bhaumi" target="_blank" rel="noopener noreferrer" class="cite">Bhaumik (2024)</a> reported that an uncoordinated 500ms cache read triggered cascade errors across collaborating agents.
@@ -929,7 +929,7 @@
             <strong>Stage 2 "Red-State" Oracle Inversion (Vacuous Failure):</strong> In new-feature TDD workflows, Stage 2 requires verifying that newly authored test suites fail cleanly on empty stubs before implementation begins (red state), whereas regression fixes and refactors follow task-calibrated baselines. However, an unverified red-state gate can be satisfied vacuously: a semi-trusted Planning Agent (or an imperfect model) can author tests containing syntax errors, unresolvable module imports, or broken fixture references. These tests crash at startup (<code>SyntaxError</code>, <code>ModuleNotFoundError</code>, <code>ReferenceError</code>) rather than failing on intended behavioral assertions (<code>AssertionError</code>). Because the test process exits with a non-zero code, an uncalibrated gate registers this as a valid "red state", introducing broken fixtures that can never be satisfied by correct implementation code or that mask absent functional assertions.
           </li>
           <li>
-            <strong>Cross-Agent Contention & Side-Channels via Shared Dependencies:</strong> In multi-agent environments with parallel sandboxes, sharing an unpartitioned internal package cache or a global credential proxy token bucket allows one agent to exhaust rate limits (e.g., <code>npm-read-token</code>), inducing denial-of-service (DoS) against sibling tasks. Furthermore, variable response latencies from shared cache hits create timing side-channels that leak cross-task execution state between isolated agents.
+            <strong>Cross-Agent Contention & Side-Channels via Shared Dependencies:</strong> In multi-agent environments with parallel sandboxes, sharing an unpartitioned internal package cache or a global credential proxy token bucket allows one agent to exhaust rate limits (e.g., <code>npm-read-token</code>), inducing denial-of-service (DoS) against sibling tasks. Also, variable response latencies from shared cache hits create timing side-channels that leak cross-task execution state between isolated agents.
           </li>
         </ul>
       </section>
@@ -1382,7 +1382,7 @@ security:
           <strong>Build-Time vs. Runtime Dependency Caching:</strong> For high-assurance profiles, dependency resolution should occur before execution from a verified internal artifact mirror or content-addressed cache. Runtime registry access is an exception path and must be constrained by lockfile digests, package integrity metadata, provenance checks, and policy-logged retrieval.
         </p>
         <p>
-          <strong>Verifiable Attestation Content Model &amp; Trustworthy Evaluation Completion:</strong> Capturing a zero exit code from outside the candidate process is insufficient if candidate code terminates prematurely (e.g., calling <code>os._exit(0)</code> or returning success before all assertions execute). Furthermore, where tests and candidate code share a single language runtime (e.g., Python or Node.js), malicious candidate code shares process memory with test assertions during execution. To harden evaluation integrity, CI separates four stages: (1) an independent test-discovery phase conducted by the trusted supervisor prior to running candidate code (recording expected test IDs and assertion counts), (2) an unprivileged candidate-execution process running inside the pinned test harness, (3) a supervisor outside the candidate process's filesystem/memory namespace verifying exact completion records for every discovered test case and rejecting truncated, skipped, or malformed result streams, and (4) an isolated signing service. Where strict language-runtime isolation is required, candidate code is evaluated across IPC/process boundaries (e.g., gRPC/HTTP service tests) rather than in-process library imports. The signed attestation binds: (1) source repository URL and base commit SHA, (2) candidate patch commit SHA, (3) task-manifest digest, (4) control-policy digest, (5) evaluation-bundle digest, (6) runner image OCI digest, (7) exact test execution command, (8) expected vs. completed test counts, static analysis, and mutation results, (9) builder identity and timestamp, (10) cryptographic signature, and (11) exception/waiver ID if applicable.
+          <strong>Verifiable Attestation Content Model &amp; Trustworthy Evaluation Completion:</strong> Capturing a zero exit code from outside the candidate process is insufficient if candidate code terminates prematurely (e.g., calling <code>os._exit(0)</code> or returning success before all assertions execute). In addition, where tests and candidate code share a single language runtime (e.g., Python or Node.js), malicious candidate code shares process memory with test assertions during execution. To harden evaluation integrity, CI separates four stages: (1) an independent test-discovery phase conducted by the trusted supervisor prior to running candidate code (recording expected test IDs and assertion counts), (2) an unprivileged candidate-execution process running inside the pinned test harness, (3) a supervisor outside the candidate process's filesystem/memory namespace verifying exact completion records for every discovered test case and rejecting truncated, skipped, or malformed result streams, and (4) an isolated signing service. Where strict language-runtime isolation is required, candidate code is evaluated across IPC/process boundaries (e.g., gRPC/HTTP service tests) rather than in-process library imports. The signed attestation binds: (1) source repository URL and base commit SHA, (2) candidate patch commit SHA, (3) task-manifest digest, (4) control-policy digest, (5) evaluation-bundle digest, (6) runner image OCI digest, (7) exact test execution command, (8) expected vs. completed test counts, static analysis, and mutation results, (9) builder identity and timestamp, (10) cryptographic signature, and (11) exception/waiver ID if applicable.
         </p>
 
         <h4>Specification 4: Dependency-Change Exception Policy</h4>
@@ -1825,7 +1825,7 @@ security:
             <li>
               <span class="source-evidence-tag">OPEN SOURCE</span>
               <a href="https://github.com/gitpcl/openorchestrator" target="_blank" rel="noopener noreferrer" class="bib-title">OpenOrchestrator (owt) Git Worktree Multiplexer & Pre-Merge Conflict Guard</a>: OpenOrchestrator Project (v1.4 Specification, 2026).
-              <a href="https://open-orchestrator.com/getting-started/introduction" target="_blank" rel="noopener noreferrer" class="source-aux-link green">Docs &rarr;</a>
+              <a href="https://github.com/gitpcl/openorchestrator" target="_blank" rel="noopener noreferrer" class="source-aux-link green">GitHub &rarr;</a>
             </li>
           </ul>
 
@@ -1843,13 +1843,8 @@ security:
               <a href="https://martinfowler.com/articles/exploring-gen-ai/tdd-in-the-agent-loop.html" target="_blank" rel="noopener noreferrer" class="source-aux-link">Article &rarr;</a>
             </li>
             <li>
-              <span class="source-evidence-tag">TECHNICAL REPORT</span>
-              <a href="https://getautonoma.com/blog/ai-generated-tests-pass-but-dont-assert" target="_blank" rel="noopener noreferrer" class="bib-title">AI-Generated Tests That Pass But Don't Assert</a>: Autonoma Engineering Report (2025). Analysis of tautological test generation in self-testing coding agents.
-              <a href="https://getautonoma.com/blog/ai-generated-tests-pass-but-dont-assert" target="_blank" rel="noopener noreferrer" class="source-aux-link">Article &rarr;</a>
-            </li>
-            <li>
-              <span class="source-evidence-tag">WHITE PAPER</span>
-              <a href="https://rybkr.com/papers/context-synchronization-for-multi-agent-workflows.pdf" target="_blank" rel="noopener noreferrer" class="bib-title">Context Synchronization for Multi-Agent Workflows (CodeCtx)</a>: Baker, R. (Technical Whitepaper, 2026).
+              <span class="source-evidence-tag">RESEARCH REPO</span>
+              <a href="https://github.com/rybkr/codectx" target="_blank" rel="noopener noreferrer" class="bib-title">Context Synchronization for Multi-Agent Workflows (CodeCtx)</a>: Baker, R. (Technical Whitepaper &amp; Implementation, 2026).
               <a href="https://github.com/rybkr/codectx" target="_blank" rel="noopener noreferrer" class="source-aux-link green">GitHub &rarr;</a>
             </li>
           </ul>
