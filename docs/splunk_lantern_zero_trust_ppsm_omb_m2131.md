@@ -5,7 +5,7 @@
 * **Applies To:** Splunk Enterprise, Splunk Cloud Platform, Splunk Enterprise Security (ES)
 * **Target Audience:** Security Architects, SOC Engineers, ISSOs, Federal Compliance Leads
 * **Article Type:** How-to / Prescriptive Use Case
-* **Author:** John Young Suh (SuhLabs Systems Research / Splunk Trust Contributor)
+* **Author:** John Young So (SuhLabs Systems Research / Splunk Trust Contributor)
 * **Related Apps:** Splunk Common Information Model (CIM), Splunk App for Zero Trust Compliance (Splunkbase #9582), AWS-DFD-Visualizer (Splunkbase #8628), TA-suhlabs-eMASS (Splunkbase #8253)
 
 ---

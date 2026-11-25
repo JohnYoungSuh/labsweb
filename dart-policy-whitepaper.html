@@ -531,6 +531,15 @@
           <li><strong>Prohibition of Ambient Authority:</strong> Agents shall never be provisioned with general credentials, root shells, or open egress networking.</li>
           <li><strong>Schema Conformance:</strong> All task inputs and outputs must validate against frozen schemas adhering to JSON Schema Draft 2020-12 with <code>additionalProperties: false</code>.</li>
           <li><strong>Digest Binding:</strong> The declaration must bind the SHA-256 digest of the task specification and environment context using RFC 8785 JSON Canonicalization Scheme (JCS).</li>
+          <li>
+            <strong>The 70/20 Delegation Boundary &amp; Four-Part Brief:</strong> Empirical studies of frontier agent execution demonstrate that high-performing human operators act as delegating managers: humans retain approximately 70% of planning decisions (architectural intent, boundaries, and acceptance criteria) while delegating 80% of micro-execution decisions to the agent within a closed task contract. Under DART, task declarations must supply a standardized Four-Part Brief:
+            <ol style="margin-top: 0.5rem; margin-bottom: 0.5rem; padding-left: 1.5rem;">
+              <li><strong>The Job:</strong> Defining the macro task envelope and scope rather than micro-managing step sequences.</li>
+              <li><strong>The Why (Intent):</strong> Stating business and architectural intent so the model resolves internal execution choices consistently.</li>
+              <li><strong>Deterministic Guardrails:</strong> Explicit boundary invariants with engineering rationale, avoiding emotional or shouty prompt words (such as "CRITICAL" or "MUST") that cause modern models to overreact.</li>
+              <li><strong>What Done Looks Like:</strong> Machine-verifiable acceptance criteria and test fixtures, enabling the model to verify its work before requesting external authorization.</li>
+            </ol>
+          </li>
         </ul>
 
         <h3>Policy Control 2 (Authorize): External Complete Mediation</h3>
@@ -539,6 +548,9 @@
         </p>
         <ul>
           <li><strong>Separation of Privilege:</strong> The PDP must evaluate operational rules independently of model reasoning. A model's self-generated justification carries zero authorization weight.</li>
+          <li><strong>The GPIS PDP Kernel:</strong> In the reference architecture, complete mediation is operationalized by the <strong>Governance Policy Inquiry Service (GPIS)</strong>, an independent PDP service running on a dedicated port (<code>:8000</code>) that validates caller keys (<code>X-GPIS-Caller-Key</code>), evaluates deterministic rules (<code>simple_rules.yml</code>), and issues short-lived, signed JWT capability tokens.</li>
+          <li><strong>Decision Grounding &amp; Context Binding:</strong> Agents shall not act upon speculative or ambient context. Task plans must ground directly in verified institutional decision records (e.g. meeting notes, change requests, approved architecture tickets) before authorization is evaluated.</li>
+          <li><strong>Outbound Hold Queues &amp; Change-Ticket Gating:</strong> For Tier 3 and Tier 4 operational actions, the GPIS PDP enforces strict separation of duties: the agent can draft code, scripts, or messages, but external release remains locked behind an explicit human change ticket identifier (e.g. <code>GPIS_LAB_APPROVED_CR_IDS</code>). Synchronous multi-party human sign-off via WebAuthn/FIDO2 is required for production deployments or external data egress.</li>
           <li><strong>Sender-Constrained Capabilities:</strong> Capability tokens must be short-lived, single-use, and bound to the cryptographic thumbprint of the authorized request body (RFC 9449 DPoP or mutual TLS).</li>
           <li><strong>Four-Eyes Thresholds:</strong> Any operational action exceeding pre-defined enterprise thresholds (such as external payment transmission, production deployment, or data egress) requires synchronous multi-party human sign-off via hardware-backed WebAuthn/FIDO2 credentials.</li>
         </ul>
@@ -549,9 +561,16 @@
         </p>
         <ul>
           <li><strong>Zero Orphan Invariant:</strong> The count of external tool dispatches must identically match pre-recorded ledger entries across all system states, including crash-recovery, process SIGKILL, or network partitions:
-            10184\Delta_{	ext{orphan}} = |\{	ext{External Dispatches}\} \setminus \{	ext{Committed Ledger Records}\}| = 010184
+            \[\Delta_{\text{orphan}} = |\{\text{External Dispatches}\} \setminus \{\text{Committed Ledger Records}\}| = 0\]
           </li>
           <li><strong>Non-Repudiation Vault:</strong> Audit records must link the originating task contract, the authorizing human sponsor or PDP rule, and the SHA-256 telemetry digest into a verifiable Proof of Delivery (PoD) record.</li>
+          <li>
+            <strong>Review-Optimized Telemetry &amp; Attention Conservation:</strong> When autonomous agents operate at six times the rate of human labor, human review capacity becomes the primary operational bottleneck. The Record phase mandates structured, review-optimized telemetry:
+            <ol style="margin-top: 0.5rem; margin-bottom: 0.5rem; padding-left: 1.5rem;">
+              <li><strong>Executive Formatting:</strong> Telemetry summaries lead with items requiring immediate human attention, followed by milestone outcome status, a concise summary of actions taken, and recorded error traces.</li>
+              <li><strong>Visual Proof of Delivery:</strong> System events project directly into single-page HTML dashboards, Proof of Delivery (PoD) drawers, and Three-Plane topology diagrams (AWS-DFD-Visualizer), enabling operators to verify compliance in under sixty seconds.</li>
+            </ol>
+          </li>
         </ul>
 
         <h3>Policy Control 4 (Triage): Mechanical Acceptance &amp; Automated Quarantine</h3>
@@ -561,6 +580,15 @@
         <ul>
           <li><strong>Read-Only Test Mounting:</strong> Acceptance test fixtures, linting rules, and evaluation bundles must be mounted into the execution container as read-only volumes (<code>:ro</code>). An agent modifying a test file or assertion shall trigger immediate execution termination.</li>
           <li><strong>Negative Control Verification:</strong> Automated pipelines must execute negative control fixtures to prove that tests fail for the intended reason before accepting passing solutions.</li>
+          <li><strong>Automated Rollback &amp; Clean Rewinds:</strong> Stacking consecutive corrective prompts after an agent failure pollutes the context window and accelerates hallucination drift. DART mandates immediate state rollback (clean rewind to the pre-dispatch checkpoint) and prompt refactoring rather than conversational error-stacking.</li>
+          <li>
+            <strong>Ordered Model Escalation Protocol:</strong> When mechanical triage fails, recovery must proceed through a disciplined escalation sequence:
+            <ol style="margin-top: 0.5rem; margin-bottom: 0.5rem; padding-left: 1.5rem;">
+              <li>Increase reasoning effort and sampling breadth within the existing model tier.</li>
+              <li>Escalate to a higher-capability model using a clean handoff prompt in a fresh context window, preserving KV cache efficiency and eliminating accumulated context tax.</li>
+            </ol>
+          </li>
+          <li><strong>Automating the Compliance Backlog:</strong> Triage mechanisms feed automated scheduled pipelines that convert unstaffed, low-urgency compliance debt (such as cross-referencing 152 DoD Zero Trust COA activities, auditing PPSM ports, or verifying CSAL software hashes) into recurring background verification jobs.</li>
           <li><strong>Automated Rollback:</strong> Any task failing mechanical evaluation or exhibiting unauthorized side effects triggers an automated atomic rollback, branch quarantine, and alert notification to designated human operators.</li>
         </ul>
       </section>
@@ -590,6 +618,9 @@
             </li>
             <li>
               <strong>Prohibition of Self-Certification:</strong> Any software deliverable, vulnerability fix, or financial entry certified solely by an autonomous agent without mechanical test isolation is void and must be quarantined for human review.
+            </li>
+            <li>
+              <strong>Periodic Configuration Hygiene &amp; Instruction Detox:</strong> Standing instructions, system prompts, skills, and connectors accumulate configuration debt and token bloat over time. Program managers and security leads shall conduct a mandatory semi-annual (6-month) Instruction &amp; Skill Detox Audit across five operational dimensions: (1) Interface and tool bindings, (2) Active skill definitions, (3) Memory and context files, (4) Connectors and API integrations, and (5) Scheduled automation tasks. Unused, outdated, or bloated prompts must be pruned to eliminate context drift, reduce operational latency, and maintain deterministic execution.
             </li>
             <li>
               <strong>Penalties &amp; Revocation:</strong> Unauthorized deployment of unmediated agent frameworks carries immediate token revocation and operational suspension pending review by the Chief Information Security Officer (CISO).
